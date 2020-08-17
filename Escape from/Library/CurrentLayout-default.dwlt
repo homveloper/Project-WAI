@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 141
+  controlID: 63
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 90
+  controlID: 64
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 37
+  controlID: 65
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -463,20 +463,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/RPGPP_LT/Prefabs/Props/Containers
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 88
   m_LastFolders:
-  - Assets/RPGPP_LT/Prefabs/Props/Containers
+  - Assets
   m_LastFoldersGridSize: 88
-  m_LastProjectPath: C:\Users\reldn\Documents\GitHub\Project-WAI\Escape from
+  m_LastProjectPath: D:\github\Project-WAI\Escape from
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 137}
-    m_SelectedIDs: 50390000
-    m_LastClickedID: 14672
-    m_ExpandedIDs: 00000000403900004c390000523900005439000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 56400000
+    m_LastClickedID: 16470
+    m_ExpandedIDs: 000000005640000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -504,7 +504,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000040390000
+    m_ExpandedIDs: 0000000056400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -626,10 +626,10 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: e2350000
-      m_LastClickedID: 13794
-      m_ExpandedIDs: 78fbffff
+      scrollPos: {x: 0, y: 43}
+      m_SelectedIDs: 20d1ffff
+      m_LastClickedID: -12000
+      m_ExpandedIDs: f0d2ffff5a3d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -689,9 +689,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 5.2097855, y: 0.70667267, z: -5.127228}
+    m_Target: {x: 57.20536, y: 17.762985, z: -7.2092843}
     speed: 2
-    m_Value: {x: 5.2097855, y: 0.70667267, z: -5.127228}
+    m_Value: {x: 57.20536, y: 17.762985, z: -7.2092843}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -737,9 +737,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.075957246, y: 0.8883766, z: -0.15918952, w: -0.42388704}
+    m_Target: {x: -0.01062235, y: -0.97439194, z: 0.04710871, w: -0.21964048}
     speed: 2
-    m_Value: {x: -0.07595709, y: 0.8883748, z: -0.1591892, w: -0.42388618}
+    m_Value: {x: -0.010692928, y: -0.97405475, z: 0.047092404, w: -0.22110032}
   m_Size:
     m_Target: 63.270157
     speed: 2
@@ -819,8 +819,8 @@ MonoBehaviour:
     vZoomLockedByDefault: 0
     m_HBaseRangeMin: -481
     m_HBaseRangeMax: 481
-    m_VBaseRangeMin: -325
-    m_VBaseRangeMax: 325
+    m_VBaseRangeMin: -314.5
+    m_VBaseRangeMax: 314.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -837,11 +837,11 @@ MonoBehaviour:
     m_DrawArea:
       serializedVersion: 2
       x: 0
-      y: 0
+      y: 21
       width: 962
-      height: 650
+      height: 629
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 481, y: 325}
+    m_Translation: {x: 481, y: 314.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -849,9 +849,9 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -481
-      y: -325
+      y: -314.5
       width: 962
-      height: 650
+      height: 629
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 962, y: 650}
