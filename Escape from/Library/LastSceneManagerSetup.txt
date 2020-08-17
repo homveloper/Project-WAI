@@ -1,0 +1,5 @@
+sceneSetups:
+- path: Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
