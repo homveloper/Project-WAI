@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    public float MoveSpeed;
-    Vector3 lookDirection;
 
-    
-    // Start is called before the first frame update
+    public float turnSpeed = 20f;
+    public float moveSpeed = 12f;
+    Animator m_Animator;
+    Rigidbody m_Rigidbody;
+    Vector3 m_Movement;
     void Start()
     {
-        
+        m_Animator = GetComponent<Animator> ();
+        m_Rigidbody = GetComponent<Rigidbody> ();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKey (KeyCode.LeftArrow)||
-           Input.GetKey (KeyCode.RightArrow)||
-           Input.GetKey (KeyCode.UpArrow)||
-           Input.GetKey (KeyCode.DownArrow))
-           {
-               float xx = Input.GetAxisRaw("Vertical");
-               float zz = Input.GetAxisRaw("Horizontal");
-               lookDirection = xx * Vector3.forward + zz * Vector3.right;
-
-               this.transform.rotation = Quaternion.LookRotation(lookDirection);
-               this.transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
-           }
+    private void FixedUpdate() {
+        float horizontal = Input.GetAxis ("Horizontal");
+        float vertical = Input.GetAxis ("Vertical");
         
+        bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
+        bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
+        bool isWalking = hasHorizontalInput || hasVerticalInput;
+   
+        m_Animator.SetBool ("isWalking", isWalking);
+
+    }
+
+    private void OnAnimatorMove() {
     }
 }
