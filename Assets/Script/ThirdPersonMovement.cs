@@ -24,8 +24,8 @@ public class ThirdPersonMovement : MonoBehaviour
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
-        bool isRun = Input.GetButton("Run");
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
+        bool isRun = Input.GetButton("Run") && isWalk;
 
 
         animator.SetBool("isWalk",isWalk);
