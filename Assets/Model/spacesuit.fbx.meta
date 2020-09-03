@@ -2,7 +2,34 @@ fileFormatVersion: 2
 guid: e765d286e60a6d041b8a516f562f0b42
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 2288533570660509639
+    second: face|rigAction
+  - first:
+      74: 8642380159697960716
+    second: "face|\uAD6C\uCCB4Action"
+  - first:
+      74: -8548425139242564143
+    second: "face|\uAD6C\uCCB4Action.001"
+  - first:
+      74: 1761269604401171272
+    second: "face|\uC5E0\uD504\uD2F0.001Action"
+  - first:
+      74: -5955005183769112053
+    second: head|rigAction
+  - first:
+      74: 1734850537985987621
+    second: "head|\uAD6C\uCCB4Action"
+  - first:
+      74: 5122068227951707127
+    second: "head|\uAD6C\uCCB4Action.001"
+  - first:
+      74: -5285996676959121557
+    second: "head|\uC5E0\uD504\uD2F0.001Action"
+  - first:
+      74: -203655887218126122
+    second: mixamo.com
   externalObjects: {}
   materials:
     materialImportMode: 1
