@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3247,74 +3247,8 @@ MonoBehaviour:
   assetGuid: 
   m_IsSelectable: 1
   m_SelectedFaces: 
-  m_SelectedEdges:
-  - a: 21
-    b: 22
-  - a: 24
-    b: 25
-  - a: 37
-    b: 38
-  - a: 40
-    b: 41
-  - a: 64
-    b: 65
-  - a: 68
-    b: 69
-  - a: 80
-    b: 81
-  - a: 84
-    b: 85
-  - a: 16
-    b: 17
-  - a: 4
-    b: 5
-  - a: 364
-    b: 365
-  - a: 20
-    b: 21
-  - a: 3
-    b: 0
-  - a: 13
-    b: 14
-  - a: 51
-    b: 48
-  - a: 61
-    b: 62
-  - a: 203
-    b: 200
-  - a: 213
-    b: 214
-  - a: 187
-    b: 184
-  - a: 197
-    b: 198
-  - a: 276
-    b: 277
-  - a: 273
-    b: 274
-  - a: 260
-    b: 261
-  - a: 60
-    b: 61
-  - a: 221
-    b: 222
-  - a: 224
-    b: 225
-  - a: 300
-    b: 301
-  - a: 240
-    b: 241
-  - a: 241
-    b: 242
-  - a: 149
-    b: 150
-  - a: 244
-    b: 245
-  - a: 193
-    b: 194
-  - a: 196
-    b: 197
-  m_SelectedVertices: 15000000160000001800000019000000250000002600000028000000290000004000000041000000440000004500000050000000510000005400000055000000100000001100000004000000050000006c0100006d010000140000001500000003000000000000000d0000000e00000033000000300000003d0000003e000000cb000000c8000000d5000000d6000000bb000000b8000000c5000000c60000001401000015010000110100001201000004010000050100003c0000003d000000dd000000de000000e0000000e10000002c0100002d010000f0000000f1000000f1000000f20000009500000096000000f4000000f5000000c1000000c2000000c4000000c5000000
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!23 &805276304
 MeshRenderer:
   m_ObjectHideFlags: 0
