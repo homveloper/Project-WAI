@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2070,7 +2070,7 @@ PrefabInstance:
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 154.5
+      value: 166.3
       objectReference: {fileID: 0}
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
@@ -2080,7 +2080,7 @@ PrefabInstance:
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -92.6
+      value: -100.6
       objectReference: {fileID: 0}
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
@@ -2090,7 +2090,7 @@ PrefabInstance:
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.006079199
+      value: 0.03466702
       objectReference: {fileID: 0}
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
@@ -2100,7 +2100,7 @@ PrefabInstance:
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.9999815
+      value: -0.99939895
       objectReference: {fileID: 0}
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
@@ -2115,7 +2115,7 @@ PrefabInstance:
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -359.303
+      value: -363.973
       objectReference: {fileID: 0}
     - target: {fileID: 7615670054285196372, guid: d3d10c220e8ba31429cc20c30b277b0e,
         type: 3}
