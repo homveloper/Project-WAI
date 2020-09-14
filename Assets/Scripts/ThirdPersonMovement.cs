@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
+
     public CharacterController controller;
 
     public float speed = 6f;
@@ -63,6 +64,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
         bool isJump = Input.GetButtonDown("Jump");
         animator.SetBool("isJump",isJump);
+
         if(isJump && isGrounded){
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
