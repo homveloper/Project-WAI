@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
+    /*
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -35,4 +36,5 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.IsMessageQueueRunning = false;
         SceneManager.LoadScene("test_ingame");
     }
+    */
 }
