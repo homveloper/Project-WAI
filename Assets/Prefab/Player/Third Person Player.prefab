@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 4934376817523067447}
   - component: {fileID: 4934376817523067446}
   m_Layer: 0
-  m_Name: Third Person Player 1
+  m_Name: Third Person Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
