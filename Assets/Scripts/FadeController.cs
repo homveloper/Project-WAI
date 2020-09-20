@@ -37,6 +37,8 @@ public class FadeController : MonoBehaviour
     {
         canvas.GetComponent<Canvas>().enabled = true;
         panel.GetComponent<Animation>().Play("Panel_FadeIn");
+
+        Invoke("OnWhite", 1.0f);
     }
 
     public void OnFadeOut()
