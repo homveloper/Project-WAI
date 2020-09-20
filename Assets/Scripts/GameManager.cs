@@ -6,17 +6,20 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using static System.Random;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
+    GameObject mPlayer;
+    GameObject mCamera;
+
     void Start()
     {
-        CreatePlayer();
         PhotonNetwork.IsMessageQueueRunning = true;
+
+        CreatePlayer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -25,8 +28,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     void CreatePlayer()
     {
         Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
-
         int idx = Random.Range(1, points.Length);
-        PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
+
+        mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
+        mCamera = GameObject.Find("CineMacine");
+
+        mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
+        mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
     }
 }

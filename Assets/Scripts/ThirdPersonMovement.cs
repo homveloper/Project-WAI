@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 {
 
     public CharacterController controller;
@@ -30,6 +31,9 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if(isGrounded && velocity.y < 0){

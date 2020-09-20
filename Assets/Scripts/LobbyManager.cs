@@ -48,7 +48,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         // 메인메뉴에서 대기실로 전환
-        if (menuCode == MENU_MAINMENU && event_roomJoined == true && fadeController.IsPlaying() == false)
+        else if (menuCode == MENU_MAINMENU && event_roomJoined == true && fadeController.IsPlaying() == false)
         {
             menuCode = MENU_ROOM;
             GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
@@ -57,17 +57,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             fadeController.OnFadeIn();
         }
 
+        // 대기실 마우스
+        if (menuCode == MENU_ROOM)
+        {
+            Vector2 mousePosition = Input.mousePosition.normalized * 10;
+
+            GameObject.Find("UI_Room_Back").GetComponent<RectTransform>().anchoredPosition = mousePosition;
+        }
+
+        // 대기실 게임 준비 (F5)
         if (menuCode == MENU_ROOM && Input.GetKeyDown(KeyCode.F5) == true)
         {
             OnRoomReady();
         }
 
+        // 대기실 퇴장 (F4)
         else if (menuCode == MENU_ROOM && Input.GetKeyDown(KeyCode.F4) == true)
         {
             OnRoomExit();
         }
 
-        else if (menuCode == MENU_ROOM && Input.GetKeyDown(KeyCode.Return) == true)
+        // 대기실 채팅 (엔터)
+        else if (menuCode == MENU_ROOM && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
         {
             OnSendChat();
         }
@@ -159,23 +170,48 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         RefreshRoomUI();
 
+        GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = true;
+        GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = true;
+
+        GameObject.Find("UI_Room_Chat_Text").GetComponent<Text>().text = "";
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().ActivateInputField();
     }
 
     public void OnRoomReady() // 게임 준비(시작) 버튼의 클릭 함수
     {
-        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-        if (localProp.ContainsKey("isReady") == false) localProp.Add("isReady", true);
-        else if ((bool)localProp["isReady"] == true) localProp["isReady"] = false;
-        else if ((bool)localProp["isReady"] == false) localProp["isReady"] = true;
+        if (GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable == false)
+            return;
 
-        PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
+        if (PhotonNetwork.LocalPlayer.IsMasterClient == true)
+        {
+            photonView.RPC("OnStart", RpcTarget.AllBuffered);
+        }
+        else
+        {
+            ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
+            if (localProp.ContainsKey("isReady") == false) localProp.Add("isReady", true);
+            else if ((bool)localProp["isReady"] == true) localProp["isReady"] = false;
+            else if ((bool)localProp["isReady"] == false) localProp["isReady"] = true;
 
-        RefreshRoomUI();
+            PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
+
+            RefreshRoomUI();
+        }
+    }
+
+    [PunRPC]
+    public void OnStart() // 게임 시작 함수
+    {
+        GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
+
+        SceneManager.LoadScene("proto_field");
     }
 
     public void OnRoomExit() // 나가기 버튼의 클릭 함수
     {
+        if (GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable == false)
+            return;
+
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
         localProp.Remove("isReady");
         PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
@@ -289,6 +325,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnSendChat() // 입력한 채팅을 송신하는 함수
     {
         InputField field = GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>();
+
+        field.ActivateInputField();
+
         if (field.text != "")
         {
             photonView.RPC("OnChat", RpcTarget.All, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
