@@ -29,8 +29,9 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine)
-            return;
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
 
         // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
@@ -54,6 +55,8 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
         // so diagnoal's speed is faster than others
+
+        Debug.Log(direction);
 
         if(direction.magnitude >= 0.1f){
 
