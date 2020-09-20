@@ -19,7 +19,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // public float groundDistance = 0.4f;
     // public LayerMask groundMask;
     // public bool isGrounded;
-    // Vector3 velocity;
+    Vector3 velocity;
 
     // Animator animator;
     // void Awake() {
@@ -35,9 +35,9 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
         // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        // if(isGrounded && velocity.y < 0){
-        //     velocity.y = -2f;
-        // }
+        if( velocity.y < 0){
+            velocity.y = -2f;
+        }
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -74,7 +74,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         //     velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         // }
 
-        // velocity.y += gravity * Time.deltaTime;
-        // controller.Move(velocity);
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity);
     }
 }
