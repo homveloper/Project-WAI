@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 {
 
     public CharacterController controller;
@@ -12,27 +13,29 @@ public class ThirdPersonMovement : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     public float turnSmoothVelocity;
     public float gravity = -9.81f;
+    // public float jumpHeight = 3f;
 
-    public float jumpHeight = 3f;
-
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-
-    public bool isGrounded;
+    // public Transform groundCheck;
+    // public float groundDistance = 0.4f;
+    // public LayerMask groundMask;
+    // public bool isGrounded;
     Vector3 velocity;
 
-    Animator animator;
-    void Awake() {
-        animator = GetComponentInChildren<Animator>();    
-    }
+    // Animator animator;
+    // void Awake() {
+    //     animator = GetComponentInChildren<Animator>();    
+    // }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
 
-        if(isGrounded && velocity.y < 0){
+        // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if( velocity.y < 0){
             velocity.y = -2f;
         }
 
@@ -46,12 +49,14 @@ public class ThirdPersonMovement : MonoBehaviour
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
 
-        animator.SetBool("isWalk",isWalk);
-        animator.SetBool("isRun",isRun);
+        // animator.SetBool("isWalk",isWalk);
+        // animator.SetBool("isRun",isRun);
     
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
         // so diagnoal's speed is faster than others
+
+        Debug.Log(direction);
 
         if(direction.magnitude >= 0.1f){
 
@@ -62,12 +67,12 @@ public class ThirdPersonMovement : MonoBehaviour
             controller.Move(direction * speed * (isRun ? runSpeedRate : 1f) * Time.deltaTime);
         }
 
-        bool isJump = Input.GetButtonDown("Jump");
-        animator.SetBool("isJump",isJump);
+        // bool isJump = Input.GetButtonDown("Jump");
+        // animator.SetBool("isJump",isJump);
 
-        if(isJump && isGrounded){
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+        // if(isJump && isGrounded){
+        //     velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        // }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity);

@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<< HEAD:Assets/Resources/Intro.meta
+guid: ea13123c62b34574dac69d597ffac343
+=======
+guid: 0734d7a4bbfddbc44a0d51cea8ffef69
+>>>>>>> 368f09bbfc7259c7c99c64fbaea927df55ab7f17:Assets/Campfire Pack.meta
+=======
 guid: 5aa4d2acbc3f746428f10dc2af6f52a2
+>>>>>>> 368f09bbfc7259c7c99c64fbaea927df55ab7f17
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

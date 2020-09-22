@@ -28,8 +28,8 @@ MonoBehaviour:
     EnableLobbyStatistics: 0
     NetworkLogging: 1
   DevRegion: kr
-  PunLogging: 0
-  EnableSupportLogger: 0
+  PunLogging: 2
+  EnableSupportLogger: 1
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
@@ -39,6 +39,9 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - SetDebug
+  - onChat
+  - OnChat
+  - OnStart
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Intro.meta
+guid: 171f319ebf988cf4f9e1fcfcd907d2cb
+=======
 guid: 0734d7a4bbfddbc44a0d51cea8ffef69
+>>>>>>> 368f09bbfc7259c7c99c64fbaea927df55ab7f17:Assets/Campfire Pack.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
