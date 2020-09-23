@@ -17,15 +17,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        other.isTrigger = false;
-        Debug.Log(other);
-        if (other.tag == "Finish")
-        {
-            GameManager.GetInstance().ChangeMap("proto_field2");
-        }
-        else if (other.tag == "Respawn")
-        {
-            GameManager.GetInstance().ChangeMap("proto_field");
-        }
+
     }
 }

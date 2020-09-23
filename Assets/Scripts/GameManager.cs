@@ -60,31 +60,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         int idx = Random.Range(1, points.Length);
 
         mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
-        mCamera = GameObject.Find("CineMacine");
+        mCamera = GameObject.Find("CineMachine");
 
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
-        mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
-
-        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(player);
-        for (int i = 0; i<player.Length; i++)
-        {
-            Debug.Log(player[i]);
-            DontDestroyOnLoad(player[i]);
-        }
-            
-    }
-
-    public void ChangeMap(string map)
-    {
-        mPlayer.transform.position = new Vector3(60, 2, 60);
-        SceneManager.LoadScene(map);
-    }
-
-    void OnPhotonInstantiate(PhotonMessageInfo info)
-    {
-        Debug.Log(this.gameObject);
-        info.Sender.TagObject = this.gameObject;
-        DontDestroyOnLoad(this.gameObject);
+        mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;            
     }
 }

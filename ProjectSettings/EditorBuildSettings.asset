@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/proto_field2.unity
     guid: 3074386ed5166cd46888e8c003b0c49a
+  - enabled: 1
+    path: Assets/Scenes/Field_ver2.unity
+    guid: 96d6a84f43366694aa2b6745a311fa1c
   m_configObjects: {}
