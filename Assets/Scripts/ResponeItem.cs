@@ -5,19 +5,26 @@ using UnityEngine;
 public class ResponeItem : MonoBehaviour
 {
     public GameObject box;
+    public GameObject player;
     int itemSize = 24;
     // Start is called before the first frame update
     void Start()
     {
         CreateItem();
+        CreatePlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
 
+    }
+    void CreatePlayer()
+    {
+        Transform[] points = GameObject.Find("ResponePlayer").GetComponentsInChildren<Transform>();
+
+        Instantiate(player, points[1].position , Quaternion.identity);
+    }
     void CreateItem()
     {
         int cnt= 0;
