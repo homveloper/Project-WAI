@@ -887,6 +887,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e37cede7a6c942a4c883b289fa927b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statHp: 0
+  statHpMax: 0
+  statO2: 0
+  statO2Max: 0
+  meterialWood: 0
+  meterialIron: 0
+  meterialPart: 0
 --- !u!54 &943592813175301942
 Rigidbody:
   m_ObjectHideFlags: 0
