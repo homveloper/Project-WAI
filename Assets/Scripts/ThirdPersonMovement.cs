@@ -8,6 +8,12 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
     public CharacterController controller;
 
+    public AudioSource walkSound;
+    public AudioSource runSound;
+
+    public ParticleSystem dust1;
+    public ParticleSystem dust2;
+
     public float speed = 6f;
     public float runSpeedRate = 1.5f;
     public float turnSmoothTime = 0.1f;
@@ -27,6 +33,11 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // }
 
     // Update is called once per frame
+    void Start()
+    {
+        dust1.Pause();
+        dust2.Pause();
+    }
     void Update()
     {
         if (!photonView.IsMine)
@@ -47,6 +58,36 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
+
+        if(isRun && !runSound.isPlaying)
+        {
+            runSound.Play();
+            if(!dust1.isPlaying)
+            {
+                dust1.Play();
+                dust2.Play();
+            }
+           
+        }
+        else if (isWalk && !walkSound.isPlaying)
+        {
+            walkSound.Play();
+            if(!dust1.isPlaying)
+            {
+                dust1.Play();
+                dust2.Play();
+            }
+        }
+        else
+        {
+            runSound.Pause();
+            walkSound.Pause();
+            if(dust1.isPlaying)
+            {
+                dust1.Pause();
+                dust2.Pause();
+            }
+        }
 
         // animator.SetBool("isWalk",isWalk);
         // animator.SetBool("isRun",isRun);

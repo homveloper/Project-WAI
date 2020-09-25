@@ -7,8 +7,10 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update    Animator animator;
     Animator animator;
+   
     
-    void Awake() {
+    void Awake() 
+    {
         animator = GetComponentInChildren<Animator>();    
     }
 
@@ -31,4 +33,5 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         animator.SetBool("isRun",isRun);
 
     }
+    
 }
