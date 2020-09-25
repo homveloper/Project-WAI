@@ -8,6 +8,10 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
     public CharacterController controller;
 
+    public AudioSource walkSound;
+    public AudioSource runSound;
+
+
     public float speed = 6f;
     public float runSpeedRate = 1.5f;
     public float turnSmoothTime = 0.1f;
@@ -47,6 +51,20 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
+
+        if(isRun && !runSound.isPlaying)
+        {
+            runSound.Play();
+        }
+        else if (isWalk && !walkSound.isPlaying)
+        {
+            walkSound.Play();
+        }
+        else
+        {
+            runSound.Pause();
+            walkSound.Pause();
+        }
 
         // animator.SetBool("isWalk",isWalk);
         // animator.SetBool("isRun",isRun);
