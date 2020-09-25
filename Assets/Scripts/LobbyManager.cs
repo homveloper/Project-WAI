@@ -204,7 +204,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
 
-        SceneManager.LoadScene("proto_field");
+        SceneManager.LoadScene("Field_ver2");
     }
 
     public void OnRoomExit() // 나가기 버튼의 클릭 함수
