@@ -43,8 +43,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 인트로에서 메인메뉴로 전환
         if (menuCode == MENU_INTRO && Input.anyKey)
         {
-            PhotonNetwork.NickName = "GUEST #" + Random.Range(1, 9999);
-            PhotonNetwork.ConnectUsingSettings();
+            if (!PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.NickName = "GUEST #" + Random.Range(1, 9999);
+                PhotonNetwork.ConnectUsingSettings();
+            }
+            else
+            {
+                PhotonNetwork.Reconnect();
+            }
         }
 
         // 메인메뉴에서 대기실로 전환
@@ -204,7 +211,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
 
-        SceneManager.LoadScene("Field_ver2");
+        SceneManager.LoadScene("proto_field_ver2");
     }
 
     public void OnRoomExit() // 나가기 버튼의 클릭 함수
@@ -272,7 +279,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             GameObject.Find("UI_Room_Ready_Text").GetComponent<Text>().text = "게임 시작";
 
-            if (countOfReady == PhotonNetwork.CurrentRoom.PlayerCount) GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = true;
+            if (countOfReady >= PhotonNetwork.CurrentRoom.PlayerCount) GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = true;
             else GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = false;
         }
         else

@@ -19,7 +19,7 @@ public class AlertController : MonoBehaviour
 
     public void OnEnableAlert(string title, string text)
     {
-        UnityEngine.Object prefab = Resources.Load("Common/UI_Alert");
+        UnityEngine.Object prefab = Resources.Load("UI/UI_Alert");
         alert = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
 
         alert.transform.Find("UI_Alert_Title").gameObject.GetComponent<Text>().text = title;

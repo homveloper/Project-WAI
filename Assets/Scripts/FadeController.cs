@@ -9,7 +9,7 @@ public class FadeController : MonoBehaviour
     GameObject panel = null;
     void Awake()
     {
-        UnityEngine.Object prefab = Resources.Load("Common/UI_Fade");
+        UnityEngine.Object prefab = Resources.Load("UI/UI_Fade");
         canvas = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
         canvas.GetComponent<RectTransform>().SetAsLastSibling();
         panel = canvas.transform.Find("UI_Fade_Panel").gameObject;
