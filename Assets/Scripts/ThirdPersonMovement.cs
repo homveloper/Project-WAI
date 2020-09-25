@@ -40,8 +40,9 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        if (!photonView.IsMine)
-            return;
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
 
         // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 

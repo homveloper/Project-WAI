@@ -17,8 +17,9 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine)
-            return;
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -27,11 +28,10 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
-        bool isRun = Input.GetButtonDown("Run") && isWalk;
+        bool isRun = Input.GetButton("Run") && isWalk;
 
         animator.SetBool("isWalk",isWalk);
         animator.SetBool("isRun",isRun);
-
     }
     
 }
