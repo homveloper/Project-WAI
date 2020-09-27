@@ -26,6 +26,8 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
     public GameObject timerObject;
     public GameObject timerTextObject;
+
+    public GameObject SystemMsgBar;
     public float time;
 
     bool flag_chat = false; // 채팅모드 체크용 플래그. 채팅이 켜져있다면 true로 변경됨
