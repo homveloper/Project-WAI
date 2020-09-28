@@ -89,6 +89,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
                 dust2.Pause();
             }
         }
+ 
 
         // animator.SetBool("isWalk",isWalk);
         // animator.SetBool("isRun",isRun);

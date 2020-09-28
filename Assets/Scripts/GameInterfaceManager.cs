@@ -26,29 +26,12 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
     public GameObject timerObject;
     public GameObject timerTextObject;
-    public float time;
 
     bool flag_chat = false; // 채팅모드 체크용 플래그. 채팅이 켜져있다면 true로 변경됨
-
-    void Start()
-    {
-        
-    }
+    float fps = 0.0f;  // fps 체크
 
     void Update()
     {
-        Player player = playerObject.GetComponent<Player>();
-
-        statHpObject.GetComponent<Image>().fillAmount = (float)player.statHp / (float)player.statHpMax;
-        statO2Object.GetComponent<Image>().fillAmount = (float)player.statO2 / (float)player.statO2Max;
-
-        meterialWoodObject.GetComponent<Text>().text = player.meterialWood.ToString();
-        meterialIronObject.GetComponent<Text>().text = player.meterialIron.ToString();
-        meterialPartObject.GetComponent<Text>().text = player.meterialPart.ToString();
-
-        timerObject.GetComponent<Image>().fillAmount = time / 1800.0f;
-        timerTextObject.GetComponent<Text>().text = Math.Truncate(time / 60.0f).ToString() + " : " + Math.Truncate(time % 60.0f);
-
         // 채팅모드 전환 (탭)
         if (Input.GetKeyDown(KeyCode.Tab) == true)
         {
@@ -59,6 +42,27 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         {
             OnSendChat();
         }
+
+        fps += (Time.deltaTime - fps) * 0.1f;
+        refresh();
+    }
+
+    void refresh()
+    {
+        Player player = playerObject.GetComponent<Player>();
+
+        statHpObject.GetComponent<Image>().fillAmount = (float)player.statHp / (float)player.statHpMax;
+        statO2Object.GetComponent<Image>().fillAmount = (float)player.statO2 / (float)player.statO2Max;
+
+        meterialWoodObject.GetComponent<Text>().text = player.meterialWood.ToString();
+        meterialIronObject.GetComponent<Text>().text = player.meterialIron.ToString();
+        meterialPartObject.GetComponent<Text>().text = player.meterialPart.ToString();
+
+        timerObject.GetComponent<Image>().fillAmount = GetComponent<GameManager>().time / GetComponent<GameManager>().timeMax;
+        timerTextObject.GetComponent<Text>().text = Math.Truncate(GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(GetComponent<GameManager>().time % 60.0f);
+
+        GameObject.Find("FPS").GetComponent<Text>().text = (int)(1.0f / fps) + " FPS";
+        GameObject.Find("Ping").GetComponent<Text>().text = PhotonNetwork.GetPing().ToString() + " ms";
     }
 
     // ---------------------------------------------------------------------------------------------------

@@ -5,17 +5,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int statHp;
-    public int statHpMax;
-    public int statO2;
-    public int statO2Max;
+    public float statHp;
+    public float statHpMax;
+    public float statO2;
+    public float statO2Max;
     public int meterialWood;
     public int meterialIron;
     public int meterialPart;
 
     void Start()
     {
-        
+        statHp = 100;
+        statHpMax = 100;
+        statO2 = 100;
+        statO2Max = 100;
+        meterialWood = 0;
+        meterialIron = 0;
+        meterialPart = 0;
     }
 
     void Update()
