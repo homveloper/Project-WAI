@@ -35,8 +35,8 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Start()
     {
-        dust1.Pause();
-        dust2.Pause();
+        dust1.Stop();
+        dust2.Stop();
     }
     void Update()
     {
@@ -63,34 +63,31 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         if(isRun && !runSound.isPlaying)
         {
             runSound.Play();
-            if(!dust1.isPlaying)
-            {
-                dust1.Play();
-                dust2.Play();
-            }
-           
+          
         }
         else if (isWalk && !walkSound.isPlaying)
         {
             walkSound.Play();
-            if(!dust1.isPlaying)
-            {
-                dust1.Play();
-                dust2.Play();
-            }
         }
         else
         {
             runSound.Pause();
             walkSound.Pause();
-            if(dust1.isPlaying)
+        }
+
+        if(!isWalk)
+        {
+            dust1.Play();
+            dust2.Play();
+        }
+        else
+        {
+            if(!dust1.isPlaying && !dust2.isPlaying)
             {
-                dust1.Pause();
-                dust2.Pause();
+                dust1.Stop();
+                dust2.Stop();
             }
         }
- 
-
         // animator.SetBool("isWalk",isWalk);
         // animator.SetBool("isRun",isRun);
     
