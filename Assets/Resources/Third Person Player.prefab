@@ -919,6 +919,7 @@ MonoBehaviour:
   runSound: {fileID: -5463399714935014776}
   dust1: {fileID: 1301329789809420376}
   dust2: {fileID: 8276069769327733522}
+  canMove: 1
   speed: 6
   runSpeedRate: 1.5
   turnSmoothTime: 0.3
@@ -960,6 +961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 976f3e84daab7304087dcf072b27fc1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canMove: 1
 --- !u!114 &1473797360203620219
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,45 +11,19 @@ using System;
 
 public class GameInterfaceManager : MonoBehaviourPunCallbacks
 {
-    public GameObject playerObject;
-
-    public GameObject statHpObject;
-    public GameObject statO2Object;
-
-    public GameObject meterialWoodObject;
-    public GameObject meterialIronObject;
-    public GameObject meterialPartObject;
-
-    public GameObject talkPanelObject;
-    public GameObject talkInputFieldObject;
-    public GameObject talkTextObject;
-
-    public GameObject timerObject;
-    public GameObject timerTextObject;
-
-    public GameObject SystemMsgBar;
-    public float time;
+    public GameManager managerObject; // 게임 매니저 객체 (미지정시 미동작)
+    public GameObject playerObject;   // 플레이어 객체 (런타임 중 자동 할당)
 
     bool flag_chat = false; // 채팅모드 체크용 플래그. 채팅이 켜져있다면 true로 변경됨
-
-    void Start()
-    {
-        
-    }
+    float fps = 0.0f;       // fps 체크
 
     void Update()
     {
-        Player player = playerObject.GetComponent<Player>();
+        if (managerObject == null)
+            return;
 
-        statHpObject.GetComponent<Image>().fillAmount = (float)player.statHp / (float)player.statHpMax;
-        statO2Object.GetComponent<Image>().fillAmount = (float)player.statO2 / (float)player.statO2Max;
-
-        meterialWoodObject.GetComponent<Text>().text = player.meterialWood.ToString();
-        meterialIronObject.GetComponent<Text>().text = player.meterialIron.ToString();
-        meterialPartObject.GetComponent<Text>().text = player.meterialPart.ToString();
-
-        timerObject.GetComponent<Image>().fillAmount = time / 1800.0f;
-        timerTextObject.GetComponent<Text>().text = Math.Truncate(time / 60.0f).ToString() + " : " + Math.Truncate(time % 60.0f);
+        if (playerObject == null)
+            playerObject = managerObject.GetComponent<GameManager>().mPlayer;
 
         // 채팅모드 전환 (탭)
         if (Input.GetKeyDown(KeyCode.Tab) == true)
@@ -59,8 +33,34 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         // 채팅 (엔터)
         else if (flag_chat == true && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
         {
+            // 화면이 완전 표시된 후에 채팅 사용 가능
+            Animator animator = GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>();
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Talk_show") == false)
+                return;
+
             OnSendChat();
         }
+
+        fps += (Time.deltaTime - fps) * 0.1f;
+        refresh();
+    }
+
+    void refresh()
+    {
+        Player player = playerObject.GetComponent<Player>();
+
+        GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.statHp / (float)player.statHpMax;
+        GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.statO2 / (float)player.statO2Max;
+
+        GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.meterialWood.ToString();
+        GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.meterialIron.ToString();
+        GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.meterialPart.ToString();
+
+        GameObject.Find("UI_Timer_Bar").gameObject.GetComponent<Image>().fillAmount = managerObject.GetComponent<GameManager>().time / managerObject.GetComponent<GameManager>().timeMax;
+        GameObject.Find("UI_Timer_Text").gameObject.GetComponent<Text>().text = Math.Truncate(managerObject.GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(managerObject.GetComponent<GameManager>().time % 60.0f);
+
+        GameObject.Find("FPS").GetComponent<Text>().text = (int)(1.0f / fps) + " FPS";
+        GameObject.Find("Ping").GetComponent<Text>().text = PhotonNetwork.GetPing().ToString() + " ms";
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -71,21 +71,33 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (flag_chat == false)
         {
             flag_chat = true;
-            talkPanelObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            playerObject.GetComponent<ThirdPersonMovement>().canMove = false;
+            playerObject.GetComponent<PlayerAnimation>().canMove = false;
+            GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_load");
 
-            InputField field = talkInputFieldObject.GetComponent<InputField>();
-            field.ActivateInputField();
+            InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
+            field.DeactivateInputField();
         }
         else
         {
+            Animator animator = GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>();
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Talk_show") == false)
+                return;
+
             flag_chat = false;
-            talkPanelObject.GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+            playerObject.GetComponent<ThirdPersonMovement>().canMove = true;
+            playerObject.GetComponent<PlayerAnimation>().canMove = true;
+            GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
+            GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_hide");
+
+            InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
+            field.DeactivateInputField();
         }
     }
 
     public void OnSendChat() // 입력한 채팅을 송신하는 함수
     {
-        InputField field = talkInputFieldObject.GetComponent<InputField>();
+        InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
 
         field.ActivateInputField();
 
@@ -100,7 +112,8 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void OnChat(string message) // RPC로 채팅을 수신하는 함수
     {
-        Text chat = talkTextObject.GetComponent<Text>();
+        GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = true;
+        Text chat = GameObject.Find("UI_Panel_Talk_Panel_Text").gameObject.GetComponent<Text>();
         chat.text = chat.text + "\n" + message;
     }
 

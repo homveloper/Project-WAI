@@ -8,31 +8,31 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test_main.unity
     guid: c9358e8b1d2e01949835b6c8fd3a3cf8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test_game.unity
     guid: f8299479dc9df094da5b046294ff8c98
   - enabled: 1
     path: Assets/Scenes/proto_main.unity
     guid: 8c375e9f6dce49547906749baf869e0b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/proto_field.unity
     guid: 28e469b74d679c347b7ee182baf0d8f8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Field_ver2.unity
     guid: 96d6a84f43366694aa2b6745a311fa1c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Field.unity
     guid: bccc752ab0749d641a7cf5b47d694927
   - enabled: 1
     path: Assets/Scenes/proto_field_ver2.unity
     guid: f3eeca1819d356149869df5298665106
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Ruin 1-1 new ver..unity
     guid: b75a489b169681848b538a85767f4319
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Ruin1-2 Scene.unity
     guid: adeabc24f9070c742b12c670b2448d00
   m_configObjects: {}

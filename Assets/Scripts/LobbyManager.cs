@@ -67,9 +67,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 대기실 마우스
         if (menuCode == MENU_ROOM)
         {
-            Vector2 mousePosition = Input.mousePosition.normalized * 10;
+            //Vector2 mousePosition = Input.mousePosition.normalized * 10;
 
-            GameObject.Find("UI_Room_Back").GetComponent<RectTransform>().anchoredPosition = mousePosition;
+            //GameObject.Find("UI_Room_Back").GetComponent<RectTransform>().anchoredPosition = mousePosition;
         }
 
         // 대기실 게임 준비 (F5)
@@ -102,7 +102,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = false;
     }
     // ---------------------------------------------------------------------------------------------------
-    // 인트로 관련
+    // 인트로
     // ---------------------------------------------------------------------------------------------------
     public override void OnConnectedToMaster() // 포톤 서버와 연결됬을 때 호출되는 콜백 함수
     {
@@ -120,7 +120,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     // ---------------------------------------------------------------------------------------------------
-    // 메인메뉴 관련
+    // 메인메뉴
     // ---------------------------------------------------------------------------------------------------
     public void OnCreate() // 방 생성 버튼 함수
     {
@@ -162,7 +162,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 
     // ---------------------------------------------------------------------------------------------------
-    // 대기실 관련
+    // 대기실 - 공통
     // ---------------------------------------------------------------------------------------------------
     public override void OnJoinedRoom() // 방 입장에 성공했을때 호출되는 콜백 함수
     {
@@ -174,6 +174,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         menuCode = MENU_ROOM;
         fadeController.OnFadeIn();
+
+        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
+
+        localProp["color"] = 1;
+        localProp["isReady"] = false;
+        localProp["isStart"] = false;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
         RefreshRoomUI();
 
@@ -191,6 +199,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient == true)
         {
+            Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+
+            for (int i = 0; i < player.Length; i++)
+            {
+                ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
+                prop["spawnIndex"] = (i + 1);
+                player[i].SetCustomProperties(prop);
+            }
+
+            PhotonNetwork.CurrentRoom.IsOpen = false; // 난입 제한
+
             photonView.RPC("OnStart", RpcTarget.AllBuffered);
         }
         else
@@ -240,6 +259,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             playerPanel.GetComponent<Image>().enabled = true;
             playerPanel.transform.Find("UI_Room_Player_Nickname").gameObject.GetComponent<Text>().text = player[i].NickName;
 
+            if (prop.ContainsKey("color"))
+                playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = GameObject.Find("UI_Room_Palette_" + (int)prop["color"]).GetComponent<Image>().color;
+
             if (player[i].IsMasterClient == true)
             {
                 playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Animation>().Stop();
@@ -270,6 +292,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             playerPanel.transform.Find("UI_Room_Player_Nickname").gameObject.GetComponent<Text>().text = "";
             playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Image>().fillAmount = 0;
             playerPanel.transform.Find("UI_Room_Player_Status").gameObject.GetComponent<Text>().text = "";
+            playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         }
 
         GameObject.Find("UI_Room_Title_Text").GetComponent<Text>().text = PhotonNetwork.CurrentRoom.Name;
@@ -307,6 +330,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         RefreshRoomUI();
     }
+
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps) // 플레이어의 프로퍼티가 변경됬을 때의 콜백 함수
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
@@ -329,6 +353,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnLeftRoom() // 방에서 나갔을때 호출되는 콜백 함수
+    {
+        base.OnLeftRoom();
+
+        fadeController.OnBlack();
+        GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = false;
+        GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = true;
+
+        menuCode = MENU_MAINMENU;
+        fadeController.OnFadeIn();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+    // 대기실 - 채팅
+    // ---------------------------------------------------------------------------------------------------
     public void OnSendChat() // 입력한 채팅을 송신하는 함수
     {
         InputField field = GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>();
@@ -350,15 +389,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         chat.text = chat.text + "\n" + message;
     }
 
-    public override void OnLeftRoom() // 방에서 나갔을때 호출되는 콜백 함수
+    // ---------------------------------------------------------------------------------------------------
+    // 대기실 - 팔레트
+    // ---------------------------------------------------------------------------------------------------
+    public void OnChangeColor(int colorIndex) // 선택한 색으로 변경
     {
-        base.OnLeftRoom();
+        if (GameObject.Find("UI_Room_Palette_" + colorIndex).GetComponent<Button>().interactable == false)
+            return;
 
-        fadeController.OnBlack();
-        GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = true;
+        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        menuCode = MENU_MAINMENU;
-        fadeController.OnFadeIn();
+        if (localProp.ContainsKey("isReady") && (bool)localProp["isReady"] == true)
+            return;
+
+        localProp["color"] = colorIndex;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
+
+        RefreshRoomUI();
     }
 }
