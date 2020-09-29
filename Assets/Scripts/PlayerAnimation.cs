@@ -7,7 +7,8 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update    Animator animator;
     Animator animator;
-   
+
+    public bool canMove = true;
     
     void Awake() 
     {
@@ -20,6 +21,9 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
+
+        if (canMove == false)
+            return;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");

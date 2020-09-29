@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     static GameManager instance = null;
 
     // 객체
-    GameObject mPlayer;
-    GameObject mCamera;
+    public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
+    public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
 
     // 시간
     public float time;    // 시간
@@ -64,14 +64,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // 시간 차감
         if (time > 0.0f) time -= Time.deltaTime;
-
-
-        // 산소 차감
-        mPlayer.GetComponent<Player>().statO2 -= Time.deltaTime;
-
-        // 체력 차감
-        if (mPlayer.GetComponent<Player>().statO2 <= 0)
-            mPlayer.GetComponent<Player>().statHp -= (Time.deltaTime * 5);
     }
 
     void GameReady() // 모든 유저의 이동이 끝날 때까지 대기하는 함수
@@ -97,11 +89,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     void GameStart() // 전체 유저의 게임 시작 함수
     {
         // 스폰
+        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
         Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
-        int idx = Random.Range(1, points.Length);
+        int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
 
         mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
-        GetComponent<GameInterfaceManager>().playerObject = mPlayer;
 
         mCamera = GameObject.Find("CineMachine");
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
@@ -114,6 +106,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         timeMax = 1800.0f;
 
         checkTimer();
+
+        GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.");
     }
 
     void checkTimer() // 마스터 클라이언트의 시간으로 나머지 플레이어의 시간을 동기화하는 함수

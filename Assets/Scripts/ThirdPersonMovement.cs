@@ -14,6 +14,8 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     public ParticleSystem dust1;
     public ParticleSystem dust2;
 
+    public bool canMove = true;
+
     public float speed = 6f;
     public float runSpeedRate = 1.5f;
     public float turnSmoothTime = 0.1f;
@@ -43,6 +45,9 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
+
+        if (canMove == false)
+            return;
 
         // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 

@@ -26,11 +26,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        
+        // 산소 차감
+        statO2 -= Time.deltaTime;
+
+        // 체력 차감
+        if (statO2 <= 0)
+            statHp -= (Time.deltaTime * 5);
+
+        // TODO : get, set 메소드 만들어서 0미만이 되거나 최대치 이상이 되는 것을 필터해야함.
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
     }
+
 }

@@ -199,6 +199,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient == true)
         {
+            Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+
+            for (int i = 0; i < player.Length; i++)
+            {
+                ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
+                prop["spawnIndex"] = (i + 1);
+                player[i].SetCustomProperties(prop);
+            }
+
+            PhotonNetwork.CurrentRoom.IsOpen = false; // 난입 제한
+
             photonView.RPC("OnStart", RpcTarget.AllBuffered);
         }
         else
