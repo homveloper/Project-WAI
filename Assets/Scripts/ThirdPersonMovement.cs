@@ -8,12 +8,6 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
     public CharacterController controller;
 
-    public AudioSource walkSound;
-    public AudioSource runSound;
-
-    public ParticleSystem dust1;
-    public ParticleSystem dust2;
-
     public bool canMove = true;
 
     public float speed = 6f;
@@ -37,8 +31,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Start()
     {
-        dust1.Stop();
-        dust2.Stop();
+
     }
     void Update()
     {
@@ -65,37 +58,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
 
-        if(isRun && !runSound.isPlaying)
-        {
-            runSound.Play();
-          
-        }
-        else if (isWalk && !walkSound.isPlaying)
-        {
-            walkSound.Play();
-        }
-        else
-        {
-            runSound.Pause();
-            walkSound.Pause();
-        }
-
-        if(!isWalk)
-        {
-            dust1.Play();
-            dust2.Play();
-        }
-        else
-        {
-            if(!dust1.isPlaying && !dust2.isPlaying)
-            {
-                dust1.Stop();
-                dust2.Stop();
-            }
-        }
-        // animator.SetBool("isWalk",isWalk);
-        // animator.SetBool("isRun",isRun);
-    
+        
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
         // so diagnoal's speed is faster than others
