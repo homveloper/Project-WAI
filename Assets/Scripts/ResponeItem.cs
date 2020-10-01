@@ -5,7 +5,6 @@ using UnityEngine;
 public class ResponeItem : MonoBehaviour
 {
     public GameObject box;
-    public GameObject player;
     int itemSize = 24;
     // Start is called before the first frame update
     void Start()

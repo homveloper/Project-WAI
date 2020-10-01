@@ -9,7 +9,7 @@ public class ColliTest : MonoBehaviour
 
     {
         Debug.Log(other.name + "감지 시작!");
-        SceneManager.LoadScene("Field");
+        SceneManager.LoadScene("Ruin 1-1 new ver.");
 
     }
 
