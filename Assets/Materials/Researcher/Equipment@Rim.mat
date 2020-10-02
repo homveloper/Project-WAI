@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7528499734850115037
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -7,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: character@Face
+  m_Name: Equipment@Rim
   m_Shader: {fileID: -6465566751694194690, guid: 0885d26c5b0fb8940b4c97e199a6f333,
     type: 3}
   m_ShaderKeywords: _EMISSION
@@ -69,12 +82,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - BOOLEAN_F4982F34: 0
     - Vector1_1971DE62: 0.021
-    - Vector1_40399B17: -0.4
-    - Vector1_45B974EA: 0.334
-    - Vector1_8C707CF9: 0.08
-    - Vector1_F36E060B: 0.86
+    - Vector1_40399B17: 0
+    - Vector1_45B974EA: 0.039
+    - Vector1_8C707CF9: 0.026
+    - Vector1_F36E060B: 0.57
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -84,15 +96,15 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
-    - _Glossiness: 1
+    - _Glossiness: 0.362
     - _GlossyReflections: 1
-    - _Metallic: 0.031
+    - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.689
+    - _Smoothness: 0.362
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -101,23 +113,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_6EB9CB5E: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0}
+    - Color_6EB9CB5E: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0}
     - Color_A22A6F27: {r: 1, g: 1, b: 1, a: 0}
-    - Color_DA6708DE: {r: 0.9847609, g: 1, b: 0.5424528, a: 0}
-    - _BaseColor: {r: 1, g: 0.9280174, b: 0.7877358, a: 1}
-    - _Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
-    - _EmissionColor: {r: 0.933862, g: 0.9528302, b: 0.57978815, a: 1}
+    - Color_DA6708DE: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 0}
+    - _BaseColor: {r: 0.33018863, g: 0.33018863, b: 0.33018863, a: 1}
+    - _Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+    - _EmissionColor: {r: 0.006127451, g: 0.005147059, b: 0.005147059, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
---- !u!114 &5118273508892901677
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
