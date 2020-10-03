@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
 
+    ColorPalettte colorPalettte;
+
     // 시간
     public float time;    // 시간
     public float timeMax; // 시간 (최대치)
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        colorPalettte = Instantiate(Resources.Load<ColorPalettte>("Player Color Palette"));
+
         PhotonNetwork.IsMessageQueueRunning = true;
 
         if (flag_start == false)
@@ -94,6 +98,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
 
         mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
+        mPlayer.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor",colorPalettte.colors[(int)localProp["color"]]);
+        mPlayer.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor",colorPalettte.colors[(int)localProp["color"]]);
 
         mCamera = GameObject.Find("CineMachine");
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;

@@ -11,6 +11,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     FadeController fadeController;
     AlertController alertController;
+    public ColorPalettte playerColors;
+    public GameObject UI_Room_Palette_Prefab;
+
+    GameObject[] UI_Room_Palettes;
 
     int menuCode = MENU_NONE;
     const int MENU_NONE = 0;
@@ -177,11 +181,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        localProp["color"] = 1;
+        localProp["color"] = 0;
         localProp["isReady"] = false;
         localProp["isStart"] = false;
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
+
+    
+        GameObject UI_Room_Palette = GameObject.Find("UI_Room_Palette");
+        // GameObject UI_Room_Palette_Prefab = Resources.Load<GameObject>("Resources/UI/UI_Room_Palette.prefab");
+        UI_Room_Palettes = new GameObject[playerColors.colors.Capacity];
+        for(int i=0; i<playerColors.colors.Capacity; i++){
+            UI_Room_Palettes[i] = Instantiate(UI_Room_Palette_Prefab,UI_Room_Palette_Prefab.transform.position + new Vector3(i * 50.0f, 0,0),UI_Room_Palette.transform.rotation);
+            UI_Room_Palettes[i].transform.SetParent(UI_Room_Palette.transform,false); // 부모에 상대적인 위치로 맞춤
+
+            UI_Room_Palettes[i].name = "UI_Room_Palette_" + i;
+            UI_Room_Palettes[i].GetComponent<Image>().color = playerColors.colors[i]; // 미리 지정된 Color Palette의 색상 부여
+            int temp = i;
+            UI_Room_Palettes[i].GetComponent<Button>().onClick.AddListener(delegate {OnChangeColor(temp);});
+        }
 
         RefreshRoomUI();
 
@@ -190,6 +208,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         GameObject.Find("UI_Room_Chat_Text").GetComponent<Text>().text = "";
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().ActivateInputField();
+
+
     }
 
     public void OnRoomReady() // 게임 준비(시작) 버튼의 클릭 함수
@@ -260,7 +280,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             playerPanel.transform.Find("UI_Room_Player_Nickname").gameObject.GetComponent<Text>().text = player[i].NickName;
 
             if (prop.ContainsKey("color"))
-                playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = GameObject.Find("UI_Room_Palette_" + (int)prop["color"]).GetComponent<Image>().color;
+                playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = playerColors.colors[(int)prop["color"]];
+                // playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = GameObject.Find("UI_Room_Palette_" + (int)prop["color"]).GetComponent<Image>().color;
 
             if (player[i].IsMasterClient == true)
             {
