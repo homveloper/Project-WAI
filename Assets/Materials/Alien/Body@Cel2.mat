@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1720624590823782163
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -20,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Alien@Eye
-  m_Shader: {fileID: -6465566751694194690, guid: 0885d26c5b0fb8940b4c97e199a6f333,
+  m_Name: Body@Cel2
+  m_Shader: {fileID: -6465566751694194690, guid: 762b884d2ced605429cf6510996ac665,
     type: 3}
-  m_ShaderKeywords: BOOLEAN_F4982F34_ON
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -33,8 +20,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_C7DBFD74:
+    - Texture2D_1B003B46:
         m_Texture: {fileID: 2800000, guid: ad40a944bd58c8d4ba4ccc35b05a3e4d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_35E4CC0:
+        m_Texture: {fileID: 2800000, guid: 807520aee3dc11842a1bcb4e712bd75c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C7DBFD74:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -66,11 +61,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - BOOLEAN_F4982F34: 1
+    - Boolean_E8191841: 0
+    - Boolean_F39DA746: 1
     - Vector1_1971DE62: 0
-    - Vector1_45B974EA: 0.379
-    - Vector1_8C707CF9: 0.052
-    - Vector1_F36E060B: -1
+    - Vector1_2C3BEEC3: 0
+    - Vector1_347E85D7: 0.21
+    - Vector1_3A7FE0A6: 1
+    - Vector1_40399B17: 0
+    - Vector1_45B974EA: 0
+    - Vector1_736947AF: 10
+    - Vector1_8C707CF9: 0
+    - Vector1_F36E060B: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -93,10 +94,25 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_6EB9CB5E: {r: 1, g: 1, b: 1, a: 0}
+    - Color_15BEE7BF: {r: 1, g: 1, b: 1, a: 0}
+    - Color_4F83695B: {r: 1, g: 1, b: 1, a: 1}
+    - Color_6EB9CB5E: {r: 0, g: 0, b: 0, a: 0}
     - Color_A22A6F27: {r: 1, g: 1, b: 1, a: 0}
-    - Color_DA6708DE: {r: 0, g: 0, b: 0, a: 0}
+    - Color_DA6708DE: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+--- !u!114 &2042363187451553592
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
