@@ -1,3 +1,0 @@
-Scripts:
-ChassisController - The script is responsible for managing the animation.
-CameraController - The script is responsible for managing the camera: rotation and approximation.

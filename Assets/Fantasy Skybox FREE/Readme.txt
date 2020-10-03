@@ -1,13 +1,13 @@
 ﻿------------------------------------
-Fantasy Skybox FREE 1.5.0
+Fantasy Skybox FREE 1.5.6
 ------------------------------------
 
-	Fantasy Skybox FREE is free version of Fantasy Skybox, the free version contains 20 mid-quality skyboxes with sun/sunless and moon/moonless textures.
+	Fantasy Skybox FREE is free version of Fantasy Skybox, the free version contains 50 mid-quality skybox textures with sun/sunless and moon/moonless textures.
 
 	Features:
 
-		• 18 hand-painted cubemap skyboxes.
-		• 2 panoramic skyboxes.
+		• 18 hand-painted mid-quality cubemap skyboxes.
+		• 32 mid-quality panoramic skyboxes.
 		• Sun/sunless and moon/moonless textures.
 		• Day, night, rainy snowy, sunrise, sunset textures.
 		• Desktop and Mobile friendly.
@@ -27,22 +27,22 @@ Fantasy Skybox FREE 1.5.0
 
 	YouTube:
 	
-		https://www.youtube.com/watch?v=l2dqewgSs3s
-		
-	Thank you for your support,
-
-	Gold Experience Team
-	geteamdev@gmail.com
+		• https://www.youtube.com/watch?v=gOSxvGfr3JY
 
 ------------------------------------------------------------------
 Release notes
 ------------------------------------------------------------------
 
+	Version 1.5.6
+
+		• Added 16 mid-quality panoramic skyboxes (FS013 and FS017).
+
 	Version 1.5.0 
 
-		• Added 2 panoramic skyboxes.
-		• Updated classic skyboxes to cubemap skyboxes.
-		• Rearraged folders and moved 18 classic skyboxes to Classic folder.
+		• Added 16 mid-quality panoramic skyboxes (FS002 and FS003).
+		• Updated classic skyboxes to mid-quality cubemap skyboxes.
+		• Rearraged folders.
+		• All classic skyboxes are moved to Classic folder.
 		• Updated demo scene.
 		• Unity 2019.3.0f1 or higher compatible.
 
