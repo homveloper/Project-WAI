@@ -23,7 +23,11 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
                 return;
 
         if (canMove == false)
+        {
+            animator.SetBool("isWalk", false);
+            animator.SetBool("isRun", false);
             return;
+        }
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");

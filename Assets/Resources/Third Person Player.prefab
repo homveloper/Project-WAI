@@ -5621,13 +5621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e37cede7a6c942a4c883b289fa927b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statHp: 0
-  statHpMax: 0
-  statO2: 0
-  statO2Max: 0
-  meterialWood: 0
-  meterialIron: 0
-  meterialPart: 0
 --- !u!54 &3565582377464417741
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5867,6 +5860,7 @@ MonoBehaviour:
   dust1: {fileID: 2362581150710613245}
   dust2: {fileID: 6043252274391336354}
   flash: {fileID: 8567649898356843675}
+  canMove: 1
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ using System;
 
 public class GameInterfaceManager : MonoBehaviourPunCallbacks
 {
-    public GameManager managerObject; // 게임 매니저 객체 (미지정시 미동작)
+    public GameObject managerObject; // 게임 매니저 객체 (미지정시 미동작)
     public GameObject playerObject;   // 플레이어 객체 (런타임 중 자동 할당)
 
     bool flag_chat = false; // 채팅모드 체크용 플래그. 채팅이 켜져있다면 true로 변경됨
@@ -49,12 +49,12 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     {
         Player player = playerObject.GetComponent<Player>();
 
-        GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.statHp / (float)player.statHpMax;
-        GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.statO2 / (float)player.statO2Max;
+        GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetHP() / (float)player.GetHPMax();
+        GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetO2() / (float)player.GetO2Max();
 
-        GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.meterialWood.ToString();
-        GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.meterialIron.ToString();
-        GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.meterialPart.ToString();
+        GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
+        GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();
+        GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.GetPart().ToString();
 
         GameObject.Find("UI_Timer_Bar").gameObject.GetComponent<Image>().fillAmount = managerObject.GetComponent<GameManager>().time / managerObject.GetComponent<GameManager>().timeMax;
         GameObject.Find("UI_Timer_Text").gameObject.GetComponent<Text>().text = Math.Truncate(managerObject.GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(managerObject.GetComponent<GameManager>().time % 60.0f);
@@ -71,8 +71,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (flag_chat == false)
         {
             flag_chat = true;
-            playerObject.GetComponent<ThirdPersonMovement>().canMove = false;
-            playerObject.GetComponent<PlayerAnimation>().canMove = false;
+            playerObject.GetComponent<Player>().SetMove(false);
             GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_load");
 
             InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
@@ -85,8 +84,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
                 return;
 
             flag_chat = false;
-            playerObject.GetComponent<ThirdPersonMovement>().canMove = true;
-            playerObject.GetComponent<PlayerAnimation>().canMove = true;
+            playerObject.GetComponent<Player>().SetMove(true);
             GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
             GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_hide");
 

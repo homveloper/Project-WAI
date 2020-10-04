@@ -68,6 +68,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // 시간 차감
         if (time > 0.0f) time -= Time.deltaTime;
+
+        // 미션 디버그용 코드 시작
+        GetComponent<MissionController>().OnModify("29분 30초까지 대기하기", "(" + (int)(time - 1770) + "초 남음)");
+
+        if (time < 1771.0f)
+            GetComponent<MissionController>().OnClear("29분 30초까지 대기하기");
+        // 미션 디버그용 코드 종료
     }
 
     void GameReady() // 모든 유저의 이동이 끝날 때까지 대기하는 함수
@@ -114,6 +121,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         checkTimer();
 
         GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.");
+        GetComponent<MissionController>().OnSetHeader("연구원 목표");
+        GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
+        GetComponent<MissionController>().OnAdd("29분 30초까지 대기하기"); // 미션 디버그용 코드
     }
 
     void checkTimer() // 마스터 클라이언트의 시간으로 나머지 플레이어의 시간을 동기화하는 함수

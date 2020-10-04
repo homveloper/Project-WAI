@@ -11,6 +11,8 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     public ParticleSystem dust2;
 
     public GameObject flash;
+    public bool canMove = true;
+
     void Start()
     {
         dust1.Stop();
@@ -24,7 +26,10 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
             if (!photonView.IsMine)
                 return;
 
-        if(Input.GetKeyDown(KeyCode.F))
+        if (canMove == false)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if(flash.active)
                 flash.SetActive(false);
