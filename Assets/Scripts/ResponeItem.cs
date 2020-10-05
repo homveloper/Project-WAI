@@ -1,8 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Cinemachine;
+using System;
 
-public class ResponeItem : MonoBehaviour
+public class ResponeItem : MonoBehaviourPunCallbacks
 {
     public GameObject box;
     int itemSize = 24;
@@ -24,7 +30,7 @@ public class ResponeItem : MonoBehaviour
         Transform[] points = GameObject.Find("RandomBoxRespone").GetComponentsInChildren<Transform>();
         while(true)
         {
-            int tmp =  Random.Range(1 ,itemSize );
+            int tmp =  UnityEngine.Random.Range(1 ,itemSize );
             a[cnt] = tmp;
             cnt++;
             if(cnt == 10)
