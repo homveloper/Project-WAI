@@ -9,8 +9,9 @@ public class ColliTest : MonoBehaviour
 
     {
         Debug.Log(other.name + "감지 시작!");
-        SceneManager.LoadScene("Ruin 1-1 new ver.");
-
+        Transform[] points = GameObject.Find("SpawnPoint_T1").GetComponentsInChildren<Transform>();
+        int idx = Random.Range(1,points.Length);
+        other.transform.position = points[idx].position;
     }
 
 
@@ -21,7 +22,9 @@ public class ColliTest : MonoBehaviour
     {
 
         Debug.Log(other.name + "감지 중!");
-
+        Transform[] points = GameObject.Find("SpawnPoint_T1").GetComponentsInChildren<Transform>();
+        int idx = Random.Range(1,points.Length);
+        other.transform.position = points[idx].position;
     }
 
 
