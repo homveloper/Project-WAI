@@ -111,8 +111,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         mPlayer.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
         mPlayer.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
 
-
-
         mCamera = GameObject.Find("CineMachine");
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
         mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
@@ -143,15 +141,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         inGamePlayerList = GameObject.FindGameObjectsWithTag("Player");
 
         for (int i = 0; i < inGamePlayerList.Length; i++)
-        {
+        {   
             ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
+            
+            prop["player"] = mPlayer;
             inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
     }
 
     void syncCharacter(){
-        
+
     }
 
     [PunRPC]

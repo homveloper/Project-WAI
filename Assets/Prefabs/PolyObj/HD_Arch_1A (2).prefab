@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 7319934448248639897}
   - component: {fileID: 7319934448252031417}
   - component: {fileID: 7319934448250934137}
-  - component: {fileID: 7319934448255296281}
   - component: {fileID: 3481703493357157965}
+  - component: {fileID: 1996491385356755207}
   m_Layer: 0
   m_Name: HD_Arch_1A (2)
   m_TagString: Untagged
@@ -94,20 +94,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &7319934448255296281
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7319934448248999353}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300010, guid: f047c5b035f7ea346922c1355ce6d6dd, type: 3}
 --- !u!114 &3481703493357157965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +106,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae23f2bfdc9e4144ab87c7b892643006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &1996491385356755207
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319934448248999353}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 19.45, y: 14.5, z: 6.7}
+  m_Center: {x: 0.00000047683716, y: -0.382967, z: -0.0000009834766}
 --- !u!1001 &4584455297997366923
 PrefabInstance:
   m_ObjectHideFlags: 0
