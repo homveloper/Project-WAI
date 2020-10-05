@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
+
+    public GameObject[] inGamePlayerList;
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
 
     PlayerColorPalette colorPalettte;
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if (instance != this)
             Destroy(gameObject); // 이후 게임 매니저를 포함한 오브젝트는 삭제
 
-        
+
         PhotonNetwork.IsMessageQueueRunning = true;
 
         DontDestroyOnLoad(gameObject); // 최초 생성된 오브젝트를 유지
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             GameReady();
         }
+
     }
 
     void Update()
@@ -105,8 +108,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
 
         mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
-        mPlayer.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor",colorPalettte.colors[(int)localProp["color"]]);
-        mPlayer.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor",colorPalettte.colors[(int)localProp["color"]]);
+        mPlayer.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
+        mPlayer.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
+
+        inGamePlayerList = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int i = 0; i < inGamePlayerList.Length; i++)
+        {
+            ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
+            inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+            inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+        }
 
         mCamera = GameObject.Find("CineMachine");
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
@@ -132,7 +144,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             photonView.RPC("OnTime", RpcTarget.AllBuffered, time);
         }
-        
+
         Invoke("checkTimer", 1.0f);
     }
 

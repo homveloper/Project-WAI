@@ -46,9 +46,9 @@ public class MissionController : MonoBehaviour
     public void OnAdd(string title, string extra = "")
     {
         UnityEngine.Object prefab = Resources.Load("UI/UI_Mission_Unit");
-        GameObject obj = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity,missionObject.transform);
+        GameObject obj = (GameObject)GameObject.Instantiate(prefab,missionObject.transform,false);
 
-        obj.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        // obj.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
         Mission mission = new Mission(title, extra, obj, false);
         dic.Add(title, mission);
