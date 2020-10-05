@@ -18,7 +18,6 @@ public class ChangeColor : MonoBehaviour
     void Update()
     {
         mMaterial.SetColor("_MainColor",Color.blue);
-        print(mMaterial.GetColor("_MainColor"));
         // mPlayer.<Renderer>().material.SetColor("Main Color",Color.red);
     }
 }

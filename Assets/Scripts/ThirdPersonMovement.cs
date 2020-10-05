@@ -63,8 +63,6 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
         // so diagnoal's speed is faster than others
 
-        Debug.Log(direction);
-
         if(direction.magnitude >= 0.1f){
 
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
