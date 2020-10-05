@@ -18,6 +18,7 @@ public class MiniAlertController : MonoBehaviour
 
         alert.transform.parent = parentObject.transform;
         alert.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 60, 0);
+        alert.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
     }
 
     void Update()

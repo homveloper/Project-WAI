@@ -16,7 +16,7 @@ public class MissionController : MonoBehaviour
 
         missionObject.transform.parent = parentObject.transform;
         missionObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -150, 0);
-
+        missionObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         dic = new Dictionary<string, Mission>();
     }
 
@@ -46,8 +46,9 @@ public class MissionController : MonoBehaviour
     public void OnAdd(string title, string extra = "")
     {
         UnityEngine.Object prefab = Resources.Load("UI/UI_Mission_Unit");
-        GameObject obj = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
-        obj.transform.SetParent(missionObject.transform);
+        GameObject obj = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity,missionObject.transform);
+
+        obj.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
         Mission mission = new Mission(title, extra, obj, false);
         dic.Add(title, mission);
