@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CreatePlayer : MonoBehaviour
 {
-    public ColorPalettte colorPalettte;
+    public PlayerColorPalette colorPalettte;
     public GameObject defaultCharacter;
     // Start is called before the first frame update
     void Start()

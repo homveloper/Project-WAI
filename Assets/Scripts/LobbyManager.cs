@@ -11,7 +11,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     FadeController fadeController;
     AlertController alertController;
-    public ColorPalettte playerColors;
+    public PlayerColorPalette playerColors;
     public GameObject UI_Room_Palette_Prefab;
 
     GameObject[] UI_Room_Palettes;

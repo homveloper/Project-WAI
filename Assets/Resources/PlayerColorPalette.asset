@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Player Color Palette
+  m_Script: {fileID: 11500000, guid: 277b8fd00a30b3541961525a81cc6f5c, type: 3}
+  m_Name: PlayerColorPalette
   m_EditorClassIdentifier: Assembly-CSharp::ColorPalettte
   colors:
   - {r: 1, g: 0.19339621, b: 0.19339621, a: 1}

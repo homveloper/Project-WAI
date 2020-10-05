@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
 
-    ColorPalettte colorPalettte;
+    PlayerColorPalette colorPalettte;
 
     // 시간
     public float time;    // 시간
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        colorPalettte = Instantiate(Resources.Load<ColorPalettte>("Player Color Palette"));
+        colorPalettte = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
 
         PhotonNetwork.IsMessageQueueRunning = true;
 

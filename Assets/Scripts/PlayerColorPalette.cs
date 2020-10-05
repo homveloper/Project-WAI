@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new Color Palette", menuName = "Color Palette")]
+[CreateAssetMenu(fileName = "PlayerColorPalette", menuName = "PlayerColorPalette")]
 
-public class ColorPalettte : ScriptableObject
+public class PlayerColorPalette : ScriptableObject
 {
     // Start is called before the first frame update
 
