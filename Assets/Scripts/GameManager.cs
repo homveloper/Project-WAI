@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         GetComponent<MissionController>().OnSetHeader("연구원 목표");
         GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
         GetComponent<MissionController>().OnAdd("29분 30초까지 대기하기"); // 미션 디버그용 코드
+
     }
 
     void checkTimer() // 마스터 클라이언트의 시간으로 나머지 플레이어의 시간을 동기화하는 함수

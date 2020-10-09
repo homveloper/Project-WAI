@@ -13,24 +13,28 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
     [SerializeField]
     private InventorySlot[] slots;
 
-    void Awake(){
-        inventory = Inventory.instance;
-        inventory.onItemChangedCallback +=  UpdateUI;
-    
+    void Start()
+    {
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
     }
 
-    void Update(){
-
+    public void UpdateInventory(){
+        inventory = Inventory.instance;
+        inventory.onItemChangedCallback += UpdateUI;
     }
 
-    void UpdateUI(){
+    void UpdateUI()
+    {
         Debug.Log("인벤토리 새로고침");
 
-        for(int i=0; i<slots.Length; i++){
-            if( i< inventory.items.Count){
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (i < inventory.items.Count)
+            {
                 slots[i].AddItem(inventory.items[i]);
-            }else{
+            }
+            else
+            {
                 slots[i].ClearSlot();
             }
         }

@@ -15,6 +15,12 @@ public class InventorySlot : MonoBehaviour
         icon.enabled = false;
     }
 
+    private void Update() {
+        if(Input.GetButtonDown(useButton)){
+            UseItem();
+        }
+    }
+
     public void AddItem(Item item)
     {
         this.item = item;
@@ -31,12 +37,10 @@ public class InventorySlot : MonoBehaviour
 
     public void UseItem()
     {
-        if (Input.GetButtonDown(useButton))
+        if (item != null)
         {
-            if (item != null)
-            {
-                item.Use();
-            }
+            item.Use();
+            ClearSlot();
         }
     }
 

@@ -27,7 +27,6 @@ public class SetActive : MonoBehaviour
         // Debug.Log(other.name + "감지 중!");
         if(other.tag == "Player" && Input.GetButtonDown("Interact")){
             PickUp();
-            isCalled = true;    
         }
     }
 
