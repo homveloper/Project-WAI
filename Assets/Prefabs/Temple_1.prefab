@@ -5277,7 +5277,7 @@ Transform:
   m_GameObject: {fileID: 1814960237522586604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23.494583, y: 1.0748444, z: -104.91315}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children:
   - {fileID: 1658612217385060830}
   - {fileID: 6829729852942679415}
@@ -6143,7 +6143,7 @@ GameObject:
   - component: {fileID: 2672856497057023118}
   - component: {fileID: 9212369805816633263}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube_move
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12187,7 +12187,7 @@ GameObject:
   - component: {fileID: 2858717464878549721}
   - component: {fileID: 5815571493606026699}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube+move3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12973,7 +12973,7 @@ GameObject:
   - component: {fileID: 5957252194583369593}
   - component: {fileID: 8106899730633785987}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube_move1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15590,7 +15590,7 @@ PrefabInstance:
     - target: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.074844
+      value: 2.27
       objectReference: {fileID: 0}
     - target: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
@@ -15665,7 +15665,7 @@ PrefabInstance:
     - target: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.074844
+      value: 2.37
       objectReference: {fileID: 0}
     - target: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
@@ -15740,7 +15740,7 @@ PrefabInstance:
     - target: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.074844
+      value: 2.48
       objectReference: {fileID: 0}
     - target: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
