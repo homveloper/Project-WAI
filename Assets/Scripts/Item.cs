@@ -13,4 +13,8 @@ public class Item : ScriptableObject
     [TextArea(15,20)]
     public string description;
     public Sprite icon;
+
+    public virtual void Use(){
+        Debug.Log("Using " + name);
+    }
 }

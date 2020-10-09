@@ -34,8 +34,10 @@ public class Inventory : MonoBehaviour {
 
         items.Add(item);
 
-        if(onItemChangedCallback != null)   
+        if(onItemChangedCallback != null){
             onItemChangedCallback.Invoke();
+        }
+        print(onItemChangedCallback);
 
         return true;
     }

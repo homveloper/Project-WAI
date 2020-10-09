@@ -5491,10 +5491,10 @@ GameObject:
   - component: {fileID: 5893622336824550784}
   - component: {fileID: 6918174023060847195}
   - component: {fileID: 3565582377464417741}
-  - component: {fileID: 39476507677011780}
   - component: {fileID: 6587770530825150049}
   - component: {fileID: 1048966396458255995}
   - component: {fileID: 8849792136659743650}
+  - component: {fileID: 1733725680725060116}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -5532,12 +5532,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 4.35
-  m_Radius: 0.91
+  m_Radius: 2
   m_SlopeLimit: 45
   m_StepOffset: 3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 2.25, z: 0}
+  m_Center: {x: 0.03, y: 2.25, z: 0}
 --- !u!114 &7186006604985324643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5552,7 +5552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1139416548044585999}
   canMove: 1
-  speed: 6
+  speed: 20
   runSpeedRate: 1.5
   turnSmoothTime: 0.3
   turnSmoothVelocity: 0
@@ -5637,20 +5637,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &39476507677011780
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143243491976924257}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 2
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!82 &6587770530825150049
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5861,6 +5847,20 @@ MonoBehaviour:
   dust2: {fileID: 6043252274391336354}
   flash: {fileID: 8567649898356843675}
   canMove: 1
+--- !u!114 &1733725680725060116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a67645e94d1e204ea98fea979b89aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  space: 5
+  items: []
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class SetActive : MonoBehaviour
 {
     public Item item;
 
+    bool isCalled = false;
+
     public GameObject info;
     void Start()
     {
@@ -23,8 +25,9 @@ public class SetActive : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Debug.Log(other.name + "감지 중!");
-        if(Input.GetButtonDown("Interact")){
+        if(other.tag == "Player" && Input.GetButtonDown("Interact")){
             PickUp();
+            isCalled = true;    
         }
     }
 
@@ -37,11 +40,11 @@ public class SetActive : MonoBehaviour
     }
 
     void PickUp(){
-        Debug.Log(item.name + "을 주웠습니다.");
-
         bool wasPickedUp = Inventory.instance.Add(item);
 
-        if(wasPickedUp)
+        if(wasPickedUp){
+            Debug.Log(item.name + "을 주웠습니다.");
             Destroy(gameObject);
+        }
     }
 }
