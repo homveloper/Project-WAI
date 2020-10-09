@@ -36,6 +36,7 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
             else
                 flash.SetActive(true);
         }
+      
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");

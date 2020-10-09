@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Well
   - Box
+  - Player1
   layers:
   - Default
   - TransparentFX

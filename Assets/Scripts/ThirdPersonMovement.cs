@@ -31,7 +31,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Start()
     {
-
+        
     }
     void Update()
     {

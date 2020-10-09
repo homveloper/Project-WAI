@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
         SetWood(0);
         SetIron(0);
         SetPart(0);
+        
     }
 
     void Update()
