@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SetActive : MonoBehaviour
 {
-    public Item item;
+    public List<Item> items;
 
     bool isCalled = false;
 
@@ -27,6 +27,7 @@ public class SetActive : MonoBehaviour
         // Debug.Log(other.name + "감지 중!");
         if(other.tag == "Player" && Input.GetButtonDown("Interact")){
             PickUp();
+            print(other);
         }
     }
 
@@ -39,10 +40,11 @@ public class SetActive : MonoBehaviour
     }
 
     void PickUp(){
-        bool wasPickedUp = Inventory.instance.Add(item);
+        Item randomItem = items[Random.Range(0,items.Count)];
+        bool wasPickedUp = Inventory.instance.Add(randomItem);
 
         if(wasPickedUp){
-            Debug.Log(item.name + "을 주웠습니다.");
+            Debug.Log(randomItem.name + "을 주웠습니다.");
             Destroy(gameObject);
         }
     }
