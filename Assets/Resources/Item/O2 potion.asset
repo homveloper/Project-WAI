@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5f0501b5d25c448a1e7c0553413f57, type: 3}
   m_Name: O2 potion
   m_EditorClassIdentifier: 
-  name: 
+  name: O2 Potion
   cost: 0
+  HPModifier: 0
+  O2Modifier: 40
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 28f5add5a605fda40b9932530819552c, type: 3}
