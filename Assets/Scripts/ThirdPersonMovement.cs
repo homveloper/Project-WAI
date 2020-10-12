@@ -31,7 +31,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Start()
     {
-
+        
     }
     void Update()
     {
@@ -52,13 +52,11 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         float vertical = Input.GetAxisRaw("Vertical");
 
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
-
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
 
-        
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
         // so diagnoal's speed is faster than others

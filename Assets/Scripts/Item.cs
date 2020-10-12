@@ -9,8 +9,14 @@ public class Item : ScriptableObject
     //when you wan't initialize use 'new'
     new public string name = "new Item";
     public int cost;
+    public int HPModifier;
+    public int O2Modifier;
 
     [TextArea(15,20)]
     public string description;
     public Sprite icon;
+
+    public virtual void Use(){
+        Debug.Log("Using " + name);
+    }
 }

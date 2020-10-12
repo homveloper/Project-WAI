@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Photon.Pun;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourPun
 {
     private float statHp = 0.0f;
     private float statHpMax = 0.0f;
@@ -14,8 +15,12 @@ public class Player : MonoBehaviour
     private int meterialIron = 0;
     private int meterialPart = 0;
 
+    UI_Inventory uI_Inventory;
+
     void Start()
     {
+        print("Start Player");
+
         SetHPMax(100);
         SetO2Max(100);
 
@@ -25,6 +30,15 @@ public class Player : MonoBehaviour
         SetWood(0);
         SetIron(0);
         SetPart(0);
+
+        if (PhotonNetwork.IsConnected)
+        {
+            if (photonView.IsMine)
+            {
+                uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
+                uI_Inventory.UpdateInventory();
+            }
+        }
     }
 
     void Update()

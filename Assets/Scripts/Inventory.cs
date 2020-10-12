@@ -10,6 +10,9 @@ public class Inventory : MonoBehaviour {
     public static Inventory instance;
 
     private void Awake() {
+        
+        print("Awake Inventory");
+
         if(instance != null){
             Debug.LogWarning("하나 이상의 인벤토리가 발견되었습니다.");
             return;
@@ -34,8 +37,9 @@ public class Inventory : MonoBehaviour {
 
         items.Add(item);
 
-        if(onItemChangedCallback != null)   
+        if(onItemChangedCallback != null){
             onItemChangedCallback.Invoke();
+        }
 
         return true;
     }

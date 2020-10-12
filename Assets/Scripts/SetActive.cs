@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SetActive : MonoBehaviour
 {
-    public Item item;
+    public List<Item> items;
+
+    bool isCalled = false;
 
     public GameObject info;
     void Start()
@@ -23,8 +25,9 @@ public class SetActive : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Debug.Log(other.name + "감지 중!");
-        if(Input.GetButtonDown("Interact")){
+        if(other.tag == "Player" && Input.GetButtonDown("Interact")){
             PickUp();
+            print(other);
         }
     }
 
@@ -37,11 +40,12 @@ public class SetActive : MonoBehaviour
     }
 
     void PickUp(){
-        Debug.Log(item.name + "을 주웠습니다.");
+        Item randomItem = items[Random.Range(0,items.Count)];
+        bool wasPickedUp = Inventory.instance.Add(randomItem);
 
-        bool wasPickedUp = Inventory.instance.Add(item);
-
-        if(wasPickedUp)
+        if(wasPickedUp){
+            Debug.Log(randomItem.name + "을 주웠습니다.");
             Destroy(gameObject);
+        }
     }
 }
