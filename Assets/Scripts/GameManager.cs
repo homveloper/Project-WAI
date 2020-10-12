@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // 플래그
     bool flag_start = false; // 인스턴스 생성 체크용 플래그. 첫 시작 시 true로 변경됨
+    bool flag_gameStart = false; // 모든 플레이어가 준비됨
+    bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
 
     private void Awake()
     {
@@ -78,6 +80,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (time < 1771.0f)
             GetComponent<MissionController>().OnClear("29분 30초까지 대기하기");
         // 미션 디버그용 코드 종료
+
+        // 게임 시작 애니메이션 처리
+        if (flag_gameStart == true && flag_gameStartFinish == false)
+        {
+            float radius = GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius;
+            if (radius > 24.0f)
+            {
+                GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius -= (Time.deltaTime * 75);
+            }
+            else
+            {
+                GameStartFinish();
+            }
+        }
     }
 
     void GameReady() // 모든 유저의 이동이 끝날 때까지 대기하는 함수
@@ -110,24 +126,52 @@ public class GameManager : MonoBehaviourPunCallbacks
         mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
         mPlayer.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
         mPlayer.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
+        mPlayer.GetComponent<Player>().SetMove(false);
 
         mCamera = GameObject.Find("CineMachine");
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
         mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
+        mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 31.0f;
+        mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius = 200.0f;
 
         DontDestroyOnLoad(mPlayer);
+
+
+        flag_gameStart = true;
+    }
+
+    void GameStartFinish() // 시작 do니메이션 종료 후 본격적으로 진행
+    {
+        if (flag_gameStartFinish == false)
+        {
+            flag_gameStartFinish = true;
+            Invoke("GameStartFinish", 1.0f);
+            return;
+        }
+
+        GameObject stone = GameObject.Find("CenterStone");
+        stone.transform.Find("Light1").GetComponent<Light>().enabled = true;
+        stone.transform.Find("Light2").GetComponent<Light>().enabled = true;
+
+        // 기본 설정
+        GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = true;
+        GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
+
+        // 플레이어 움직임 설정
+        mPlayer.GetComponent<Player>().SetMove(true);
 
         // 타이머 시작
         time = 1800.0f;
         timeMax = 1800.0f;
-
         checkTimer();
 
+        // 미션 시작
         GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.");
         GetComponent<MissionController>().OnSetHeader("연구원 목표");
         GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
         GetComponent<MissionController>().OnAdd("29분 30초까지 대기하기"); // 미션 디버그용 코드
 
+        
     }
 
     void checkTimer() // 마스터 클라이언트의 시간으로 나머지 플레이어의 시간을 동기화하는 함수

@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
+using System.Collections.Generic;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -21,6 +21,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     const int MENU_INTRO = 1;
     const int MENU_MAINMENU = 11;
     const int MENU_ROOM = 21;
+
+    int lobbyPage = 1;
+    List<RoomInfo> lobbyRoom = null;
+    RoomInfo selectedRoom;
 
     bool event_roomJoined = false;
 
@@ -49,7 +53,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             if (!PhotonNetwork.IsConnected)
             {
-                PhotonNetwork.NickName = "GUEST #" + Random.Range(1, 9999);
+                PhotonNetwork.NickName = "GUEST #" + UnityEngine.Random.Range(1, 9999);
                 PhotonNetwork.ConnectUsingSettings();
             }
             else
@@ -126,35 +130,42 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     // 메인메뉴
     // ---------------------------------------------------------------------------------------------------
-    public void OnCreate() // 방 생성 버튼 함수
+    public void OnMenuCreate() // 방 생성
     {
-        fadeController.OnBlack();
-        PhotonNetwork.CreateRoom("테스트 대기실 #" + Random.Range(1, 9999), new RoomOptions { MaxPlayers = 10, BroadcastPropsChangeToAll = true });
-    }
-    public void OnJoin() // 참여 버튼 함수
-    {
-        PhotonNetwork.JoinRandomRoom();
+        GameObject.Find("UI_MainMenu_CreateRoom_RoomTitle_InputField").GetComponent<InputField>().text = "";
+        GameObject.Find("UI_MainMenu_CreateRoom_Public_InputField").GetComponent<InputField>().text = "";
+        GameObject.Find("UI_MainMenu_CreateRoom").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
     }
 
-    public void OnOption() // 설정 버튼 함수
+    public void OnMenuQuickPlay() // 빠른 참여
+    {
+        lobbyPage = 1;
+        lobbyRoom = null;
+
+        ExitGames.Client.Photon.Hashtable prop = new ExitGames.Client.Photon.Hashtable();
+        prop["isPrivate"] = false;
+
+        PhotonNetwork.JoinRandomRoom(prop, 0);
+    }
+
+    public void OnMenuExplore()
+    {
+        GameObject.Find("UI_ExploreRoom").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        if (PhotonNetwork.InLobby == false) PhotonNetwork.JoinLobby();
+    }
+
+    public void OnMenuOption() // 설정
     {
         alertController.OnEnableAlert("준비중", "현재 사용할 수 없는 메뉴입니다.");
     }
 
-    public void OnExit() // 종료 버튼 함수
+    public void OnMenuExit() // 종료 버튼 함수
     {
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
             Application.Quit();
         #endif
-    }
-
-    public override void OnCreateRoomFailed(short returnCode, string message) // 방 생성에 실패했을 때 호출되는 콜백 함수
-    {
-        base.OnCreateRoomFailed(returnCode, message);
-
-        alertController.OnEnableAlert("방 생성 실패", message + " (" + returnCode + ")");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message) // 방 입장에 실패했을 때 호출되는 콜백 함수
@@ -164,6 +175,186 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         alertController.OnEnableAlert("방 입장 실패", message + " (" + returnCode + ")");
     }
 
+
+    // ---------------------------------------------------------------------------------------------------
+    // 메인메뉴 - 방생성
+    // ---------------------------------------------------------------------------------------------------
+
+    public void OnMenuCreateExit() // 종료
+    {
+        GameObject.Find("UI_MainMenu_CreateRoom").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+    }
+    public void OnMenuCreatePublic() // 공개 여부 토글
+    {
+        Text publicText = GameObject.Find("UI_MainMenu_CreateRoom_Public_PublicButton_Text").GetComponent<Text>();
+        InputField passText = GameObject.Find("UI_MainMenu_CreateRoom_Public_InputField").GetComponent<InputField>();
+
+        if (publicText.text == "공개")
+        {
+            publicText.text = "비공개";
+            passText.text = "";
+            passText.interactable = true;
+        }
+        else
+        {
+            publicText.text = "공개";
+            passText.text = "";
+            passText.interactable = false;
+
+        }
+    }
+    public void OnMenuCreateSubmit() // 제출
+    {
+        GameObject.Find("UI_MainMenu_CreateRoom").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+        fadeController.OnBlack();
+
+        string title = GameObject.Find("UI_MainMenu_CreateRoom_RoomTitle_InputField").GetComponent<InputField>().text;
+        bool isPrivate = GameObject.Find("UI_MainMenu_CreateRoom_Public_PublicButton_Text").GetComponent<Text>().text == "비공개";
+        string password = GameObject.Find("UI_MainMenu_CreateRoom_Public_InputField").GetComponent<InputField>().text;
+        int countOfPlayers = GameObject.Find("UI_MainMenu_CreateRoom_Max_Dropdown").GetComponent<Dropdown>().value + 3;
+        int countOfAliens = GameObject.Find("UI_MainMenu_CreateRoom_Alien_Dropdown").GetComponent<Dropdown>().value + 1;
+
+        ExitGames.Client.Photon.Hashtable prop = new ExitGames.Client.Photon.Hashtable();
+        prop["title"] = title;
+        prop["isPrivate"] = isPrivate;
+        prop["password"] = password;
+        prop["countOfAliens"] = countOfAliens;
+
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = (byte)countOfPlayers, CustomRoomProperties = prop, CustomRoomPropertiesForLobby = new string[] { "title", "isPrivate", "password", "countOfAliens" }, BroadcastPropsChangeToAll = true }) ;
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message) // 방 생성에 실패했을 때 호출되는 콜백 함수
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+
+        alertController.OnEnableAlert("방 생성 실패", message + " (" + returnCode + ")");
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+    // 메인메뉴 - 방탐색
+    // ---------------------------------------------------------------------------------------------------
+    public void OnMenuExploreExit() // 종료
+    {
+        GameObject.Find("UI_ExploreRoom").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+    }
+
+    public void OnMenuExplorePage(int num) // 페이지 이동
+    {
+        lobbyPage += num;
+
+        if (lobbyPage < 1) lobbyPage = 1;
+        if (lobbyPage > ((int)(lobbyRoom.Count / 8) + 1)) lobbyPage = ((int)(lobbyRoom.Count / 8) + 1);
+        RefreshRoomList();
+    }
+
+    public void OnMenuExploreSubmit(int num) // 방 선택
+    {
+        if (lobbyRoom.Count < num * lobbyPage)
+            return;
+
+        RoomInfo info = lobbyRoom[num * lobbyPage];
+        ExitGames.Client.Photon.Hashtable roomProp = info.CustomProperties;
+
+        if ((bool)roomProp["isPrivate"] == false) {
+            PhotonNetwork.JoinRoom(info.Name);
+        }
+        else
+        {
+            selectedRoom = info;
+            GameObject.Find("UI_PasswordAlert_InputField").GetComponent<InputField>().text = "";
+            GameObject.Find("UI_PasswordAlert").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        }       
+    }
+
+    public void OnPasswordExit() // (패스워드창) 종료
+    {
+        selectedRoom = null;
+        GameObject.Find("UI_PasswordAlert").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+    }
+
+    public void OnPasswordSubmit() // (패스워드창) 입장
+    {
+        ExitGames.Client.Photon.Hashtable roomProp = selectedRoom.CustomProperties;
+
+        if (GameObject.Find("UI_PasswordAlert_InputField").GetComponent<InputField>().text == (string)roomProp["password"])
+        {
+            GameObject.Find("UI_PasswordAlert_InputField").GetComponent<InputField>().text = "";
+            GameObject.Find("UI_PasswordAlert").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+            GameObject.Find("UI_ExploreRoom").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+            PhotonNetwork.JoinRoom(selectedRoom.Name);
+            selectedRoom = null;
+        }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+
+        lobbyRoom = roomList;
+        RefreshRoomList();
+    }
+
+    public void RefreshRoomList() // 방 갱신
+    {
+        if (lobbyRoom == null) return;
+        if (lobbyRoom.Count <= 0) return;
+
+        int i = 8 * (lobbyPage - 1);
+        int max = lobbyRoom.Count < 8 * (lobbyPage) ? lobbyRoom.Count : 8 * (lobbyPage);
+
+        // 존재하는 방 처리
+        for (; i< max; i++)
+        {
+            RoomInfo info = lobbyRoom[i];
+            GameObject unit = GameObject.Find("UI_ExploreRoom_Unit_" + i % 8);
+            ExitGames.Client.Photon.Hashtable roomProp = info.CustomProperties;
+
+            Debug.Log(roomProp);
+
+            if (info.IsOpen == true)
+                unit.GetComponent<Button>().interactable = true;
+            else
+                unit.GetComponent<Button>().interactable = false;
+
+            if (roomProp.Count <= 0)
+            {
+                unit.GetComponent<Button>().interactable = false;
+                unit.transform.Find("UI_ExploreRoom_Unit_Title").GetComponent<Text>().text = "";
+                unit.transform.Find("UI_ExploreRoom_Unit_Info").GetComponent<Text>().text = "";
+                unit.transform.Find("UI_ExploreRoom_Unit_Status").GetComponent<Text>().text = "";
+                continue;
+            }
+
+
+            unit.transform.Find("UI_ExploreRoom_Unit_Title").GetComponent<Text>().text = (string)roomProp["title"];
+
+            string topText = "";
+            topText += (bool)roomProp["isPrivate"] == false ? "공개, " : "비공개, ";
+            topText += "외계인 " + roomProp["countOfAliens"] + "명";
+            unit.transform.Find("UI_ExploreRoom_Unit_Info").GetComponent<Text>().text = topText;
+
+            string bottomText = "";
+            bottomText += info.IsOpen == true ? "대기중" : "게임중";
+            bottomText += "\n";
+            bottomText += "(" + info.PlayerCount + "/" + info.MaxPlayers + ")";
+            unit.transform.Find("UI_ExploreRoom_Unit_Status").GetComponent<Text>().text = bottomText;
+        }
+
+        // 방이 페이지 내 8번까지 채우지 못하면 나머지 처리
+        for (; i < 8 * (lobbyPage); i++)
+        {
+            GameObject unit = GameObject.Find("UI_ExploreRoom_Unit_" + i % 8);
+
+            unit.GetComponent<Button>().interactable = false;
+            unit.transform.Find("UI_ExploreRoom_Unit_Title").GetComponent<Text>().text = "";
+            unit.transform.Find("UI_ExploreRoom_Unit_Info").GetComponent<Text>().text = "";
+            unit.transform.Find("UI_ExploreRoom_Unit_Status").GetComponent<Text>().text = "";
+        }
+
+        // 페이지 표시
+        GameObject.Find("UI_ExploreRoom_Page").GetComponent<Text>().text = lobbyPage + " / " + ((int)(lobbyRoom.Count / 8) + 1);
+
+    }
 
     // ---------------------------------------------------------------------------------------------------
     // 대기실 - 공통
@@ -210,6 +401,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().ActivateInputField();
 
 
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+
+        alertController.OnEnableAlert("방 입장 실패", message + " (" + returnCode + ")");
     }
 
     public void OnRoomReady() // 게임 준비(시작) 버튼의 클릭 함수
@@ -265,12 +463,69 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
+    public void OnRoomOption() // 게임 설정 버튼
+    {
+        if (PhotonNetwork.IsMasterClient == false)
+            return;
+
+        ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        GameObject.Find("UI_Room_UpdateRoom_RoomTitle_InputField").GetComponent<InputField>().text = (string)prop["title"];
+        GameObject.Find("UI_Room_UpdateRoom_Public_PublicButton_Text").GetComponent<Text>().text = (bool)prop["isPrivate"] == true ? "비공개" : "공개";
+        GameObject.Find("UI_Room_UpdateRoom_Public_InputField").GetComponent<InputField>().interactable = (bool)prop["isPrivate"] == true ? true : false;
+        GameObject.Find("UI_Room_UpdateRoom_Public_InputField").GetComponent<InputField>().text = (string)prop["password"];
+        GameObject.Find("UI_Room_UpdateRoom_Max_Dropdown").GetComponent<Dropdown>().value = (int)PhotonNetwork.CurrentRoom.MaxPlayers - 3;
+        GameObject.Find("UI_Room_UpdateRoom_Alien_Dropdown").GetComponent<Dropdown>().value = (int)prop["countOfAliens"] - 1;
+        GameObject.Find("UI_Room_UpdateRoom").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+    }
+
+    public void OnRoomOptionExit() // 게임 설정 - 종료
+    {
+        GameObject.Find("UI_Room_UpdateRoom").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+    }
+
+    public void OnRoomOptionPublic() // 게임 설정 - 공개 여부 토글
+    {
+        Text publicText = GameObject.Find("UI_Room_UpdateRoom_Public_PublicButton_Text").GetComponent<Text>();
+        InputField passText = GameObject.Find("UI_Room_UpdateRoom_Public_InputField").GetComponent<InputField>();
+
+        if (publicText.text == "공개")
+        {
+            publicText.text = "비공개";
+            passText.text = "";
+            passText.interactable = true;
+        }
+        else
+        {
+            publicText.text = "공개";
+            passText.text = "";
+            passText.interactable = false;
+
+        }
+    }
+
+    public void OnRoomOptionSubmit() // 게임 설정 - 수정
+    {
+        ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        prop["title"] = GameObject.Find("UI_Room_UpdateRoom_RoomTitle_InputField").GetComponent<InputField>().text;
+        prop["isPrivate"] = GameObject.Find("UI_Room_UpdateRoom_Public_PublicButton_Text").GetComponent<Text>().text == "비공개" ? true : false;
+        prop["password"] = GameObject.Find("UI_Room_UpdateRoom_Public_InputField").GetComponent<InputField>().text;
+        PhotonNetwork.CurrentRoom.MaxPlayers = (byte)(GameObject.Find("UI_Room_UpdateRoom_Max_Dropdown").GetComponent<Dropdown>().value + 3);
+        prop["countOfAliens"] = (int)(GameObject.Find("UI_Room_UpdateRoom_Alien_Dropdown").GetComponent<Dropdown>().value) + 1;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
+
+        GameObject.Find("UI_Room_UpdateRoom").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+        RefreshRoomUI();
+    }
+
     public void RefreshRoomUI() // 대기실 UI를 갱신하는 함수
     {
         int countOfReady = 0; // 준비한 플레이어 수
 
         Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
 
+        // 접속된 플레이어 칸 갱신
         for (int i = 0; i < player.Length; i++)
         {
             ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
@@ -305,6 +560,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
 
+        // 접속되지 않은 플레이어 칸 갱신
         for (int i = player.Length; i < 10; i++)
         {
             GameObject playerPanel = GameObject.Find("UI_Room_Player_" + i);
@@ -316,9 +572,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         }
 
-        GameObject.Find("UI_Room_Title_Text").GetComponent<Text>().text = PhotonNetwork.CurrentRoom.Name;
+        // 방 정보 갱신
+        ExitGames.Client.Photon.Hashtable roomProp = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        GameObject.Find("UI_Room_Title_Text").GetComponent<Text>().text = (string)roomProp["title"];
         GameObject.Find("UI_Room_Title_Count").GetComponent<Text>().text = PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
 
+        string topText = "";
+        topText += (bool)roomProp["isPrivate"] == false ? "공개, " : "비공개 (패스워드 : " + roomProp["password"] + "), ";
+        topText += (roomProp.ContainsKey("countOfAliens") == true) ? ("외계인 " + roomProp["countOfAliens"] + "명") : "";
+        GameObject.Find("UI_Room_TopPanel_Text").GetComponent<Text>().text = topText;
+
+        // 준비, 시작 갱신
         if (PhotonNetwork.LocalPlayer.IsMasterClient == true)
         {
             GameObject.Find("UI_Room_Ready_Text").GetComponent<Text>().text = "게임 시작";
@@ -332,10 +597,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = true;
         }
 
+        // 준비, 시작에 따른 내 플레이어 칸 갱신
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-
         if (localProp.ContainsKey("isReady") && (bool)localProp["isReady"] == true) GameObject.Find("UI_Room_Ready_Highlight").GetComponent<Image>().fillAmount = 1;
         else GameObject.Find("UI_Room_Ready_Highlight").GetComponent<Image>().fillAmount = 0;
+
+        // 마스터클라이언트만 옵션 보이게
+        if (PhotonNetwork.IsMasterClient == true)
+            GameObject.Find("UI_Room_Option").GetComponent<Button>().interactable = true;
+        else
+            GameObject.Find("UI_Room_Option").GetComponent<Button>().interactable = false;
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) // 방에 사람이 들어왔을 때의 콜백 함수
