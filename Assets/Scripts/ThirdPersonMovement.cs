@@ -54,17 +54,20 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
 
-        if (canMove == false)
-        {
-            isWalk = false;
-            isRun = false;
-        }
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
         // so diagnoal's speed is faster than others
 
-        if(direction.magnitude >= 0.1f){
+        // 중력 이동 처리
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity);
+
+        if (canMove == false)
+            return;
+
+        // 캐릭터 이동 처리
+        if (direction.magnitude >= 0.1f){
 
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
@@ -80,7 +83,6 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         //     velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         // }
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity);
+
     }
 }

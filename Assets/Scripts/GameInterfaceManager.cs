@@ -23,7 +23,11 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
             return;
 
         if (playerObject == null)
+        {
             playerObject = managerObject.GetComponent<GameManager>().mPlayer;
+            return;
+        }
+            
 
         // 채팅모드 전환 (탭)
         if (Input.GetKeyDown(KeyCode.Tab) == true)
