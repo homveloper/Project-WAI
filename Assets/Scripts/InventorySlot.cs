@@ -5,42 +5,58 @@ using UnityEngine;
 
 public class InventorySlot : MonoBehaviour
 {
-    public Image icon;
+    public Image itemIcon;
+    public Image dropIcon;
     public string useButton;
 
     Item item;
 
     private void Start()
     {
-        icon.enabled = false;
+        itemIcon.enabled = false;
+        dropIcon.enabled = false;
     }
 
     private void Update() {
         if(Input.GetButtonDown(useButton)){
-            UseItem();
+            if(Inventory.instance.isDroppable){
+                DropItem();
+            }else{
+                UseItem();
+            }
         }
     }
 
     public void AddItem(Item item)
     {
         this.item = item;
-        icon.sprite = item.icon;
-        icon.enabled = true;
+        itemIcon.sprite = item.icon;
+        itemIcon.enabled = true;
     }
 
     public void ClearSlot()
     {
         item = null;
-        icon.sprite = null;
-        icon.enabled = false;
+        itemIcon.sprite = null;
+        itemIcon.enabled = false;
     }
 
     public void UseItem()
     {
         if (item != null)
         {
-            item.Use();
+            item.Use(Inventory.instance.playerStat);
             Inventory.instance.Remove(item);
+        }
+    }
+
+    public void SetDropIcon(bool status){
+        dropIcon.enabled = status;
+    }
+
+    public void DropItem(){
+        if(item != null){
+            Inventory.instance.Drop(item);
         }
     }
 

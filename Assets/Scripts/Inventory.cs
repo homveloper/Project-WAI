@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 public class Inventory : MonoBehaviour {
     
     #region Singleton
@@ -26,7 +27,15 @@ public class Inventory : MonoBehaviour {
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallback;
 
+    public bool isDroppable;
+
     public List<Item> items = new List<Item>();
+
+    public Player playerStat;
+
+    private void Start() {
+        playerStat = gameObject.GetComponent<Player>();
+    }
 
     public bool Add(Item item){
 
@@ -49,5 +58,18 @@ public class Inventory : MonoBehaviour {
 
         if(onItemChangedCallback != null)   
             onItemChangedCallback.Invoke();
+    }
+    
+    public void Drop(Item item){
+        items.Remove(item);
+
+        if(onItemChangedCallback != null)   
+            onItemChangedCallback.Invoke();
+
+        // droppedItem = Instantiate(item,gameObject.transform.position,Quaternion.identity);
+    }
+
+    public bool isEmpty(){
+        return items.Count == 0;
     }
 }

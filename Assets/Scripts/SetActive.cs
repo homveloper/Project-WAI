@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class SetActive : MonoBehaviour
 {
     public List<Item> items;
@@ -45,7 +45,7 @@ public class SetActive : MonoBehaviour
 
         if(wasPickedUp){
             Debug.Log(randomItem.name + "을 주웠습니다.");
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

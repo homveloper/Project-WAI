@@ -13,6 +13,7 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
     [SerializeField]
     private InventorySlot[] slots;
 
+
     void Start()
     {
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
@@ -21,6 +22,13 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
     public void UpdateInventory(){
         inventory = Inventory.instance;
         inventory.onItemChangedCallback += UpdateUI;
+    }
+
+    private void Update() {
+        if(Input.GetButtonDown("SetDrop") && !inventory.isEmpty()){
+            inventory.isDroppable = !inventory.isDroppable;
+            UpdateUI();
+        }
     }
 
     void UpdateUI()
@@ -32,10 +40,16 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
             if (i < inventory.items.Count)
             {
                 slots[i].AddItem(inventory.items[i]);
+                if(inventory.isDroppable){
+                    slots[i].SetDropIcon(true);
+                }else{
+                    slots[i].SetDropIcon(false);
+                }
             }
             else
             {
                 slots[i].ClearSlot();
+                slots[i].SetDropIcon(false);
             }
         }
     }

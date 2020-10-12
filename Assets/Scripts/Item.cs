@@ -16,7 +16,10 @@ public class Item : ScriptableObject
     public string description;
     public Sprite icon;
 
-    public virtual void Use(){
-        Debug.Log("Using " + name);
+    public virtual void Use(Player playerStat){
+        Player playerInfo = playerStat.GetComponentInChildren<Player>();
+
+        playerInfo.SetHP(playerInfo.GetHP() + HPModifier);
+        playerInfo.SetO2(playerInfo.GetO2() + O2Modifier);
     }
 }
