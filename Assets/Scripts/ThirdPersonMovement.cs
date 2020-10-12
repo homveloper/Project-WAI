@@ -39,9 +39,6 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
             if (!photonView.IsMine)
                 return;
 
-        if (canMove == false)
-            return;
-
         // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if( velocity.y < 0){
@@ -56,6 +53,12 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
+
+        if (canMove == false)
+        {
+            isWalk = false;
+            isRun = false;
+        }
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
