@@ -6143,7 +6143,7 @@ GameObject:
   - component: {fileID: 2672856497057023118}
   - component: {fileID: 9212369805816633263}
   m_Layer: 0
-  m_Name: Cube_move
+  m_Name: Cube_move1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12973,7 +12973,7 @@ GameObject:
   - component: {fileID: 5957252194583369593}
   - component: {fileID: 8106899730633785987}
   m_Layer: 0
-  m_Name: Cube_move1
+  m_Name: Cube_move2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

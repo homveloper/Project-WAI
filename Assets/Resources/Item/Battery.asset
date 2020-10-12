@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5f0501b5d25c448a1e7c0553413f57, type: 3}
   m_Name: Battery
   m_EditorClassIdentifier: 
-  name: new Item
-  cost: 0
+  name: Battery
+  cost: 10
   HPModifier: 0
   O2Modifier: 0
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e1624ac9b56fd964880ff44da48681df, type: 3}
