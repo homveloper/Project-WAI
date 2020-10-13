@@ -17,7 +17,7 @@ public class SetActive : MonoBehaviour
      private void OnTriggerEnter(Collider other)
     {
         // Debug.Log(other.name + "감지 시작!");
-        info.SetActive(true);
+        
     }
 
     // Collider 컴포넌트의 is Trigger가 true인 상태로 충돌중일 때
@@ -25,6 +25,7 @@ public class SetActive : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Debug.Log(other.name + "감지 중!");
+        info.SetActive(true);
         if(other.tag == "Player" && Input.GetButtonDown("Interact")){
             PickUp();
             print(other);
@@ -45,7 +46,7 @@ public class SetActive : MonoBehaviour
 
         if(wasPickedUp){
             Debug.Log(randomItem.name + "을 주웠습니다.");
-            PhotonNetwork.Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }
