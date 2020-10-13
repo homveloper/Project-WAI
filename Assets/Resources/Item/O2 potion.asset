@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd5f0501b5d25c448a1e7c0553413f57, type: 3}
-  m_Name: O2 potion
+  m_Name: O2 Potion
   m_EditorClassIdentifier: 
   name: O2 Potion
   cost: 0

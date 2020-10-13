@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour {
         if(onItemChangedCallback != null)   
             onItemChangedCallback.Invoke();
 
-        // droppedItem = Instantiate(item,gameObject.transform.position,Quaternion.identity);
+        GameObject droppedItem = PhotonNetwork.Instantiate(item.name, gameObject.transform.position + new Vector3(0,2,0), Quaternion.identity);
     }
 
     public bool isEmpty(){

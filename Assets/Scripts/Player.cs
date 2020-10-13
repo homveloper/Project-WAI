@@ -11,6 +11,9 @@ public class Player : MonoBehaviourPun
     private float statO2 = 0.0f;
     private float statO2Max = 0.0f;
 
+    public float hPModifier = 5.0f;
+    public float o2Modifer = 1.0f;
+
     private int meterialWood = 0;
     private int meterialIron = 0;
     private int meterialPart = 0;
@@ -44,11 +47,11 @@ public class Player : MonoBehaviourPun
     void Update()
     {
         // 산소 차감
-        SetO2(GetO2() - Time.deltaTime);
+        SetO2(GetO2() - Time.deltaTime * o2Modifer);
 
         // 체력 차감
         if (GetO2() <= 0)
-            SetHP(GetHP() - Time.deltaTime * 5);
+            SetHP(GetHP() - Time.deltaTime * hPModifier);
     }
 
     // 캐릭터 이동가능 여부 설정 함수
