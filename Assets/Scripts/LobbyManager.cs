@@ -58,7 +58,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                PhotonNetwork.Reconnect();
+                OnConnectedToMaster();
             }
         }
 
@@ -116,15 +116,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
 
-        if (menuCode != MENU_INTRO) fadeController.OnBlack();
+        if (menuCode != MENU_MAINMENU) fadeController.OnBlack();
         GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = false;
         GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = true;
         GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = false;
 
-        if (menuCode != MENU_INTRO) fadeController.OnFadeIn();
+        if (menuCode != MENU_MAINMENU) fadeController.OnFadeIn();
 
         menuCode = MENU_MAINMENU;
         PhotonNetwork.IsMessageQueueRunning = true;
+
+        if (PhotonNetwork.InLobby == false) PhotonNetwork.JoinLobby();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -151,7 +153,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnMenuExplore()
     {
         GameObject.Find("UI_ExploreRoom").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-        if (PhotonNetwork.InLobby == false) PhotonNetwork.JoinLobby();
     }
 
     public void OnMenuOption() // 설정
@@ -309,8 +310,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             GameObject unit = GameObject.Find("UI_ExploreRoom_Unit_" + i % 8);
             ExitGames.Client.Photon.Hashtable roomProp = info.CustomProperties;
 
-            Debug.Log(roomProp);
-
             if (info.IsOpen == true)
                 unit.GetComponent<Button>().interactable = true;
             else
@@ -456,8 +455,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable == false)
             return;
 
+        // 채팅창 비활성화 (퇴장시 커서 관련 오류 발생 방지)
+        GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().DeactivateInputField();
+
+        // 플레이어 프롭 제거
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-        localProp.Remove("isReady");
+        localProp.Clear();
         PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
         PhotonNetwork.LeaveRoom();
