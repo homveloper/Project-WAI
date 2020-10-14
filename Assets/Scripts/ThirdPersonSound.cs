@@ -20,6 +20,7 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
 
         flash.SetActive(false);
     }
+    
     void Update()
     {
         if(PhotonNetwork.IsConnected)

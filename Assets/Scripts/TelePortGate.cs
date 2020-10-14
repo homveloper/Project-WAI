@@ -13,10 +13,8 @@ public class TelePortGate : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         Debug.Log("충돌중");
-        
-       
-
-        other.transform.position = temple.transform.position;
+        if(Input.GetKeyDown(KeyCode.E))
+            other.transform.position = temple.transform.position;
 
        
     }
