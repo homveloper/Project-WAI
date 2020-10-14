@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class ItemPickup : MonoBehaviour
+public class ItemPickup : MonoBehaviourPun
 {
     public Item item;
 
@@ -25,7 +25,10 @@ public class ItemPickup : MonoBehaviour
 
         if(wasPickedUp){
             Debug.Log(item.name + "을 주웠습니다.");
-            PhotonNetwork.Destroy(gameObject);
+            photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
         }
     }
+
+    [PunRPC]
+    void DestroyItem() => Destroy(gameObject);
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class Inventory : MonoBehaviour {
+public class Inventory : MonoBehaviourPun {
     
     #region Singleton
 
@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour {
         if(onItemChangedCallback != null)   
             onItemChangedCallback.Invoke();
 
-        GameObject droppedItem = PhotonNetwork.Instantiate(item.name, gameObject.transform.position + new Vector3(0,2,0), Quaternion.identity);
+        GameObject droppedItem = PhotonNetwork.Instantiate(item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
     }
 
     public bool isEmpty(){
