@@ -18461,7 +18461,7 @@ PrefabInstance:
     - target: {fileID: 7319934448248999353, guid: 90e438e08f3443948baa9d0a42a0c014,
         type: 3}
       propertyPath: m_Name
-      value: HD_Arch_1A (2)
+      value: FIST
       objectReference: {fileID: 0}
     - target: {fileID: 7740451072694775694, guid: 90e438e08f3443948baa9d0a42a0c014,
         type: 3}
