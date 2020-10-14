@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviourPun {
 
     private void Awake() {
         
+
         print("Awake Inventory");
 
         if(instance != null){
@@ -19,7 +20,9 @@ public class Inventory : MonoBehaviourPun {
             return;
         }
 
-        instance = this;    
+        if(photonView.IsMine){
+            instance = this;    
+        }
     }
 
     #endregion
