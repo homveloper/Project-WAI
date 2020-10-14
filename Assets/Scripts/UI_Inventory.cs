@@ -17,6 +17,7 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
     void Start()
     {
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
+        UpdateInventory();
     }
 
     public void UpdateInventory(){
