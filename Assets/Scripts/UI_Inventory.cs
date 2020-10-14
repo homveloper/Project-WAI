@@ -25,9 +25,11 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
     }
 
     private void Update() {
-        if(Input.GetButtonDown("SetDrop") && !inventory.isEmpty()){
-            inventory.isDroppable = !inventory.isDroppable;
-            UpdateUI();
+        if(inventory != null){
+            if(Input.GetButtonDown("SetDrop") && !inventory.isEmpty()){
+                inventory.isDroppable = !inventory.isDroppable;
+                UpdateUI();
+            }
         }
     }
 
