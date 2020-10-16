@@ -226,6 +226,14 @@ public class GameManager : MonoBehaviourPunCallbacks
                     Mat.color = matColor;
                 }
             }
+        }else{
+            Material mat = hit.transform.GetComponentInChildren<Renderer>().material;
+
+            if(mat.color != null){
+                Color matColor = mat.color;
+                matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
+                mat.color = matColor;
+            }
         }
     }
 
