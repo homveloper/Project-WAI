@@ -55,7 +55,7 @@ public class ResponeItem : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < countOfBox; i++)
         {
-            Instantiate(box, points[a[i]].position, Quaternion.identity);
+            PhotonNetwork.Instantiate("Item/" + box.name, points[a[i]].position, Quaternion.identity);
         }
     }
 }
