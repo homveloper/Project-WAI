@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     static GameManager instance = null;
 
+    static GameObject[] mTransparentWalls;
+    static GameObject[] newAddedWall;
+
     // 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
 
@@ -94,6 +97,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GameStartFinish();
             }
         }
+
+        FadeOutWall();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -196,6 +201,52 @@ public class GameManager : MonoBehaviourPunCallbacks
             prop["player"] = mPlayer;
             inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+        }
+    }
+
+    void FadeOutWall()
+    {
+        Vector3 ScreenPos = Camera.main.WorldToScreenPoint(mPlayer.transform.position);
+        Ray ray = Camera.main.ScreenPointToRay(ScreenPos);
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+        bool bFind = false;
+
+        foreach(RaycastHit hit in hits)
+        {
+            if(hit.collider.gameObject != mPlayer.gameObject && hit.collider.tag != "Terrain")
+            {
+                bFind =false;
+                foreach(GameObject saved in mTransparentWalls)
+                {
+                    if(saved == hit.collider.gameObject)
+                        bFind =true;
+                }
+            }
+            if(bFind == false)
+            {
+                GameObject hitWall = hit.collider.gameObject;
+                hitWall.GetComponent<MeshRenderer>().material.DoFade(0,1.0f);
+                mTransparentWalls.Add(hitWall);
+                newAddedWall.Add(hitWall);
+            }
+            foreach(GameObject oldWall in mTransparentWalls)
+            {
+                bFind =false;
+                foreach(GameObject newWall in newAddedWall)
+                {
+                    if(newWall == oldWall)
+                    {
+                        bFind = true;
+                        break;
+                    }
+                }
+
+                if(bFind == false)
+                {
+                    oldWall.GetComponent<MeshRenderer>().material.DoFade(1f,1f);
+                    mTransparentWalls.Remove(oldWall);
+                }
+            }
         }
     }
 
