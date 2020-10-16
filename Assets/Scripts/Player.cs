@@ -11,7 +11,7 @@ public class Player : MonoBehaviourPunCallbacks
     private float statO2 = 0.0f;
     private float statO2Max = 0.0f;
 
-    public float hPModifier = 5.0f;
+    public float hpModifier = 5.0f;
     public float o2Modifer = 1.0f;
 
     private int meterialWood = 0;
@@ -50,19 +50,30 @@ public class Player : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
         // 산소 차감
         SetO2(GetO2() - Time.deltaTime * o2Modifer);
 
         // 체력 차감
         if (GetO2() <= 0)
-            SetHP(GetHP() - Time.deltaTime * hPModifier);
+            SetHP(GetHP() - Time.deltaTime * hpModifier);
 
+        // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (flashlight.activeSelf == true) flashlight.SetActive(false);
             else flashlight.SetActive(true);
 
-            photonView.RPC("OnFlash", RpcTarget.AllBuffered, flashlight.activeSelf);
+            photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+        }
+
+        // 체력 부족으로 사망
+        if (GetHP() <= 0)
+        {
+            PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
         }
     }
 
@@ -75,9 +86,10 @@ public class Player : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void OnFlash(bool val) // RPC로 플래시라이트 사용을 알림
+    public void OnFlash(int actorNumber, bool val) // RPC로 플래시라이트 사용을 알림
     {
-        flashlight.SetActive(val);
+        if (photonView.OwnerActorNr == actorNumber)
+            flashlight.SetActive(val);
     }
 
     // 이하 Get / Set 메소드 --------------------------------------

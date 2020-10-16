@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        FadeOutWall();
+        //FadeOutWall();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
     }
-
+    /*
     void FadeOutWall()
     {
         Vector3 ScreenPos = Camera.main.WorldToScreenPoint(mPlayer.transform.position);
@@ -249,6 +249,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+    */
 
     [PunRPC]
     public void OnTime(float time) // RPC로 시간을 수신하는 함수

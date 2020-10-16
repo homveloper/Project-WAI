@@ -25,10 +25,36 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (managerObject == null)
             return;
 
+        // fps 체크
+        fps += (Time.deltaTime - fps) * 0.1f;
+
+        // UI 갱신
+        refresh();
+
+        // 관전모드 전환
+        if (playerObject == null && mode_watching == false)
+        {
+            OnSwitchWatching();
+        }
+        else if (playerObject != null && mode_watching == true)
+        {
+            OnSwitchWatching();
+        }
+
         if (playerObject == null)
         {
             playerObject = managerObject.GetComponent<GameManager>().mPlayer;
             return;
+        }
+
+        // 관전모드 - 관전 대상 전환
+        if (mode_watching == true && Input.GetKeyDown(KeyCode.LeftArrow) == true)
+        {
+            OnMoveWatching(-1);
+        }
+        else if (mode_watching == true && Input.GetKeyDown(KeyCode.RightArrow) == true)
+        {
+            OnMoveWatching(1);
         }
 
         // 채팅모드 전환 (탭)
@@ -36,8 +62,9 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         {
             OnSwitchChat();
         }
-        // 채팅 (엔터)
-        else if (mode_chat == true && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
+
+        // 채팅모드 - 채팅 (엔터)
+        if (mode_chat == true && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
         {
             // 화면이 완전 표시된 후에 채팅 사용 가능
             Animator animator = GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>();
@@ -45,12 +72,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
                 return;
 
             OnSendChat();
-        }
-
-        // 관전모드 전환 (F1) ** 디버깅용 **
-        if (Input.GetKeyDown(KeyCode.F1) == true)
-        {
-            OnSwitchWatching();
         }
 
         // 나가기 (F4) ** 디버깅용 **
@@ -62,26 +83,19 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
             PhotonNetwork.LeaveRoom();
         }
-
-        // 관전 대상 전환
-        if (mode_watching == true && Input.GetKeyDown(KeyCode.LeftArrow) == true)
-        {
-            OnMoveWatching(-1);
-        }
-        else if (mode_watching == true && Input.GetKeyDown(KeyCode.RightArrow) == true)
-        {
-            OnMoveWatching(1);
-        }
-
-        // fps 체크
-        fps += (Time.deltaTime - fps) * 0.1f;
-
-        // UI 갱신
-        refresh();
     }
 
     void refresh() // UI 갱신
     {
+        GameObject.Find("UI_Timer_Bar").gameObject.GetComponent<Image>().fillAmount = managerObject.GetComponent<GameManager>().time / managerObject.GetComponent<GameManager>().timeMax;
+        GameObject.Find("UI_Timer_Text").gameObject.GetComponent<Text>().text = Math.Truncate(managerObject.GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(managerObject.GetComponent<GameManager>().time % 60.0f);
+
+        GameObject.Find("FPS").GetComponent<Text>().text = (int)(1.0f / fps) + " FPS";
+        GameObject.Find("Ping").GetComponent<Text>().text = PhotonNetwork.GetPing().ToString() + " ms";
+
+        if (playerObject == null)
+            return;
+
         Player player = playerObject.GetComponent<Player>();
 
         GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetHP() / (float)player.GetHPMax();
@@ -90,12 +104,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
         GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();
         GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.GetPart().ToString();
-
-        GameObject.Find("UI_Timer_Bar").gameObject.GetComponent<Image>().fillAmount = managerObject.GetComponent<GameManager>().time / managerObject.GetComponent<GameManager>().timeMax;
-        GameObject.Find("UI_Timer_Text").gameObject.GetComponent<Text>().text = Math.Truncate(managerObject.GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(managerObject.GetComponent<GameManager>().time % 60.0f);
-
-        GameObject.Find("FPS").GetComponent<Text>().text = (int)(1.0f / fps) + " FPS";
-        GameObject.Find("Ping").GetComponent<Text>().text = PhotonNetwork.GetPing().ToString() + " ms";
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -158,7 +166,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (mode_watching == false) // 관전모드 ON
         {
             mode_watching = true;
-            playerObject.GetComponent<Player>().SetMove(false);
 
             OnMoveWatching(0);
 
@@ -169,7 +176,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         else // 관전 모드 OFF
         {
             mode_watching = false;
-            playerObject.GetComponent<Player>().SetMove(true);
 
             GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
@@ -181,6 +187,12 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     {
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
 
+        if (player.Length <= 0)
+        {
+            GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = "";
+            return;
+        }
+            
         mode_watching_index += num;
         if (mode_watching_index >= player.Length) mode_watching_index = 0;
         if (mode_watching_index < 0) mode_watching_index = player.Length - 1;

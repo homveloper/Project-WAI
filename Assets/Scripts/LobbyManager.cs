@@ -56,10 +56,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.NickName = "GUEST #" + UnityEngine.Random.Range(1, 9999);
                 PhotonNetwork.ConnectUsingSettings();
             }
-            else
-            {
-                OnConnectedToMaster();
-            }
         }
 
         // 메인메뉴에서 대기실로 전환
@@ -115,6 +111,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster() // 포톤 서버와 연결됬을 때 호출되는 콜백 함수
     {
         base.OnConnectedToMaster();
+        if (PhotonNetwork.InLobby == false) PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
 
         if (menuCode != MENU_MAINMENU) fadeController.OnBlack();
         GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = false;
@@ -125,10 +127,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         menuCode = MENU_MAINMENU;
         PhotonNetwork.IsMessageQueueRunning = true;
-
-        if (PhotonNetwork.InLobby == false) PhotonNetwork.JoinLobby();
     }
-
     // ---------------------------------------------------------------------------------------------------
     // 메인메뉴
     // ---------------------------------------------------------------------------------------------------
@@ -141,6 +140,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void OnMenuQuickPlay() // 빠른 참여
     {
+        GameObject.Find("UI_MainMenu_Join").GetComponent<Button>().interactable = false;
         lobbyPage = 1;
         lobbyRoom = null;
 
@@ -168,14 +168,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Application.Quit();
         #endif
     }
-
-    public override void OnJoinRandomFailed(short returnCode, string message) // 방 입장에 실패했을 때 호출되는 콜백 함수
-    {
-        base.OnCreateRoomFailed(returnCode, message);
-
-        alertController.OnEnableAlert("방 입장 실패", message + " (" + returnCode + ")");
-    }
-
 
     // ---------------------------------------------------------------------------------------------------
     // 메인메뉴 - 방생성
@@ -399,13 +391,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Room_Chat_Text").GetComponent<Text>().text = "";
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().ActivateInputField();
 
+        GameObject.Find("UI_MainMenu_Join").GetComponent<Button>().interactable = true;
+    }
 
+    public override void OnJoinRandomFailed(short returnCode, string message) // 방 입장에 실패했을 때 호출되는 콜백 함수
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+
+        GameObject.Find("UI_MainMenu_Join").GetComponent<Button>().interactable = true;
+        alertController.OnEnableAlert("방 입장 실패", message + " (" + returnCode + ")");
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
 
+        GameObject.Find("UI_MainMenu_Join").GetComponent<Button>().interactable = true;
         alertController.OnEnableAlert("방 입장 실패", message + " (" + returnCode + ")");
     }
 
@@ -446,6 +447,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnStart() // 게임 시작 함수
     {
         GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
+
+        // 채팅창 비활성화 (퇴장시 커서 관련 오류 발생 방지)
+        GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().DeactivateInputField();
 
         SceneManager.LoadScene("proto_field_ver2");
     }
