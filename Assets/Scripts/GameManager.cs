@@ -215,11 +215,17 @@ public class GameManager : MonoBehaviourPunCallbacks
            
             if( ObstacleRenderer  != null )
             {
+                foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>()){
+                    if(ObstacleRenderer == r)
+                        return;
+                }
+
                 Material Mat = ObstacleRenderer.material;
-                Color matColor = Mat.color;
-                Mat.color = Color.white;
-                matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
-                Mat.color = matColor;
+                if(Mat.color != null){
+                    Color matColor = Mat.color;
+                    matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
+                    Mat.color = matColor;
+                }
             }
         }
     }

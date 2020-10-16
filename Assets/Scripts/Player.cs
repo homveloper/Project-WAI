@@ -58,8 +58,9 @@ public class Player : MonoBehaviourPunCallbacks
         SetO2(GetO2() - Time.deltaTime * o2Modifer);
 
         // 체력 차감
-        if (GetO2() <= 0)
+        if (GetO2() <= 0){
             SetHP(GetHP() - Time.deltaTime * hpModifier);
+        }
 
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
@@ -73,6 +74,8 @@ public class Player : MonoBehaviourPunCallbacks
         // 체력 부족으로 사망
         if (GetHP() <= 0)
         {
+            
+            
             PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
         }
     }

@@ -7,6 +7,7 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update    Animator animator;
     Animator animator;
+    Player player;
     
     void Awake() 
     {
@@ -31,6 +32,11 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
 
         animator.SetBool("isWalk",isWalk);
         animator.SetBool("isRun",isRun);
+    
+        if( player.GetHP() <= 0){
+            animator.SetTrigger("dead");
+            
+        }
     }
     
 }
