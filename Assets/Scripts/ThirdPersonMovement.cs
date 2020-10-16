@@ -8,7 +8,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
     public CharacterController controller;
 
-    public bool canMove = true;
+    public bool controllable = true;
 
     public float speed = 6f;
     public float runSpeedRate = 1.5f;
@@ -63,7 +63,7 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity);
 
-        if (canMove == false)
+        if (controllable == false)
             return;
 
         // 캐릭터 이동 처리

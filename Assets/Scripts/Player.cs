@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using Photon.Pun;
 
-public class Player : MonoBehaviourPun
+public class Player : MonoBehaviourPunCallbacks
 {
     private float statHp = 0.0f;
     private float statHpMax = 0.0f;
@@ -17,6 +17,8 @@ public class Player : MonoBehaviourPun
     private int meterialWood = 0;
     private int meterialIron = 0;
     private int meterialPart = 0;
+
+    public GameObject flashlight;
 
     UI_Inventory uI_Inventory;
 
@@ -42,6 +44,8 @@ public class Player : MonoBehaviourPun
                 uI_Inventory.UpdateInventory();
             }
         }
+
+        flashlight.SetActive(false);
     }
 
     void Update()
@@ -52,17 +56,31 @@ public class Player : MonoBehaviourPun
         // 체력 차감
         if (GetO2() <= 0)
             SetHP(GetHP() - Time.deltaTime * hPModifier);
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (flashlight.activeSelf == true) flashlight.SetActive(false);
+            else flashlight.SetActive(true);
+
+            photonView.RPC("OnFlash", RpcTarget.AllBuffered, flashlight.activeSelf);
+        }
     }
 
     // 캐릭터 이동가능 여부 설정 함수
     public void SetMove(bool val)
     {
-        GetComponent<PlayerAnimation>().canMove = val;
-        GetComponent<ThirdPersonMovement>().canMove = val;
-        GetComponent<ThirdPersonSound>().canMove = val;
+        GetComponent<PlayerAnimation>().enabled = val;
+        GetComponent<ThirdPersonMovement>().controllable = val;
+        GetComponent<ThirdPersonSound>().enabled = val;
     }
 
-    // 이하 Get / Set 메소드
+    [PunRPC]
+    public void OnFlash(bool val) // RPC로 플래시라이트 사용을 알림
+    {
+        flashlight.SetActive(val);
+    }
+
+    // 이하 Get / Set 메소드 --------------------------------------
     public float GetHP()
     {
         return this.statHp;

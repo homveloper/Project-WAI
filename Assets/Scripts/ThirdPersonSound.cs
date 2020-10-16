@@ -10,15 +10,10 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     public ParticleSystem dust1;
     public ParticleSystem dust2;
 
-    public GameObject flash;
-    public bool canMove = true;
-
     void Start()
     {
         dust1.Stop();
         dust2.Stop();
-
-        flash.SetActive(false);
     }
     
     void Update()
@@ -26,18 +21,6 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
-
-        if (canMove == false)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if(flash.active)
-                flash.SetActive(false);
-            else
-                flash.SetActive(true);
-        }
-      
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
