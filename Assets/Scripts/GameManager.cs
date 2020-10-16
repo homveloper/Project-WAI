@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     PlayerColorPalette colorPalettte;
 
+    Renderer ObstacleRenderer;
     // 시간
     public float time;    // 시간
     public float timeMax; // 시간 (최대치)
@@ -97,8 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GameStartFinish();
             }
         }
-
-        //FadeOutWall();
+        FadeWall();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -203,53 +203,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
     }
-    /*
-    void FadeOutWall()
+    void FadeWall()
     {
-        Vector3 ScreenPos = Camera.main.WorldToScreenPoint(mPlayer.transform.position);
-        Ray ray = Camera.main.ScreenPointToRay(ScreenPos);
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-        bool bFind = false;
-
-        foreach(RaycastHit hit in hits)
+        float Distance = Vector3.Distance(mCamera.transform.position , mPlayer.transform.position);
+        Vector3 Direction = (mPlayer.transform.position - mCamera.transform.position).normalized;
+        RaycastHit hit;
+        if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
         {
-            if(hit.collider.gameObject != mPlayer.gameObject && hit.collider.tag != "Terrain")
+            ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
+            Debug.Log(ObstacleRenderer.name);
+           
+            if( ObstacleRenderer  != null )
             {
-                bFind =false;
-                foreach(GameObject saved in mTransparentWalls)
-                {
-                    if(saved == hit.collider.gameObject)
-                        bFind =true;
-                }
-            }
-            if(bFind == false)
-            {
-                GameObject hitWall = hit.collider.gameObject;
-                hitWall.GetComponent<MeshRenderer>().material.DoFade(0,1.0f);
-                mTransparentWalls.Add(hitWall);
-                newAddedWall.Add(hitWall);
-            }
-            foreach(GameObject oldWall in mTransparentWalls)
-            {
-                bFind =false;
-                foreach(GameObject newWall in newAddedWall)
-                {
-                    if(newWall == oldWall)
-                    {
-                        bFind = true;
-                        break;
-                    }
-                }
-
-                if(bFind == false)
-                {
-                    oldWall.GetComponent<MeshRenderer>().material.DoFade(1f,1f);
-                    mTransparentWalls.Remove(oldWall);
-                }
+                Material Mat = ObstacleRenderer.material;
+                Color matColor = Mat.color;
+                Mat.color = Color.white;
+                matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
+                Mat.color = matColor;
             }
         }
     }
-    */
 
     [PunRPC]
     public void OnTime(float time) // RPC로 시간을 수신하는 함수
