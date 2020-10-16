@@ -11,7 +11,8 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     
     void Awake() 
     {
-        animator = GetComponentInChildren<Animator>();    
+        animator = GetComponentInChildren<Animator>();
+        player = GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -35,7 +36,6 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     
         if( player.GetHP() <= 0){
             animator.SetTrigger("dead");
-            
         }
     }
     

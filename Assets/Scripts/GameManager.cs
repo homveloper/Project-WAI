@@ -211,7 +211,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
         {
             ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
-            Debug.Log(ObstacleRenderer.name);
            
             if( ObstacleRenderer  != null )
             {
