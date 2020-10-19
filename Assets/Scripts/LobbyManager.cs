@@ -36,14 +36,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         alertController = GetComponent<AlertController>();
         fadeController = GetComponent<FadeController>();
 
-        menuCode = MENU_INTRO;
+        if (PhotonNetwork.InRoom == true) // 게임이 종료되어 퇴장하여 신이 로드된 상황 (=이미 방에 포함된 경우)
+        {
+            PhotonNetwork.IsMessageQueueRunning = true;
+            OnJoinedRoomCall();
+        }
+        else
+        {
+            menuCode = MENU_INTRO;
 
-        fadeController.OnBlack();
-        GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = true;
-        GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = false;
-      
-        fadeController.OnFadeIn();
+            fadeController.OnBlack();
+            GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = true;
+            GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
+            GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = false;
+            fadeController.OnFadeIn();
+        }
     }
 
     void Update()
@@ -354,13 +361,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        fadeController.OnBlack();
-        GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = true;
-
-        menuCode = MENU_ROOM;
-        fadeController.OnFadeIn();
-
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
 
         localProp["color"] = 0;
@@ -368,19 +368,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         localProp["isStart"] = false;
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
+        OnJoinedRoomCall();
+    }
+    public void OnJoinedRoomCall()
+    {
+        fadeController.OnBlack();
+        GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = false;
+        GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
+        GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = true;
 
-    
+        menuCode = MENU_ROOM;
+        fadeController.OnFadeIn();
+
         GameObject UI_Room_Palette = GameObject.Find("UI_Room_Palette");
         // GameObject UI_Room_Palette_Prefab = Resources.Load<GameObject>("Resources/UI/UI_Room_Palette.prefab");
         UI_Room_Palettes = new GameObject[playerColors.colors.Capacity];
-        for(int i=0; i<playerColors.colors.Capacity; i++){
-            UI_Room_Palettes[i] = Instantiate(UI_Room_Palette_Prefab,UI_Room_Palette_Prefab.transform.position + new Vector3(i * 50.0f, 0,0),UI_Room_Palette.transform.rotation);
-            UI_Room_Palettes[i].transform.SetParent(UI_Room_Palette.transform,false); // 부모에 상대적인 위치로 맞춤
+        for (int i = 0; i < playerColors.colors.Capacity; i++)
+        {
+            UI_Room_Palettes[i] = Instantiate(UI_Room_Palette_Prefab, UI_Room_Palette_Prefab.transform.position + new Vector3(i * 50.0f, 0, 0), UI_Room_Palette.transform.rotation);
+            UI_Room_Palettes[i].transform.SetParent(UI_Room_Palette.transform, false); // 부모에 상대적인 위치로 맞춤
 
             UI_Room_Palettes[i].name = "UI_Room_Palette_" + i;
             UI_Room_Palettes[i].GetComponent<Image>().color = playerColors.colors[i]; // 미리 지정된 Color Palette의 색상 부여
             int temp = i;
-            UI_Room_Palettes[i].GetComponent<Button>().onClick.AddListener(delegate {OnChangeColor(temp);});
+            UI_Room_Palettes[i].GetComponent<Button>().onClick.AddListener(delegate { OnChangeColor(temp); });
         }
 
         RefreshRoomUI();
@@ -543,20 +554,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             if (prop.ContainsKey("color"))
                 playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = playerColors.colors[(int)prop["color"]];
-                // playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = GameObject.Find("UI_Room_Palette_" + (int)prop["color"]).GetComponent<Image>().color;
+            // playerPanel.transform.Find("UI_Room_Player_Color").gameObject.GetComponent<Image>().color = GameObject.Find("UI_Room_Palette_" + (int)prop["color"]).GetComponent<Image>().color;
 
-            if (player[i].IsMasterClient == true)
+            if (prop.ContainsKey("isStart") && (bool)prop["isStart"] == true)
             {
                 playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Animation>().Stop();
-                playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Image>().fillAmount = 0;
-                playerPanel.transform.Find("UI_Room_Player_Status").gameObject.GetComponent<Text>().text = "방장";
-                countOfReady++;
+                playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Image>().fillAmount = 1;
+                playerPanel.transform.Find("UI_Room_Player_Status").gameObject.GetComponent<Text>().text = "시작";
             }
             else if (prop.ContainsKey("isReady") && (bool)prop["isReady"] == true)
             {
                 playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Animation>().Stop();
                 playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Image>().fillAmount = 1;
                 playerPanel.transform.Find("UI_Room_Player_Status").gameObject.GetComponent<Text>().text = "준비";
+                countOfReady++;
+            }
+            else if (player[i].IsMasterClient == true)
+            {
+                playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Animation>().Stop();
+                playerPanel.transform.Find("UI_Room_Player_Highlight").gameObject.GetComponent<Image>().fillAmount = 0;
+                playerPanel.transform.Find("UI_Room_Player_Status").gameObject.GetComponent<Text>().text = "방장";
                 countOfReady++;
             }
             else
