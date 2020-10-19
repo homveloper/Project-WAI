@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     PlayerColorPalette colorPalettte;
 
-    Renderer ObstacleRenderer;
+    //Renderer ObstacleRenderer;
     // 시간
     public float time;    // 시간
     public float timeMax; // 시간 (최대치)
@@ -211,8 +211,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         
         if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
         {
-            ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
-
+            Renderer ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
+            Debug.Log(ObstacleRenderer.name+" out");
             if(ObstacleRenderer.name == wallName || wallName == "")
             {
                 if( ObstacleRenderer  != null )
@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                         if(ObstacleRenderer == r)
                             return;
                     }
-
+                    wallName = ObstacleRenderer.name;
                     Material Mat = ObstacleRenderer.material;
                     if(Mat.color != null){
                         Color matColor = Mat.color;
@@ -229,27 +229,31 @@ public class GameManager : MonoBehaviourPunCallbacks
                         Mat.color = matColor;
                     }
                     wallName = ObstacleRenderer.name;
+                    
                 }
             }
             else
             {   
                 ObstacleRenderer = GameObject.Find(wallName).GetComponentInChildren<Renderer>();
-
-                 if( ObstacleRenderer  != null )
+                Debug.Log(ObstacleRenderer.name+" else");
+                if( ObstacleRenderer  != null )
                 {
-                    foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>()){
+                    foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>())
+                    {
                         if(ObstacleRenderer == r)
                             return;
                     }
 
                     Material Mat = ObstacleRenderer.material;
-                    if(Mat.color != null){
+                    if(Mat.color != null)
+                    {
                         Color matColor = Mat.color;
                         matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
                         Mat.color = matColor;
                     }
 
                     wallName = "";
+                   
                 }
             }
         }
