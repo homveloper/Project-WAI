@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     static GameObject[] mTransparentWalls;
     static GameObject[] newAddedWall;
-
+    public string wallName = "";
     // 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
 
@@ -208,22 +208,48 @@ public class GameManager : MonoBehaviourPunCallbacks
         float Distance = Vector3.Distance(mCamera.transform.position , mPlayer.transform.position);
         Vector3 Direction = (mPlayer.transform.position - mCamera.transform.position).normalized;
         RaycastHit hit;
+        
         if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
         {
             ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
-           
-            if( ObstacleRenderer  != null )
-            {
-                foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>()){
-                    if(ObstacleRenderer == r)
-                        return;
-                }
 
-                Material Mat = ObstacleRenderer.material;
-                if(Mat.color != null){
-                    Color matColor = Mat.color;
-                    matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
-                    Mat.color = matColor;
+            if(ObstacleRenderer.name == wallName || wallName == "")
+            {
+                if( ObstacleRenderer  != null )
+                {
+                    foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>()){
+                        if(ObstacleRenderer == r)
+                            return;
+                    }
+
+                    Material Mat = ObstacleRenderer.material;
+                    if(Mat.color != null){
+                        Color matColor = Mat.color;
+                        matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
+                        Mat.color = matColor;
+                    }
+                    wallName = ObstacleRenderer.name;
+                }
+            }
+            else
+            {   
+                ObstacleRenderer = GameObject.Find(wallName).GetComponentInChildren<Renderer>();
+
+                 if( ObstacleRenderer  != null )
+                {
+                    foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>()){
+                        if(ObstacleRenderer == r)
+                            return;
+                    }
+
+                    Material Mat = ObstacleRenderer.material;
+                    if(Mat.color != null){
+                        Color matColor = Mat.color;
+                        matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
+                        Mat.color = matColor;
+                    }
+
+                    wallName = "";
                 }
             }
         }
