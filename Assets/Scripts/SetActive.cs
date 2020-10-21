@@ -41,8 +41,8 @@ public class SetActive : MonoBehaviourPun
     }
 
     void PickUp(){
-        //Item randomItem = items[Random.Range(0,items.Count)];
-        Item randomItem = items[1];
+        Item randomItem = items[Random.Range(0,items.Count)];
+        //Item randomItem = items[1];
         bool wasPickedUp = Inventory.instance.Add(randomItem);
 
         if(wasPickedUp){
