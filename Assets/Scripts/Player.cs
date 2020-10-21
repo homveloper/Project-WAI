@@ -6,6 +6,9 @@ using Photon.Pun;
 
 public class Player : MonoBehaviourPunCallbacks
 {
+
+    bool delayedDeadCalled = false;
+
     private float statHp = 0.0f;
     private float statHpMax = 0.0f;
     private float statO2 = 0.0f;
@@ -18,7 +21,12 @@ public class Player : MonoBehaviourPunCallbacks
     private int meterialIron = 0;
     private int meterialPart = 0;
 
+    
+
     public GameObject flashlight;
+    public OnPlayerDead onPlayerDeadCallback;
+
+    public PlayerAnimation playerAnimation;
 
     UI_Inventory uI_Inventory;
 
@@ -46,6 +54,7 @@ public class Player : MonoBehaviourPunCallbacks
         }
 
         flashlight.SetActive(false);
+
     }
 
     void Update()
@@ -72,12 +81,22 @@ public class Player : MonoBehaviourPunCallbacks
         }
 
         // 체력 부족으로 사망
-        if (GetHP() <= 0)
+        if (GetHP() <= 0 && !delayedDeadCalled)
         {
-            
-            
-            PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
+            delayedDeadCalled = true;
+            SetMove(false);
+            onPlayerDeadCallback.Invoke();
+            Inventory.instance.DropAll();
+            StartCoroutine(DelayedDead(playerAnimation.animator.GetAnimatorTransitionInfo(0).duration + 2));
         }
+    }
+
+    IEnumerator DelayedDead(float delay= 0){
+        yield return new WaitForSeconds(delay);
+
+        Vector3 position = transform.position;
+        PhotonNetwork.InstantiateRoomObject("ResearcherDead",position,Quaternion.identity);
+        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
     }
 
     // 캐릭터 이동가능 여부 설정 함수
@@ -87,6 +106,8 @@ public class Player : MonoBehaviourPunCallbacks
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().enabled = val;
     }
+
+    public delegate void OnPlayerDead();
 
     [PunRPC]
     public void OnFlash(int actorNumber, bool val) // RPC로 플래시라이트 사용을 알림
