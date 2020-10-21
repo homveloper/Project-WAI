@@ -47,7 +47,6 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 

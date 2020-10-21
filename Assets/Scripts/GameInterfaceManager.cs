@@ -14,6 +14,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     public GameObject managerObject; // 게임 매니저 객체 (미지정시 미동작)
     public GameObject playerObject;   // 플레이어 객체 (런타임 중 자동 할당)
 
+    bool mode_result = false; // 결과창 모드
     bool mode_chat = false; // 채팅 모드 (채팅이 켜져있다면 true)
     bool mode_watching = false; // 관전 모드 (관전창이 켜져있다면 true)
     int mode_watching_index = 0; // 관전 모드 캐릭터 인덱스
@@ -27,6 +28,14 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
         // fps 체크
         fps += (Time.deltaTime - fps) * 0.1f;
+
+        // 게임이 끝나면 결과창 출력
+        if (GameManager.GetInstance().flag_finish == true && mode_result == false)
+            OnSwitchResult();
+
+        // 게임이 끝나면 다른 갱신은 중단
+        if (mode_result == true)
+            return;
 
         // UI 갱신
         refresh();
@@ -210,5 +219,14 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         base.OnLeftRoom();
 
         SceneManager.LoadScene("proto_main");
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+    // 게임 종료 모드
+    // ---------------------------------------------------------------------------------------------------
+    public void OnSwitchResult() // 결과창 출력 (켜는 것만 있음)
+    {
+        mode_result = true;
+        GameObject.Find("UI_Result").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
     }
 }
