@@ -5,9 +5,16 @@ using UnityEngine;
 public class TelePortGate : MonoBehaviour
 {
     public Transform temple;
+    public GameObject info;
+
+    void Start()
+    {
+        info.SetActive(false);
+    }
     
     void OnTriggerStay(Collider other)
     {
+        info.SetActive(true);
         if(Input.GetKeyDown(KeyCode.E))
         {
             GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
@@ -16,6 +23,11 @@ public class TelePortGate : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        // Debug.Log(other.name + "감지 끝!");
+        info.SetActive(false);
+    }
     void OnStartWarp()
     {
         GameManager.GetInstance().mPlayer.transform.position = temple.transform.position;
