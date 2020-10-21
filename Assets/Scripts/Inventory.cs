@@ -69,7 +69,16 @@ public class Inventory : MonoBehaviourPun {
         if(onItemChangedCallback != null)   
             onItemChangedCallback.Invoke();
 
-        GameObject droppedItem = PhotonNetwork.Instantiate(item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+        GameObject droppedItem = PhotonNetwork.InstantiateRoomObject("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+    }
+
+    public void DropAll(){
+        foreach(Item item in items){
+            GameObject droppedItem = PhotonNetwork.InstantiateRoomObject("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+        }
+
+        if(onItemChangedCallback != null)   
+            onItemChangedCallback.Invoke();
     }
 
     public bool isEmpty(){
