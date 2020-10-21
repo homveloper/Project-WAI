@@ -102,6 +102,11 @@ public class MissionController : MonoBehaviour
         OnRefresh();
     }
 
+    public void OnHide()
+    {
+        missionObject.GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+    }
+
     public class Mission
     {
         private string title;

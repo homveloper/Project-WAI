@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class TelePortGate : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Transform temple;
-    GameObject mPlayer;
-    bool cnaInput = false;
     
- 
     void OnTriggerStay(Collider other)
     {
         if(Input.GetKeyDown(KeyCode.E))
-            other.transform.position = temple.transform.position;
+        {
+            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
+            GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
+            Invoke("OnStartWarp", 1.0f);
+        }
     }
 
+    void OnStartWarp()
+    {
+        GameManager.GetInstance().mPlayer.transform.position = temple.transform.position;
+        Invoke("OnFinishWarp", 1.0f);
+    }
+
+    void OnFinishWarp()
+    {
+        GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
+        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
+    }
 }

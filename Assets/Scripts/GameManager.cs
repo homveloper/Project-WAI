@@ -29,9 +29,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float timeMax; // 시간 (최대치)
 
     // 플래그
-    bool flag_start = false; // 인스턴스 생성 체크용 플래그. 첫 시작 시 true로 변경됨
-    bool flag_gameStart = false; // 모든 플레이어가 준비됨
-    bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
+    public bool flag_start = false; // 인스턴스 생성 체크용 플래그. 첫 시작 시 true로 변경됨
+    public bool flag_gameStart = false; // 모든 플레이어가 준비됨
+    public bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
+    public bool flag_finish = false; // 게임이 종료되었음을 나타내는 플래그
+
 
     private void Awake()
     {
@@ -98,6 +100,22 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GameStartFinish();
             }
         }
+
+        // 게임 종료 후 퇴장
+        if (flag_finish && Input.anyKey)
+        {
+            SceneManager.LoadScene("proto_main");
+        }
+
+        // 강제 게임 종료 ** 디버깅용 **
+        if (Input.GetKeyDown(KeyCode.F12) == true)
+        {
+            SetFinish(true);
+        }
+
+        if (mPlayer == null)
+            return;
+
         FadeWall();
     }
 
@@ -197,8 +215,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < inGamePlayerList.Length; i++)
         {
             ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
-
-            prop["player"] = mPlayer;
             inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
@@ -223,12 +239,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                     }
                     wallName = ObstacleRenderer.name;
                     Material Mat = ObstacleRenderer.material;
-                    if(Mat.color != null){
+                    
+                    if (Mat.HasProperty("_Color") == true)
+                    {
                         Color matColor = Mat.color;
                         matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
                         Mat.color = matColor;
+                        wallName = ObstacleRenderer.name;
                     }
-                    wallName = ObstacleRenderer.name;
+                    
                     
                 }
             }
@@ -245,14 +264,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                     }
 
                     Material Mat = ObstacleRenderer.material;
-                    if(Mat.color != null)
+                    if(Mat.HasProperty("_Color") == true)
                     {
                         Color matColor = Mat.color;
                         matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
                         Mat.color = matColor;
+                        wallName = "";
                     }
 
-                    wallName = "";
+                    
                    
                 }
             }
@@ -263,5 +283,48 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnTime(float time) // RPC로 시간을 수신하는 함수
     {
         this.time = time;
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+    // 게임 종료 처리
+    // ---------------------------------------------------------------------------------------------------
+    public void SetFinish(bool win)
+    {
+        if (PhotonNetwork.IsMasterClient == false)
+            return;
+
+        photonView.RPC("OnFinish", RpcTarget.AllBuffered, win);
+    }
+
+    [PunRPC]
+    public void OnFinish(bool win) // 게임 종료 수신 함수
+    {
+        GetComponent<FadeController>().OnFadeOut();
+        Invoke("OnFinishCallback", 1.0f);
+    }
+
+    public void OnFinishCallback() // 종료 애니메이션 완료 후 처리
+    {
+        // 프로퍼티 초기화
+        ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.LocalPlayer.CustomProperties;
+        int color = (int)prop["color"];
+
+        prop["color"] = color;
+        prop["isReady"] = false;
+        prop["isStart"] = false;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
+
+        // 관련 오브젝트 제거
+        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
+
+        // 미션 오브젝터 숨김
+        GetComponent<MissionController>().OnHide();
+
+        // 플래그 활성화
+        flag_finish = true;
+
+        // 화면 걷어내기
+        GetComponent<FadeController>().OnFadeIn();
     }
 }
