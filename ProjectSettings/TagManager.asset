@@ -7,6 +7,7 @@ TagManager:
   - Well
   - Box
   - Player1
+  - Nickname
   layers:
   - Default
   - TransparentFX

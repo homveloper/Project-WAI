@@ -14,8 +14,8 @@ public class Player : MonoBehaviourPunCallbacks
     private float statO2 = 0.0f;
     private float statO2Max = 0.0f;
 
-    public float hpModifier = 5.0f;
-    public float o2Modifer = 1.0f;
+    public float hpModifier = 0.0f;
+    public float o2Modifer = 0.0f;
 
     private int meterialWood = 0;
     private int meterialIron = 0;
@@ -64,7 +64,7 @@ public class Player : MonoBehaviourPunCallbacks
                 return;
 
         // 산소 차감
-        SetO2(GetO2() - Time.deltaTime * o2Modifer);
+        // SetO2(GetO2() - Time.deltaTime * o2Modifer);
 
         // 체력 차감
         if (GetO2() <= 0){

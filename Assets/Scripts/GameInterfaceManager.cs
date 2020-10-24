@@ -113,6 +113,41 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
         GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();
         GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.GetPart().ToString();
+
+
+        GameObject[] playerObj = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] nickObj = GameObject.FindGameObjectsWithTag("Nickname");
+
+        for (int i = 0; i < nickObj.Length; i++)
+        {
+            nickObj[i].GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+        }
+
+        for (int i = 0; i < playerObj.Length; i++)
+        {
+            if (playerObj[i].GetComponent<PhotonView>().IsMine == true)
+                continue;
+
+            Vector3 pos = playerObj[i].transform.position;
+            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(pos);
+
+            //Debug.Log(i + "번째: " + viewportPoint.x + "/" + viewportPoint.y);
+
+            viewportPoint.x *= Screen.width;
+            viewportPoint.y = (viewportPoint.y * Screen.height) + 125;
+
+            nickObj[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            nickObj[i].GetComponent<RectTransform>().position = viewportPoint;
+            nickObj[i].GetComponent<Text>().text = playerObj[i].GetComponent<PhotonView>().Owner.NickName;
+
+            ExitGames.Client.Photon.Hashtable myProp = PhotonNetwork.LocalPlayer.CustomProperties;
+            ExitGames.Client.Photon.Hashtable playerProp = playerObj[i].GetComponent<PhotonView>().Owner.CustomProperties;
+
+            if (myProp.ContainsKey("isAlien") == true && playerProp.ContainsKey("isAlien") == true && (bool)myProp["isAlien"] == true && (bool)playerProp["isAlien"] == true)
+                nickObj[i].GetComponent<Outline>().effectColor = new Color(1, 0, 0);
+            else
+                nickObj[i].GetComponent<Outline>().effectColor = new Color(0, 0, 0);
+        }   
     }
 
     // ---------------------------------------------------------------------------------------------------

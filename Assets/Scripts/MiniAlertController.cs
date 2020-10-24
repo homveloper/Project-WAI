@@ -43,6 +43,13 @@ public class MiniAlertController : MonoBehaviour
         time = 0;
         flag = 1;
     }
+    public void OnEnableAlert(string title, string text, Color color)
+    {
+        alert.GetComponent<Image>().color = color;
+
+        OnEnableAlert(title, text);
+    }
+
     public void OnEnableAlert(string title, string text, Color color, Sprite sprite)
     {
         alert.GetComponent<Image>().color = color;
