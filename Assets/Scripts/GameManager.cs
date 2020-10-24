@@ -7,14 +7,18 @@ using UnityEngine.UI;
 using static System.Random;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     static GameManager instance = null;
 
-    static GameObject[] mTransparentWalls;
-    static GameObject[] newAddedWall;
-    public string wallName = "";
+    
+    private List<Renderer> wallList;
+    private List<Renderer> storeList;
+    
+
+    public string wallName;
     // 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
 
@@ -34,6 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
     public bool flag_finish = false; // 게임이 종료되었음을 나타내는 플래그
 
+    public bool flag_alertJob = false; // 역할 알림 완료 플래그
 
     private void Awake()
     {
@@ -42,8 +47,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if (instance != this)
             Destroy(gameObject); // 이후 게임 매니저를 포함한 오브젝트는 삭제
 
-
         PhotonNetwork.IsMessageQueueRunning = true;
+
+        wallList = new List<Renderer>();
+        storeList = new List<Renderer>();
+        wallName = null;
     }
 
     public static GameManager GetInstance()
@@ -81,10 +89,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (time > 0.0f) time -= Time.deltaTime;
 
         // 미션 디버그용 코드 시작
-        GetComponent<MissionController>().OnModify("29분 30초까지 대기하기", "(" + (int)(time - 1770) + "초 남음)");
+        GetComponent<MissionController>().OnModify("29분 00초까지 대기하기", "(" + (int)(time - 1740) + "초 남음)");
 
-        if (time < 1771.0f)
-            GetComponent<MissionController>().OnClear("29분 30초까지 대기하기");
+        if (time < 1741.0f)
+            GetComponent<MissionController>().OnClear("29분 00초까지 대기하기");
         // 미션 디버그용 코드 종료
 
         // 게임 시작 애니메이션 처리
@@ -117,6 +125,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
 
         FadeWall();
+        FadeInWall();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -145,6 +154,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void GameStart() // 모든 유저의 Scene 이동이 끝난 후 진행되는 게임 시작 함수
     {
         GetComponent<FadeController>().OnBlack();
+
         // 스폰
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
         Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
@@ -156,6 +166,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         mPlayer.GetComponent<Player>().SetMove(false);
 
         mCamera = GameObject.Find("CineMachine");
+
         mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
         mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
         mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 31.0f;
@@ -182,6 +193,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = true;
         GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
 
+        // 외계인 선정
+        if (PhotonNetwork.IsMasterClient == true)
+        {
+            ExitGames.Client.Photon.Hashtable roomProp = PhotonNetwork.CurrentRoom.CustomProperties;
+            Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+
+            int[] pick = randomPick(0, player.Length, (int)roomProp["countOfAliens"]);
+
+            for (int i = 0; i < player.Length; i++)
+            {
+                ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+                playerProp["isAlien"] = pick.Contains(i);
+                player[i].SetCustomProperties(playerProp);
+            }
+        }
+
         // 플레이어 움직임 설정
         mPlayer.GetComponent<Player>().SetMove(true);
 
@@ -189,15 +216,46 @@ public class GameManager : MonoBehaviourPunCallbacks
         time = 1800.0f;
         timeMax = 1800.0f;
         checkTimer();
-
-        // 미션 시작
-        GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.");
-        GetComponent<MissionController>().OnSetHeader("연구원 목표");
-        GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
-        GetComponent<MissionController>().OnAdd("29분 30초까지 대기하기"); // 미션 디버그용 코드
-
     }
 
+    public int[] randomPick(int min, int max, int count)
+    {
+        // min 포함 ~ max 제외 범위의 숫자 중 count 개만큼을 뽑아서 출력
+        
+        HashSet<int> pick = new HashSet<int>();
+
+        while (pick.Count < count)
+        {
+            pick.Add(Random.Range(min, max));
+        }
+
+        return pick.ToArray<int>();
+    }
+
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        if (flag_alertJob == false && targetPlayer.IsLocal == true && changedProps.ContainsKey("isAlien") == true)
+        {
+            if ((bool)changedProps["isAlien"] == false)
+            {
+                GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
+                GetComponent<MissionController>().OnSetHeader("연구원 목표");
+                GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
+                GetComponent<MissionController>().OnAdd("29분 00초까지 대기하기"); // 미션 디버그용 코드
+            }
+            else if ((bool)changedProps["isAlien"] == true)
+            {
+                GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
+                GetComponent<MissionController>().OnSetHeader("외계인 목표");
+                GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
+                GetComponent<MissionController>().OnAdd("29분 00초까지 대기하기"); // 미션 디버그용 코드
+            }
+
+            flag_alertJob = true;
+        }
+    }
     // ---------------------------------------------------------------------------------------------------
     // 시간 동기화
     // ---------------------------------------------------------------------------------------------------
@@ -224,38 +282,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         float Distance = Vector3.Distance(mCamera.transform.position , mPlayer.transform.position);
         Vector3 Direction = (mPlayer.transform.position - mCamera.transform.position).normalized;
         RaycastHit hit;
-        
         if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
         {
             Renderer ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
+            if(ObstacleRenderer.name == "well1")
+                return ;
             if(ObstacleRenderer == null)
                 return ;
-            if(ObstacleRenderer.name == wallName || wallName == "")
-            {
-                if( ObstacleRenderer  != null )
-                {
-                    foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>()){
-                        if(ObstacleRenderer == r)
-                            return;
-                    }
-                    wallName = ObstacleRenderer.name;
-                    Material Mat = ObstacleRenderer.material;
-                    
-                    if (Mat.HasProperty("_Color") == true)
-                    {
-                        Color matColor = Mat.color;
-                        matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
-                        Mat.color = matColor;
-                        wallName = ObstacleRenderer.name;
-                    }
-                    
-                    
-                }
-            }
-            else
-            {   
-                ObstacleRenderer = GameObject.Find(wallName).GetComponentInChildren<Renderer>();
-                Debug.Log(ObstacleRenderer.name+" else");
+
                 if( ObstacleRenderer  != null )
                 {
                     foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>())
@@ -265,19 +299,55 @@ public class GameManager : MonoBehaviourPunCallbacks
                     }
 
                     Material Mat = ObstacleRenderer.material;
-                    if(Mat.HasProperty("_Color") == true)
+                    
+                    if (Mat.HasProperty("_Color") == true)
                     {
                         Color matColor = Mat.color;
-                        matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
+                        matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
                         Mat.color = matColor;
-                        wallName = "";
                     }
+                    if(wallList.Count == 0 || wallList[0].name != ObstacleRenderer.name)
+                        wallList.Add(ObstacleRenderer);
 
-                    
-                   
+                    wallName = ObstacleRenderer.name;
+                }
+        }
+    }
+    void FadeInWall()
+    {
+        Debug.Log(wallList.Count);
+
+        if(wallList.Count > 0)
+        {
+            foreach(Renderer Rname in wallList)
+            {
+                if(Rname.name == wallName )
+                    continue;
+                else
+                {
+                    Renderer ObstacleRenderer = Rname;
+                
+                        if( ObstacleRenderer  != null )
+                        {
+                            Material Mat = ObstacleRenderer.material;
+                            if(Mat.HasProperty("_Color") == true)
+                            {
+                                Color matColor = Mat.color;
+                                matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
+                                Mat.color = matColor;
+                            }
+                        }
+                        storeList.Add(Rname);
                 }
             }
         }
+        foreach(Renderer Dname in storeList)
+        {
+            wallList.Remove(Dname);
+        }
+        
+        storeList.Clear();
+        wallName = "";
     }
 
     [PunRPC]
