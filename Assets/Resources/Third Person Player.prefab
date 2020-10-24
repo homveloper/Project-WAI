@@ -5566,8 +5566,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e37cede7a6c942a4c883b289fa927b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpModifier: 10
-  o2Modifer: 10
+  hpModifier: 1
+  o2Modifer: 1
   flashlight: {fileID: 8567649898356843675}
   playerAnimation: {fileID: 8450696144942683225}
 --- !u!114 &8450696144942683225
@@ -6523,7 +6523,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
