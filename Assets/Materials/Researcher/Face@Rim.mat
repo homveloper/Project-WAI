@@ -73,7 +73,7 @@ Material:
     - Boolean_E8191841: 0
     - Vector1_1971DE62: 0.021
     - Vector1_40399B17: 1
-    - Vector1_45B974EA: 0.3
+    - Vector1_45B974EA: 0.317
     - Vector1_8C707CF9: 0
     - Vector1_F36E060B: 1
     - _AlphaClip: 0
@@ -105,12 +105,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_6EB9CB5E: {r: 1, g: 1, b: 1, a: 0}
-    - Color_A22A6F27: {r: 1, g: 1, b: 1, a: 0}
+    - Color_A22A6F27: {r: 0.99097884, g: 1, b: 0.7028302, a: 0}
     - Color_DA6708DE: {r: 0.7176471, g: 0.6313726, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 0.9280174, b: 0.7877358, a: 1}
     - _Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
     - _EmissionColor: {r: 0.933862, g: 0.9528302, b: 0.57978815, a: 1}
-    - _MainColor: {r: 0.9688304, g: 0.9811321, b: 0.43965825, a: 1}
+    - _MainColor: {r: 0.97117674, g: 1, b: 0.3915094, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
 --- !u!114 &5118273508892901677
 MonoBehaviour:
