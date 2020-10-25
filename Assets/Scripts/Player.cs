@@ -21,8 +21,6 @@ public class Player : MonoBehaviourPunCallbacks
     private int meterialIron = 0;
     private int meterialPart = 0;
 
-    
-
     public GameObject flashlight;
     public OnPlayerDead onPlayerDeadCallback;
 
@@ -64,7 +62,7 @@ public class Player : MonoBehaviourPunCallbacks
                 return;
 
         // 산소 차감
-        // SetO2(GetO2() - Time.deltaTime * o2Modifer);
+        SetO2(GetO2() - Time.deltaTime * o2Modifer);
 
         // 체력 차감
         if (GetO2() <= 0){

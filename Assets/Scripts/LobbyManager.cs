@@ -9,6 +9,8 @@ using System.Collections.Generic;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    public const bool DEBUG_LOBBY = true;
+
     FadeController fadeController;
     AlertController alertController;
     public PlayerColorPalette playerColors;
@@ -428,7 +430,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient == true)
         {
+            ExitGames.Client.Photon.Hashtable roomProp = PhotonNetwork.CurrentRoom.CustomProperties;
             Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+
+            if (DEBUG_LOBBY == false && player.Length <= (int)roomProp["countOfAliens"])
+            {
+                alertController.OnEnableAlert("인원 부족", "참가 인원이 외계인 수보다 많아야 합니다.\n현재 인원으로는 시작할 수 없습니다.");
+                return;
+            }
 
             for (int i = 0; i < player.Length; i++)
             {

@@ -11,41 +11,35 @@ using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    static GameManager instance = null;
+    private const bool DEBUG_GAME = true;
+    private const int TIME = 1800;
+    private static GameManager instance = null;
 
-    
-    private List<Renderer> wallList;
-    private List<Renderer> storeList;
-    
-
-    public string wallName;
-    // 객체
+    // 플레이어 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
-
-    public GameObject[] inGamePlayerList;
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
-
+    public GameObject[] inGamePlayerList;
     PlayerColorPalette colorPalettte;
 
-    //Renderer ObstacleRenderer;
+    // 벽 객체
+    private List<Renderer> wallList;
+    private List<Renderer> storeList;
+    public string wallName;
+
     // 시간
-    public float time;    // 시간
-    public float timeMax; // 시간 (최대치)
+    public float time = TIME;    // 시간
+    public float timeMax = TIME; // 시간 (최대치)
 
     // 플래그
     public bool flag_start = false; // 인스턴스 생성 체크용 플래그. 첫 시작 시 true로 변경됨
     public bool flag_gameStart = false; // 모든 플레이어가 준비됨
     public bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
     public bool flag_finish = false; // 게임이 종료되었음을 나타내는 플래그
-
     public bool flag_alertJob = false; // 역할 알림 완료 플래그
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this; // 최초 생성인 경우 해당 오브젝트를 계속 인스턴스로 가져감
-        else if (instance != this)
-            Destroy(gameObject); // 이후 게임 매니저를 포함한 오브젝트는 삭제
+        instance = this; // 최초 생성인 경우 해당 오브젝트를 계속 인스턴스로 가져감
 
         PhotonNetwork.IsMessageQueueRunning = true;
 
@@ -61,6 +55,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        time = TIME;
+        timeMax = TIME;
+
         colorPalettte = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
 
         PhotonNetwork.IsMessageQueueRunning = true;
@@ -83,18 +80,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     }
 
+
     void Update()
     {
-        // 시간 차감
-        if (time > 0.0f) time -= Time.deltaTime;
-
-        // 미션 디버그용 코드 시작
-        GetComponent<MissionController>().OnModify("29분 00초까지 대기하기", "(" + (int)(time - 1740) + "초 남음)");
-
-        if (time < 1741.0f)
-            GetComponent<MissionController>().OnClear("29분 00초까지 대기하기");
-        // 미션 디버그용 코드 종료
-
         // 게임 시작 애니메이션 처리
         if (flag_gameStart == true && flag_gameStartFinish == false)
         {
@@ -109,14 +97,31 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
+        if (flag_gameStartFinish == false)
+            return;
+
+        // 시간 차감
+        if (time > 0.0f) time -= Time.deltaTime;
+
+        // 미션 디버그용 코드 시작
+        GetComponent<MissionController>().OnModify("1분 대기하기", "(" + (int)(time - (TIME - 60)) + "초 남음)");
+
+        if (time < (TIME - 59))
+            GetComponent<MissionController>().OnClear("1분 대기하기");
+        // 미션 디버그용 코드 종료
+
         // 게임 종료 후 퇴장
-        if (flag_finish && Input.anyKey)
+        if (flag_finish && Input.anyKey && time <= (TIME - 5))
         {
             SceneManager.LoadScene("proto_main");
         }
 
-        // 강제 게임 종료 ** 디버깅용 **
-        if (Input.GetKeyDown(KeyCode.F12) == true)
+        // 외계인 선택 완료 이후, 연구원이 0명이 되면 게임이 종료
+        if (DEBUG_GAME == false && flag_alertJob == true && time <= (TIME - 5))
+            checkFinish();
+
+        // [디버깅용] 강제 게임 종료
+        if (DEBUG_GAME == true && Input.GetKeyDown(KeyCode.F12) == true)
         {
             SetFinish(true);
         }
@@ -213,8 +218,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         mPlayer.GetComponent<Player>().SetMove(true);
 
         // 타이머 시작
-        time = 1800.0f;
-        timeMax = 1800.0f;
         checkTimer();
     }
 
@@ -243,14 +246,14 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
                 GetComponent<MissionController>().OnSetHeader("연구원 목표");
                 GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
-                GetComponent<MissionController>().OnAdd("29분 00초까지 대기하기"); // 미션 디버그용 코드
+                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
             }
             else if ((bool)changedProps["isAlien"] == true)
             {
                 GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
                 GetComponent<MissionController>().OnSetHeader("외계인 목표");
                 GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
-                GetComponent<MissionController>().OnAdd("29분 00초까지 대기하기"); // 미션 디버그용 코드
+                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
             }
 
             flag_alertJob = true;
@@ -359,6 +362,29 @@ public class GameManager : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     // 게임 종료 처리
     // ---------------------------------------------------------------------------------------------------
+    public void checkFinish() // 종료 조건 체크
+    {
+        if (GetComponent<FadeController>().IsPlaying() == true)
+            return;
+
+        if (flag_finish == true)
+            return;
+
+        // 연구원 수가 0명이 되면 패배 처리
+        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+        int countOfResearcher = 0;
+
+        for (int i = 0; i < player.Length; i++)
+        {
+            ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
+            if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("isAlien") == false)
+                countOfResearcher++;
+        }
+
+        if (countOfResearcher <= 0)
+            SetFinish(false);
+    }
+
     public void SetFinish(bool win)
     {
         if (PhotonNetwork.IsMasterClient == false)
@@ -371,7 +397,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnFinish(bool win) // 게임 종료 수신 함수
     {
         GetComponent<FadeController>().OnFadeOut();
-        Invoke("OnFinishCallback", 1.0f);
+        Invoke("OnFinishCallback", 0.9f);
     }
 
     public void OnFinishCallback() // 종료 애니메이션 완료 후 처리
