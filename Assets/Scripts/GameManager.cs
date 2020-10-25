@@ -278,10 +278,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < inGamePlayerList.Length; i++)
         {
-            ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().owner.CustomProperties;
+            ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
             inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+        }
 
+        for (int i = 0; i < inGameDeadPlayerList.Length; i++)
+        {
+            ExitGames.Client.Photon.Hashtable prop = inGameDeadPlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
             inGameDeadPlayerList[i].transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGameDeadPlayerList[i].transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
