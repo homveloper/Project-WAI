@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = false;
         time = TIME;
         timeMax = TIME;
 
@@ -373,13 +374,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // 연구원 수가 0명이 되면 패배 처리
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-        int countOfResearcher = 0;
+        int countOfResearcher = player.Length;
 
         for (int i = 0; i < player.Length; i++)
         {
             ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
-            if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("isAlien") == false)
-                countOfResearcher++;
+            if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
+                countOfResearcher--;
         }
 
         if (countOfResearcher <= 0)
@@ -413,10 +414,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
+        // 룸 프로퍼티 초기화
+        if (PhotonNetwork.IsMasterClient == true)
+            PhotonNetwork.CurrentRoom.IsOpen = true;
+
         // 관련 오브젝트 제거
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
 
-        // 미션 오브젝터 숨김
+        // 미션 오브젝트 숨김
         GetComponent<MissionController>().OnHide();
 
         // 플래그 활성화

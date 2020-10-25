@@ -92,8 +92,10 @@ public class Player : MonoBehaviourPunCallbacks
     IEnumerator DelayedDead(float delay= 0){
         yield return new WaitForSeconds(delay);
 
-        Vector3 position = transform.position;
-        PhotonNetwork.InstantiateRoomObject("ResearcherDead",position,Quaternion.identity);
+        GameObject deadPlayer = PhotonNetwork.InstantiateRoomObject("ResearcherDead",transform.position,transform.rotation);
+        deadPlayer.transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", gameObject.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.GetColor("_MainColor"));
+        deadPlayer.transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", gameObject.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.GetColor("_MainColor"));
+        
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
     }
 

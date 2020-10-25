@@ -163,6 +163,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
             InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
             field.DeactivateInputField();
+            GameManager.GetInstance().GetComponent<MissionController>().OnHide();
         }
         else // 채팅 모드 OFF
         {
@@ -177,6 +178,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
             InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
             field.DeactivateInputField();
+            GameManager.GetInstance().GetComponent<MissionController>().OnShow();
         }
     }
 

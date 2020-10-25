@@ -122,6 +122,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Diffuse: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0.29036137, g: 0.4990048, b: 0.7075472, a: 0}
+    - _MainColor: {r: 0.41037738, g: 0.7051887, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Specular: {r: 1, g: 0.40783006, b: 0, a: 0}
