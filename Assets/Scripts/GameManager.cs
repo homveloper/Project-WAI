@@ -288,9 +288,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
         {
             Renderer ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
-            if(ObstacleRenderer.name == "well1")
-                return ;
+
             if(ObstacleRenderer == null)
+                return ;
+            if(ObstacleRenderer.name == "Spaceship")
+                return ;
+            if(ObstacleRenderer.name == "well1")
                 return ;
 
                 if( ObstacleRenderer  != null )
@@ -318,8 +321,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     void FadeInWall()
     {
-        Debug.Log(wallList.Count);
-
         if(wallList.Count > 0)
         {
             foreach(Renderer Rname in wallList)
