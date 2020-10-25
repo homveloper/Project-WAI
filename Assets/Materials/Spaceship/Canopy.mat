@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Canopy
-  m_Shader: {fileID: -6465566751694194690, guid: 762b884d2ced605429cf6510996ac665,
+  m_Shader: {fileID: -6465566751694194690, guid: 0885d26c5b0fb8940b4c97e199a6f333,
     type: 3}
   m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
@@ -42,6 +42,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 807520aee3dc11842a1bcb4e712bd75c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Texture2D_C7DBFD74:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -52,6 +56,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightingRamp:
+        m_Texture: {fileID: 2800000, guid: 339486777b0e7ff489178b406add3b4f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -71,11 +79,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_E8191841: 0
     - Boolean_F39DA746: 0
     - Vector1_2C3BEEC3: 0
-    - Vector1_347E85D7: 0.179
+    - Vector1_347E85D7: 0.225
     - Vector1_3A7FE0A6: 1
-    - Vector1_736947AF: 0.61
+    - Vector1_40399B17: 0
+    - Vector1_45B974EA: 0
+    - Vector1_736947AF: 0.28
+    - Vector1_8C707CF9: 0
     - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
@@ -90,7 +102,9 @@ Material:
     - _OcclusionStrength: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.991
+    - _ShadowSize: 1
+    - _Shadow_Blend: 0
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -100,7 +114,14 @@ Material:
     m_Colors:
     - Color_15BEE7BF: {r: 1, g: 1, b: 1, a: 0}
     - Color_4F83695B: {r: 0.2971698, g: 0.8778418, b: 1, a: 0}
+    - Color_6EB9CB5E: {r: 1, g: 1, b: 1, a: 0}
+    - Color_A22A6F27: {r: 1, g: 1, b: 1, a: 0}
+    - Color_D7717625: {r: 0.3726415, g: 0.7695147, b: 1, a: 0}
+    - Vector3_AE659AA3: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.2971698, g: 0.81522304, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Diffuse: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 0.29036137, g: 0.4990048, b: 0.7075472, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Specular: {r: 1, g: 0.40783006, b: 0, a: 0}
