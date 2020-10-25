@@ -106,6 +106,10 @@ public class MissionController : MonoBehaviour
     {
         missionObject.GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
     }
+    public void OnShow()
+    {
+        missionObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+    }
 
     public class Mission
     {
