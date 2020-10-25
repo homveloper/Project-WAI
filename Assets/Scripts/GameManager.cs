@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
     public GameObject[] inGamePlayerList;
+    GameObject[] inGameDeadPlayerList;
     PlayerColorPalette colorPalettte;
 
     // 벽 객체
@@ -273,12 +274,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         Invoke("checkTimer", 1.0f);
 
         inGamePlayerList = GameObject.FindGameObjectsWithTag("Player");
+        inGameDeadPlayerList = GameObject.FindGameObjectsWithTag("DeadPlayer");
 
         for (int i = 0; i < inGamePlayerList.Length; i++)
         {
-            ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
+            ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().owner.CustomProperties;
             inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+
+            inGameDeadPlayerList[i].transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+            inGameDeadPlayerList[i].transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
     }
     void FadeWall()
