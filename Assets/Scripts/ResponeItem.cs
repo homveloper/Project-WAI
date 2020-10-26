@@ -13,17 +13,18 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     public GameObject box;
     public int countOfBox = 10;
     int itemSize = 24;
+    int waitTime = 10;
+    int term = 1;
     // Start is called before the first frame update
     void Start()
     {
         CreateItem();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Invoke("DestoryBox", 5f);
+        StartCoroutine(this.CreateBox());
+
     }
+    
+    // Update is called once per frame
     void CreateItem()
     {
         int[] a = new int[countOfBox];
@@ -47,8 +48,20 @@ public class ResponeItem : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < countOfBox; i++)
         {
-
             PhotonNetwork.Instantiate("Item/" + box.name, points[a[i]].position, Quaternion.Euler(0,180,0));
+        }
+    }
+    IEnumerator CreateBox()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(waitTime);
+
+            DestoryBox();
+
+            yield return new WaitForSeconds(term);
+
+            CreateItem();
         }
     }
     void DestoryBox()
@@ -57,5 +70,10 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void DestroyItem() => Destroy(GameObject.FindWithTag("Box"));
+    void DestroyItem()
+    {
+        GameObject[] boxs = GameObject.FindGameObjectsWithTag("Box");
+        foreach(GameObject box in boxs)
+            GameObject.Destroy(box);
+    }
 }

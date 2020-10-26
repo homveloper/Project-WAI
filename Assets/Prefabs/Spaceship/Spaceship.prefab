@@ -5744,7 +5744,12 @@ PrefabInstance:
     - target: {fileID: 4054301458584647897, guid: 8f2aacd3451738c478bb71dd56a15f13,
         type: 3}
       propertyPath: m_Text
-      value: "\uC774\uB3D9\uD558\uAE30"
+      value: "\uC2DC\uC2A4\uD15C\uC791\uB3D9"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054301459004956795, guid: 8f2aacd3451738c478bb71dd56a15f13,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 565
       objectReference: {fileID: 0}
     - target: {fileID: 4725728522874893567, guid: 8f2aacd3451738c478bb71dd56a15f13,
         type: 3}

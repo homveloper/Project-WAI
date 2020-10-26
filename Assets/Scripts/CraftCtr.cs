@@ -13,14 +13,17 @@ public class CraftCtr : MonoBehaviour
         window.SetActive(false);
         info.SetActive(false);
     }
-    // Start is called before the first frame update
-
-    // Collider 컴포넌트의 is Trigger가 true인 상태로 충돌중일 때
 
     private void OnTriggerStay(Collider other)
     {
-       window.SetActive(true);
-        info.SetActive(true);
+        if(!window.active)
+            info.SetActive(true);
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+             window.SetActive(true);
+             info.SetActive(false);
+        }
     }
     void OnTriggerExit(Collider other)
     {
