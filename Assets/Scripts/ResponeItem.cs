@@ -18,16 +18,15 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient == true)
-            CreateItem();
-
         StartCoroutine(this.CreateBox());
-
     }
     
     // Update is called once per frame
-    void CreateItem()
+    public void CreateItem()
     {
+        if (PhotonNetwork.IsMasterClient == false)
+            return;
+
         int[] a = new int[countOfBox];
         bool[] isSelected = new bool[itemSize];
         Transform[] points = GameObject.Find("RandomBoxRespone").GetComponentsInChildren<Transform>();
@@ -58,17 +57,18 @@ public class ResponeItem : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(waitTime);
 
-            if(PhotonNetwork.IsMasterClient == true)
-                DestoryBox();
+            DestoryBox();
 
             yield return new WaitForSeconds(term);
 
-            if (PhotonNetwork.IsMasterClient == true)
-                CreateItem();
+            CreateItem();
         }
     }
     void DestoryBox()
     {
+        if (PhotonNetwork.IsMasterClient == false)
+            return;
+
         photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
     }
 
