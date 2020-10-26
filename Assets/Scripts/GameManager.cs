@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (flag_finish == true && flag_win == true)
         {
             Vector3 pos = GameObject.Find("CineMachine").transform.position;
-            pos.y += 2;
+            pos.y += 1;
             GameObject.Find("CineMachine").transform.position = pos;
         }
 
