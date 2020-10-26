@@ -26,7 +26,6 @@ public class CraftCtr : MonoBehaviour
         {
             window.transform.localScale = tmp2;
             info.transform.localScale = new Vector3(0,0,0);
-
         }
     }
     void OnTriggerExit(Collider other)
