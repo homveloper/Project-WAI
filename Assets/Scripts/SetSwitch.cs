@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 public class SetSwitch : MonoBehaviour
 {
@@ -16,8 +15,8 @@ public class SetSwitch : MonoBehaviour
     // Start is called before the first frame update
      private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PhotonView>().IsMine == false)
-            return;
+        /*if (other.GetComponent<PhotonView>().IsMine == false)
+            return;*/
 
         // Debug.Log(other.name + "감지 시작!");
         swichFlash.SetActive(true);
