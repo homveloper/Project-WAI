@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TranslucentCrystalv01
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _EMISSION _METALLICSPECGLOSSMAP _NORMALMAP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: a5cec8674e8092f4fadf6619fc9e9889, type: 3}
+        m_Texture: {fileID: 2800000, guid: fbacd829ce7fbb14ea63d4c6afcc5f06, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -53,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 23255b41f57e1c54abf1d96350b95fd4, type: 3}
+        m_Texture: {fileID: 2800000, guid: c4cb56ed45fb93d428f0b362c9985f7c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -61,7 +61,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: a28dd46d952ca7547adf3026040f9ee5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 78dbd2e2ed813e04dbbeab6d982981d0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicSmoothness:
@@ -143,9 +143,9 @@ Material:
     - _ColorTint: {r: 1, g: 0.24264705, b: 0.6970591, a: 1}
     - _ColorTint1: {r: 0, g: 0.10798726, b: 0.2573529, a: 1}
     - _ColorTint2: {r: 0.18382347, g: 0.52629757, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 1.0196079, b: 1.9686275, a: 0}
+    - _EmissionColor: {r: 0, g: 1.2251673, b: 1.7824348, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
---- !u!114 &75879380011064804
+--- !u!114 &4587721702693788435
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
