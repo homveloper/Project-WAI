@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftCtr : MonoBehaviour
+public class CraftController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -11,8 +11,12 @@ public class CraftCtr : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.GetComponent<PhotonView>().IsMine == false)
+            return;
     }
     void OnTriggerExit(Collider other)
     {
+        if (other.GetComponent<PhotonView>().IsMine == false)
+            return;
     }
 }

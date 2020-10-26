@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class TelePortGate : MonoBehaviour
+public class TelePortGate : MonoBehaviourPun
 {
     public Transform temple;
     Vector3 tmp;
@@ -13,6 +14,9 @@ public class TelePortGate : MonoBehaviour
     
     void OnTriggerStay(Collider other)
     {
+        if (other.GetComponent<PhotonView>().IsMine == false)
+                return;
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
