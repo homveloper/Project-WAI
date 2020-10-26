@@ -15,7 +15,7 @@ public class TelePortGate : MonoBehaviourPun
     
     void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<PhotonView>().IsMine == false)
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
         if (Input.GetKeyDown(KeyCode.E))

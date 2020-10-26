@@ -22,10 +22,10 @@ public class SetActive : MonoBehaviourPun
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<PhotonView>().IsMine == false)
-                return;
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
 
-        if(other.tag == "Player" && Input.GetButtonDown("Interact"))
+        if (other.tag == "Player" && Input.GetButtonDown("Interact"))
         {
             PickUp();
         }
