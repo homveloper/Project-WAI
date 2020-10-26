@@ -225,9 +225,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             int[] pick = randomPick(0, player.Length, (int)roomProp["countOfAliens"]);
 
+            string str = "";
+            for (int i =0; i<pick.Length; i++)
+            {
+                str = str + pick[i] + ", ";
+            }
+            Debug.Log(str);
+
             for (int i = 0; i < player.Length; i++)
             {
                 ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+
+                Debug.Log("player" + i + " : " + (playerProp.ContainsKey("isAlien") == true ? "exist" : "null") + " / " + pick.Contains(i));
+
                 playerProp["isAlien"] = pick.Contains(i);
                 player[i].SetCustomProperties(playerProp);
             }
@@ -442,8 +452,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         prop["color"] = color;
         prop["isReady"] = false;
         prop["isStart"] = false;
-
-        prop.Remove("isAlien");
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 

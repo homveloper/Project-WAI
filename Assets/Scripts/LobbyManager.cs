@@ -41,6 +41,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.InRoom == true) // 게임이 종료되어 퇴장하여 신이 로드된 상황 (=이미 방에 포함된 경우)
         {
             PhotonNetwork.IsMessageQueueRunning = true;
+            GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = false;
             OnJoinedRoomCall();
         }
         else
@@ -463,6 +464,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             else if ((bool)localProp["isReady"] == true) localProp["isReady"] = false;
             else if ((bool)localProp["isReady"] == false) localProp["isReady"] = true;
 
+            if (localProp.ContainsKey("isAlien") == true) localProp.Remove("isAlien");
             PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
             RefreshRoomUI();
