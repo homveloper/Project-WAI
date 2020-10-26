@@ -90,8 +90,8 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Shininess: 0.71
-    - _Size: 1
-    - _Smoothness: 0.236
+    - _Size: 1.2
+    - _Smoothness: 0.244
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
