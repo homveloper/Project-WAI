@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool flag_gameStart = false; // 모든 플레이어가 준비됨
     public bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
     public bool flag_finish = false; // 게임이 종료되었음을 나타내는 플래그
+    public bool flag_win = false; // 종료 플래그
     public bool flag_alertJob = false; // 역할 알림 완료 플래그
 
     private void Awake()
@@ -90,6 +91,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             DEBUG_GAME = !DEBUG_GAME;
         }
 
+        // [디버깅용] 강제 게임 종료
+        if (DEBUG_GAME == true && Input.GetKeyDown(KeyCode.F11) == true)
+        {
+            SetFinish(true);
+        }
+
         // 게임 시작 애니메이션 처리
         if (flag_gameStart == true && flag_gameStartFinish == false)
         {
@@ -107,6 +114,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (flag_gameStartFinish == false)
             return;
 
+        // 게임 종료 애니메이션 처리
+        if (flag_finish == true && flag_win == true)
+        {
+            Vector3 pos = GameObject.Find("CineMachine").transform.position;
+            pos.y += 2;
+            GameObject.Find("CineMachine").transform.position = pos;
+        }
+
         // 시간 차감
         if (time > 0.0f) time -= Time.deltaTime;
 
@@ -120,18 +135,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 게임 종료 후 퇴장
         if (flag_finish && Input.anyKey && time <= (TIME - 5))
         {
-            SceneManager.LoadScene("proto_main");
+            exit();
         }
 
         // 외계인 선택 완료 이후, 연구원이 0명이 되면 게임이 종료
         if (DEBUG_GAME == false && flag_alertJob == true && time <= (TIME - 5))
             checkFinish();
-
-        // [디버깅용] 강제 게임 종료
-        if (DEBUG_GAME == true && Input.GetKeyDown(KeyCode.F11) == true)
-        {
-            SetFinish(true);
-        }
 
         if (mPlayer == null)
             return;
@@ -412,13 +421,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void OnFinish(bool win) // 게임 종료 수신 함수
     {
+        flag_win = win;
         GetComponent<FadeController>().OnFadeOut();
         Invoke("OnFinishCallback", 0.9f);
-    }
-
-    public void OnFinishClearAnimation()
-    {
-
     }
 
     public void OnFinishCallback() // 종료 애니메이션 완료 후 처리
@@ -446,7 +451,25 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 플래그 활성화
         flag_finish = true;
 
+        if (flag_win == true)
+        {
+            GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().Follow = null;
+            GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().LookAt = GameObject.Find("CenterStone").transform;
+            GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "연구원 승리";
+        }
+        else
+        {
+            GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "외계인 승리";
+        }
+
         // 화면 걷어내기
         GetComponent<FadeController>().OnFadeIn();
+
+        Invoke("exit", 5.0f);
+    }
+
+    public void exit()
+    {
+        SceneManager.LoadScene("proto_main");
     }
 }

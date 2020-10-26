@@ -9,13 +9,13 @@ public class TelePortGate : MonoBehaviour
 
     void Start()
     {
-        info.SetActive(false);
+        info.transform.localScale = new Vector3(0, 0, 0);
     }
     
     void OnTriggerStay(Collider other)
     {
-        info.SetActive(true);
-        if(Input.GetKeyDown(KeyCode.E))
+        info.transform.localScale = new Vector3(1, 1, 1);
+        if (Input.GetKeyDown(KeyCode.E))
         {
             GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
             GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
@@ -26,7 +26,7 @@ public class TelePortGate : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         // Debug.Log(other.name + "감지 끝!");
-        info.SetActive(false);
+        info.transform.localScale = new Vector3(0, 0, 0);
     }
     void OnStartWarp()
     {

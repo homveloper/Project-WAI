@@ -277,12 +277,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     public void OnSwitchResult() // 결과창 출력 (켜는 것만 있음)
     {
         mode_result = true;
-        GameObject.Find("UI_Result").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-
-        if (mode_chat == true) OnSwitchChat(); // 채팅 창이 켜져있으면 끄기
-        GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-        GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-        GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-        GameManager.GetInstance().GetComponent<MissionController>().OnHide();
+        GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = false;
+        GameObject.Find("UI_Result").GetComponent<Canvas>().enabled = true;
     }
 }
