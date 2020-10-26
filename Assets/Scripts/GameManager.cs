@@ -254,33 +254,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         return pick.ToArray<int>();
     }
 
-    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
-        if (flag_alertJob == false && targetPlayer.IsLocal == true && changedProps.ContainsKey("isAlien") == true)
-        {
-            Debug.Log(targetPlayer.NickName);
-            Debug.Log((bool)changedProps["isAlien"]);
-
-            if ((bool)changedProps["isAlien"] == false)
-            {
-                GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
-                GetComponent<MissionController>().OnSetHeader("연구원 목표");
-                GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
-                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
-            }
-            else if ((bool)changedProps["isAlien"] == true)
-            {
-                GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
-                GetComponent<MissionController>().OnSetHeader("외계인 목표");
-                GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
-                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
-            }
-
-            flag_alertJob = true;
-        }
-    }
     // ---------------------------------------------------------------------------------------------------
     // 시간 동기화
     // ---------------------------------------------------------------------------------------------------
@@ -303,11 +276,39 @@ public class GameManager : MonoBehaviourPunCallbacks
             inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
 
+
+        // 색상 갱신
         for (int i = 0; i < inGameDeadPlayerList.Length; i++)
         {
             ExitGames.Client.Photon.Hashtable prop = inGameDeadPlayerList[i].GetComponent<PhotonView>().Controller.CustomProperties;
             inGameDeadPlayerList[i].transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGameDeadPlayerList[i].transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
+        }
+
+        // 미니 알람
+        if (flag_alertJob == false)
+        {
+            ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.LocalPlayer.CustomProperties;
+
+            if (prop.ContainsKey("isAlien") == false)
+                return;
+
+            if ((bool)prop["isAlien"] == false)
+            {
+                GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
+                GetComponent<MissionController>().OnSetHeader("연구원 목표");
+                GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
+                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
+            }
+            else if ((bool)prop["isAlien"] == true)
+            {
+                GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
+                GetComponent<MissionController>().OnSetHeader("외계인 목표");
+                GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
+                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
+            }
+
+            flag_alertJob = true;
         }
     }
     /*void FadeWall()
@@ -441,6 +442,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         prop["color"] = color;
         prop["isReady"] = false;
         prop["isStart"] = false;
+
+        prop.Remove("isAlien");
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
