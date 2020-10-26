@@ -69,8 +69,6 @@ public class Inventory : MonoBehaviourPun {
         if(onItemChangedCallback != null)   
             onItemChangedCallback.Invoke();
 
-        Debug.Log(item.name);
-
         GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
     }
 
