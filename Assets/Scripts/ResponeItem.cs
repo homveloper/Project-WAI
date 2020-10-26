@@ -18,7 +18,8 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        CreateItem();
+        if (PhotonNetwork.IsMasterClient == true)
+            CreateItem();
 
         StartCoroutine(this.CreateBox());
 
@@ -57,11 +58,13 @@ public class ResponeItem : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(waitTime);
 
-            DestoryBox();
+            if(PhotonNetwork.IsMasterClient == true)
+                DestoryBox();
 
             yield return new WaitForSeconds(term);
 
-            CreateItem();
+            if (PhotonNetwork.IsMasterClient == true)
+                CreateItem();
         }
     }
     void DestoryBox()
