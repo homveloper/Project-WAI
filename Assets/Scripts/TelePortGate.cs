@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -15,7 +16,7 @@ public class TelePortGate : MonoBehaviourPun
     void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<PhotonView>().IsMine == false)
-                return;
+            return;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
