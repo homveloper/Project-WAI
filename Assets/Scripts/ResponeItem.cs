@@ -13,8 +13,8 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     public GameObject box;
     public int countOfBox = 10;
     int itemSize = 24;
-    int waitTime = 10;
-    int term = 1;
+    int waitTime = 120;
+    int term = 30;
     // Start is called before the first frame update
     void Start()
     {
