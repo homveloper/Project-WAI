@@ -260,6 +260,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (flag_alertJob == false && targetPlayer.IsLocal == true && changedProps.ContainsKey("isAlien") == true)
         {
+            Debug.Log(targetPlayer.NickName);
+            Debug.Log((bool)changedProps["isAlien"]);
+
             if ((bool)changedProps["isAlien"] == false)
             {
                 GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
