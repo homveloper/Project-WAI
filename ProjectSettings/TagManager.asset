@@ -8,6 +8,7 @@ TagManager:
   - Box
   - Player1
   - Nickname
+  - DeadPlayer
   layers:
   - Default
   - TransparentFX

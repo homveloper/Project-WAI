@@ -26,9 +26,9 @@ public class SetActive : MonoBehaviourPun
     {
         // Debug.Log(other.name + "감지 중!");
         info.SetActive(true);
-        if(other.tag == "Player" && Input.GetButtonDown("Interact")){
+        if(other.tag == "Player" && Input.GetButtonDown("Interact"))
+        {
             PickUp();
-            print(other);
         }
     }
 
@@ -40,12 +40,14 @@ public class SetActive : MonoBehaviourPun
         info.SetActive(false);
     }
 
-    void PickUp(){
+    void PickUp()
+    {
         Item randomItem = items[Random.Range(0,items.Count)];
         //Item randomItem = items[1];
         bool wasPickedUp = Inventory.instance.Add(randomItem);
 
-        if(wasPickedUp){
+        if(wasPickedUp)
+        {
             Debug.Log(randomItem.name + "을 주웠습니다.");
             photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
         }

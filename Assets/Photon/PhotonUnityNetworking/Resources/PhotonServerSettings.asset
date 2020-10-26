@@ -46,6 +46,7 @@ MonoBehaviour:
   - DestroyItem
   - OnFlash
   - OnFinish
+  - ChangeDeadPlayerColor
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -22,7 +22,7 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
+        Invoke("DestoryBox", 5f);
     }
     void CreateItem()
     {
@@ -30,28 +30,20 @@ public class ResponeItem : MonoBehaviourPunCallbacks
         bool[] isSelected = new bool[itemSize];
         Transform[] points = GameObject.Find("RandomBoxRespone").GetComponentsInChildren<Transform>();
         
-        for(int i=0; i<countOfBox; i++){
+        for(int i=0; i<countOfBox; i++)
+        {
             int position = Random.Range(0,itemSize);
 
-            if(!isSelected[position]){
+            if(!isSelected[position])
+            {
                 a[i] = position;
                 isSelected[position] = true;
-            }else{
+            }
+            else
+            {
                 i--;
             }
         }
-
-        // ToToMo : 상자가 중복되어 리스폰 되는 문제가 있어 수정함
-
-
-        // while (true)
-        // {
-        //     int tmp = UnityEngine.Random.Range(1, itemSize);
-        //     a[cnt] = tmp;
-        //     cnt++;
-        //     if (cnt == 10)
-        //         break;
-        // }
 
         for (int i = 0; i < countOfBox; i++)
         {
@@ -59,4 +51,11 @@ public class ResponeItem : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Item/" + box.name, points[a[i]].position, Quaternion.Euler(0,180,0));
         }
     }
+    void DestoryBox()
+    {
+        photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void DestroyItem() => Destroy(GameObject.FindWithTag("Box"));
 }
