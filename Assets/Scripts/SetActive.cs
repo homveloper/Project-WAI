@@ -8,12 +8,8 @@ public class SetActive : MonoBehaviourPun
 
     bool isCalled = false;
 
-    public GameObject info;
-    Vector3 tmp;
     void Start()
     {
-        tmp = info.transform.localScale;
-        info.transform.localScale = new Vector3(0,0,0);
     }
     // Start is called before the first frame update
      private void OnTriggerEnter(Collider other)
@@ -26,8 +22,6 @@ public class SetActive : MonoBehaviourPun
 
     private void OnTriggerStay(Collider other)
     {
-        // Debug.Log(other.name + "감지 중!");
-        info.transform.localScale = tmp;
         if(other.tag == "Player" && Input.GetButtonDown("Interact"))
         {
             PickUp();
@@ -38,8 +32,6 @@ public class SetActive : MonoBehaviourPun
 
     private void OnTriggerExit(Collider other)
     {
-        // Debug.Log(other.name + "감지 끝!");
-        info.transform.localScale = new Vector3(0,0,0);
     }
 
     void PickUp()

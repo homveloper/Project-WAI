@@ -145,8 +145,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (mPlayer == null)
             return;
 
-        FadeWall();
-        FadeInWall();
+        //FadeWall();
+       // FadeInWall();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             inGameDeadPlayerList[i].transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }
     }
-    void FadeWall()
+    /*void FadeWall()
     {
         float Distance = Vector3.Distance(mCamera.transform.position , mPlayer.transform.position);
         Vector3 Direction = (mPlayer.transform.position - mCamera.transform.position).normalized;
@@ -376,7 +376,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         
         storeList.Clear();
         wallName = "";
-    }
+    }*/
 
     [PunRPC]
     public void OnTime(float time) // RPC로 시간을 수신하는 함수

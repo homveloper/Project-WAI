@@ -5,16 +5,14 @@ using UnityEngine;
 public class TelePortGate : MonoBehaviour
 {
     public Transform temple;
-    public GameObject info;
+    Vector3 tmp;
 
     void Start()
     {
-        info.transform.localScale = new Vector3(0, 0, 0);
     }
     
     void OnTriggerStay(Collider other)
     {
-        info.transform.localScale = new Vector3(1, 1, 1);
         if (Input.GetKeyDown(KeyCode.E))
         {
             GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
@@ -25,8 +23,6 @@ public class TelePortGate : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        // Debug.Log(other.name + "감지 끝!");
-        info.transform.localScale = new Vector3(0, 0, 0);
     }
     void OnStartWarp()
     {
