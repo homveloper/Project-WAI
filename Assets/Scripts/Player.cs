@@ -26,8 +26,6 @@ public class Player : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        hpModifier = 20.0f;
-        o2Modifer = 20.0f;
 
         SetHPMax(100);
         SetO2Max(100);
