@@ -9,6 +9,7 @@ TagManager:
   - Player1
   - Nickname
   - DeadPlayer
+  - Mission
   layers:
   - Default
   - TransparentFX

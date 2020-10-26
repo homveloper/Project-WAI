@@ -6,7 +6,7 @@ public class ClearShip : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-       if(other.gameObject.tag == "Player")
+       if(other.gameObject.tag == "Mission")
             GameManager.GetInstance().SetFinish(true);
     }
 }
