@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    public bool DEBUG_LOBBY = true;
+    public static bool DEBUG_LOBBY = true;
 
     FadeController fadeController;
     AlertController alertController;

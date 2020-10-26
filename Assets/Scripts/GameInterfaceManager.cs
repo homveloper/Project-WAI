@@ -210,7 +210,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
             
             if (mode_chat == true) OnSwitchChat(); // 채팅 창이 켜져있으면 끄기
 
-            OnMoveWatching(0);
+            OnMoveWatching(1);
 
             GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
             GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
