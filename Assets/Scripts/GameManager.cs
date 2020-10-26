@@ -193,6 +193,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 31.0f;
         mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius = 200.0f;
 
+        // 아이템박스 생성
+        GetComponent<ResponeItem>().CreateItem();
+
         GetComponent<FadeController>().OnFadeIn();
         flag_gameStart = true;
     }
