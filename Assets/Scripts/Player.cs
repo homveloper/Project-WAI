@@ -6,31 +6,28 @@ using Photon.Pun;
 
 public class Player : MonoBehaviourPunCallbacks
 {
-
-    bool delayedDeadCalled = false;
-
     private float statHp = 0.0f;
     private float statHpMax = 0.0f;
     private float statO2 = 0.0f;
     private float statO2Max = 0.0f;
 
-    public float hpModifier = 0.0f;
-    public float o2Modifer = 0.0f;
+    public float hpModifier;
+    public float o2Modifer;
 
     private int meterialWood = 0;
     private int meterialIron = 0;
     private int meterialPart = 0;
 
-    public GameObject flashlight;
-    public OnPlayerDead onPlayerDeadCallback;
+    private bool dead = false;
 
-    public PlayerAnimation playerAnimation;
+    public GameObject flashlight;
 
     UI_Inventory uI_Inventory;
 
     void Start()
     {
-        print("Start Player");
+        hpModifier = 20.0f;
+        o2Modifer = 20.0f;
 
         SetHPMax(100);
         SetO2Max(100);
@@ -72,55 +69,36 @@ public class Player : MonoBehaviourPunCallbacks
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (flashlight.activeSelf == true) flashlight.SetActive(false);
-            else flashlight.SetActive(true);
-
-            photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+            SetFlash();
         }
 
         // 체력 부족으로 사망
-        if (GetHP() <= 0 && !delayedDeadCalled)
+        if (GetHP() <= 0 && dead == false) 
         {
-            delayedDeadCalled = true;
-            SetMove(false);
-            onPlayerDeadCallback.Invoke();
-            Inventory.instance.DropAll();
-            StartCoroutine(DelayedDead(playerAnimation.animator.GetAnimatorTransitionInfo(0).duration + 2));
+            Debug.Log("dead");
+            SetDead();
         }
     }
-
-     IEnumerator DelayedDead(float delay= 0)
-     {
-        yield return new WaitForSeconds(delay);
-
-        GameObject deadPlayer = PhotonNetwork.InstantiateRoomObject("ResearcherDead",transform.position,transform.rotation);
-        photonView.RPC("ChangeDeadPlayerColor", RpcTarget.AllBuffered, deadPlayer);
-        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
-    }
-
-    [PunRPC]
-    public void ChangeDeadPlayerColor(GameObject deadPlayer){
-        if(photonView.IsMine){
-            deadPlayer.transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", gameObject.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.GetColor("_MainColor"));
-            deadPlayer.transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", gameObject.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.GetColor("_MainColor"));
-        }
-    }
-
-    // 캐릭터 이동가능 여부 설정 함수
-    public void SetMove(bool val)
-    {
-        GetComponent<PlayerAnimation>().enabled = val;
-        GetComponent<ThirdPersonMovement>().controllable = val;
-        GetComponent<ThirdPersonSound>().enabled = val;
-    }
-
-    public delegate void OnPlayerDead();
 
     [PunRPC]
     public void OnFlash(int actorNumber, bool val) // RPC로 플래시라이트 사용을 알림
     {
-        if (photonView.OwnerActorNr == actorNumber)
-            flashlight.SetActive(val);
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+        
+        flashlight.SetActive(val);
+    }
+
+    [PunRPC]
+    public void OnDead(int actorNumber) // RPC로 캐릭터 사망을 알림
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        dead = true;
+        SetMove(false);
+        
+        GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
     }
 
     // 이하 Get / Set 메소드 --------------------------------------
@@ -204,5 +182,45 @@ public class Player : MonoBehaviourPunCallbacks
     public void SetPart(int part)
     {
         this.meterialPart = part;
+    }
+
+    public bool IsDead() // 캐릭터 사망 여부
+    {
+        return this.dead;
+    }
+
+    public void SetDead() // 캐릭터 사망 여부
+    {
+        dead = true;
+        SetMove(false);
+        GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+
+        Inventory.instance.DropAll();
+        photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+
+    public bool IsMove() // 캐릭터 이동 여부
+    {
+        return GetComponent<ThirdPersonMovement>().controllable;
+    }
+
+    public void SetMove(bool val) // 캐릭터 이동 여부
+    {
+        GetComponent<PlayerAnimation>().enabled = val;
+        GetComponent<ThirdPersonMovement>().controllable = val;
+        GetComponent<ThirdPersonSound>().enabled = val;
+    }
+
+    public bool IsFlash() // 캐릭터 라이트 사용 여부
+    {
+        return flashlight.activeSelf;
+    }
+
+    public void SetFlash() // 캐릭터 라이트 사용 여부
+    {
+        if (flashlight.activeSelf == true) flashlight.SetActive(false);
+        else flashlight.SetActive(true);
+
+        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
     }
 }

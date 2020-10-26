@@ -15,8 +15,6 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     {
         animator = GetComponentInChildren<Animator>();
         player = GetComponent<Player>();
-
-        player.onPlayerDeadCallback += SetPlayerDead;
     }
 
     void SetPlayerDead(){

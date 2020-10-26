@@ -11,19 +11,17 @@ using System;
 
 public class GameInterfaceManager : MonoBehaviourPunCallbacks
 {
-    public GameObject managerObject; // 게임 매니저 객체 (미지정시 미동작)
-    public GameObject playerObject;   // 플레이어 객체 (런타임 중 자동 할당)
+    bool mode_result = false; // 결과창
+    bool mode_chat = false; // 채팅창
+    bool mode_watching = false; // 관전창
 
-    bool mode_result = false; // 결과창 모드
-    bool mode_chat = false; // 채팅 모드 (채팅이 켜져있다면 true)
-    bool mode_watching = false; // 관전 모드 (관전창이 켜져있다면 true)
     int mode_watching_index = 0; // 관전 모드 캐릭터 인덱스
 
     float fps = 0.0f; // fps 체크
 
     void Update()
     {
-        if (managerObject == null)
+        if (GameManager.GetInstance() == null)
             return;
 
         // fps 체크
@@ -33,27 +31,21 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (GameManager.GetInstance().flag_finish == true && mode_result == false)
             OnSwitchResult();
 
-        // 게임이 끝나면 다른 갱신은 중단
-        if (mode_result == true)
+        // 게임 매니저가 없는 상황, 플레이어 데이터가 없는 상황, 게임이 끝난 상황에는 갱신하지 않음
+        if (GameManager.GetInstance().mPlayer == null || mode_result == true)
             return;
 
         // UI 갱신
         refresh();
 
         // 관전모드 전환
-        if (playerObject == null && mode_watching == false)
+        if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true && mode_watching == false)
         {
             OnSwitchWatching();
         }
-        else if (playerObject != null && mode_watching == true)
+        else if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == false && mode_watching == true)
         {
             OnSwitchWatching();
-        }
-
-        if (playerObject == null)
-        {
-            playerObject = managerObject.GetComponent<GameManager>().mPlayer;
-            return;
         }
 
         // 관전모드 - 관전 대상 전환
@@ -65,6 +57,20 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         {
             OnMoveWatching(1);
         }
+
+        // 나가기 (F4) ** 디버깅용 **
+        if (Input.GetKeyDown(KeyCode.F4) == true)
+        {
+            ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
+            localProp.Clear();
+            PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
+
+            PhotonNetwork.LeaveRoom();
+        }
+
+        // 캐릭터가 죽었다면 채팅 모드는 동작하지 않음
+        if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true)
+            return;
 
         // 채팅모드 전환 (탭)
         if (Input.GetKeyDown(KeyCode.Tab) == true)
@@ -82,30 +88,20 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
             OnSendChat();
         }
-
-        // 나가기 (F4) ** 디버깅용 **
-        if (Input.GetKeyDown(KeyCode.F4) == true)
-        {
-            ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-            localProp.Clear();
-            PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
-
-            PhotonNetwork.LeaveRoom();
-        }
     }
 
     void refresh() // UI 갱신
     {
-        GameObject.Find("UI_Timer_Bar").gameObject.GetComponent<Image>().fillAmount = managerObject.GetComponent<GameManager>().time / managerObject.GetComponent<GameManager>().timeMax;
-        GameObject.Find("UI_Timer_Text").gameObject.GetComponent<Text>().text = Math.Truncate(managerObject.GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(managerObject.GetComponent<GameManager>().time % 60.0f);
+        GameObject.Find("UI_Timer_Bar").gameObject.GetComponent<Image>().fillAmount = GameManager.GetInstance().GetComponent<GameManager>().time / GameManager.GetInstance().GetComponent<GameManager>().timeMax;
+        GameObject.Find("UI_Timer_Text").gameObject.GetComponent<Text>().text = Math.Truncate(GameManager.GetInstance().GetComponent<GameManager>().time / 60.0f).ToString() + ":" + Math.Truncate(GameManager.GetInstance().GetComponent<GameManager>().time % 60.0f);
 
         GameObject.Find("FPS").GetComponent<Text>().text = (int)(1.0f / fps) + " FPS";
         GameObject.Find("Ping").GetComponent<Text>().text = PhotonNetwork.GetPing().ToString() + " ms";
 
-        if (playerObject == null)
+        if (GameManager.GetInstance().mPlayer == null)
             return;
 
-        Player player = playerObject.GetComponent<Player>();
+        Player player = GameManager.GetInstance().mPlayer.GetComponent<Player>();
 
         GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetHP() / (float)player.GetHPMax();
         GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetO2() / (float)player.GetO2Max();
@@ -113,7 +109,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
         GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();
         GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.GetPart().ToString();
-
 
         GameObject[] playerObj = GameObject.FindGameObjectsWithTag("Player");
         GameObject[] nickObj = GameObject.FindGameObjectsWithTag("Nickname");
@@ -158,7 +153,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (mode_chat == false) // 채팅 모드 ON
         {
             mode_chat = true;
-            playerObject.GetComponent<Player>().SetMove(false);
+            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
             GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_load");
 
             InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
@@ -172,7 +167,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
                 return;
 
             mode_chat = false;
-            playerObject.GetComponent<Player>().SetMove(true);
+            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
             GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
             GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_hide");
 
@@ -212,12 +207,16 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (mode_watching == false) // 관전모드 ON
         {
             mode_watching = true;
+            
+            if (mode_chat == true) OnSwitchChat(); // 채팅 창이 켜져있으면 끄기
 
             OnMoveWatching(0);
 
             GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
             GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
             GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            GameManager.GetInstance().GetComponent<MissionController>().OnHide();
+            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
         }
         else // 관전 모드 OFF
         {
@@ -226,26 +225,40 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
             GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+            GameManager.GetInstance().GetComponent<MissionController>().OnShow();
+            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
         }
     }
 
     public void OnMoveWatching(int num) // 관전 대상 변경 함수
     {
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-
-        if (player.Length <= 0)
+        int cnt = 1;
+        
+        while (cnt >= 1 && cnt <= 20)
         {
-            GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = "";
-            return;
-        }
-            
-        mode_watching_index += num;
-        if (mode_watching_index >= player.Length) mode_watching_index = 0;
-        if (mode_watching_index < 0) mode_watching_index = player.Length - 1;
+            mode_watching_index += num;
+            if (mode_watching_index >= player.Length) mode_watching_index = 0;
+            if (mode_watching_index < 0) mode_watching_index = player.Length - 1;
 
-        GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().Follow = player[mode_watching_index].transform;
-        GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().LookAt = player[mode_watching_index].transform;
-        GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = player[mode_watching_index].GetComponent<PhotonView>().Owner.NickName;
+            if (player[mode_watching_index].GetComponent<Player>().IsDead() == false)
+                cnt = -1;
+            else
+                cnt++;
+        }
+
+        if (cnt > 20)
+        {
+            GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+            GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = "";
+        }
+        else if (cnt < 0)
+        {
+            GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().Follow = player[mode_watching_index].transform;
+            GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().LookAt = player[mode_watching_index].transform;
+            GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = player[mode_watching_index].GetComponent<PhotonView>().Owner.NickName;
+        }
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -265,5 +278,11 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     {
         mode_result = true;
         GameObject.Find("UI_Result").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+
+        if (mode_chat == true) OnSwitchChat(); // 채팅 창이 켜져있으면 끄기
+        GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+        GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+        GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+        GameManager.GetInstance().GetComponent<MissionController>().OnHide();
     }
 }

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    public const bool DEBUG_LOBBY = true;
+    public bool DEBUG_LOBBY = true;
 
     FadeController fadeController;
     AlertController alertController;
@@ -57,6 +57,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        // [디버깅용] 디버그 모드 전환
+        if (Input.GetKeyDown(KeyCode.F12) == true)
+        {
+            DEBUG_LOBBY = !DEBUG_LOBBY;
+        }
+
         // 인트로에서 메인메뉴로 전환
         if (menuCode == MENU_INTRO && Input.anyKey)
         {

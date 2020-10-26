@@ -11,8 +11,8 @@ using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    private const bool DEBUG_GAME = true;
     private const int TIME = 1800;
+    private bool DEBUG_GAME = true;
     private static GameManager instance = null;
 
     // 플레이어 객체
@@ -82,9 +82,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     }
 
-
     void Update()
     {
+        // [디버깅용] 디버그 모드 전환
+        if (Input.GetKeyDown(KeyCode.F12) == true)
+        {
+            DEBUG_GAME = !DEBUG_GAME;
+        }
+
         // 게임 시작 애니메이션 처리
         if (flag_gameStart == true && flag_gameStartFinish == false)
         {
@@ -123,7 +128,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             checkFinish();
 
         // [디버깅용] 강제 게임 종료
-        if (DEBUG_GAME == true && Input.GetKeyDown(KeyCode.F12) == true)
+        if (DEBUG_GAME == true && Input.GetKeyDown(KeyCode.F11) == true)
         {
             SetFinish(true);
         }
