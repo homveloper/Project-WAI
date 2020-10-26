@@ -57,7 +57,8 @@ public class Player : MonoBehaviourPunCallbacks
                 return;
 
         // 산소 차감
-        SetO2(GetO2() - Time.deltaTime * o2Modifer);
+        if (GameManager.DEBUG_GAME == false)
+            SetO2(GetO2() - Time.deltaTime * o2Modifer);
 
         // 체력 차감
         if (GetO2() <= 0){

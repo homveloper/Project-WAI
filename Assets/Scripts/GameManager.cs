@@ -12,7 +12,7 @@ using System.Linq;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     private const int TIME = 1800;
-    private bool DEBUG_GAME = true;
+    public static bool DEBUG_GAME = true;
     private static GameManager instance = null;
 
     // 플레이어 객체
@@ -414,6 +414,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         GetComponent<FadeController>().OnFadeOut();
         Invoke("OnFinishCallback", 0.9f);
+    }
+
+    public void OnFinishClearAnimation()
+    {
+
     }
 
     public void OnFinishCallback() // 종료 애니메이션 완료 후 처리
