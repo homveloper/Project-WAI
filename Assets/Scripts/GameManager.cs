@@ -285,7 +285,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < inGameDeadPlayerList.Length; i++)
         {
-            ExitGames.Client.Photon.Hashtable prop = inGameDeadPlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
+            ExitGames.Client.Photon.Hashtable prop = inGameDeadPlayerList[i].GetComponent<PhotonView>().Controller.CustomProperties;
             inGameDeadPlayerList[i].transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
             inGameDeadPlayerList[i].transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
         }

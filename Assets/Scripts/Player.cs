@@ -99,15 +99,13 @@ public class Player : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void ChangeDeadPlayerColor(GameObject deadPlayer)
-    {
-        if (photonView.IsMine)
-        {
+    public void ChangeDeadPlayerColor(GameObject deadPlayer){
+        if(photonView.IsMine){
             deadPlayer.transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", gameObject.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.GetColor("_MainColor"));
             deadPlayer.transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", gameObject.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.GetColor("_MainColor"));
         }
-
     }
+
     // 캐릭터 이동가능 여부 설정 함수
     public void SetMove(bool val)
     {
