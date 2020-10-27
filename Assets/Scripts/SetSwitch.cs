@@ -8,9 +8,11 @@ public class SetSwitch : MonoBehaviour
     public GameObject swichFlash;
     public GameObject moveWell;
     public GameObject hiddenGate;
+    public AudioSource wallSound;
     void Start()
     {
         swichFlash.SetActive(false);
+        wallSound.Stop();
     }
     // Start is called before the first frame update
      private void OnTriggerEnter(Collider other)
@@ -23,7 +25,10 @@ public class SetSwitch : MonoBehaviour
         if(moveWell == null)
             return;
         else
+        {
             moveWell.SetActive(false);
+            wallSound.Play();
+        }
             
         if(hiddenGate != null)
             hiddenGate.SetActive(true);

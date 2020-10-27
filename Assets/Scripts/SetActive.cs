@@ -5,6 +5,7 @@ using Photon.Pun;
 public class SetActive : MonoBehaviourPun
 {
     public List<Item> items;
+    public AudioSource wallSound;
     public GameObject info;
     Vector3 tmp;
     bool isCalled = false;
