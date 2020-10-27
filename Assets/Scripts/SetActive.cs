@@ -5,11 +5,14 @@ using Photon.Pun;
 public class SetActive : MonoBehaviourPun
 {
     public List<Item> items;
-
+    public GameObject info;
+    Vector3 tmp;
     bool isCalled = false;
 
     void Start()
     {
+        tmp = info.transform.localScale;
+        info.transform.localScale = new Vector3(0,0,0);
     }
     // Start is called before the first frame update
      private void OnTriggerEnter(Collider other)
@@ -25,6 +28,8 @@ public class SetActive : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
+        info.transform.localScale = tmp;
+
         if (other.tag == "Player" && Input.GetButtonDown("Interact"))
         {
             PickUp();
@@ -35,6 +40,7 @@ public class SetActive : MonoBehaviourPun
 
     private void OnTriggerExit(Collider other)
     {
+        info.transform.localScale = new Vector3(0,0,0);
     }
 
     void PickUp()
