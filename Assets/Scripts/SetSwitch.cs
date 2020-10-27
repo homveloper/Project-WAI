@@ -12,7 +12,6 @@ public class SetSwitch : MonoBehaviour
     void Start()
     {
         swichFlash.SetActive(false);
-        wallSound.Stop();
     }
     // Start is called before the first frame update
      private void OnTriggerEnter(Collider other)

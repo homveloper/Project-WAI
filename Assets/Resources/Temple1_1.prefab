@@ -187,6 +187,7 @@ MonoBehaviour:
   swichFlash: {fileID: 7338357889465508400}
   moveWell: {fileID: 8325461390194318775}
   hiddenGate: {fileID: 0}
+  wallSound: {fileID: 0}
 --- !u!114 &4308810826221786107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +203,7 @@ MonoBehaviour:
   swichFlash: {fileID: 3801244471682760414}
   moveWell: {fileID: 8325461389515457403}
   hiddenGate: {fileID: 8118164605946319229}
+  wallSound: {fileID: 0}
 --- !u!114 &944105352923559486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +219,7 @@ MonoBehaviour:
   swichFlash: {fileID: 3448860041373827030}
   moveWell: {fileID: 8325461391417069723}
   hiddenGate: {fileID: 0}
+  wallSound: {fileID: 0}
 --- !u!1 &8325461389362344777
 GameObject:
   m_ObjectHideFlags: 0
@@ -23437,6 +23440,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone2
       objectReference: {fileID: 0}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: moveWell
+      value: 
+      objectReference: {fileID: 8325461390194318775}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
 --- !u!1 &7338357889465508400 stripped
@@ -23539,6 +23547,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone3
       objectReference: {fileID: 0}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: moveWell
+      value: 
+      objectReference: {fileID: 8325461389515457403}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: hiddenGate
+      value: 
+      objectReference: {fileID: 8118164605946319229}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
 --- !u!4 &7107642923001327930 stripped
@@ -23641,6 +23659,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone1
       objectReference: {fileID: 0}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: moveWell
+      value: 
+      objectReference: {fileID: 8325461391417069723}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
 --- !u!1 &3448860041373827030 stripped

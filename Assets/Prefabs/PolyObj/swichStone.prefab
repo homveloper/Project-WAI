@@ -303,7 +303,7 @@ MonoBehaviour:
   swichFlash: {fileID: 8240415684286346731}
   moveWell: {fileID: 0}
   hiddenGate: {fileID: 0}
-  walkSound: {fileID: 2835874716456426834}
+  wallSound: {fileID: 2835874716456426834}
 --- !u!82 &2835874716456426834
 AudioSource:
   m_ObjectHideFlags: 0
