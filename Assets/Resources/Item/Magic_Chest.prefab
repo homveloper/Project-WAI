@@ -224,7 +224,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3a9a2e65df5ecdc4f906cb771fda3e70, type: 2}
   - {fileID: 11400000, guid: 44094cf252c6b24469dbff24819f5a79, type: 2}
   - {fileID: 11400000, guid: 17a7c91fd436776428b1e7e06e2dbcee, type: 2}
-  wallSound: {fileID: 0}
   info: {fileID: 2735960824925910270}
 --- !u!1 &160942
 GameObject:
