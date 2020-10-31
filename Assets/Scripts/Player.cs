@@ -10,9 +10,13 @@ public class Player : MonoBehaviourPunCallbacks
     private float statHpMax = 0.0f;
     private float statO2 = 0.0f;
     private float statO2Max = 0.0f;
+    private float statBt = 0.0f;
+    private float statBtMax = 0.0f;
 
     public float hpModifier;
-    public float o2Modifer;
+    public float o2Modifier;
+    public float btModifier_up;
+    public float btModifier_down;
 
     private int meterialWood = 0;
     private int meterialIron = 0;
@@ -29,9 +33,11 @@ public class Player : MonoBehaviourPunCallbacks
 
         SetHPMax(100);
         SetO2Max(100);
+        SetBtMax(100);
 
         SetHP(100);
         SetO2(100);
+        SetBt(100);
 
         SetWood(0);
         SetIron(0);
@@ -56,19 +62,36 @@ public class Player : MonoBehaviourPunCallbacks
             if (!photonView.IsMine)
                 return;
 
-        // 산소 차감
-        if (GameManager.DEBUG_GAME == false)
-            SetO2(GetO2() - Time.deltaTime * o2Modifer);
-
-        // 체력 차감
-        if (GetO2() <= 0){
-            SetHP(GetHP() - Time.deltaTime * hpModifier);
-        }
-
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
         {
             SetFlash();
+        }
+
+        // 디버그 중에는 스텟 차감 및 사망 발생하지 않음
+        if (GameManager.DEBUG_GAME == false)
+            return;
+
+        // 산소 차감
+        SetO2(GetO2() - Time.deltaTime * o2Modifier);
+
+        // 라이트 회복/차감
+        if (IsFlash() == false)
+        {
+            SetBt(GetBt() + Time.deltaTime * btModifier_up);
+        }
+        else if (IsFlash() == true)
+        {
+            SetBt(GetBt() - Time.deltaTime * btModifier_down);
+        }
+
+        // 배터리 부족으로 라이트 꺼짐
+        if (IsFlash() == true && GetBt() <= 0)
+            SetFlash(false);
+
+        // 체력 차감
+        if (GetO2() <= 0){
+            SetHP(GetHP() - Time.deltaTime * hpModifier);
         }
 
         // 체력 부족으로 사망
@@ -121,6 +144,16 @@ public class Player : MonoBehaviourPunCallbacks
         return this.statO2Max;
     }
 
+    public float GetBt()
+    {
+        return this.statBt;
+    }
+
+    public float GetBtMax()
+    {
+        return this.statBtMax;
+    }
+
     public int GetWood()
     {
         return this.meterialWood;
@@ -168,6 +201,22 @@ public class Player : MonoBehaviourPunCallbacks
         if (this.statO2 < 0) this.statO2 = 0;
     }
 
+    public void SetBt(float bt)
+    {
+        this.statBt = bt;
+
+        if (this.statBt > this.statBtMax) this.statBt = this.statBtMax;
+        if (this.statBt < 0) this.statBt = 0;
+    }
+
+    public void SetBtMax(float btmax)
+    {
+        this.statBtMax = btmax;
+
+        if (this.statBt > this.statBtMax) this.statBt = this.statBtMax;
+        if (this.statBt < 0) this.statBt = 0;
+    }
+
     public void SetWood(int wood)
     {
         this.meterialWood = wood;
@@ -188,7 +237,7 @@ public class Player : MonoBehaviourPunCallbacks
         return this.dead;
     }
 
-    public void SetDead() // 캐릭터 사망 여부
+    public void SetDead() // 캐릭터 사망 설정
     {
         dead = true;
         SetMove(false);
@@ -203,7 +252,7 @@ public class Player : MonoBehaviourPunCallbacks
         return GetComponent<ThirdPersonMovement>().controllable;
     }
 
-    public void SetMove(bool val) // 캐릭터 이동 여부
+    public void SetMove(bool val) // 캐릭터 이동 설정
     {
         GetComponent<PlayerAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
@@ -215,10 +264,23 @@ public class Player : MonoBehaviourPunCallbacks
         return flashlight.activeSelf;
     }
 
-    public void SetFlash() // 캐릭터 라이트 사용 여부
+    public void SetFlash() // 캐릭터 라이트 설정 (스위칭)
     {
+        if (flashlight.activeSelf == false && GetBt() <= 0) // 배터리가 없으면 라이트를 켤 수 없음
+            return;
+
         if (flashlight.activeSelf == true) flashlight.SetActive(false);
         else flashlight.SetActive(true);
+
+        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+    }
+
+    public void SetFlash(bool val) // 캐릭터 라이트 설정 (매뉴얼)
+    {
+        if (val == true && GetBt() <= 0) // 배터리가 없으면 라이트를 켤 수 없음
+            return;
+
+        flashlight.SetActive(val);
 
         photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
     }

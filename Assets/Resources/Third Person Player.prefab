@@ -5567,7 +5567,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpModifier: 20
-  o2Modifer: 20
+  o2Modifier: 0
+  btModifier_up: 10
+  btModifier_down: 5
   flashlight: {fileID: 8567649898356843675}
 --- !u!114 &8450696144942683225
 MonoBehaviour:
