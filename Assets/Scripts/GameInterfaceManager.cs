@@ -107,6 +107,10 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetO2() / (float)player.GetO2Max();
         GameObject.Find("UI_Stat_Bt_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetBt() / (float)player.GetBtMax();
 
+        GameObject.Find("UI_Stat_HP_Text").gameObject.GetComponent<Text>().text = Math.Ceiling(player.GetHP()).ToString();
+        GameObject.Find("UI_Stat_O2_Text").gameObject.GetComponent<Text>().text = Math.Ceiling(player.GetO2()).ToString();
+        GameObject.Find("UI_Stat_Bt_Text").gameObject.GetComponent<Text>().text = Math.Ceiling(player.GetBt()).ToString();
+
         GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
         GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();
         GameObject.Find("UI_Meterial_Part_Text").gameObject.GetComponent<Text>().text = player.GetPart().ToString();
