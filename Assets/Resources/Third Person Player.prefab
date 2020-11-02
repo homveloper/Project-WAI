@@ -5049,6 +5049,15 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: isJump
+  - Type: 9
+    SynchronizeType: 0
+    Name: dead
+  - Type: 9
+    SynchronizeType: 0
+    Name: attack
+  - Type: 9
+    SynchronizeType: 0
+    Name: hit
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
