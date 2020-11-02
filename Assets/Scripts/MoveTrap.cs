@@ -8,11 +8,13 @@ public class MoveTrap : MonoBehaviour
     public Material r1;
     public Material r2;
 
+
     float term = 30;
-    float moveTime = 3;
+    float moveTime = 4;
 
     void Start()
     {
+        
         StartCoroutine(this.moveTrap());
         
     }
@@ -22,12 +24,12 @@ public class MoveTrap : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(start);
-           
-            gameObject.
+            
+            gameObject.GetComponent<Renderer>().material.Lerp(r2,r1,1);
 
             yield return new WaitForSeconds(moveTime);
 
-           
+            gameObject.GetComponent<Renderer>().material.Lerp(r1,r2,1);
 
             yield return new WaitForSeconds(term);
         }
