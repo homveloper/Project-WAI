@@ -8,6 +8,7 @@ using static System.Random;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 using System.Linq;
+using UnityEditor.PackageManager.Requests;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -455,9 +456,22 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
-        // 룸 프로퍼티 초기화
+        // 룸 프로퍼티 설정
         if (PhotonNetwork.IsMasterClient == true)
             PhotonNetwork.CurrentRoom.IsOpen = true;
+
+        Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+        List<string> alien = new List<string>();
+        for (int i = 0; i<player.Length; i++)
+        {
+            ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+
+            if (playerProp.ContainsKey("isAlien") == true && (bool)playerProp["isAlien"] == true)
+                alien.Add(player[i].NickName);
+        }
+
+        GameObject.Find("UI_ResultList_Text").GetComponent<Text>().text = string.Join(", ", alien);
+
 
         // 관련 오브젝트 제거
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
