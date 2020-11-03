@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class Player : MonoBehaviourPunCallbacks
 {
@@ -13,10 +14,13 @@ public class Player : MonoBehaviourPunCallbacks
     private float statBt = 0.0f;
     private float statBtMax = 0.0f;
 
+
     public float hpModifier;
     public float o2Modifier;
     public float btModifier_up;
     public float btModifier_down;
+
+    public float damage{set; get;} = 5f;
 
     private int meterialWood = 0;
     private int meterialIron = 0;
@@ -28,6 +32,9 @@ public class Player : MonoBehaviourPunCallbacks
 
     UI_Inventory uI_Inventory;
 
+
+    public delegate void OnTakeDamage();
+    public OnTakeDamage onTakeDamageCallback;
     void Start()
     {
 
@@ -53,7 +60,6 @@ public class Player : MonoBehaviourPunCallbacks
         }
 
         flashlight.SetActive(false);
-
     }
 
     void Update()
@@ -284,4 +290,24 @@ public class Player : MonoBehaviourPunCallbacks
 
         photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
     }
+
+    [PunRPC]
+    public void TakeDamage(float damage)
+    {
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
+        SetHP(GetHP() - damage);
+
+        onTakeDamageCallback.Invoke();
+
+        Debug.Log(transform.name + " takes " + damage + " damage.");
+
+        if(statHp <= 0f){
+            Debug.Log("dead");
+            SetDead();
+        }
+    }
+
 }

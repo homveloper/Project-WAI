@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Resource : ScriptableObject
+
+[Serializable]
+public class Resource
 {
-    public float hp;
-    public float o2;
+    int wood{set; get;}
+    int iron{set; get;}
+    int part{set; get;}
 }

@@ -30,7 +30,13 @@ public class InventorySlot : MonoBehaviour
     public void AddItem(Item item)
     {
         this.item = item;
-        itemIcon.sprite = item.icon;
+
+        if(item is ConsumableItem){
+            itemIcon.sprite = ((ConsumableItem)item).icon;
+        }else if (item is InteractableItem){
+            itemIcon.sprite = ((InteractableItem)item).icon;
+        }
+
         itemIcon.enabled = true;
     }
 
@@ -46,6 +52,8 @@ public class InventorySlot : MonoBehaviour
         if (item != null)
         {
             item.Use(Inventory.instance.playerStat);
+         
+            if(item is ConsumableItem)
             Inventory.instance.Remove(item);
         }
     }

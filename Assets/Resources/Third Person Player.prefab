@@ -5504,6 +5504,8 @@ GameObject:
   - component: {fileID: 3565582377464417741}
   - component: {fileID: 6587770530825150049}
   - component: {fileID: 1048966396458255995}
+  - component: {fileID: 7946571427189089344}
+  - component: {fileID: 4965258566242764209}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -5541,7 +5543,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 4.35
-  m_Radius: 2
+  m_Radius: 0.72
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
@@ -5594,6 +5596,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   player: {fileID: 6918174023060847195}
+  combat: {fileID: 0}
+  thirdPersonMovement: {fileID: 0}
 --- !u!114 &7186006604985324643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5876,6 +5880,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7946571427189089344
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.95, y: 3.93, z: 1.91}
+  m_Center: {x: 0, y: 2.25, z: 1.14}
+--- !u!114 &4965258566242764209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bc0577f9fefd347a2575f5eb248ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0
