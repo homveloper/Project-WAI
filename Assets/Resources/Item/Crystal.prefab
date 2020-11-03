@@ -90,8 +90,8 @@ GameObject:
   - component: {fileID: 1334843337259381362}
   - component: {fileID: 460720483132981335}
   - component: {fileID: 2948714452791257831}
-  - component: {fileID: -8140079901392112487}
   - component: {fileID: 1109206045562446141}
+  - component: {fileID: -8140079901392112487}
   - component: {fileID: -1906395543232110492}
   - component: {fileID: -7740858619089318443}
   m_Layer: 0
@@ -159,6 +159,20 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!136 &1109206045562446141
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336101307288946422}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 3.1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.49, z: 0.39}
 --- !u!54 &-8140079901392112487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -175,20 +189,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!136 &1109206045562446141
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336101307288946422}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 3.1
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.49, z: 0.39}
 --- !u!114 &-1906395543232110492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   rigidbody: {fileID: -8140079901392112487}
   lerpTime: 2
   minRange: 3
-  maxRange: 13
+  maxRange: 5
   torqueSpeed: 300
 --- !u!1 &1336627362434961082
 GameObject:
