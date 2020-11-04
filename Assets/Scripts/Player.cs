@@ -406,10 +406,9 @@ public class Player : MonoBehaviourPunCallbacks
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
 
-        if (targetPlayer.IsLocal == false)
+        if (targetPlayer != photonView.Owner)
             return;
 
-        // 색상 갱신
         if (changedProps.ContainsKey("color") == false)
             return;
 
