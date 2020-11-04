@@ -367,14 +367,14 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetTransform() // 변신 설정 (스위칭)
     {
-        if (IsAlienPlayer() == false && alien.activeSelf == false)
+        if (IsAlienPlayer() == false)
             return;
 
         photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, !alien.activeSelf);
     }
     public void SetTransform(bool val) // 변신 설정 (매뉴얼)
     {
-        if (IsAlienPlayer() == false && val == true)
+        if (IsAlienPlayer() == false)
             return;
 
         photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
