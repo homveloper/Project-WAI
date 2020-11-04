@@ -154,20 +154,18 @@ public class Player : MonoBehaviourPunCallbacks
     public void TakeDamage(int actorNumber, float damage)
     {
         print(photonView.OwnerActorNr + " , " + actorNumber);
-
-        if (photonView.OwnerActorNr != actorNumber)
-            return;
-
-        SetHP(GetHP() - damage);
-
-        onTakeDamageCallback.Invoke();
-
-        Debug.Log(transform.name + " takes " + damage + " damage.");
-
-        if (statHp <= 0f)
+        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+        
+        for (int i = 0; i <player.Length; i++)
         {
-            Debug.Log("dead");
-            SetDead();
+            if (player[i].GetComponent<PhotonView>().OwnerActorNr == actorNumber)
+            {
+                SetHP(GetHP() - damage);
+
+                onTakeDamageCallback.Invoke();
+
+                Debug.Log(transform.name + " takes " + damage + " damage.");
+            }
         }
     }
     [PunRPC]
