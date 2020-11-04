@@ -10,6 +10,11 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         animator.SetTrigger("dead");
     }
 
+    void Start(){
+        GetComponentInParent<Combat>().OnAttackCallback += Attack;
+        GetComponentInParent<Player>().onTakeDamageCallback+= TakeDamage;
+    }
+
     void Update()
     {
         if(PhotonNetwork.IsConnected)
