@@ -170,6 +170,17 @@ public class Player : MonoBehaviourPunCallbacks
             SetDead();
         }
     }
+    [PunRPC]
+    public void Damaged(int actorNumber)
+    {
+        if (photonView.OwnerActorNr == actorNumber)
+            return;
+
+        SetHP(GetHP() - damage);
+        onTakeDamageCallback.Invoke();
+
+        Debug.Log(transform.name + " takes " + damage + " damage.");
+    }
     // ---------------------------------------------------------------------------------------------------
     // # GET 메소드
     // ---------------------------------------------------------------------------------------------------
