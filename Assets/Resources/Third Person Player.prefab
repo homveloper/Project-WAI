@@ -6399,10 +6399,12 @@ MonoBehaviour:
   researcher: {fileID: 1925428832513619680}
   alien: {fileID: 1747109184528308344}
   flashlight: {fileID: 8567649898356843675}
-  modifierHp: 20
-  modifierO2: 0
-  modifierBt: 10
-  modifierBtRecharge: 5
+  modHp: 10
+  modHpAlienHeal: 5
+  modO2: 1
+  modO2Run: 2
+  modBt: 10
+  modBtRecharge: 5
   statHp: 100
   statHpMax: 100
   statO2: 200
@@ -6414,7 +6416,6 @@ MonoBehaviour:
   meterialWood: 0
   meterialIron: 0
   meterialPart: 0
-  dead: 0
 --- !u!114 &7186006604985324643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6428,12 +6429,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1139416548044585999}
-  controllable: 1
-  speed: 20
-  runSpeedRate: 1.5
+  ResearcherWalk: 30
+  ResearcherRun: 45
+  AlienWalk: 40
   turnSmoothTime: 0.3
   turnSmoothVelocity: 0
   gravity: -1
+  controllable: 1
+  alien: 0
 --- !u!114 &8849792136659743650
 MonoBehaviour:
   m_ObjectHideFlags: 0

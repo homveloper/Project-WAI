@@ -8,81 +8,68 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
 
     public CharacterController controller;
 
-    public bool controllable = true;
+    public float ResearcherWalk; // 연구원 걷기 속도
+    public float ResearcherRun; // 연구원 달리기
+    public float AlienWalk; // 외계인 걷기 속도
+    public float turnSmoothTime; // 회전 시간
+    public float turnSmoothVelocity; // 회전 속도
+    public float gravity; // 중력 가속도
 
-    public float speed = 6f;
-    public float runSpeedRate = 1.5f;
-    public float turnSmoothTime = 0.1f;
-    public float turnSmoothVelocity;
-    public float gravity = -9.81f;
-    // public float jumpHeight = 3f;
+    private Vector3 velocity; // 연산 좌표
 
-    // public Transform groundCheck;
-    // public float groundDistance = 0.4f;
-    // public LayerMask groundMask;
-    // public bool isGrounded;
-    Vector3 velocity;
+    public bool controllable; // 이동 가능 여부
+    public bool alien; // 에일리언 여부
 
-    // Animator animator;
-    // void Awake() {
-    //     animator = GetComponentInChildren<Animator>();    
-    // }
-
-    // Update is called once per frame
-    void Start()
-    {
-        
-    }
     void Update()
     {
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
-        // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
         if( velocity.y < 0){
             velocity.y = -2f;
         }
 
+        // 캐릭터 이동
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
-        bool isRun = Input.GetButton("Run") && isWalk;
-
+        bool isRun = Input.GetButton("Run") && isWalk && !alien;
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-        // if is pressed either horizontal and vertical, diagnoal(대각선) is calculated root 2 because x and z is 1
-        // so diagnoal's speed is faster than others
 
-        // 중력 이동 처리
+        // 중력에 의한 이동 처리
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity);
 
         if (controllable == false)
             return;
 
-        // 캐릭터 이동 처리
+        // 유저 조작에 의한 이동 처리
         if (direction.magnitude >= 0.1f){
 
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             
             transform.rotation = Quaternion.Euler(0f,angle,0f);
-            controller.Move(direction * speed * (isRun ? runSpeedRate : 1f) * Time.deltaTime);
+            controller.Move(direction * (alien ? AlienWalk : (isRun ? ResearcherRun : ResearcherWalk)) * Time.deltaTime);
         }
+    }
 
-        // bool isJump = Input.GetButtonDown("Jump");
-        // animator.SetBool("isJump",isJump);
+    public bool IsRun()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
+        bool hasVeritcalInput = !Mathf.Approximately(vertical, 0f);
 
-        // if(isJump && isGrounded){
-        //     velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        // }
+        bool isWalk = hasHorizontalInput || hasVeritcalInput;
+        bool isRun = Input.GetButton("Run") && isWalk && !alien;
 
-
+        return isRun;
     }
 }
 

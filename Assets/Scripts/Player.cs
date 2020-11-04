@@ -13,10 +13,12 @@ public class Player : MonoBehaviourPunCallbacks
     public GameObject flashlight;
 
     // 스텟 증감치
-    public float modifierHp;
-    public float modifierO2;
-    public float modifierBt;
-    public float modifierBtRecharge;
+    public float modHp;
+    public float modHpAlienHeal;
+    public float modO2;
+    public float modO2Run;
+    public float modBt;
+    public float modBtRecharge;
     public float damage { set; get; } = 5f;
 
     // 연구원 스텟
@@ -30,16 +32,22 @@ public class Player : MonoBehaviourPunCallbacks
     // 외계인 스텟
     public float statHpAlien;
     public float statHpMaxAlien;
-
+    
     // 재료
     public int meterialWood;
     public int meterialIron;
     public int meterialPart;
 
-    // ???
-    UI_Inventory uI_Inventory;
+    // 기타
+    private PlayerColorPalette colorPalette;
+    private UI_Inventory uI_Inventory;
     public delegate void OnTakeDamage();
     public OnTakeDamage onTakeDamageCallback;
+
+    private void Awake()
+    {
+        colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
+    }
 
     void Start()
     {
@@ -70,22 +78,32 @@ public class Player : MonoBehaviourPunCallbacks
 
         // 체력 차감
         if (GetO2() <= 0)
-            SetHP(GetHP() - Time.deltaTime * modifierHp);
-
-        // 체력 부족
-        if (GetHP() <= 0)
-            SetDead();
+            SetHP(GetHP() - Time.deltaTime * modHp);
 
         // 산소 차감
-        SetO2(GetO2() - Time.deltaTime * modifierO2);
+        if (GetComponent<ThirdPersonMovement>().IsRun() == true)
+            SetO2(GetO2() - Time.deltaTime * modO2Run);
+        else
+            SetO2(GetO2() - Time.deltaTime * modO2);
 
         // 배터리 차감
         if (IsFlash() == true)
-            SetBt(GetBt() - Time.deltaTime * modifierBt);
+            SetBt(GetBt() - Time.deltaTime * modBt);
+
+        // 체력 회복 (외계인)
+        if (IsAlienObject() == true)
+            SetHP(GetHP(true) + Time.deltaTime * modHpAlienHeal, true);
 
         // 배터리 회복
         if (IsFlash() == false)
-            SetBt(GetBt() + Time.deltaTime * modifierBtRecharge);
+            SetBt(GetBt() + Time.deltaTime * modBtRecharge);
+
+        // 체력 부족
+        if (GetHP() <= 0 && IsDead() == false)
+            if (IsAlienPlayer() == true && IsAlienObject() == false)
+                SetTransform(false);
+            else
+                SetDead();
 
         // 배터리 부족
         if (IsFlash() == true && GetBt() <= 0)
@@ -96,21 +114,37 @@ public class Player : MonoBehaviourPunCallbacks
     // # 포톤 메시지 메소드
     // ---------------------------------------------------------------------------------------------------
     [PunRPC]
-    public void OnFlash(int actorNumber, bool val) // 플래시라이트
-    {
-        if (photonView.OwnerActorNr != actorNumber)
-            return;
-        
-        flashlight.SetActive(val);
-    }
-    [PunRPC]
     public void OnDead(int actorNumber) // 사망
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
 
-        SetMove(false);        
-        GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+        SetMove(false);
+        SetFlash(false);
+        researcher.GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+    }
+    [PunRPC]
+    public void OnTransform(int actorNumber, bool val)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        SetMove(true);
+        SetFlash(false);
+        researcher.SetActive(val);
+        alien.SetActive(!val);
+        GetComponent<ThirdPersonMovement>().alien = !val;
+    }
+    [PunRPC]
+    public void OnFlash(int actorNumber, bool val) // 플래시라이트
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        if (val == true)
+            SetBt(GetBt() - 10);
+        
+        flashlight.SetActive(val);
     }
     [PunRPC]
     public void TakeDamage(float damage)
@@ -139,7 +173,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (IsAlienObject() == true) return this.statHpAlien;
         else return this.statHp;
     }
-    public float GetHp(bool statAlien) // 체력 (지정 현재 수치)
+    public float GetHP(bool statAlien) // 체력 (지정 현재 수치)
     {
         if (statAlien == true) return this.statHpAlien;
         else return this.statHp;
@@ -189,13 +223,16 @@ public class Player : MonoBehaviourPunCallbacks
         if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true) return true;
         else return false;
     }
-    public bool IsAlienObject() // 외계인 변신 여부
+    public bool IsAlienObject() // 외계인 상태 여부
     {
        return alien.activeSelf;
     }
     public bool IsDead() // 사망 여부
     {
-        return false; // 수정 필요
+        if (researcher.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Dying Backwards") == true)
+            return true;
+        else
+            return false;
     }
     public bool IsControllable() // 조작 가능 여부
     {
@@ -316,15 +353,6 @@ public class Player : MonoBehaviourPunCallbacks
     {
         this.meterialPart = part;
     }
-    public void SetDead() // 사망 설정
-    {
-        SetMove(false);
-        SetFlash(false);
-        GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
-
-        Inventory.instance.DropAll();
-        photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-    }
     public void SetMove(bool val) // 조작 설정
     {
         researcher.GetComponent<PlayerAnimation>().enabled = val;
@@ -332,53 +360,59 @@ public class Player : MonoBehaviourPunCallbacks
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().enabled = val;
     }
+    public void SetDead() // 사망 설정
+    {
+        Inventory.instance.DropAll();
+        photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
     public void SetTransform() // 변신 설정 (스위칭)
     {
-        if (alien.activeSelf == true)
-        {
-            alien.SetActive(false);
-            researcher.SetActive(true);
-        }
-        else
-        {
-            if (IsAlienPlayer() == false)
-                return;
+        if (IsAlienPlayer() == false)
+            return;
 
-            researcher.SetActive(false);
-            alien.SetActive(true);
-        }
-        SetFlash(false);
+        photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, !alien.activeSelf);
     }
     public void SetTransform(bool val) // 변신 설정 (매뉴얼)
     {
-        if (IsAlienPlayer() == false && val == true)
+        if (IsAlienPlayer() == false)
             return;
 
-        researcher.SetActive(val);
-        alien.SetActive(!val);
-        SetFlash(false);
+        photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
     }
     public void SetFlash() // 라이트 설정 (스위칭)
     {
         if (IsAlienObject() == true)
             return;
+
         if (flashlight.activeSelf == false && GetBt() <= 10)
             return;
 
-        if (flashlight.activeSelf == true) flashlight.SetActive(false);
-        else flashlight.SetActive(true);
-
-        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, !flashlight.activeSelf);
     }
     public void SetFlash(bool val) // 라이트 설정 (매뉴얼)
     {
         if (IsAlienObject() == true)
             return;
-        if (val == true && GetBt() <= 0)
+
+        if (val == true && GetBt() <= 10)
             return;
 
-        flashlight.SetActive(val);
+        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
+    }
+    // ---------------------------------------------------------------------------------------------------
+    // # 콜백 메소드
+    // ---------------------------------------------------------------------------------------------------
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
 
-        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+        if (targetPlayer != photonView.Owner)
+            return;
+
+        if (changedProps.ContainsKey("color") == false)
+            return;
+
+        researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
+        researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
     }
 }
