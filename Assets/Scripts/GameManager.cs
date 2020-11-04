@@ -12,6 +12,7 @@ using UnityEditor.PackageManager.Requests;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    // 공통
     private const int TIME = 1800;
     public static bool DEBUG_GAME = true;
     private static GameManager instance = null;
@@ -19,9 +20,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     // 플레이어 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
-    public GameObject[] inGamePlayerList;
-    GameObject[] inGameDeadPlayerList;
-    PlayerColorPalette colorPalettte;
 
     // 벽 객체
     private List<Renderer> wallList;
@@ -62,8 +60,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         time = TIME;
         timeMax = TIME;
 
-        colorPalettte = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
-
         PhotonNetwork.IsMessageQueueRunning = true;
 
         // 게임 시작 코드
@@ -81,7 +77,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             GameReady();
         }
-
     }
 
     void Update()
@@ -183,8 +178,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
 
         mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
-        mPlayer.transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
-        mPlayer.transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)localProp["color"]]);
         mPlayer.GetComponent<Player>().SetMove(false);
 
         mCamera = GameObject.Find("CineMachine");
@@ -276,25 +269,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         Invoke("checkTimer", 1.0f);
-
-        inGamePlayerList = GameObject.FindGameObjectsWithTag("Player");
-        inGameDeadPlayerList = GameObject.FindGameObjectsWithTag("DeadPlayer");
-
-        for (int i = 0; i < inGamePlayerList.Length; i++)
-        {
-            ExitGames.Client.Photon.Hashtable prop = inGamePlayerList[i].GetComponent<PhotonView>().Owner.CustomProperties;
-            inGamePlayerList[i].transform.Find("spacesuit").Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
-            inGamePlayerList[i].transform.Find("spacesuit").Find("head").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
-        }
-
-
-        // 색상 갱신
-        for (int i = 0; i < inGameDeadPlayerList.Length; i++)
-        {
-            ExitGames.Client.Photon.Hashtable prop = inGameDeadPlayerList[i].GetComponent<PhotonView>().Controller.CustomProperties;
-            inGameDeadPlayerList[i].transform.Find("body").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
-            inGameDeadPlayerList[i].transform.Find("head").GetComponent<MeshRenderer>().material.SetColor("_MainColor", colorPalettte.colors[(int)prop["color"]]);
-        }
 
         // 미니 알람
         if (flag_alertJob == false)
