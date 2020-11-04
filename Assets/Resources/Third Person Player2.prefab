@@ -6295,6 +6295,8 @@ GameObject:
   - component: {fileID: 3565582377464417741}
   - component: {fileID: 6587770530825150049}
   - component: {fileID: 1048966396458255995}
+  - component: {fileID: 7946571427189089344}
+  - component: {fileID: 4965258566242764209}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -6333,7 +6335,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 4.35
-  m_Radius: 2
+  m_Radius: 0.72
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
@@ -6369,23 +6371,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   researcher: {fileID: 1925428832513619680}
   alien: {fileID: 1747109184528308344}
+  hpModifier: 20
+  o2Modifier: 0
+  btModifierRecharge: 5
+  btModifierUse: 10
   flashlight: {fileID: 8567649898356843675}
-  modifierHp: 20
-  modifierO2: 0
-  modifierBt: 10
-  modifierBtRecharge: 5
-  statHp: 100
-  statHpMax: 100
-  statO2: 200
-  statO2Max: 200
-  statBt: 100
-  statBtMax: 100
-  statHpAlien: 200
-  statHpMaxAlien: 200
-  meterialWood: 0
-  meterialIron: 0
-  meterialPart: 0
-  dead: 0
+<<<<<<< HEAD
+=======
+--- !u!114 &8450696144942683225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976f3e84daab7304087dcf072b27fc1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 6918174023060847195}
+  combat: {fileID: 0}
+  thirdPersonMovement: {fileID: 0}
+>>>>>>> 13f965acde649b80d2ea336bd2825a7fc1b7f0f0
 --- !u!114 &7186006604985324643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6669,6 +6678,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7946571427189089344
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.95, y: 3.93, z: 1.91}
+  m_Center: {x: 0, y: 2.25, z: 1.14}
+--- !u!114 &4965258566242764209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bc0577f9fefd347a2575f5eb248ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0
