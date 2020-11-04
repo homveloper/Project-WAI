@@ -57,14 +57,16 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     }
 
     void TakeDamage(){
-        if(PhotonNetwork.IsConnected)
+
+         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
+
         float hitStatus = Random.Range(0f,3f);
         print(hitStatus);
-        animator.SetFloat("hitStatus",hitStatus);
         animator.SetTrigger("hit");
+        animator.SetFloat("hitStatus",hitStatus);
     }
 
     void Attack(){

@@ -7,10 +7,13 @@ using System;
 
 public class Player : MonoBehaviourPunCallbacks
 {
+    [SerializeField]
     private float statHp = 0.0f;
     private float statHpMax = 0.0f;
+    [SerializeField]
     private float statO2 = 0.0f;
     private float statO2Max = 0.0f;
+    [SerializeField]
     private float statBt = 0.0f;
     private float statBtMax = 0.0f;
 
@@ -105,6 +108,10 @@ public class Player : MonoBehaviourPunCallbacks
         {
             Debug.Log("dead");
             SetDead();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Y)){
+            TakeDamage(10);
         }
     }
 
@@ -294,14 +301,12 @@ public class Player : MonoBehaviourPunCallbacks
     [PunRPC]
     public void TakeDamage(float damage)
     {
-        if (PhotonNetwork.IsConnected)
-            if (!photonView.IsMine)
-                return;
+        // if (PhotonNetwork.IsConnected)
+        //     if (!photonView.IsMine)
+        //         return;
 
-        SetHP(GetHP() - damage);
-
+        statHp -= damage;
         onTakeDamageCallback.Invoke();
-
         Debug.Log(transform.name + " takes " + damage + " damage.");
 
         if(statHp <= 0f){

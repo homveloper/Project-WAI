@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using Photon.Realtime;
 
 
 [RequireComponent(typeof(Player))]
@@ -32,18 +32,22 @@ public class Combat : MonoBehaviourPun
 
     void OnTriggerStay(Collider other){
 
-        if(other.gameObject != gameObject){
-            Player targetPlayer = other.GetComponent<Player>();
+        if(!photonView.IsMine)
+            return;
 
-            if(Input.GetButtonDown("Attack") && targetPlayer != null ){
-                Attack(targetPlayer);
+        if(other.gameObject != gameObject){
+            Player targetStat = other.GetComponent<Player>();
+
+            if(Input.GetButtonDown("Attack") && targetStat != null ){
+                Photon.Realtime.Player targetPlayer = other.gameObject.GetComponent<PhotonView>().Owner;
+                print(targetPlayer);
+                Attack(targetStat,targetPlayer);
             }
         }
 
- 
-
     }
-    public void Attack(Player targetPlayer){
+
+    public void Attack(Player targetStat, Photon.Realtime.Player targetPlayer){
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
@@ -51,9 +55,9 @@ public class Combat : MonoBehaviourPun
         if(attackCooldown <= 0f){
             OnAttackCallback.Invoke();
 
-            // photonView.RPC("TakeDamage",RpcTarget.AllBuffered,myStats.damage);
+            photonView.RPC("TakeDamage",targetPlayer,myStats.damage);
             // targetPlayer.TakeDamage(myStats.damage);
-            print("Attack " + targetPlayer.transform.name + " HP : " + targetPlayer.GetHP());
+            print("Attack " + targetStat.transform.name + " HP : " + targetStat.GetHP());
             attackCooldown = 1f / attackSpeed;
         }
     }
