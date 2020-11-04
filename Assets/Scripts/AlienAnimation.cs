@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
-public class AlienAnimation : MonoBehaviour
+public class AlienAnimation : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    public Animator animator;
 
-    Animator animator;
-    void Awake() {
-        animator = GetComponentInChildren<Animator>();    
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
