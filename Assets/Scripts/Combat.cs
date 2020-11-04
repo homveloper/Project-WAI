@@ -41,20 +41,21 @@ public class Combat : MonoBehaviourPun
             if(Input.GetButtonDown("Attack") && targetStat != null ){
                 Photon.Realtime.Player targetPlayer = other.gameObject.GetComponent<PhotonView>().Owner;
                 print(targetPlayer);
-                Attack(targetStat,targetPlayer);
+                Attack(targetStat, other.gameObject.GetComponent<PhotonView>().Owner.ActorNumber);
             }
         }
 
     }
 
-    public void Attack(Player targetStat, Photon.Realtime.Player targetPlayer){
+    public void Attack(Player targetStat, int actorNumber)
+    {
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
         if(attackCooldown <= 0f){
             OnAttackCallback.Invoke();
-            photonView.RPC("TakeDamage", RpcTarget.All, targetPlayer, myStats.damage);
+            photonView.RPC("TakeDamage", RpcTarget.All, actorNumber, myStats.damage);
             // targetPlayer.TakeDamage(myStats.damage);
             print("Attack " + targetStat.transform.name + " HP : " + targetStat.GetHP());
             attackCooldown = 1f / attackSpeed;

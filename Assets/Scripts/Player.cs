@@ -151,14 +151,10 @@ public class Player : MonoBehaviourPunCallbacks
         flashlight.SetActive(val);
     }
     [PunRPC]
-    public void TakeDamage(Photon.Realtime.Player targetPlayer, float damage)
+    public void TakeDamage(int actorNumber, float damage)
     {
-        Debug.Log("asdfasdfasdf");
-        if (photonView.Owner != targetPlayer)
-        {
-            onTakeDamageCallback.Invoke();
+        if (photonView.OwnerActorNr != actorNumber)
             return;
-        }
 
         SetHP(GetHP() - damage);
 
