@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd5f0501b5d25c448a1e7c0553413f57, type: 3}
+  m_Script: {fileID: 11500000, guid: 737edadf78381d148a72b3724ecb2d45, type: 3}
   m_Name: Crystal
   m_EditorClassIdentifier: 
-  name: Crystal
-  cost: 0
-  HPModifier: 0
-  O2Modifier: 0
+  name: new Item
   description: 
-  icon: {fileID: 21300000, guid: 0662879dd6c66e9448dd9e5a809f1767, type: 3}
+  icon: {fileID: 0}

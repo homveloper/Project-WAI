@@ -1,23 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new Item", menuName = "Item")]
-
-public class Item : ScriptableObject
-{
-    //when you wan't initialize use 'new'
+public class Item : ScriptableObject{
     new public string name = "new Item";
-    public int cost;
-    public int HPModifier;
-    public int O2Modifier;
+
+    public Resource cost;
 
     [TextArea(15,20)]
     public string description;
     public Sprite icon;
 
     public virtual void Use(Player playerStat){
-        playerStat.SetHP(playerStat.GetHP() + HPModifier);
-        playerStat.SetO2(playerStat.GetO2() + O2Modifier);
+
     }
+
 }
+
+/*
+    Item
+
+        소비아이템
+
+        일반아이템
+*/

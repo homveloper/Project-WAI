@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class ItemPickup : MonoBehaviourPun
 {
-    public Item item;
+    public ConsumableItem item;
 
     private void OnTriggerEnter(Collider other) {
     
