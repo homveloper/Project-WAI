@@ -5386,25 +5386,25 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: isJump
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: dead
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: attack
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: hit
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: hitStatus
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: moveSpeed
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: pushStanding
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: pushStand
   m_SynchronizeLayers:
   - SynchronizeType: 1
