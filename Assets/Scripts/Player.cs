@@ -6,6 +6,9 @@ using Photon.Pun;
 
 public class Player : MonoBehaviourPunCallbacks
 {
+    public GameObject researcher;
+    public GameObject alien;
+
     private float statHp = 0.0f;
     private float statHpMax = 0.0f;
     private float statO2 = 0.0f;
@@ -15,8 +18,8 @@ public class Player : MonoBehaviourPunCallbacks
 
     public float hpModifier;
     public float o2Modifier;
-    public float btModifier_up;
-    public float btModifier_down;
+    public float btModifierRecharge;
+    public float btModifierUse;
 
     private int meterialWood = 0;
     private int meterialIron = 0;
@@ -68,6 +71,21 @@ public class Player : MonoBehaviourPunCallbacks
             SetFlash();
         }
 
+        // 플래시라이트 (F)
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if(alien.activeSelf == true)
+            {
+                alien.SetActive(false);
+                researcher.SetActive(true);
+            }
+            else
+            {
+                alien.SetActive(true);
+                researcher.SetActive(false);
+            }
+        }
+
         // 디버그 중에는 스텟 차감 및 사망 발생하지 않음
         if (GameManager.DEBUG_GAME == false)
             return;
@@ -78,11 +96,11 @@ public class Player : MonoBehaviourPunCallbacks
         // 라이트 회복/차감
         if (IsFlash() == false)
         {
-            SetBt(GetBt() + Time.deltaTime * btModifier_up);
+            SetBt(GetBt() + Time.deltaTime * btModifierRecharge);
         }
         else if (IsFlash() == true)
         {
-            SetBt(GetBt() - Time.deltaTime * btModifier_down);
+            SetBt(GetBt() - Time.deltaTime * btModifierUse);
         }
 
         // 배터리 부족으로 라이트 꺼짐
@@ -254,7 +272,8 @@ public class Player : MonoBehaviourPunCallbacks
 
     public void SetMove(bool val) // 캐릭터 이동 설정
     {
-        GetComponent<PlayerAnimation>().enabled = val;
+        researcher.GetComponent<PlayerAnimation>().enabled = val;
+        alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().enabled = val;
     }

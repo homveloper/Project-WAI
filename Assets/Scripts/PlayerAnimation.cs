@@ -1,27 +1,15 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update    Animator animator;
-
     [SerializeField]
     public Animator animator;
-    public Player player;
-    
-    void Awake() 
-    {
-        animator = GetComponentInChildren<Animator>();
-        player = GetComponent<Player>();
-    }
 
     void SetPlayerDead(){
         animator.SetTrigger("dead");
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(PhotonNetwork.IsConnected)
