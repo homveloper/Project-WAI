@@ -109,9 +109,9 @@ public class Player : MonoBehaviourPunCallbacks
         if (IsFlash() == true && GetBt() <= 0)
             SetFlash(false);
 
-        if(Input.GetKeyDown(KeyCode.Y)){
-            TakeDamage(10);
-        }
+        //if(Input.GetKeyDown(KeyCode.Y)){
+            //TakeDamage(,10);
+        //}
     }
 
     // ---------------------------------------------------------------------------------------------------
