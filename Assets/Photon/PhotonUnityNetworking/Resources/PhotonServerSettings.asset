@@ -51,6 +51,9 @@ MonoBehaviour:
   - TakeDamage
   - OnTransform
   - dmg
+  - Damaged
+  - OnHit
+  - OnTakeOver
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

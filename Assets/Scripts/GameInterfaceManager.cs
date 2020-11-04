@@ -11,54 +11,22 @@ using System;
 
 public class GameInterfaceManager : MonoBehaviourPunCallbacks
 {
-    bool mode_result = false; // 결과창
-    bool mode_chat = false; // 채팅창
-    bool mode_watching = false; // 관전창
+    private static GameInterfaceManager instance = null;
 
-    int mode_watching_index = 0; // 관전 모드 캐릭터 인덱스
+    int watchIdx = 0; // 관전 모드 인덱스
+    float fps = 0.0f; // FPS
 
-    float fps = 0.0f; // fps 체크
+    private void Awake()
+    {
+        instance = this; // 최초 생성인 경우 해당 오브젝트를 계속 인스턴스로 가져감
+    }
 
     void Update()
     {
         if (GameManager.GetInstance() == null)
             return;
 
-        // fps 체크
-        fps += (Time.deltaTime - fps) * 0.1f;
-
-        // 게임이 끝나면 결과창 출력
-        if (GameManager.GetInstance().flag_finish == true && mode_result == false)
-            OnSwitchResult();
-
-        // 게임 매니저가 없는 상황, 플레이어 데이터가 없는 상황, 게임이 끝난 상황에는 갱신하지 않음
-        if (GameManager.GetInstance().mPlayer == null || mode_result == true)
-            return;
-
-        // UI 갱신
-        refresh();
-
-        // 관전모드 전환
-        if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true && mode_watching == false)
-        {
-            OnSwitchWatching();
-        }
-        else if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == false && mode_watching == true)
-        {
-            OnSwitchWatching();
-        }
-
-        // 관전모드 - 관전 대상 전환
-        if (mode_watching == true && Input.GetKeyDown(KeyCode.LeftArrow) == true)
-        {
-            OnMoveWatching(-1);
-        }
-        else if (mode_watching == true && Input.GetKeyDown(KeyCode.RightArrow) == true)
-        {
-            OnMoveWatching(1);
-        }
-
-        // 나가기 (F4) ** 디버깅용 **
+        // [디버깅용] 나가기 (F4)
         if (Input.GetKeyDown(KeyCode.F4) == true)
         {
             ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
@@ -68,26 +36,43 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
         }
 
-        // 캐릭터가 죽었다면 채팅 모드는 동작하지 않음
+        // fps 체크
+        fps += (Time.deltaTime - fps) * 0.1f;
+
+        // 게임이 끝나면 결과창 출력
+        if (GameManager.GetInstance().flag_finish == true && IsEnding() == false)
+            OnSwitchEnd(true);
+
+        // 플레이어 데이터가 없는 상황, 게임이 끝난 상황에는 UI 미갱신
+        if (GameManager.GetInstance().mPlayer == null || IsEnding() == true)
+            return;
+
+        // UI 갱신
+        refresh();
+
+        // 관전모드 전환 (자동)
+        if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true && IsWatching() == false)
+            OnSwitchWatch(true);
+        else if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == false && IsWatching() == true)
+            OnSwitchWatch(false);
+
+        // 관전모드 - 대상 전환 (방향키)
+        if (IsWatching() == true && Input.GetKeyDown(KeyCode.LeftArrow) == true)
+            OnMoveWatch(-1);
+        else if (IsWatching() == true && Input.GetKeyDown(KeyCode.RightArrow) == true)
+            OnMoveWatch(1);
+
+        // 캐릭터가 사망 시, 채팅모드 관련 메소드 미동작
         if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true)
             return;
 
         // 채팅모드 전환 (탭)
         if (Input.GetKeyDown(KeyCode.Tab) == true)
-        {
             OnSwitchChat();
-        }
 
         // 채팅모드 - 채팅 (엔터)
-        if (mode_chat == true && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
-        {
-            // 화면이 완전 표시된 후에 채팅 사용 가능
-            Animator animator = GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>();
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Talk_show") == false)
-                return;
-
+        if (IsChating() == true && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
             OnSendChat();
-        }
     }
 
     void refresh() // UI 갱신
@@ -119,29 +104,27 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject[] nickObj = GameObject.FindGameObjectsWithTag("Nickname");
 
         for (int i = 0; i < nickObj.Length; i++)
-        {
             nickObj[i].GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-        }
 
         for (int i = 0; i < playerObj.Length; i++)
         {
-            if (playerObj[i].GetComponent<PhotonView>().IsMine == true)
-                continue;
-
-            Vector3 pos = playerObj[i].transform.position;
-            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(pos);
-
-            //Debug.Log(i + "번째: " + viewportPoint.x + "/" + viewportPoint.y);
+            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(playerObj[i].transform.position);
 
             viewportPoint.x *= Screen.width;
-            viewportPoint.y = (viewportPoint.y * Screen.height) + 125;
+            viewportPoint.y = (viewportPoint.y * Screen.height) + 150;
 
             nickObj[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             nickObj[i].GetComponent<RectTransform>().position = viewportPoint;
-            nickObj[i].GetComponent<Text>().text = playerObj[i].GetComponent<PhotonView>().Owner.NickName;
 
             ExitGames.Client.Photon.Hashtable myProp = PhotonNetwork.LocalPlayer.CustomProperties;
             ExitGames.Client.Photon.Hashtable playerProp = playerObj[i].GetComponent<PhotonView>().Owner.CustomProperties;
+
+            if (playerObj[i].GetComponent<Player>().IsDead() == true)
+                nickObj[i].GetComponent<Text>().text = "";
+            else if (playerProp.ContainsKey("isAlien") == true && playerProp.ContainsKey("fakeNick") == true)
+                nickObj[i].GetComponent<Text>().text = (string)playerProp["fakeNick"];
+            else
+                nickObj[i].GetComponent<Text>().text = playerObj[i].GetComponent<PhotonView>().Owner.NickName;
 
             if (myProp.ContainsKey("isAlien") == true && playerProp.ContainsKey("isAlien") == true && (bool)myProp["isAlien"] == true && (bool)playerProp["isAlien"] == true)
                 nickObj[i].GetComponent<Outline>().effectColor = new Color(1, 0, 0);
@@ -149,107 +132,83 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
                 nickObj[i].GetComponent<Outline>().effectColor = new Color(0, 0, 0);
         }   
     }
-
     // ---------------------------------------------------------------------------------------------------
     // 채팅 모드
     // ---------------------------------------------------------------------------------------------------
-    public void OnSwitchChat() // 채팅 모드 스위칭 함수
+    public bool IsChating() // 채팅 여부
     {
-        if (mode_chat == false) // 채팅 모드 ON
-        {
-            mode_chat = true;
-            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
-            GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_load");
-
-            InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
-            field.DeactivateInputField();
-            GameManager.GetInstance().GetComponent<MissionController>().OnHide();
-        }
-        else // 채팅 모드 OFF
-        {
-            Animator animator = GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>();
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Talk_show") == false)
-                return;
-
-            mode_chat = false;
-            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
-            GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
-            GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play("Talk_hide");
-
-            InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
-            field.DeactivateInputField();
-            GameManager.GetInstance().GetComponent<MissionController>().OnShow();
-        }
+        return !GameObject.Find("UI_Panel_Talk").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Talk_hide");
     }
-
-    public void OnSendChat() // 입력한 채팅을 송신하는 함수
+    public void OnSwitchChat() // 채팅 모드 (스위칭)
     {
-        InputField field = GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>();
+        OnSwitchChat(!IsChating());
+    }
+    public void OnSwitchChat(bool val) // 채팅 모드 (매뉴얼)
+    {
+        GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
+        GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play(val ? "Talk_load" : "Talk_hide");
+        GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>().DeactivateInputField();
 
+        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
+        if (val) GameManager.GetInstance().GetComponent<MissionController>().OnHide();
+        else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
+    }
+    public void OnSendChat() // 채팅 송신
+    {
+        if (!GameObject.Find("UI_Panel_Talk").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Talk_show"))
+            return;
+
+        InputField field = GameObject.Find("UI_Panel_Talk_Input").GetComponent<InputField>();
+
+        if (field.text == "")
+            return;
+
+        photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
+        field.text = "";
         field.ActivateInputField();
-
-        if (field.text != "")
-        {
-            photonView.RPC("OnChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
-            field.text = "";
-            field.ActivateInputField();
-        }
     }
-
     [PunRPC]
-    public void OnChat(string message) // RPC로 채팅을 수신하는 함수
+    public void OnReceiveChat(string message) // 채팅 수신
     {
-        GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = true;
-        Text chat = GameObject.Find("UI_Panel_Talk_Panel_Text").gameObject.GetComponent<Text>();
-        chat.text = chat.text + "\n" + message;
+        GameObject.Find("UI_Talk_Active").GetComponent<Image>().enabled = true;
+        GameObject.Find("UI_Panel_Talk_Panel_Text").GetComponent<Text>().text += "\n" + message;
     }
-
     // ---------------------------------------------------------------------------------------------------
     // 관전 모드
     // ---------------------------------------------------------------------------------------------------
-    public void OnSwitchWatching() // 관전 모드 스위칭 함수
+    public bool IsWatching() // 관전 여부
     {
-        if (mode_watching == false) // 관전모드 ON
-        {
-            mode_watching = true;
-            
-            if (mode_chat == true) OnSwitchChat(); // 채팅 창이 켜져있으면 끄기
-
-            OnMoveWatching(0);
-
-            GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-            GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-            GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            GameManager.GetInstance().GetComponent<MissionController>().OnHide();
-            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
-        }
-        else // 관전 모드 OFF
-        {
-            mode_watching = false;
-
-            GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
-            GameManager.GetInstance().GetComponent<MissionController>().OnShow();
-            GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
-        }
+        return GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale == new Vector3(1, 1, 1);
     }
+    public void OnSwitchWatch() // 관전 모드 (스위칭)
+    {
+        OnSwitchWatch(!IsWatching());
+    }
+    public void OnSwitchWatch(bool val) // 관전 모드 (매뉴얼)
+    {
+        GameObject.Find("UI_Stats").GetComponent<RectTransform>().localScale = (val ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1));
+        GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = (val ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1));
+        GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = (val ? new Vector3(1, 1, 1) : new Vector3(0, 0, 0));
 
-    public void OnMoveWatching(int num) // 관전 대상 변경 함수
+        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
+        if (val) GameManager.GetInstance().GetComponent<MissionController>().OnHide();
+        else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
+
+        OnSwitchChat(false);
+    }
+    public void OnMoveWatch(int num) // 관전 대상 변경
     {
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
         int cnt = 1;
         
         while (cnt >= 1 && cnt <= 20)
         {
-            mode_watching_index += num;
-            if (mode_watching_index >= player.Length) mode_watching_index = 0;
-            if (mode_watching_index < 0) mode_watching_index = player.Length - 1;
+            watchIdx += num;
+            if (watchIdx >= player.Length) watchIdx = 0;
+            if (watchIdx < 0) watchIdx = player.Length - 1;
 
-            if (player[mode_watching_index].GetComponent<Player>().IsDead() == false)
-                cnt = -1;
-            else
-                cnt++;
+            if (player[watchIdx].GetComponent<Player>().IsDead() == false) cnt = -1;
+            else cnt++;
         }
 
         if (cnt > 20)
@@ -260,29 +219,34 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         else if (cnt < 0)
         {
             GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().Follow = player[mode_watching_index].transform;
-            GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().LookAt = player[mode_watching_index].transform;
-            GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = player[mode_watching_index].GetComponent<PhotonView>().Owner.NickName;
+            GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().Follow = player[watchIdx].transform;
+            GameManager.GetInstance().mCamera.GetComponent<CinemachineFreeLook>().LookAt = player[watchIdx].transform;
+            GameObject.Find("UI_Watching_Nickname").GetComponent<Text>().text = player[watchIdx].GetComponent<PhotonView>().Owner.NickName;
         }
     }
-
     // ---------------------------------------------------------------------------------------------------
-    // 관전 모드
+    // 게임 종료
     // ---------------------------------------------------------------------------------------------------
-    public override void OnLeftRoom() // 방에서 나갔을때 호출되는 콜백 함수
+    public bool IsEnding() // 종료 여부
+    {
+        return GameObject.Find("UI_Result").GetComponent<Canvas>().enabled;
+    }
+    public void OnSwitchEnd() // 결과 출력 (스위칭)
+    {
+        OnSwitchEnd(!IsEnding());
+    }
+    public void OnSwitchEnd(bool val) // 결과 출력 (스위칭)
+    {
+        GameObject.Find("UI_Result").GetComponent<Canvas>().enabled = val;
+        GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = !val;
+    }
+    // ---------------------------------------------------------------------------------------------------
+    // 콜백 메소드
+    // ---------------------------------------------------------------------------------------------------
+    public override void OnLeftRoom() // 방 퇴장
     {
         base.OnLeftRoom();
 
         SceneManager.LoadScene("proto_main");
-    }
-
-    // ---------------------------------------------------------------------------------------------------
-    // 게임 종료 모드
-    // ---------------------------------------------------------------------------------------------------
-    public void OnSwitchResult() // 결과창 출력 (켜는 것만 있음)
-    {
-        mode_result = true;
-        GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("UI_Result").GetComponent<Canvas>().enabled = true;
     }
 }

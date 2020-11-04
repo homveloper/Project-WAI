@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using System.ComponentModel.Design.Serialization;
 
 public class Player : MonoBehaviourPunCallbacks
 {
@@ -90,14 +91,6 @@ public class Player : MonoBehaviourPunCallbacks
         if (IsFlash() == true)
             SetBt(GetBt() - Time.deltaTime * modBt);
 
-        // 체력 회복 (외계인)
-        if (IsAlienObject() == true)
-            SetHP(GetHP(true) + Time.deltaTime * modHpAlienHeal, true);
-
-        // 배터리 회복
-        if (IsFlash() == false)
-            SetBt(GetBt() + Time.deltaTime * modBtRecharge);
-
         // 체력 부족
         if (GetHP() <= 0 && IsDead() == false)
             if (IsAlienPlayer() == true && IsAlienObject() == false)
@@ -109,9 +102,13 @@ public class Player : MonoBehaviourPunCallbacks
         if (IsFlash() == true && GetBt() <= 0)
             SetFlash(false);
 
-        //if(Input.GetKeyDown(KeyCode.Y)){
-            //TakeDamage(,10);
-        //}
+        // 체력 회복 (외계인)
+        if (IsAlienObject() == true)
+            SetHP(GetHP(true) + Time.deltaTime * modHpAlienHeal, true);
+
+        // 배터리 회복
+        if (IsFlash() == false)
+            SetBt(GetBt() + Time.deltaTime * modBtRecharge);
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -151,33 +148,22 @@ public class Player : MonoBehaviourPunCallbacks
         flashlight.SetActive(val);
     }
     [PunRPC]
-    public void TakeDamage(int actorNumber, float damage)
+    public void OnHit(int actorNumber, float damage) // 피격
     {
-        print(photonView.OwnerActorNr + " , " + actorNumber);
-        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-        
-        for (int i = 0; i <player.Length; i++)
-        {
-            if (player[i].GetComponent<PhotonView>().OwnerActorNr == actorNumber)
-            {
-                player[i].GetComponent<Player>().SetHP(player[i].GetComponent<Player>().GetHP() - damage);
-
-                player[i].GetComponent<Player>().onTakeDamageCallback.Invoke();
-
-                //Debug.Log(transform.name + " takes " + damage + " damage.");
-            }
-        }
-    }
-    [PunRPC]
-    public void Damaged(int actorNumber)
-    {
-        if (photonView.OwnerActorNr == actorNumber)
+        if (photonView.OwnerActorNr != actorNumber)
             return;
 
         SetHP(GetHP() - damage);
         onTakeDamageCallback.Invoke();
+    }
+    [PunRPC]
+    public void OnTakeOver(int actorNumber) // 시체 소멸
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
 
-        Debug.Log(transform.name + " takes " + damage + " damage.");
+        researcher.transform.localScale = new Vector3(0, 0, 0);
+        alien.transform.localScale = new Vector3(0, 0, 0);
     }
     // ---------------------------------------------------------------------------------------------------
     // # GET 메소드
@@ -379,14 +365,17 @@ public class Player : MonoBehaviourPunCallbacks
     public void SetDead() // 사망 설정
     {
         Inventory.instance.DropAll();
+
+        // 프로퍼티 처리
+        ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
+        myProp.Remove("fakeNick");
+        photonView.Owner.SetCustomProperties(myProp);
+
         photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
     public void SetTransform() // 변신 설정 (스위칭)
     {
-        if (IsAlienPlayer() == false)
-            return;
-
-        photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, !alien.activeSelf);
+        SetTransform(!alien.activeSelf);
     }
     public void SetTransform(bool val) // 변신 설정 (매뉴얼)
     {
@@ -397,13 +386,7 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetFlash() // 라이트 설정 (스위칭)
     {
-        if (IsAlienObject() == true)
-            return;
-
-        if (flashlight.activeSelf == false && GetBt() <= 10)
-            return;
-
-        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, !flashlight.activeSelf);
+        SetFlash(!flashlight.activeSelf);
     }
     public void SetFlash(bool val) // 라이트 설정 (매뉴얼)
     {
@@ -415,9 +398,60 @@ public class Player : MonoBehaviourPunCallbacks
 
         photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
     }
+    public void SetHit(float damage) // 피격 설정
+    {
+        photonView.RPC("OnHit", RpcTarget.AllBuffered, photonView.OwnerActorNr, damage);
+    }
+    public void SetRooting(Player target) // 사망 연구원 루팅
+    {
+        // 프로퍼티 처리
+        ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
+        ExitGames.Client.Photon.Hashtable targetProp = target.photonView.Owner.CustomProperties;
+        myProp["fakeNick"] = target.photonView.Owner.NickName;
+        myProp["color"] = targetProp["color"];
+        photonView.Owner.SetCustomProperties(myProp);
+
+        // 변신
+        SetTransform(true);
+
+        // 스텟 회복
+        SetHP(GetHPMax());
+        SetO2(GetO2Max());
+        SetBt(GetBtMax());
+
+        // 사망 연구원을 소멸 처리
+        target.SetTakeOver();
+    }
+    public void SetTakeOver() // 시체 소멸
+    {
+        photonView.RPC("OnTakeOver", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+    // ---------------------------------------------------------------------------------------------------
+    // # 트리거 메소드
+    // ---------------------------------------------------------------------------------------------------
+    // 외계인의 사망 연구원 루팅을 위한 트리거 메소드
+    void OnTriggerStay(Collider other)
+    {
+        if (!photonView.IsMine)
+            return;
+
+        if (IsAlienPlayer() == false)
+            return;
+
+        if (IsAlienObject() == false)
+            return;
+
+        if (other.gameObject == gameObject || !other.CompareTag("Player"))
+            return;
+
+        // 루팅 (R)
+        if (Input.GetKeyDown(KeyCode.R))
+            SetRooting(other.GetComponent<Player>());
+    }
     // ---------------------------------------------------------------------------------------------------
     // # 콜백 메소드
     // ---------------------------------------------------------------------------------------------------
+    // 연구원 색상 갱신을 위한 프로퍼티 갱신 콜백 메소드
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);

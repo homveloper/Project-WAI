@@ -8,30 +8,23 @@ using Photon.Realtime;
 [RequireComponent(typeof(Player))]
 public class Combat : MonoBehaviourPun
 {
-    public float attackSpeed{get; set;} = 1f;
-    private float attackCooldown = 0f;
-    Player myStats;
+    Player player;
+    private float speed {get; set;} = 1.0f; // 공격 속도
+    private float cooldown = 0.0f; // 공격 쿨타임
 
     public delegate void OnAttack();
     public OnAttack OnAttackCallback; 
 
-    // Start is called before the first frame update
     void Start()
     {
-        myStats = GetComponent<Player>();
+        player = GetComponent<Player>();
     }
 
     void Update(){
-        attackCooldown -= Time.deltaTime;
+        cooldown -= Time.deltaTime;
 
-        if(Input.GetButtonDown("Attack") && attackCooldown <= 0f){
-            OnAttackCallback.Invoke();
-            attackCooldown = 1f / attackSpeed;
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.R))
-            SetAttack();
+        if (Input.GetButtonDown("Attack"))
+            Attack(null);
     }
 
     void OnTriggerStay(Collider other){
@@ -39,38 +32,22 @@ public class Combat : MonoBehaviourPun
         if(!photonView.IsMine)
             return;
 
-        if(other.gameObject != gameObject && other.tag == "Player"){
-            Player targetStat = other.GetComponent<Player>();
+        if (other.gameObject == gameObject || !other.CompareTag("Player"))
+            return;
 
-            if(Input.GetButtonDown("Attack") && targetStat != null ){
-                Photon.Realtime.Player targetPlayer = other.gameObject.GetComponent<PhotonView>().Owner;
-                print(other);
-                print(targetPlayer);
-                Attack(targetStat, other.gameObject.GetComponent<PhotonView>().Owner.ActorNumber);
-            }
-        }
-
+        if (Input.GetButtonDown("Attack"))
+            Attack(other.GetComponent<Player>());
     }
 
-    public void Attack(Player targetStat, int actorNumber)
+    public void Attack(Player target)
     {
-        if (PhotonNetwork.IsConnected)
-            if (!photonView.IsMine)
-                return;
+        if (cooldown > 0.0f)
+            return;
 
-        if(attackCooldown <= 0f){
-            OnAttackCallback.Invoke();
-            photonView.RPC("TakeDamage", RpcTarget.All, actorNumber, myStats.damage);
-            // targetPlayer.TakeDamage(myStats.damage);
-            print("Attack " + targetStat.transform.name + " HP : " + targetStat.GetHP());
-            attackCooldown = 1f / attackSpeed;
-        }
+        if (target != null)
+            target.SetHit(player.damage);
+
+        OnAttackCallback.Invoke();
+        cooldown = 1f / speed;
     }
-
-    public void SetAttack()
-    {
-        photonView.RPC("Damaged", RpcTarget.All, photonView.OwnerActorNr);
-    }
-
-
 }
