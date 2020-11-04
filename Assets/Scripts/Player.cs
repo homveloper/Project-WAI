@@ -160,11 +160,11 @@ public class Player : MonoBehaviourPunCallbacks
         {
             if (player[i].GetComponent<PhotonView>().OwnerActorNr == actorNumber)
             {
-                SetHP(GetHP() - damage);
+                player[i].GetComponent<Player>().SetHP(player[i].GetComponent<Player>().GetHP() - damage);
 
-                onTakeDamageCallback.Invoke();
+                player[i].GetComponent<Player>().onTakeDamageCallback.Invoke();
 
-                Debug.Log(transform.name + " takes " + damage + " damage.");
+                //Debug.Log(transform.name + " takes " + damage + " damage.");
             }
         }
     }
