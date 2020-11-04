@@ -54,8 +54,7 @@ public class Combat : MonoBehaviourPun
 
         if(attackCooldown <= 0f){
             OnAttackCallback.Invoke();
-
-            photonView.RPC("TakeDamage",targetPlayer,myStats.damage);
+            photonView.RPC("TakeDamage", RpcTarget.All, targetPlayer, myStats.damage);
             // targetPlayer.TakeDamage(myStats.damage);
             print("Attack " + targetStat.transform.name + " HP : " + targetStat.GetHP());
             attackCooldown = 1f / attackSpeed;
