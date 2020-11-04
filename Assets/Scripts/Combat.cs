@@ -35,11 +35,12 @@ public class Combat : MonoBehaviourPun
         if(!photonView.IsMine)
             return;
 
-        if(other.gameObject != gameObject){
+        if(other.gameObject != gameObject && other.tag == "Player"){
             Player targetStat = other.GetComponent<Player>();
 
             if(Input.GetButtonDown("Attack") && targetStat != null ){
                 Photon.Realtime.Player targetPlayer = other.gameObject.GetComponent<PhotonView>().Owner;
+                print(other);
                 print(targetPlayer);
                 Attack(targetStat, other.gameObject.GetComponent<PhotonView>().Owner.ActorNumber);
             }

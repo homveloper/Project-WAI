@@ -153,6 +153,8 @@ public class Player : MonoBehaviourPunCallbacks
     [PunRPC]
     public void TakeDamage(int actorNumber, float damage)
     {
+        print(photonView.OwnerActorNr + " , " + actorNumber);
+
         if (photonView.OwnerActorNr != actorNumber)
             return;
 
@@ -250,6 +252,8 @@ public class Player : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     public void SetHP(float hp) // 체력 (겉보기 현재 수치)
     {
+        print(IsAlienObject());
+
         if (IsAlienObject() == true)
         {
             this.statHpAlien = hp;
