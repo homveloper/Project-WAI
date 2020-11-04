@@ -100,7 +100,7 @@ public class Player : MonoBehaviourPunCallbacks
 
         // 체력 부족
         if (GetHP() <= 0 && IsDead() == false)
-            if (IsAlienObject() == true)
+            if (IsAlienPlayer() == true && IsAlienObject() == false)
                 SetTransform(false);
             else
                 SetDead();
@@ -223,7 +223,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true) return true;
         else return false;
     }
-    public bool IsAlienObject() // 외계인 변신 여부
+    public bool IsAlienObject() // 외계인 상태 여부
     {
        return alien.activeSelf;
     }
