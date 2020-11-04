@@ -22,6 +22,12 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
+        bool isWalk = hasHorizontalInput || hasVeritcalInput;
+        bool isRun = Input.GetButton("Run") && isWalk;
+
+        animator.SetBool("isWalk",isWalk);
+        animator.SetBool("isRun",isRun);
+
         // bool pushStanding = Input.GetKeyDown(KeyCode.E);
 
         // if(pushStanding){
@@ -36,7 +42,6 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
          if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
-
 
         float hitStatus = Random.Range(0f,3f);
         print(hitStatus);
