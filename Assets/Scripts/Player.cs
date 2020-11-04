@@ -153,6 +153,7 @@ public class Player : MonoBehaviourPunCallbacks
     [PunRPC]
     public void TakeDamage(Photon.Realtime.Player targetPlayer, float damage)
     {
+        Debug.Log("asdfasdfasdf");
         if (photonView.Owner != targetPlayer)
         {
             onTakeDamageCallback.Invoke();
