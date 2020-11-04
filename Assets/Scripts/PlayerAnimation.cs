@@ -22,13 +22,14 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
-        bool pushStanding = Input.GetKeyDown(KeyCode.E);
-        if(pushStanding){
-            pushStand = pushStand ? false : true;
-            thirdPersonMovement.speed *= 0.5f;
-            animator.SetTrigger("pushStanding");
-            animator.SetBool("pushStand",pushStand);
-        }
+        // bool pushStanding = Input.GetKeyDown(KeyCode.E);
+
+        // if(pushStanding){
+        //     pushStand = pushStand ? false : true;
+        //     thirdPersonMovement.speed *= 0.5f;
+        //     animator.SetTrigger("pushStanding");
+        //     animator.SetBool("pushStand",pushStand);
+        // }
     }
 
     void TakeDamage(){
