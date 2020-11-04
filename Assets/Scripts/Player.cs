@@ -7,30 +7,6 @@ using System;
 
 public class Player : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private float statHp = 0.0f;
-    private float statHpMax = 0.0f;
-    [SerializeField]
-    private float statO2 = 0.0f;
-    private float statO2Max = 0.0f;
-    [SerializeField]
-    private float statBt = 0.0f;
-    private float statBtMax = 0.0f;
-
-
-    public float hpModifier;
-    public float o2Modifier;
-    public float btModifier_up;
-    public float btModifier_down;
-
-    public float damage{set; get;} = 5f;
-
-    private int meterialWood = 0;
-    private int meterialIron = 0;
-    private int meterialPart = 0;
-
-    private bool dead = false;
-
     // 오브젝트
     public GameObject researcher;
     public GameObject alien;
