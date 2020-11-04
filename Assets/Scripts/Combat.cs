@@ -28,6 +28,10 @@ public class Combat : MonoBehaviourPun
             OnAttackCallback.Invoke();
             attackCooldown = 1f / attackSpeed;
         }
+
+
+        if (Input.GetKeyDown(KeyCode.R))
+            SetAttack();
     }
 
     void OnTriggerStay(Collider other){
@@ -60,6 +64,11 @@ public class Combat : MonoBehaviourPun
             print("Attack " + targetStat.transform.name + " HP : " + targetStat.GetHP());
             attackCooldown = 1f / attackSpeed;
         }
+    }
+
+    public void SetAttack()
+    {
+        photonView.RPC("Damaged", RpcTarget.All, photonView.OwnerActorNr);
     }
 
 
