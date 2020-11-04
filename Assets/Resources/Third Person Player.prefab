@@ -5315,6 +5315,7 @@ GameObject:
   - component: {fileID: 1666351832963089883}
   - component: {fileID: 5311233785414509735}
   - component: {fileID: 5587160095295535158}
+  - component: {fileID: 4063876561634521269}
   m_Layer: 0
   m_Name: spacesuit
   m_TagString: Untagged
@@ -5441,6 +5442,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4063876561634521269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925428832513619680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2742bfbff809e49a78eda2af7f5d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 100000
+  characterRigidbody: {fileID: 5587160095295535158}
 --- !u!1 &2037204646170871720
 GameObject:
   m_ObjectHideFlags: 0
@@ -6306,9 +6321,9 @@ GameObject:
   - component: {fileID: 8849792136659743650}
   - component: {fileID: 3222237361333434387}
   - component: {fileID: 5893622336824550784}
-  - component: {fileID: 3565582377464417741}
   - component: {fileID: 6587770530825150049}
   - component: {fileID: 1048966396458255995}
+  - component: {fileID: 1511801458832576833}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -6478,22 +6493,6 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!54 &3565582377464417741
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143243491976924257}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!82 &6587770530825150049
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6686,6 +6685,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &1511801458832576833
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0
