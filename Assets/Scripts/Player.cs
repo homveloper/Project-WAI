@@ -7,62 +7,51 @@ using System;
 
 public class Player : MonoBehaviourPunCallbacks
 {
+    // 오브젝트
     public GameObject researcher;
     public GameObject alien;
-
-    private float statHp = 0.0f;
-    private float statHpMax = 0.0f;
-    private float statO2 = 0.0f;
-    private float statO2Max = 0.0f;
-    private float statBt = 0.0f;
-    private float statBtMax = 0.0f;
-
-
-    public float hpModifier;
-    public float o2Modifier;
-    public float btModifierRecharge;
-    public float btModifierUse;
-
-    public float damage{set; get;} = 5f;
-
-    private int meterialWood = 0;
-    private int meterialIron = 0;
-    private int meterialPart = 0;
-
-    private bool dead = false;
-
     public GameObject flashlight;
 
+    // 스텟 증감치
+    public float modifierHp;
+    public float modifierO2;
+    public float modifierBt;
+    public float modifierBtRecharge;
+    public float damage { set; get; } = 5f;
+
+    // 연구원 스텟
+    public float statHp;
+    public float statHpMax;
+    public float statO2;
+    public float statO2Max;
+    public float statBt;
+    public float statBtMax;
+
+    // 외계인 스텟
+    public float statHpAlien;
+    public float statHpMaxAlien;
+
+    // 재료
+    public int meterialWood;
+    public int meterialIron;
+    public int meterialPart;
+
+    // ???
     UI_Inventory uI_Inventory;
-
-
     public delegate void OnTakeDamage();
     public OnTakeDamage onTakeDamageCallback;
+
     void Start()
     {
-
-        SetHPMax(100);
-        SetO2Max(100);
-        SetBtMax(100);
-
-        SetHP(100);
-        SetO2(100);
-        SetBt(100);
-
-        SetWood(0);
-        SetIron(0);
-        SetPart(0);
+        alien.SetActive(false);
+        flashlight.SetActive(false);
 
         if (PhotonNetwork.IsConnected)
-        {
             if (photonView.IsMine)
-            {
-                uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
-                uI_Inventory.UpdateInventory();
-            }
-        }
+                return;
 
-        flashlight.SetActive(false);
+        uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
+        uI_Inventory.UpdateInventory();
     }
 
     void Update()
@@ -73,243 +62,56 @@ public class Player : MonoBehaviourPunCallbacks
 
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
-        {
             SetFlash();
-        }
 
-        // 플래시라이트 (F)
+        // 변신 해제 (X)
         if (Input.GetKeyDown(KeyCode.X))
-        {
-            if(alien.activeSelf == true)
-            {
-                alien.SetActive(false);
-                researcher.SetActive(true);
-            }
-            else
-            {
-                alien.SetActive(true);
-                researcher.SetActive(false);
-            }
-        }
-
-        // 디버그 중에는 스텟 차감 및 사망 발생하지 않음
-        if (GameManager.DEBUG_GAME == false)
-            return;
-
-        // 산소 차감
-        SetO2(GetO2() - Time.deltaTime * o2Modifier);
-
-        // 라이트 회복/차감
-        if (IsFlash() == false)
-        {
-            SetBt(GetBt() + Time.deltaTime * btModifierRecharge);
-        }
-        else if (IsFlash() == true)
-        {
-            SetBt(GetBt() - Time.deltaTime * btModifierUse);
-        }
-
-        // 배터리 부족으로 라이트 꺼짐
-        if (IsFlash() == true && GetBt() <= 0)
-            SetFlash(false);
+            SetTransform(false);
 
         // 체력 차감
-        if (GetO2() <= 0){
-            SetHP(GetHP() - Time.deltaTime * hpModifier);
-        }
+        if (GetO2() <= 0)
+            SetHP(GetHP() - Time.deltaTime * modifierHp);
 
-        // 체력 부족으로 사망
-        if (GetHP() <= 0 && dead == false) 
-        {
-            Debug.Log("dead");
+        // 체력 부족
+        if (GetHP() <= 0)
             SetDead();
-        }
+
+        // 산소 차감
+        SetO2(GetO2() - Time.deltaTime * modifierO2);
+
+        // 배터리 차감
+        if (IsFlash() == true)
+            SetBt(GetBt() - Time.deltaTime * modifierBt);
+
+        // 배터리 회복
+        if (IsFlash() == false)
+            SetBt(GetBt() + Time.deltaTime * modifierBtRecharge);
+
+        // 배터리 부족
+        if (IsFlash() == true && GetBt() <= 0)
+            SetFlash(false);
     }
 
+    // ---------------------------------------------------------------------------------------------------
+    // # 포톤 메시지 메소드
+    // ---------------------------------------------------------------------------------------------------
     [PunRPC]
-    public void OnFlash(int actorNumber, bool val) // RPC로 플래시라이트 사용을 알림
+    public void OnFlash(int actorNumber, bool val) // 플래시라이트
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
         
         flashlight.SetActive(val);
     }
-
     [PunRPC]
-    public void OnDead(int actorNumber) // RPC로 캐릭터 사망을 알림
+    public void OnDead(int actorNumber) // 사망
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
 
-        dead = true;
-        SetMove(false);
-        
+        SetMove(false);        
         GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
     }
-
-    // 이하 Get / Set 메소드 --------------------------------------
-    public float GetHP()
-    {
-        return this.statHp;
-    }
-
-    public float GetHPMax()
-    {
-        return this.statHpMax;
-    }
-
-    public float GetO2()
-    {
-        return this.statO2;
-    }
-
-    public float GetO2Max()
-    {
-        return this.statO2Max;
-    }
-
-    public float GetBt()
-    {
-        return this.statBt;
-    }
-
-    public float GetBtMax()
-    {
-        return this.statBtMax;
-    }
-
-    public int GetWood()
-    {
-        return this.meterialWood;
-    }
-
-    public int GetIron()
-    {
-        return this.meterialIron;
-    }
-
-    public int GetPart()
-    {
-        return this.meterialPart;
-    }
-
-    public void SetHP(float hp)
-    {
-        this.statHp = hp;
-
-        if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;
-        if (this.statHp < 0) this.statHp = 0;
-    }
-
-    public void SetHPMax(float hpmax)
-    {
-        this.statHpMax = hpmax;
-
-        if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;
-        if (this.statHp < 0) this.statHp = 0;
-    }
-
-    public void SetO2(float o2)
-    {
-        this.statO2 = o2;
-
-        if (this.statO2 > this.statO2Max) this.statO2 = this.statO2Max;
-        if (this.statO2 < 0) this.statO2 = 0;
-    }
-
-    public void SetO2Max(float o2max)
-    {
-        this.statO2Max = o2max;
-
-        if (this.statO2 > this.statO2Max) this.statO2 = this.statO2Max;
-        if (this.statO2 < 0) this.statO2 = 0;
-    }
-
-    public void SetBt(float bt)
-    {
-        this.statBt = bt;
-
-        if (this.statBt > this.statBtMax) this.statBt = this.statBtMax;
-        if (this.statBt < 0) this.statBt = 0;
-    }
-
-    public void SetBtMax(float btmax)
-    {
-        this.statBtMax = btmax;
-
-        if (this.statBt > this.statBtMax) this.statBt = this.statBtMax;
-        if (this.statBt < 0) this.statBt = 0;
-    }
-
-    public void SetWood(int wood)
-    {
-        this.meterialWood = wood;
-    }
-
-    public void SetIron(int iron)
-    {
-        this.meterialIron = iron;
-    }
-
-    public void SetPart(int part)
-    {
-        this.meterialPart = part;
-    }
-
-    public bool IsDead() // 캐릭터 사망 여부
-    {
-        return this.dead;
-    }
-
-    public void SetDead() // 캐릭터 사망 설정
-    {
-        dead = true;
-        SetMove(false);
-        GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
-
-        Inventory.instance.DropAll();
-        photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-    }
-
-    public bool IsMove() // 캐릭터 이동 여부
-    {
-        return GetComponent<ThirdPersonMovement>().controllable;
-    }
-
-    public void SetMove(bool val) // 캐릭터 이동 설정
-    {
-        researcher.GetComponent<PlayerAnimation>().enabled = val;
-        alien.GetComponent<AlienAnimation>().enabled = val;
-        GetComponent<ThirdPersonMovement>().controllable = val;
-        GetComponent<ThirdPersonSound>().enabled = val;
-    }
-
-    public bool IsFlash() // 캐릭터 라이트 사용 여부
-    {
-        return flashlight.activeSelf;
-    }
-
-    public void SetFlash() // 캐릭터 라이트 설정 (스위칭)
-    {
-        if (flashlight.activeSelf == false && GetBt() <= 0) // 배터리가 없으면 라이트를 켤 수 없음
-            return;
-
-        if (flashlight.activeSelf == true) flashlight.SetActive(false);
-        else flashlight.SetActive(true);
-
-        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
-    }
-
-    public void SetFlash(bool val) // 캐릭터 라이트 설정 (매뉴얼)
-    {
-        if (val == true && GetBt() <= 0) // 배터리가 없으면 라이트를 켤 수 없음
-            return;
-
-        flashlight.SetActive(val);
-
-        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
-    }
-
     [PunRPC]
     public void TakeDamage(float damage)
     {
@@ -323,10 +125,260 @@ public class Player : MonoBehaviourPunCallbacks
 
         Debug.Log(transform.name + " takes " + damage + " damage.");
 
-        if(statHp <= 0f){
+        if (statHp <= 0f)
+        {
             Debug.Log("dead");
             SetDead();
         }
     }
+    // ---------------------------------------------------------------------------------------------------
+    // # GET 메소드
+    // ---------------------------------------------------------------------------------------------------
+    public float GetHP() // 체력 (겉보기 현재 수치)
+    {
+        if (IsAlienObject() == true) return this.statHpAlien;
+        else return this.statHp;
+    }
+    public float GetHp(bool statAlien) // 체력 (지정 현재 수치)
+    {
+        if (statAlien == true) return this.statHpAlien;
+        else return this.statHp;
+    }
+    public float GetHPMax() // 체력 (겉보기 최대 수치)
+    {
+        if (IsAlienObject() == true) return this.statHpMaxAlien;
+        else return this.statHpMax;
+    }
+    public float GetHPMax(bool statAlien) // 체력 (지정 최대 수치)
+    {
+        if (statAlien == true) return this.statHpMaxAlien;
+        else return this.statHpMax;
+    }
+    public float GetO2() // 산소 (현재 수치)
+    {
+        return this.statO2;
+    }
+    public float GetO2Max() // 산소 (최대치)
+    {
+        return this.statO2Max;
+    }
+    public float GetBt() // 배터리 (현재 수치)
+    {
+        return this.statBt;
+    }
+    public float GetBtMax() // 배터리 (최대치)
+    {
+        return this.statBtMax;
+    }
+    public int GetWood() // 재료 (나무)
+    {
+        return this.meterialWood;
+    }
+    public int GetIron() // 재료 (철)
+    {
+        return this.meterialIron;
+    }
+    public int GetPart() // 재료 (부품)
+    {
+        return this.meterialPart;
+    }
+    public bool IsAlienPlayer() // 외계인 역할 여부
+    {
+        ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
 
+        if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true) return true;
+        else return false;
+    }
+    public bool IsAlienObject() // 외계인 변신 여부
+    {
+       return alien.activeSelf;
+    }
+    public bool IsDead() // 사망 여부
+    {
+        return false; // 수정 필요
+    }
+    public bool IsControllable() // 조작 가능 여부
+    {
+        return GetComponent<ThirdPersonMovement>().controllable;
+    }
+    public bool IsFlash() // 라이트 사용 여부
+    {
+        return flashlight.activeSelf;
+    }
+    // ---------------------------------------------------------------------------------------------------
+    // # SET 메소드
+    // ---------------------------------------------------------------------------------------------------
+    public void SetHP(float hp) // 체력 (겉보기 현재 수치)
+    {
+        if (IsAlienObject() == true)
+        {
+            this.statHpAlien = hp;
+
+            if (this.statHpAlien > this.statHpMaxAlien) this.statHpAlien = this.statHpMaxAlien;
+            if (this.statHpAlien < 0) this.statHpAlien = 0;
+        }
+        else
+        {
+            this.statHp = hp;
+
+            if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;
+            if (this.statHp < 0) this.statHp = 0;
+        }
+    }
+    public void SetHP(float hp, bool statAlien) // 체력 (지정 현재 수치)
+    {
+        if (statAlien == true)
+        {
+            this.statHpAlien = hp;
+
+            if (this.statHpAlien > this.statHpMaxAlien) this.statHpAlien = this.statHpMaxAlien;
+            if (this.statHpAlien < 0) this.statHpAlien = 0;
+        }
+        else
+        {
+            this.statHp = hp;
+
+            if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;
+            if (this.statHp < 0) this.statHp = 0;
+        }
+    }
+    public void SetHPMax(float hpmax) // 체력 (겉보기 최대 수치)
+    {
+        if (IsAlienObject() == true)
+        {
+            this.statHpMaxAlien = hpmax;
+
+            if (this.statHpAlien > this.statHpMaxAlien) this.statHpAlien = this.statHpMaxAlien;
+            if (this.statHpAlien < 0) this.statHpAlien = 0;
+        }
+        else
+        {
+            this.statHp = hpmax;
+
+            if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;
+            if (this.statHp < 0) this.statHp = 0;
+        }
+    }
+    public void SetHPMax(float hpmax, bool statAlien) // 체력 (지정 최대 수치)
+    {
+        if (statAlien == true)
+        {
+            this.statHpMaxAlien = hpmax;
+
+            if (this.statHpAlien > this.statHpMaxAlien) this.statHpAlien = this.statHpMaxAlien;
+            if (this.statHpAlien < 0) this.statHpAlien = 0;
+        }
+        else
+        {
+            this.statHp = hpmax;
+
+            if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;
+            if (this.statHp < 0) this.statHp = 0;
+        }
+    }
+    public void SetO2(float o2) // 산소 (현재 수치)
+    {
+        this.statO2 = o2;
+
+        if (this.statO2 > this.statO2Max) this.statO2 = this.statO2Max;
+        if (this.statO2 < 0) this.statO2 = 0;
+    }
+    public void SetO2Max(float o2max) // 산소 (최대치)
+    {
+        this.statO2Max = o2max;
+
+        if (this.statO2 > this.statO2Max) this.statO2 = this.statO2Max;
+        if (this.statO2 < 0) this.statO2 = 0;
+    }
+    public void SetBt(float bt) // 배터리 (현재 수치)
+    {
+        this.statBt = bt;
+
+        if (this.statBt > this.statBtMax) this.statBt = this.statBtMax;
+        if (this.statBt < 0) this.statBt = 0;
+    }
+    public void SetBtMax(float btmax) // 배터리 (최대치)
+    {
+        this.statBtMax = btmax;
+
+        if (this.statBt > this.statBtMax) this.statBt = this.statBtMax;
+        if (this.statBt < 0) this.statBt = 0;
+    }
+    public void SetWood(int wood) // 재료 (나무)
+    {
+        this.meterialWood = wood;
+    }
+    public void SetIron(int iron) // 재료 (철)
+    {
+        this.meterialIron = iron;
+    }
+    public void SetPart(int part) // 재료 (부품)
+    {
+        this.meterialPart = part;
+    }
+    public void SetDead() // 사망 설정
+    {
+        SetMove(false);
+        SetFlash(false);
+        GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+
+        Inventory.instance.DropAll();
+        photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+    public void SetMove(bool val) // 조작 설정
+    {
+        researcher.GetComponent<PlayerAnimation>().enabled = val;
+        alien.GetComponent<AlienAnimation>().enabled = val;
+        GetComponent<ThirdPersonMovement>().controllable = val;
+        GetComponent<ThirdPersonSound>().enabled = val;
+    }
+    public void SetTransform() // 변신 설정 (스위칭)
+    {
+        if (alien.activeSelf == true)
+        {
+            alien.SetActive(false);
+            researcher.SetActive(true);
+        }
+        else
+        {
+            if (IsAlienPlayer() == false)
+                return;
+
+            researcher.SetActive(false);
+            alien.SetActive(true);
+        }
+        SetFlash(false);
+    }
+    public void SetTransform(bool val) // 변신 설정 (매뉴얼)
+    {
+        if (IsAlienPlayer() == false && val == true)
+            return;
+
+        researcher.SetActive(val);
+        alien.SetActive(!val);
+        SetFlash(false);
+    }
+    public void SetFlash() // 라이트 설정 (스위칭)
+    {
+        if (IsAlienObject() == true)
+            return;
+        if (flashlight.activeSelf == false && GetBt() <= 10)
+            return;
+
+        if (flashlight.activeSelf == true) flashlight.SetActive(false);
+        else flashlight.SetActive(true);
+
+        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+    }
+    public void SetFlash(bool val) // 라이트 설정 (매뉴얼)
+    {
+        if (IsAlienObject() == true)
+            return;
+        if (val == true && GetBt() <= 0)
+            return;
+
+        flashlight.SetActive(val);
+
+        photonView.RPC("OnFlash", RpcTarget.AllBuffered, photonView.OwnerActorNr, flashlight.activeSelf);
+    }
 }
