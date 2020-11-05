@@ -189,24 +189,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Application.Quit();
         #endif
     }
-    public void OnClickNickName()
-    {
-        InputField field = GameObject.Find("UI_Nickname_Input").GetComponent<InputField>();
-
-        field.text = "";
-        field.interactable = true;
-        field.ActivateInputField();
-    }
     public void OnChangeNickname()
     {
         InputField field = GameObject.Find("UI_Nickname_Input").GetComponent<InputField>();
+        Text text = GameObject.Find("UI_Nickname_Button_Text").GetComponent<Text>();
 
-        if (field.text == "")
-            return;
+        if (field.interactable == false)
+        {
+            field.text = "";
+            field.interactable = true;
+            field.ActivateInputField();
+            text.text = "확인";
+        }
+        else if (field.interactable == true)
+        {
+            if (field.text == "")
+            {
+                field.ActivateInputField();
+                return;
+            }
 
-        field.interactable = false;
-        PhotonNetwork.NickName = field.text;
-        GetComponent<MiniAlertController>().OnEnableAlert("닉네임이 변경되었습니다.", field.text);
+            field.interactable = false;
+            PhotonNetwork.NickName = field.text;
+            GetComponent<MiniAlertController>().OnEnableAlert("닉네임이 변경되었습니다.", field.text);
+            text.text = "수정";
+        }
     }
 
     // ---------------------------------------------------------------------------------------------------
