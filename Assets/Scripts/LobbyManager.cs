@@ -37,6 +37,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         alertController = GetComponent<AlertController>();
         fadeController = GetComponent<FadeController>();
+        GameObject.Find("UI_Nickname_Input").GetComponent<InputField>().text = PhotonNetwork.NickName;
 
         if (PhotonNetwork.InRoom == true) // 게임이 종료되어 퇴장하여 신이 로드된 상황 (=이미 방에 포함된 경우)
         {
@@ -70,9 +71,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (!PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.NickName = "GUEST #" + UnityEngine.Random.Range(1, 9999);
+                GameObject.Find("UI_Nickname_Input").GetComponent<InputField>().text = PhotonNetwork.NickName;
                 PhotonNetwork.ConnectUsingSettings();
             }
         }
+
+        if (menuCode == MENU_MAINMENU && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
+            OnChangeNickname();
 
         // 메인메뉴에서 대기실로 전환
         else if (menuCode == MENU_MAINMENU && event_roomJoined == true && fadeController.IsPlaying() == false)
@@ -183,6 +188,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         #else
             Application.Quit();
         #endif
+    }
+    public void OnClickNickName()
+    {
+        InputField field = GameObject.Find("UI_Nickname_Input").GetComponent<InputField>();
+
+        field.text = "";
+        field.interactable = true;
+        field.ActivateInputField();
+    }
+    public void OnChangeNickname()
+    {
+        InputField field = GameObject.Find("UI_Nickname_Input").GetComponent<InputField>();
+
+        if (field.text == "")
+            return;
+
+        field.interactable = false;
+        PhotonNetwork.NickName = field.text;
+        GetComponent<MiniAlertController>().OnEnableAlert("닉네임이 변경되었습니다.", field.text);
     }
 
     // ---------------------------------------------------------------------------------------------------
