@@ -5406,6 +5406,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: pushStand
+  - Type: 1
+    SynchronizeType: 0
+    Name: attackSpeed
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -6296,9 +6299,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1139416548044585999}
   ResearcherWalk: 20
-  ResearcherRun: 40
-  AlienWalk: 30
-  turnSmoothTime: 0.3
+  ResearcherRun: 30
+  AlienWalk: 25
+  turnSmoothTime: 0.1
   turnSmoothVelocity: 0
   gravity: -1
   controllable: 1
@@ -6578,8 +6581,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 3.93, z: 1.91}
-  m_Center: {x: 0, y: 2.25, z: 1.14}
+  m_Size: {x: 3.05, y: 4.73, z: 2.83}
+  m_Center: {x: 0, y: 2.49, z: 1.39}
 --- !u!114 &4965258566242764209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6592,6 +6595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bc0577f9fefd347a2575f5eb248ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackSpeed: 1
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0
