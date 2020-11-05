@@ -6,10 +6,14 @@ using Photon.Realtime;
 
 
 [RequireComponent(typeof(Player))]
+[System.Serializable]
 public class Combat : MonoBehaviourPun
 {
     Player player;
-    private float speed {get; set;} = 1.0f; // 공격 속도
+    Animator researcherAnimator;
+    Animator alienAnimator;
+
+    public float attackSpeed = 1.0f; // 1초 당 타격횟수
     private float cooldown = 0.0f; // 공격 쿨타임
 
     public delegate void OnAttack();
@@ -18,6 +22,10 @@ public class Combat : MonoBehaviourPun
     void Start()
     {
         player = GetComponent<Player>();
+        researcherAnimator = gameObject.transform.Find("spacesuit").GetComponent<Animator>();
+
+        researcherAnimator.SetFloat("attackSpeed", attackSpeed);
+        //alienAnimator.SetFloat("attackSpeed", attackSpeed);
     }
 
     void Update(){
@@ -48,6 +56,6 @@ public class Combat : MonoBehaviourPun
             target.SetHit(player.damage);
 
         OnAttackCallback.Invoke();
-        cooldown = 1f / speed;
+        cooldown = 1f / attackSpeed;
     }
 }
