@@ -24,8 +24,15 @@ public class MoveTrap : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        if(gameObject.GetComponent<Renderer>().material == r2)
+        Debug.Log(gameObject.GetComponent<Renderer>().material.color);
+        Debug.Log(r2.color);
+        Debug.Log(r1.color);
+        
+        if(gameObject.GetComponent<Renderer>().material.color == r2.color)
+        {
+            Debug.Log("돌아가");
             other.transform.position = center.transform.position;
+        }
     }
     IEnumerator moveTrap()
     {
@@ -33,11 +40,11 @@ public class MoveTrap : MonoBehaviourPun
         {
             yield return new WaitForSeconds(start);
             
-            gameObject.GetComponent<Renderer>().material.Lerp(r2,r1,1);
+            gameObject.GetComponent<Renderer>().material.Lerp(r2,r1,1f);
 
             yield return new WaitForSeconds(moveTime);
 
-            gameObject.GetComponent<Renderer>().material.Lerp(r1,r2,1);
+            gameObject.GetComponent<Renderer>().material.Lerp(r1,r2,1f);
 
             yield return new WaitForSeconds(term);
         }
