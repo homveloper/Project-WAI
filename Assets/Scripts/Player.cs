@@ -20,7 +20,12 @@ public class Player : MonoBehaviourPunCallbacks
     public float modO2Run;
     public float modBt;
     public float modBtRecharge;
-    public float damage { set; get; } = 5f;
+
+
+
+    public const float RESEARCHER_DAMAGE = 10f;
+    public const float ALIEN_DAMAGE = 60f;
+    public float damage { set; get; } = RESEARCHER_DAMAGE;
 
     // 연구원 스텟
     public float statHp;
@@ -143,6 +148,12 @@ public class Player : MonoBehaviourPunCallbacks
         SetFlash(false);
         researcher.SetActive(val);
         alien.SetActive(!val);
+
+        if (val == false)
+            damage = ALIEN_DAMAGE;
+        else
+            damage = RESEARCHER_DAMAGE;
+
         GetComponent<ThirdPersonMovement>().alien = !val;
 
         if (photonView.IsMine && val == false)
