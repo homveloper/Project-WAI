@@ -15,6 +15,7 @@ MonoBehaviour:
   start: 5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &3348332649879735238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,6 +31,7 @@ MonoBehaviour:
   start: 1
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &2190286834738560111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +47,7 @@ MonoBehaviour:
   start: 10
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &3681413304878994655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +63,7 @@ MonoBehaviour:
   start: 2.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &1397813188923188453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +79,7 @@ MonoBehaviour:
   start: 12.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &4327929148935723906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +95,7 @@ MonoBehaviour:
   start: 11.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &7034086907293714654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +111,7 @@ MonoBehaviour:
   start: 9
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &4579691807176834020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +127,7 @@ MonoBehaviour:
   start: 9.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &1670600813923804665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +143,7 @@ MonoBehaviour:
   start: 1.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!1 &2365491267054427616
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +224,7 @@ MonoBehaviour:
   start: 0.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &5443409222171369056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +240,7 @@ MonoBehaviour:
   start: 0
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &7781512995615303318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +256,7 @@ MonoBehaviour:
   start: 7.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &9034025481005659676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +272,7 @@ MonoBehaviour:
   start: 1.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &3305610449242470603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +288,7 @@ MonoBehaviour:
   start: 4
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!1 &4122778438569514682
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,6 +388,7 @@ MonoBehaviour:
   start: 1.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &984729440181153808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +404,7 @@ MonoBehaviour:
   start: 3
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &643814763893403969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +420,7 @@ MonoBehaviour:
   start: 4.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &1277949832931009417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +436,7 @@ MonoBehaviour:
   start: 8.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &8116693125746206222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +452,7 @@ MonoBehaviour:
   start: 6
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &7321530882394332109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,6 +468,7 @@ MonoBehaviour:
   start: 5.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &126504630561686034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +484,7 @@ MonoBehaviour:
   start: 3.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &4353135973074886268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +500,7 @@ MonoBehaviour:
   start: 7
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &7574988680103462734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +516,7 @@ MonoBehaviour:
   start: 10.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &4170783176250731017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,6 +532,7 @@ MonoBehaviour:
   start: 2
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &7217968305912695318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,6 +548,7 @@ MonoBehaviour:
   start: 2.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &6138226578557254043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +564,7 @@ MonoBehaviour:
   start: 8
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &5083024211183084883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,6 +580,7 @@ MonoBehaviour:
   start: 11
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &980344962254447615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +596,7 @@ MonoBehaviour:
   start: 8.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!114 &4066950016621603996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +612,7 @@ MonoBehaviour:
   start: 6.5
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!1 &9182076497208858335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,6 +1420,7 @@ MonoBehaviour:
   start: 12
   r1: {fileID: 2100000, guid: 5e3c79521935edf49a748df4a03ca78a, type: 2}
   r2: {fileID: 2100000, guid: 678058b5d4d5a4048b90adf8fdcc7f29, type: 2}
+  center: {fileID: 1345107774590033641}
 --- !u!1001 &286495560196536398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1458,6 +1488,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &2332677737685771502 stripped
@@ -1561,15 +1596,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &2790129561149516580 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 368741252556355480}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2790129561149516600 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 368741252556355480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2790129561149516580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 368741252556355480}
   m_PrefabAsset: {fileID: 0}
@@ -1640,6 +1675,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (28)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &3088104587177995232 stripped
@@ -1822,6 +1862,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (47)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &3328752807965109735 stripped
@@ -1897,6 +1942,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &3263350260686067936 stripped
@@ -1987,6 +2037,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &3645017277105804582 stripped
@@ -2062,6 +2117,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (73)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &3582712132956162393 stripped
@@ -2165,15 +2225,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &3524405001858671025 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1391528273709645069}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3524405001858671021 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1391528273709645069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3524405001858671025 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 1391528273709645069}
   m_PrefabAsset: {fileID: 0}
@@ -2244,6 +2304,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &3848127674702895601 stripped
@@ -2533,6 +2598,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &4538477558139854555 stripped
@@ -2803,15 +2873,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!4 &4323909121583357798 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 2280822889094136774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4323909121583357818 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2280822889094136774}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4323909121583357798 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 2280822889094136774}
   m_PrefabAsset: {fileID: 0}
@@ -2882,6 +2952,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (43)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &252815863310323804 stripped
@@ -2957,6 +3032,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (77)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &160181373693800017 stripped
@@ -3216,6 +3296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (48)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &479473636822736872 stripped
@@ -3306,6 +3391,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &494211555491309301 stripped
@@ -3381,6 +3471,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &461011693998172431 stripped
@@ -3471,6 +3566,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &797586484881690016 stripped
@@ -3561,6 +3661,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &784707243897893849 stripped
@@ -3636,6 +3741,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &752637403698889150 stripped
@@ -3711,6 +3821,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (71)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1379731172844139029 stripped
@@ -3814,15 +3929,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &1312651818785661892 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 3571910743193829240}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1312651818785661912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3571910743193829240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1312651818785661892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 3571910743193829240}
   m_PrefabAsset: {fileID: 0}
@@ -3908,6 +4023,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1243687776754139544 stripped
@@ -3983,6 +4103,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (26)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1220317054713457791 stripped
@@ -4086,15 +4211,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &1158249262063950749 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 3725723375225227041}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1158249262063950721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3725723375225227041}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1158249262063950749 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 3725723375225227041}
   m_PrefabAsset: {fileID: 0}
@@ -4287,6 +4412,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1698129101907074213 stripped
@@ -4362,6 +4492,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (39)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1564813651759820536 stripped
@@ -4544,6 +4679,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1489910667723133990 stripped
@@ -4711,6 +4851,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1472931744235149389 stripped
@@ -4786,6 +4931,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (81)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &1476912139370591780 stripped
@@ -4968,6 +5118,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &2283743998099719662 stripped
@@ -5043,6 +5198,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &2251559361195249455 stripped
@@ -5118,6 +5278,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &2208569268191328183 stripped
@@ -5193,6 +5358,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (63)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &2215365064904977031 stripped
@@ -5465,6 +5635,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6972653344839492669 stripped
@@ -5555,6 +5730,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &7492470675779359905 stripped
@@ -5630,6 +5810,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (59)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &7395289191936172182 stripped
@@ -5733,15 +5918,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &7401760758125948636 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 4980653584031986272}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7401760758125948608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4980653584031986272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7401760758125948636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 4980653584031986272}
   m_PrefabAsset: {fileID: 0}
@@ -5812,6 +5997,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (74)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &7391730684285190971 stripped
@@ -5979,6 +6169,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &7383448379946839690 stripped
@@ -6330,6 +6525,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (55)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &7975771400003650792 stripped
@@ -6405,6 +6605,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (31)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &8355419499054825013 stripped
@@ -6480,6 +6685,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (58)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &8130849209598490023 stripped
@@ -6570,6 +6780,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &8547093111847334022 stripped
@@ -6645,6 +6860,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &8567207238101023567 stripped
@@ -6748,15 +6968,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &8537882120239652078 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6186299608957599826}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8537882120239652082 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6186299608957599826}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8537882120239652078 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 6186299608957599826}
   m_PrefabAsset: {fileID: 0}
@@ -6840,15 +7060,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &8919579812064719488 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6372090645722017340}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8919579812064719516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6372090645722017340}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8919579812064719488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 6372090645722017340}
   m_PrefabAsset: {fileID: 0}
@@ -6932,15 +7152,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &8768032090720024108 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6487662320826903184}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8768032090720024112 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6487662320826903184}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8768032090720024108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 6487662320826903184}
   m_PrefabAsset: {fileID: 0}
@@ -7026,6 +7246,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &8782306962945297557 stripped
@@ -7193,6 +7418,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (87)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &8654849184554818073 stripped
@@ -7281,15 +7511,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!1 &9191544383936267873 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6640677298159180509}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9191544383936267901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6640677298159180509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9191544383936267873 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 6640677298159180509}
   m_PrefabAsset: {fileID: 0}
@@ -7375,6 +7605,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &4823592421406641109 stripped
@@ -7450,6 +7685,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (79)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &4810346634647426938 stripped
@@ -7469,6 +7709,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Root
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315598378210509553, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315598378210509553, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315598378210509556, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
         type: 3}
@@ -7600,6 +7850,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &4648632727475195224 stripped
@@ -7782,6 +8037,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &5406188432716906332 stripped
@@ -7857,6 +8117,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (29)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &5760670125059643867 stripped
@@ -7947,6 +8212,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &5640967947604298926 stripped
@@ -8129,6 +8399,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (62)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &5509540599230401633 stripped
@@ -8217,15 +8492,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
---- !u!4 &5509437283943430029 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8058052706641177389}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5509437283943430033 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2568881627094932668, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8058052706641177389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5509437283943430029 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2568881627094932640, guid: d51b4550e11e0234f9f5e669d43cdfc3,
     type: 3}
   m_PrefabInstance: {fileID: 8058052706641177389}
   m_PrefabAsset: {fileID: 0}
@@ -8240,6 +8515,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Root1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315598378210509553, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315598378210509553, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315598378210509556, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
         type: 3}
@@ -8371,6 +8656,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (72)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &5920137402975933228 stripped
@@ -8446,6 +8736,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6325954171210433278 stripped
@@ -8536,6 +8831,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6173226562152868826 stripped
@@ -8611,6 +8911,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (61)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6163140015039279928 stripped
@@ -8686,6 +8991,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (80)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6139970406882695831 stripped
@@ -8705,6 +9015,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Center
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315598378210509553, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315598378210509553, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315598378210509556, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
         type: 3}
@@ -8766,6 +9086,12 @@ PrefabInstance:
 --- !u!4 &1345107774590033645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7315598378210509556, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8587504207138348057}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1345107774590033641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7315598378210509552, guid: a1a82c7f74a0ca84fa8d3550f852a67e,
     type: 3}
   m_PrefabInstance: {fileID: 8587504207138348057}
   m_PrefabAsset: {fileID: 0}
@@ -8943,6 +9269,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6428517834015589073 stripped
@@ -9018,6 +9349,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 9065247395102006784, guid: d51b4550e11e0234f9f5e669d43cdfc3,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1345107774590033641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51b4550e11e0234f9f5e669d43cdfc3, type: 3}
 --- !u!4 &6350466975825822191 stripped

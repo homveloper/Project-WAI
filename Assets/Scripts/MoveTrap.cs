@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class MoveTrap : MonoBehaviour
+using Photon.Pun;
+public class MoveTrap : MonoBehaviourPun
 {
     public float start;
     public Material r1;
     public Material r2;
+    public GameObject center;
 
 
     float term = 30;
@@ -18,7 +19,14 @@ public class MoveTrap : MonoBehaviour
         StartCoroutine(this.moveTrap());
         
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
 
+        if(gameObject.GetComponent<Renderer>().material == r2)
+            other.transform.position = center.transform.position;
+    }
     IEnumerator moveTrap()
     {
         while(true)
