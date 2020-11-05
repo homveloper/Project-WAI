@@ -21,6 +21,11 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         instance = this; // 최초 생성인 경우 해당 오브젝트를 계속 인스턴스로 가져감
     }
 
+    public static GameInterfaceManager GetInstance()
+    {
+        return instance;
+    }
+
     void Update()
     {
         if (GameManager.GetInstance() == null)

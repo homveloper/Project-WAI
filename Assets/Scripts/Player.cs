@@ -123,6 +123,15 @@ public class Player : MonoBehaviourPunCallbacks
         SetMove(false);
         SetFlash(false);
         researcher.GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+
+        if (photonView.IsMine)
+        {
+            Inventory.instance.DropAll();
+
+            ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
+            myProp.Remove("fakeNick");
+            photonView.Owner.SetCustomProperties(myProp);
+        }
     }
     [PunRPC]
     public void OnTransform(int actorNumber, bool val)
@@ -135,6 +144,9 @@ public class Player : MonoBehaviourPunCallbacks
         researcher.SetActive(val);
         alien.SetActive(!val);
         GetComponent<ThirdPersonMovement>().alien = !val;
+
+        if (photonView.IsMine && val == false)
+            Inventory.instance.DropAll();
     }
     [PunRPC]
     public void OnFlash(int actorNumber, bool val) // 플래시라이트
@@ -155,6 +167,9 @@ public class Player : MonoBehaviourPunCallbacks
 
         SetHP(GetHP() - damage);
         onTakeDamageCallback.Invoke();
+
+        if (photonView.IsMine && GameInterfaceManager.GetInstance().IsChating())
+            GameInterfaceManager.GetInstance().OnSwitchChat(false);
     }
     [PunRPC]
     public void OnTakeOver(int actorNumber) // 시체 소멸
@@ -364,13 +379,6 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetDead() // 사망 설정
     {
-        Inventory.instance.DropAll();
-
-        // 프로퍼티 처리
-        ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
-        myProp.Remove("fakeNick");
-        photonView.Owner.SetCustomProperties(myProp);
-
         photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
     public void SetTransform() // 변신 설정 (스위칭)

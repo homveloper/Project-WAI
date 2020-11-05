@@ -54,6 +54,7 @@ MonoBehaviour:
   - Damaged
   - OnHit
   - OnTakeOver
+  - OnReceiveChat
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
