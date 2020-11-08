@@ -242,6 +242,13 @@ public class Player : MonoBehaviourPunCallbacks
     {
         return this.meterialPart;
     }
+    public Color GetColor()
+    {
+        ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
+        if (prop.ContainsKey("color") == true) return colorPalette.colors[(int)prop["color"]];
+        else return new Color(0, 0, 0, 0);
+
+    }
     public bool IsAlienPlayer() // 외계인 역할 여부
     {
         ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
