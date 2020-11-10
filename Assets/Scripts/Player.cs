@@ -21,8 +21,6 @@ public class Player : MonoBehaviourPunCallbacks
     public float modBt;
     public float modBtRecharge;
 
-
-
     public const float RESEARCHER_DAMAGE = 10f;
     public const float ALIEN_DAMAGE = 60f;
     public float damage { set; get; } = RESEARCHER_DAMAGE;
@@ -73,6 +71,9 @@ public class Player : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
+
+        // 1초 지연 필요
+        //photonView.RPC("OnRefreshMeterial", RpcTarget.OthersBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart());
 
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
@@ -191,6 +192,26 @@ public class Player : MonoBehaviourPunCallbacks
         researcher.transform.localScale = new Vector3(0, 0, 0);
         alien.transform.localScale = new Vector3(0, 0, 0);
     }
+    [PunRPC]
+    public void OnRefreshMeterial(int actorNumber, int wood, int iron, int part)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        SetWood(wood);
+        SetIron(iron);
+        SetPart(part);
+    }
+    [PunRPC]
+    public void OnTransformMeterial(int actorNumber, int wood, int iron, int part)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        SetWood(GetWood() + wood);
+        SetIron(GetIron() + iron);
+        SetPart(GetPart() + part);
+    }
     // ---------------------------------------------------------------------------------------------------
     // # GET 메소드
     // ---------------------------------------------------------------------------------------------------
@@ -241,6 +262,14 @@ public class Player : MonoBehaviourPunCallbacks
     public int GetPart() // 재료 (부품)
     {
         return this.meterialPart;
+    }
+    public string GetNickname()
+    {
+        ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
+        if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("fakeNick") == true)
+            return (string)prop["fakeNick"];
+        else
+            return photonView.Owner.NickName;
     }
     public Color GetColor()
     {
@@ -379,14 +408,17 @@ public class Player : MonoBehaviourPunCallbacks
     public void SetWood(int wood) // 재료 (나무)
     {
         this.meterialWood = wood;
+        if (this.meterialWood < 0) this.meterialWood = 0;
     }
     public void SetIron(int iron) // 재료 (철)
     {
         this.meterialIron = iron;
+        if (this.meterialIron < 0) this.meterialIron = 0;
     }
     public void SetPart(int part) // 재료 (부품)
     {
         this.meterialPart = part;
+        if (this.meterialPart < 0) this.meterialPart = 0;
     }
     public void SetMove(bool val) // 조작 설정
     {
@@ -451,6 +483,10 @@ public class Player : MonoBehaviourPunCallbacks
     public void SetTakeOver() // 시체 소멸
     {
         photonView.RPC("OnTakeOver", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+    public void SetTransformMeterial(int wood, int iron, int part)
+    {
+        photonView.RPC("OnTransformMeterial", RpcTarget.AllBuffered, photonView.OwnerActorNr, wood, iron, part);
     }
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
