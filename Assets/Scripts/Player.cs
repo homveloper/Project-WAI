@@ -59,7 +59,7 @@ public class Player : MonoBehaviourPunCallbacks
         flashlight.SetActive(false);
 
         if (PhotonNetwork.IsConnected)
-            if (photonView.IsMine)
+            if (!photonView.IsMine)
                 return;
 
         uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
