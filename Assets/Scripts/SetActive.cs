@@ -10,11 +10,21 @@ public class SetActive : MonoBehaviourPun
     Vector3 tmp;
     bool isCalled = false;
 
+    private bool inTrigger;
+
     void Start()
     {
         tmp = info.transform.localScale;
         info.transform.localScale = new Vector3(0,0,0);
     }
+
+    void Update(){
+        if (Input.GetButtonDown("Interact") && inTrigger)
+        {
+            PickUp();
+        }
+    }
+
     // Start is called before the first frame update
      private void OnTriggerEnter(Collider other)
     {
@@ -22,8 +32,11 @@ public class SetActive : MonoBehaviourPun
         
     }
 
-    // Collider 컴포넌트의 is Trigger가 true인 상태로 충돌중일 때
-
+    /*
+        중요!!
+        OnTriggerStay는 FixedUpdate 방식이므로 여러번 호출 될 수 있습니다.
+        한번만 호출하기 위해 bool 변수로 상태를 설정하고, Udpate 함수에서 해당 기능을 호출하도록 합니다.
+    */
     private void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
@@ -31,10 +44,13 @@ public class SetActive : MonoBehaviourPun
 
         info.transform.localScale = tmp;
 
-        if (other.tag == "Player" && Input.GetButtonDown("Interact"))
-        {
-            PickUp();
-        }
+        bool isResearcher = false;
+        if(other.GetComponent<Player>() != null)
+            isResearcher = !other.GetComponent<Player>().IsAlienObject();
+
+        if(other.gameObject.tag == "Player" && isResearcher)
+            inTrigger = true;
+
     }
 
     // Collider 컴포넌트의 is Trigger가 true인 상태로 충돌이 끝났을 때
@@ -42,6 +58,7 @@ public class SetActive : MonoBehaviourPun
     private void OnTriggerExit(Collider other)
     {
         info.transform.localScale = new Vector3(0,0,0);
+        inTrigger = false;
     }
 
     void PickUp()

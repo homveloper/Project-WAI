@@ -74,7 +74,8 @@ public class Inventory : MonoBehaviourPun {
 
     public void DropAll(){
         foreach(ConsumableItem item in items){
-            GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+            Drop(item);
+            // GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
         }
 
         if(onItemChangedCallback != null)   

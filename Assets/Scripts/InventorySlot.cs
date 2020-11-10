@@ -54,7 +54,7 @@ public class InventorySlot : MonoBehaviour
             item.Use(Inventory.instance.playerStat);
          
             if(item is ConsumableItem)
-            Inventory.instance.Remove(item);
+                Inventory.instance.Remove(item);
         }
     }
 

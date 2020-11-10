@@ -4,10 +4,28 @@ using UnityEngine;
 using System;
 
 
-[Serializable]
+[System.Serializable]
 public class Resource
 {
-    int wood{set; get;}
-    int iron{set; get;}
-    int part{set; get;}
+    int wood;
+    int iron;
+    int part;
+
+    public int Wood
+    {
+        get {return wood;}
+        set {wood = value;}
+    }
+
+    public int Iron
+    {
+        get {return Iron;}
+        set {Iron = value;}
+    }
+
+    public int Part
+    {
+        get {return part;}
+        set {part = value;}
+    }
 }

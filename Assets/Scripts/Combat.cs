@@ -10,8 +10,8 @@ using Photon.Realtime;
 public class Combat : MonoBehaviourPun
 {
     Player player;
-    Animator researcherAnimator;
-    Animator alienAnimator;
+    public PlayerAnimation researcherAnimation;
+    public AlienAnimation alienAnimation;
 
     public float attackSpeed = 1.0f; // 1초 당 타격횟수
     private float cooldown = 0.0f; // 공격 쿨타임
@@ -22,17 +22,36 @@ public class Combat : MonoBehaviourPun
     void Start()
     {
         player = GetComponent<Player>();
-        researcherAnimator = gameObject.transform.Find("spacesuit").GetComponent<Animator>();
+        researcherAnimation.animator.SetFloat("attackSpeed", attackSpeed);
+        alienAnimation.animator.SetFloat("attackSpeed", attackSpeed);
 
-        researcherAnimator.SetFloat("attackSpeed", attackSpeed);
-        //alienAnimator.SetFloat("attackSpeed", attackSpeed);
+        if(Inventory.instance != null)
+            Inventory.instance.onItemChangedCallback += UpdateDamage;
+        
     }
 
     void Update(){
         cooldown -= Time.deltaTime;
 
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetButtonDown("Attack")){
             Attack(null);
+        }
+    }
+
+    void UpdateDamage(){
+        float totalDamage = Player.RESEARCHER_DAMAGE;
+
+        if(Inventory.instance != null){     
+            foreach(Item item  in Inventory.instance.items){
+                if(item is InteractableItem){
+                    if(((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
+                        totalDamage += ((InteractableItem)item).DamageModifier;
+                    }
+                }
+            }
+        }
+
+        player.damage = totalDamage;
     }
 
     void OnTriggerStay(Collider other){
@@ -43,8 +62,18 @@ public class Combat : MonoBehaviourPun
         if (other.gameObject == gameObject || !other.CompareTag("Player"))
             return;
 
-        if (Input.GetButtonDown("Attack"))
-            Attack(other.GetComponent<Player>());
+        if (Input.GetButtonDown("Attack")){
+
+            if(player.IsAlienObject()){
+                player.SetMove(false);
+                Attack(other.GetComponent<Player>());
+
+                player.SetMove(true);
+            }
+            else{
+                Attack(other.GetComponent<Player>());
+            }
+        }
     }
 
     public void Attack(Player target)
@@ -58,4 +87,6 @@ public class Combat : MonoBehaviourPun
         OnAttackCallback.Invoke();
         cooldown = 1f / attackSpeed;
     }
+
+
 }

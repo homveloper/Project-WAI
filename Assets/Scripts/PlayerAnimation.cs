@@ -49,7 +49,6 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
                 return;
 
         float hitStatus = Random.Range(0f,3f);
-        print(hitStatus);
         animator.SetTrigger("hit");
         animator.SetFloat("hitStatus",hitStatus);
     }
@@ -61,5 +60,29 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
 
         animator.SetTrigger("attack");
     }
+
+    void OnCasting(){
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
+        animator.SetTrigger("onCasting");
+    }
+
+    void EndAnimation(){
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+                
+        animator.SetTrigger("end");
+    }
     
+    bool AnimatorIsPlaying(){
+     return animator.GetCurrentAnimatorStateInfo(0).length >
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+
+    bool AnimatorIsPlaying(string stateName){
+        return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+    }
 }

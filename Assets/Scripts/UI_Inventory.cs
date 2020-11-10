@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class UI_Inventory : MonoBehaviourPunCallbacks
+public class UI_Inventory : MonoBehaviour
 {
 
     public Transform itemsParent;
@@ -22,6 +21,8 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
     public void UpdateInventory(){
         inventory = Inventory.instance;
         inventory.onItemChangedCallback += UpdateUI;
+
+        print("UI inventory get player inventory");
     }
 
     private void Update() {
@@ -30,6 +31,8 @@ public class UI_Inventory : MonoBehaviourPunCallbacks
                 inventory.isDroppable = !inventory.isDroppable;
                 UpdateUI();
             }
+        }else{
+            print("inventory is null");
         }
     }
 

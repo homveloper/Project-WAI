@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd5f0501b5d25c448a1e7c0553413f57, type: 3}
+  m_Script: {fileID: 11500000, guid: a5f8a0a17395fa245b19e88cb1196b2f, type: 3}
   m_Name: O2Potion
   m_EditorClassIdentifier: 
   name: O2Potion
-  cost: 0
-  HPModifier: 0
-  O2Modifier: 40
+  meterialWood: 5
+  meterialIron: 0
+  meterialPart: 5
   description: 
   icon: {fileID: 21300000, guid: 28f5add5a605fda40b9932530819552c, type: 3}
+  hpModifier: 0
+  o2Modifier: 70
+  batteryModifier: 0
+  castingTime: 5
