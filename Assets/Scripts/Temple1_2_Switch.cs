@@ -14,7 +14,7 @@ public class Temple1_2_Switch : MonoBehaviour
         swichFlash.SetActive(false);
     }
     // Start is called before the first frame update
-     private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         swichFlash.SetActive(true);
         if(tmp == 1)
