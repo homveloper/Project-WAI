@@ -309,8 +309,6 @@ public class Player : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     public void SetHP(float hp) // 체력 (겉보기 현재 수치)
     {
-        print(IsAlienObject());
-
         if (IsAlienObject() == true)
         {
             this.statHpAlien = hp;
@@ -320,6 +318,9 @@ public class Player : MonoBehaviourPunCallbacks
         }
         else
         {
+            // 리펙토링 코드
+            // this.statHp = Mathf.Clamp(statHp, 0,statHpMax);
+
             this.statHp = hp;
 
             if (this.statHp > this.statHpMax) this.statHp = this.statHpMax;

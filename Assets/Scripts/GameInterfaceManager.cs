@@ -16,6 +16,9 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     int watchIdx = 0; // 관전 모드 인덱스
     float fps = 0.0f; // FPS
 
+    [SerializeField]
+    float lerpSpeed = 2f;
+
     private void Awake()
     {
         instance = this; // 최초 생성인 경우 해당 오브젝트를 계속 인스턴스로 가져감
@@ -93,13 +96,29 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
         Player player = GameManager.GetInstance().mPlayer.GetComponent<Player>();
 
-        GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetHP() / (float)player.GetHPMax();
-        GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = player.IsAlienObject() == true ? 0 : (float)player.GetO2() / (float)player.GetO2Max();
-        GameObject.Find("UI_Stat_Bt_Bar").gameObject.GetComponent<Image>().fillAmount = player.IsAlienObject() == true ? 0 : (float)player.GetBt() / (float)player.GetBtMax();
+        // GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>().fillAmount = (float)player.GetHP() / (float)player.GetHPMax();
+        // GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>().fillAmount = player.IsAlienObject() == true ? 0 : (float)player.GetO2() / (float)player.GetO2Max();
+        // GameObject.Find("UI_Stat_Bt_Bar").gameObject.GetComponent<Image>().fillAmount = player.IsAlienObject() == true ? 0 : (float)player.GetBt() / (float)player.GetBtMax();
 
-        GameObject.Find("UI_Stat_HP_Text").gameObject.GetComponent<Text>().text = Math.Ceiling(player.GetHP()).ToString();
-        GameObject.Find("UI_Stat_O2_Text").gameObject.GetComponent<Text>().text = player.IsAlienObject() == true ? "" : Math.Ceiling(player.GetO2()).ToString();
-        GameObject.Find("UI_Stat_Bt_Text").gameObject.GetComponent<Text>().text = player.IsAlienObject() == true ? "" : Math.Ceiling(player.GetBt()).ToString();
+        // GameObject.Find("UI_Stat_HP_Text").gameObject.GetComponent<Text>().text = Math.Ceiling(player.GetHP()).ToString();
+        // GameObject.Find("UI_Stat_O2_Text").gameObject.GetComponent<Text>().text = player.IsAlienObject() == true ? "" : Math.Ceiling(player.GetO2()).ToString();
+        // GameObject.Find("UI_Stat_Bt_Text").gameObject.GetComponent<Text>().text = player.IsAlienObject() == true ? "" : Math.Ceiling(player.GetBt()).ToString();
+        
+        Image UI_Stat_HP_Bar = GameObject.Find("UI_Stat_HP_Bar").gameObject.GetComponent<Image>();
+        Image UI_Stat_O2_Bar = GameObject.Find("UI_Stat_O2_Bar").gameObject.GetComponent<Image>();
+        Image UI_Stat_Bt_Bar = GameObject.Find("UI_Stat_Bt_Bar").gameObject.GetComponent<Image>();
+
+        UI_Stat_HP_Bar.fillAmount = Mathf.Lerp(UI_Stat_HP_Bar.fillAmount,(float)player.GetHP()/(float)player.GetHPMax(),Time.deltaTime * lerpSpeed);
+        UI_Stat_O2_Bar.fillAmount = Mathf.Lerp(UI_Stat_O2_Bar.fillAmount,player.IsAlienObject() == true ? 0 : (float)player.GetO2() / (float)player.GetO2Max(),Time.deltaTime * lerpSpeed);
+        UI_Stat_Bt_Bar.fillAmount = Mathf.Lerp(UI_Stat_Bt_Bar.fillAmount,player.IsAlienObject() == true ? 0 : (float)player.GetBt() / (float)player.GetBtMax(),Time.deltaTime * lerpSpeed);
+
+        Text UI_Stat_HP_Text = GameObject.Find("UI_Stat_HP_Text").gameObject.GetComponent<Text>();
+        Text UI_Stat_O2_Text = GameObject.Find("UI_Stat_O2_Text").gameObject.GetComponent<Text>();
+        Text UI_Stat_Bt_Text = GameObject.Find("UI_Stat_Bt_Text").gameObject.GetComponent<Text>();
+
+        UI_Stat_HP_Text.text = Math.Ceiling(UI_Stat_HP_Bar.fillAmount * (float)player.GetHPMax()).ToString();
+        UI_Stat_O2_Text.text = player.IsAlienObject() == true ? "" : Math.Ceiling(UI_Stat_O2_Bar.fillAmount * (float)player.GetO2Max()).ToString();
+        UI_Stat_Bt_Text.text = player.IsAlienObject() == true ? "" : Math.Ceiling(UI_Stat_Bt_Bar.fillAmount * (float)player.GetBtMax()).ToString();
 
         GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
         GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();

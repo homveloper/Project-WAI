@@ -6,6 +6,19 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     [SerializeField]
     public Animator animator;
 
+    [SerializeField]
+    private bool isWalk;
+    [SerializeField]
+    private bool isRun;
+
+    public bool IsWalk{
+        get =>isWalk;
+    }
+
+    public bool IsRun{
+        get =>isRun;
+    }
+
     void SetPlayerDead(){
         animator.SetTrigger("dead");
     }
@@ -27,8 +40,8 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
-        bool isWalk = hasHorizontalInput || hasVeritcalInput;
-        bool isRun = Input.GetButton("Run") && isWalk;
+        isWalk = hasHorizontalInput || hasVeritcalInput;
+        isRun = Input.GetButton("Run") && isWalk;
 
         animator.SetBool("isWalk",isWalk);
         animator.SetBool("isRun",isRun);
@@ -82,7 +95,11 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
 
-    bool AnimatorIsPlaying(string stateName){
+    public bool AnimatorIsPlaying(string stateName){
         return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+    }
+
+    public AnimatorStateInfo PrintAnimatorIsPlaying(){
+        return animator.GetCurrentAnimatorStateInfo(0);
     }
 }
