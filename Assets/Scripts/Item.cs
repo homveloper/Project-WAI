@@ -1,5 +1,8 @@
 using UnityEngine;
 
+public enum Progress{
+    END, INCOMPLETE_END, ONGOING
+}
 [CreateAssetMenu(fileName = "new Item", menuName = "Item")]
 public abstract class Item : ScriptableObject{
     new public string name = "new Item";
@@ -12,7 +15,7 @@ public abstract class Item : ScriptableObject{
     public string description;
     public Sprite icon;
 
-    public abstract void Use(Player playerStat);
+    public abstract Progress Use(Player playerStat);
 
 }
 
