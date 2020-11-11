@@ -15,7 +15,7 @@ public abstract class Item : ScriptableObject{
     public string description;
     public Sprite icon;
 
-    public abstract Progress Use(Player playerStat);
+    public abstract void Use(Player playerStat);
 
 }
 

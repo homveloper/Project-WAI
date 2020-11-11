@@ -51,12 +51,7 @@ public class InventorySlot : MonoBehaviour
     {
         if (item != null)
         {         
-            if(item is ConsumableItem){
-                Progress progress = item.Use(Inventory.instance.playerStat);
-
-                if(Progress.END == progress)
-                    Inventory.instance.Remove(item);
-            }
+            item.Use(Inventory.instance.playerStat);
         }
     }
 

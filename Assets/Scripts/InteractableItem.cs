@@ -11,9 +11,9 @@ public class InteractableItem : Item
 
     int damageModifier;
 
-    public override Progress Use(Player playerStat)
+    public override void Use(Player playerStat)
     {
-        return Progress.END;
+        
     }
 
     public Itemtype Itemtype{
