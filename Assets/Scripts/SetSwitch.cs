@@ -10,7 +10,6 @@ public class SetSwitch : MonoBehaviourPun
     public GameObject moveWell;
     public GameObject hiddenGate;
     public AudioSource wallSound;
-    public Transform temple;
     public GameObject info;
     Vector3 tmp;
 
@@ -22,13 +21,13 @@ public class SetSwitch : MonoBehaviourPun
         info.transform.localScale = new Vector3(0,0,0);
     }
     // Start is called before the first frame update
-     private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         /*if (other.GetComponent<PhotonView>().IsMine == false)
             return;*/
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
-        if(cnt == 1 || swichFlash.active == false)
+        if(cnt == 1 && swichFlash.activeSelf == false)
         {
             info.transform.localScale = tmp;
         }
@@ -51,11 +50,12 @@ public class SetSwitch : MonoBehaviourPun
         }
         // Debug.Log(other.name + "감지 시작!");
     }
-
-    // Collider 컴포넌트의 is Trigger가 true인 상태로 충돌중일 때
-
-    private void OnTriggerEixt(Collider other)
+    void OnTriggerEixt(Collider other)
     {
-       info.transform.localScale = new Vector3(0,0,0);
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
+        
+        info.transform.localScale = new Vector3(0,0,0);
+        Debug.Log("out");
     }
 }
