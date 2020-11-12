@@ -31,9 +31,6 @@ public class VoteController : MonoBehaviourPunCallbacks
 
     private List<String> nickKey; // nickList의 정렬된 키
 
-    //private KeyValuePair<int, int> maxUpPlayer;
-    //private KeyValuePair<int, int> maxDownPlayer;
-
     bool voting; 
 
     void Start()
@@ -67,7 +64,7 @@ public class VoteController : MonoBehaviourPunCallbacks
 
         StartCoroutine(OnRefresh());
 
-        SetStatus(true);
+        OnStatus(true);
         voteObj_panel.SetActive(false);        
     }
     void Update()
@@ -88,11 +85,12 @@ public class VoteController : MonoBehaviourPunCallbacks
             
         if (!PhotonNetwork.IsMasterClient)
             return;
-
+        
         if (t % 120 >= 59 && t % 120 < 60 && voting == true)
-            SetStatus(false);
+            photonView.RPC("OnStatus", RpcTarget.AllBuffered, false);
         else if (t % 120 >= 119 && t % 120 < 120 && voting == false)
-            SetStatus(true);
+            photonView.RPC("OnStatus", RpcTarget.AllBuffered, true);
+
     }
     public void SetSwitchVote() // 투표 창 출력 (스위칭)
     {
@@ -107,17 +105,6 @@ public class VoteController : MonoBehaviourPunCallbacks
             return;
 
         OnRefresh();
-    }
-    public void SetStatus(bool val) // 투표 상태 설정 (* 마스터 클라이언트 전용)
-    {
-        voting = val;
-
-        if (val == true)
-            photonView.RPC("OnClear", RpcTarget.AllBuffered);
-        else if (val == false)
-            Finish();
-
-        Refresh();
     }
     IEnumerator OnRefresh() // 시스템 갱신 루틴
     {
@@ -148,12 +135,13 @@ public class VoteController : MonoBehaviourPunCallbacks
             if (!actorList.ContainsKey(actorNumber))
                 actorList.Add(actorNumber, i);
 
+            if (nickList.ContainsKey(nick_in))
+                nickList.Add(nick_in, actorNumber);
+
             if (isAlien && !nickList.ContainsKey(nick_out))
                 nickList.Add(nick_out, actorNumber);
             else if (isAlien && nickList.ContainsKey(nick_out))
                 nickList[nick_out] = actorNumber;
-            else if (!isAlien && !nickList.ContainsKey(nick_in))
-                nickList.Add(nick_in, actorNumber);
 
             if (!colorList.ContainsKey(nick_in))
                 colorList.Add(nick_in, color);
@@ -237,22 +225,22 @@ public class VoteController : MonoBehaviourPunCallbacks
 
             if (maxUp == 0)
             {
-                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
             else if (maxDown == 0)
             {
-                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
             else if (maxUpCount >= 2)
             {
-                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
             else if (maxDownCount >= 2)
             {
-                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
 
@@ -266,7 +254,7 @@ public class VoteController : MonoBehaviourPunCallbacks
             maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
             maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
 
-            photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
         }
         catch (Exception e)
         {
@@ -274,9 +262,31 @@ public class VoteController : MonoBehaviourPunCallbacks
             Debug.LogError(e);
         }
     }
+    public void Clear() // 투표 초기화
+    {
+        upVoteList.Clear();
+        downVoteList.Clear();
+    }
     // ---------------------------------------------------------------------------------------------------
     // # 네트워크 메소드
     // ---------------------------------------------------------------------------------------------------
+    [PunRPC]
+    public void OnStatus(bool val) // 투표 상태 설정
+    {
+        voting = val;
+
+        if (val == true)
+            Clear();
+        else if (val == false)
+            Finish();
+
+        Refresh();
+    }
+    [PunRPC]
+    public void OnAlert(string title, string text)
+    {
+        GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert(title, text);
+    }
     [PunRPC]
     void OnVote(int sender, string targetNick, bool up) // 투표 수신
     {
@@ -295,12 +305,6 @@ public class VoteController : MonoBehaviourPunCallbacks
         {
             Debug.Log("투표 오류");
         }
-    }
-    [PunRPC]
-    public void OnClear() // 투표 초기화
-    {
-        upVoteList.Clear();
-        downVoteList.Clear();
     }
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
