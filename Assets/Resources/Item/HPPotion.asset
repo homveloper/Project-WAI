@@ -18,7 +18,7 @@ MonoBehaviour:
   meterialPart: 3
   description: 
   icon: {fileID: 21300000, guid: e2cf4418c73f0e543895142069012fb8, type: 3}
-  hpModifier: 20
+  hpModifier: 40
   o2Modifier: 0
   batteryModifier: 0
   castingTime: 3

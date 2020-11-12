@@ -4857,18 +4857,18 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: dead
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: attack
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: hitStatus
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: attackSpeed
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
 --- !u!1 &219244088627253285
 GameObject:
@@ -5429,12 +5429,18 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: pushStand
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: attackSpeed
+  - Type: 9
+    SynchronizeType: 1
+    Name: casting
+  - Type: 9
+    SynchronizeType: 1
+    Name: end
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
 --- !u!54 &5587160095295535158
 Rigidbody:
