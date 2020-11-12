@@ -19,8 +19,16 @@ public class Combat : MonoBehaviourPun
     public delegate void OnAttack();
     public OnAttack OnAttackCallback; 
 
+    public AudioSource playerAck1;
+
+    public AudioSource playerAck2;
+
+    int cnt = 0;
+
     void Start()
     {
+        playerAck1.Pause();
+        playerAck2.Pause();
         player = GetComponent<Player>();
         researcherAnimation.animator.SetFloat("attackSpeed", attackSpeed);
         alienAnimation.animator.SetFloat("attackSpeed", attackSpeed);
@@ -34,6 +42,16 @@ public class Combat : MonoBehaviourPun
         cooldown -= Time.deltaTime;
 
         if (Input.GetButtonDown("Attack")){
+            if(cnt == 0)
+            {
+                playerAck1.Play();
+                cnt++;
+            }
+            else
+            {
+                playerAck2.Play();
+                cnt--;
+            }
             Attack(null);
         }
     }

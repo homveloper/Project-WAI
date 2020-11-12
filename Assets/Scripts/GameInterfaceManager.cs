@@ -13,6 +13,8 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 {
     private static GameInterfaceManager instance = null;
 
+    public AudioSource chatLoadSound;
+
     int watchIdx = 0; // 관전 모드 인덱스
     float fps = 0.0f; // FPS
 
@@ -28,7 +30,10 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     {
         return instance;
     }
-
+    void Start()
+    {
+        chatLoadSound.Pause();
+    }
     void Update()
     {
         if (GameManager.GetInstance() == null)
@@ -169,6 +174,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     }
     public void OnSwitchChat(bool val) // 채팅 모드 (매뉴얼)
     {
+        chatLoadSound.Play();
         GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
         GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play(val ? "Talk_load" : "Talk_hide");
         GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>().DeactivateInputField();

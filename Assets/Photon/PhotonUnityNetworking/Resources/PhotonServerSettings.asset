@@ -56,6 +56,8 @@ MonoBehaviour:
   - OnTakeOver
   - OnReceiveChat
   - OnVote
+  - OnRefreshMeterial
+  - OnTransformMeterial
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
