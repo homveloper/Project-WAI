@@ -8,6 +8,8 @@ using System.ComponentModel.Design.Serialization;
 
 public class Player : MonoBehaviourPunCallbacks
 {
+    private float REFRESH_TIME = 1.0f;
+
     // 오브젝트
     public GameObject researcher;
     public GameObject alien;
@@ -64,6 +66,8 @@ public class Player : MonoBehaviourPunCallbacks
 
         uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
         uI_Inventory.UpdateInventory();
+
+        StartCoroutine(OnRefresh());
     }
 
     void Update()
@@ -71,9 +75,6 @@ public class Player : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
-
-        // 1초 지연 필요
-        //photonView.RPC("OnRefreshMeterial", RpcTarget.OthersBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart());
 
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
@@ -116,7 +117,19 @@ public class Player : MonoBehaviourPunCallbacks
         if (IsFlash() == false)
             SetBt(GetBt() + Time.deltaTime * modBtRecharge);
     }
+    IEnumerator OnRefresh()
+    {
+        while (true)
+        {
+            Refresh();
 
+            yield return new WaitForSeconds(REFRESH_TIME);
+        }
+    }
+    public void Refresh()
+    {
+        photonView.RPC("OnRefreshMeterial", RpcTarget.OthersBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart());
+    }
     // ---------------------------------------------------------------------------------------------------
     // # 포톤 메시지 메소드
     // ---------------------------------------------------------------------------------------------------
@@ -265,17 +278,33 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public string GetNickname()
     {
+        return GetNickname(false);
+    }
+    public string GetNickname(bool original)
+    {
         ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
-        if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("fakeNick") == true)
+
+        if (original)
+            return photonView.Owner.NickName;
+        else if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("fakeNick") == true)
             return (string)prop["fakeNick"];
         else
             return photonView.Owner.NickName;
     }
     public Color GetColor()
     {
+        return GetColor(false);
+    }
+    public Color GetColor(bool original)
+    {
         ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
-        if (prop.ContainsKey("color") == true) return colorPalette.colors[(int)prop["color"]];
-        else return new Color(0, 0, 0, 0);
+
+        if (original)
+            return colorPalette.colors[(int)prop["color"]];
+        else if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("fakeColor") == true)
+            return colorPalette.colors[(int)prop["fakeColor"]];
+        else
+            return colorPalette.colors[(int)prop["color"]];
 
     }
     public bool IsAlienPlayer() // 외계인 역할 여부
@@ -467,7 +496,7 @@ public class Player : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
         ExitGames.Client.Photon.Hashtable targetProp = target.photonView.Owner.CustomProperties;
         myProp["fakeNick"] = target.photonView.Owner.NickName;
-        myProp["color"] = targetProp["color"];
+        myProp["fakeColor"] = targetProp["color"];
         photonView.Owner.SetCustomProperties(myProp);
 
         // 변신
@@ -525,7 +554,15 @@ public class Player : MonoBehaviourPunCallbacks
         if (changedProps.ContainsKey("color") == false)
             return;
 
-        researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
-        researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
+        if (changedProps.ContainsKey("fakeColor") == true)
+        {
+            researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["fakeColor"]]);
+            researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["fakeColor"]]);
+        }
+        else
+        {
+            researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
+            researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
+        }
     }
 }

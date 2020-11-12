@@ -6,58 +6,69 @@ using Photon.Pun.Demo.Cockpit;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using System.Linq.Expressions;
 
 public class VoteController : MonoBehaviourPunCallbacks
 {
-    public GameObject votePanel;
-    private GameObject[] color;
-    private GameObject[] nickname;
-    private GameObject[] up;
-    private GameObject[] up_value;
-    private GameObject[] down;
-    private GameObject[] down_value;
-    private GameObject time;
-    private GameObject text;
+    private float REFRESH_TIME = 1.0f;
 
-    private GameObject[] player;
-    private Dictionary<int, string> nick;
-    private KeyValuePair<int, int> maxUpPlayer;
-    private KeyValuePair<int, int> maxDownPlayer;
-    private Dictionary<int, int> upVote;
-    private Dictionary<int, int> downVote;
+    public GameObject voteObj_panel;
+    private GameObject[] voteObj_color;
+    private GameObject[] voteObj_nickname;
+    private GameObject[] voteObj_up;
+    private GameObject[] voteObj_up_value;
+    private GameObject[] voteObj_down;
+    private GameObject[] voteObj_down_value;
+    private GameObject voteObj_time;
+    private GameObject voteObj_text;
 
-    
+    private GameObject[] playerList;
+    private Dictionary<int, int> actorList; // actorNumber > playerList Index
+    private Dictionary<string, int> nickList; // nickname > actorNumber (먹혔다면 변신한 외계인의 번호)
+    private Dictionary<string, Color> colorList; // nickname > color
+    private Dictionary<int, string> upVoteList; // actorNumber(sender) > nickname(target)
+    private Dictionary<int, string> downVoteList; // actorNumber(sender) > nickname(target)
+
+    private List<String> nickKey; // nickList의 정렬된 키
+
+    //private KeyValuePair<int, int> maxUpPlayer;
+    //private KeyValuePair<int, int> maxDownPlayer;
+
     bool voting; 
 
     void Start()
     {
-        color = new GameObject[10];
-        nickname = new GameObject[10];
-        up = new GameObject[10];
-        up_value = new GameObject[10];
-        down = new GameObject[10];
-        down_value = new GameObject[10];
+        voteObj_color = new GameObject[10];
+        voteObj_nickname = new GameObject[10];
+        voteObj_up = new GameObject[10];
+        voteObj_up_value = new GameObject[10];
+        voteObj_down = new GameObject[10];
+        voteObj_down_value = new GameObject[10];
 
-        nick = new Dictionary<int, string>();
-        upVote = new Dictionary<int, int>();
-        downVote = new Dictionary<int, int>();
+        actorList = new Dictionary<int, int>();
+        nickList = new Dictionary<string, int>();
+        colorList = new Dictionary<string, Color>();
+        upVoteList = new Dictionary<int, string>();
+        downVoteList = new Dictionary<int, string>();
 
-        GameObject panel = votePanel.transform.Find("UI_Vote_Panel").gameObject;
-        time = panel.transform.Find("UI_Vote_Time").gameObject;
-        text = panel.transform.Find("UI_Vote_Text").gameObject;
+        GameObject panel = voteObj_panel.transform.Find("UI_Vote_Panel").gameObject;
+        voteObj_time = panel.transform.Find("UI_Vote_Time").gameObject;
+        voteObj_text = panel.transform.Find("UI_Vote_Text").gameObject;
         for (int i = 0; i <= 9; i++)
         {
             GameObject unit = panel.transform.Find("UI_Vote_Unit_" + i).gameObject;
-            color[i] = unit.transform.Find("UI_Vote_Unit_Color").gameObject;
-            nickname[i] = unit.transform.Find("UI_Vote_Unit_Nickname").gameObject;
-            up[i] = unit.transform.Find("UI_Vote_Unit_Up").gameObject;
-            up_value[i] = up[i].transform.Find("UI_Vote_Unit_Up_Value").gameObject;
-            down[i] = unit.transform.Find("UI_Vote_Unit_Down").gameObject;
-            down_value[i] = down[i].transform.Find("UI_Vote_Unit_Down_Value").gameObject;
+            voteObj_color[i] = unit.transform.Find("UI_Vote_Unit_Color").gameObject;
+            voteObj_nickname[i] = unit.transform.Find("UI_Vote_Unit_Nickname").gameObject;
+            voteObj_up[i] = unit.transform.Find("UI_Vote_Unit_Up").gameObject;
+            voteObj_up_value[i] = voteObj_up[i].transform.Find("UI_Vote_Unit_Up_Value").gameObject;
+            voteObj_down[i] = unit.transform.Find("UI_Vote_Unit_Down").gameObject;
+            voteObj_down_value[i] = voteObj_down[i].transform.Find("UI_Vote_Unit_Down_Value").gameObject;
         }
 
+        StartCoroutine(OnRefresh());
+
         SetStatus(true);
-        votePanel.SetActive(false);
+        voteObj_panel.SetActive(false);        
     }
     void Update()
     {
@@ -67,9 +78,9 @@ public class VoteController : MonoBehaviourPunCallbacks
         float t = GameManager.GetInstance().time;
 
         if (voting)
-            time.GetComponent<Text>().text = "투표 종료까지 " + Math.Truncate(t % 60) + "초 남음";
+            voteObj_time.GetComponent<Text>().text = "투표 종료까지 " + Math.Truncate(t % 60) + "초 남음";
         else
-            time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 60) + "초 남음";
+            voteObj_time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 60) + "초 남음";
 
         if (t % 120 >= 59 && t % 120 < 60 && voting == true)
             SetStatus(false);
@@ -87,54 +98,178 @@ public class VoteController : MonoBehaviourPunCallbacks
     }
     public void SetSwitchVote() // 투표 창 출력 (스위칭)
     {
-        SetSwitchVote(!votePanel.activeSelf);
+        SetSwitchVote(!voteObj_panel.activeSelf);
     }
     public void SetSwitchVote(bool val) // 투표 창 출력 (매뉴얼)
     {
         GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
-        votePanel.SetActive(val);
+        voteObj_panel.SetActive(val);
 
         if (val == false)
             return;
 
-        player = GameObject.FindGameObjectsWithTag("Player");
-        Refresh();
+        OnRefresh();
     }
     public void Clear() // 투표 초기화
     {
-        upVote.Clear();
-        downVote.Clear();
-
-        maxUpPlayer = new KeyValuePair<int, int>(-1, 0);
-        maxDownPlayer = new KeyValuePair<int, int>(-1, 0);
-
-        upVote.Add(-1, -1);
-        downVote.Add(-1, -1);
+        upVoteList.Clear();
+        downVoteList.Clear();
     }
     public void SetStatus(bool val) // 투표 상태 설정
     {
         voting = val;
-        
+
         if (val == true)
             Clear();
+        else if (val == false)
+            Finish();
 
         Refresh();
-
-        if (val == false)
+    }
+    IEnumerator OnRefresh() // 시스템 갱신 루틴
+    {
+        while (true)
         {
-            GameObject maxUpPlayerObject = null;
-            GameObject maxDownPlayerObject = null;
+            Refresh();
 
-            for (int i = 0; i<player.Length; i++)
+            yield return new WaitForSeconds(REFRESH_TIME);
+        }
+    }
+
+    public void Refresh() // 시스템 갱신
+    {
+        // 초기화
+        actorList.Clear();
+        nickList.Clear();
+
+        // 플레이어 목록 구성
+        playerList = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < playerList.Length; i++)
+        {
+            int actorNumber = playerList[i].GetComponent<PhotonView>().Owner.ActorNumber;
+            Color color = playerList[i].GetComponent<Player>().GetColor(true);
+            string nick_in = playerList[i].GetComponent<Player>().GetNickname(true);
+            string nick_out = playerList[i].GetComponent<Player>().GetNickname(false);
+            bool isAlien = playerList[i].GetComponent<Player>().IsAlienPlayer();
+
+            if (!actorList.ContainsKey(actorNumber))
+                actorList.Add(actorNumber, i);
+
+            if (isAlien && !nickList.ContainsKey(nick_out))
+                nickList.Add(nick_out, actorNumber);
+            else if (isAlien && nickList.ContainsKey(nick_out))
+                nickList[nick_out] = actorNumber;
+            else if (!isAlien && !nickList.ContainsKey(nick_in))
+                nickList.Add(nick_in, actorNumber);
+
+            if (!colorList.ContainsKey(nick_in))
+                colorList.Add(nick_in, color);
+        }
+
+        // 투표수 구성
+        Dictionary<string, int> upCountList = upVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
+        Dictionary<string, int> downCountList = downVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
+
+        // 출력 구성
+        nickKey = nickList.Keys.ToList<String>();
+        nickKey.Sort();
+        for (int i = 0; i <= 9; i++)
+        {
+            voteObj_color[i].GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            voteObj_nickname[i].GetComponent<Text>().text = "";
+            voteObj_up[i].GetComponent<Button>().interactable = false;
+            voteObj_up_value[i].GetComponent<Text>().text = "-";
+            voteObj_down[i].GetComponent<Button>().interactable = false;
+            voteObj_down_value[i].GetComponent<Text>().text = "-";
+
+            if (nickList == null || i >= nickList.Count)
+                continue;
+
+            voteObj_color[i].GetComponent<Image>().color = colorList.ContainsKey(nickKey[i]) ? colorList[nickKey[i]] : new Color (0,0,0,0);
+            voteObj_nickname[i].GetComponent<Text>().text = nickKey[i];
+            voteObj_up[i].GetComponent<Button>().interactable = voting;
+            voteObj_up_value[i].GetComponent<Text>().text = (upCountList.ContainsKey(nickKey[i]) ? upCountList[nickKey[i]] : 0).ToString();
+            voteObj_down[i].GetComponent<Button>().interactable = voting;
+            voteObj_down_value[i].GetComponent<Text>().text = (downCountList.ContainsKey(nickKey[i]) ? downCountList[nickKey[i]] : 0).ToString();
+        }
+
+        if (voting)
+            voteObj_text.GetComponent<Text>().text = "투표가 진행중입니다.";
+        else
+            voteObj_text.GetComponent<Text>().text = "투표가 종료되었습니다.\n가장 의심받은 사람의 모든 재료가 가장 신뢰받은 사람에게로 넘어갑니다.";
+    }
+    public void SetVoteUp(int num) // 투표 (신뢰)
+    {
+        photonView.RPC("OnVote", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, nickKey[num], true);
+    }
+    public void SetVoteDown(int num) // 투표 (의심)
+    {
+        photonView.RPC("OnVote", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, nickKey[num], false);
+    }
+    public void Finish()
+    {
+        try
+        {
+            // 투표수 구성
+            Dictionary<string, int> upCountList = upVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
+            Dictionary<string, int> downCountList = downVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
+
+            string maxUpNick = "", maxDownNick = "";
+            int maxUp = 0, maxUpCount = 0, maxDown = 0, maxDownCount = 0;
+
+            List<String> upKey = upCountList.Keys.ToList<String>();
+            for (int i = 0; i < upKey.Count; i++)
             {
-                if (player[i].GetComponent<PhotonView>().Owner.ActorNumber == maxUpPlayer.Key) maxUpPlayerObject = player[i];
-                if (player[i].GetComponent<PhotonView>().Owner.ActorNumber == maxDownPlayer.Key) maxDownPlayerObject = player[i];
+                if (upCountList[upKey[i]] > maxUp)
+                {
+                    maxUpNick = upKey[i];
+                    maxUp = upCountList[upKey[i]];
+                    maxUpCount = 1;
+                }
+                else if (upCountList[upKey[i]] == maxUp)
+                {
+                    maxUpCount += 1;
+                }
             }
 
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "최고 신뢰자: " + (maxUpPlayerObject != null ? maxUpPlayerObject.GetComponent<PhotonView>().Owner.NickName : "없음") + " (" + maxUpPlayer.Value + "표)\n" + "최고 의심자: " + (maxDownPlayerObject != null ? maxDownPlayerObject.GetComponent<PhotonView>().Owner.NickName : "없음") + " (" + maxDownPlayer.Value + "표)");
+            List<String> downKey = downCountList.Keys.ToList<String>();
+            for (int i = 0; i < downKey.Count; i++)
+            {
+                if (downCountList[downKey[i]] > maxDown)
+                {
+                    maxDownNick = downKey[i];
+                    maxDown = downCountList[downKey[i]];
+                    maxDownCount = 1;
+                }
+                else if (downCountList[downKey[i]] == maxDown)
+                {
+                    maxDownCount += 1;
+                }
+            }
 
-            if (maxUpPlayerObject == null || maxDownPlayerObject == null)
+            if (maxUp == 0)
+            {
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
                 return;
+            }
+            else if (maxDown == 0)
+            {
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
+                return;
+            }
+            else if (maxUpCount >= 2)
+            {
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                return;
+            }
+            else if (maxDownCount >= 2)
+            {
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                return;
+            }
+
+            GameObject maxUpPlayerObject = playerList[actorList[nickList[maxUpNick]]];
+            GameObject maxDownPlayerObject = playerList[actorList[nickList[maxDownNick]]];
 
             int wood = maxDownPlayerObject.GetComponent<Player>().GetWood();
             int iron = maxDownPlayerObject.GetComponent<Player>().GetIron();
@@ -142,77 +277,30 @@ public class VoteController : MonoBehaviourPunCallbacks
 
             maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
             maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
+
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
         }
-    }
-    public void Refresh() // 투표창 갱신
-    {
-
-        Dictionary<int, int> upCount = upVote.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
-        Dictionary<int, int> downCount = downVote.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
-
-        for (int i = 0; i <= 9; i++)
+        catch (Exception e)
         {
-            color[i].GetComponent<Image>().color = new Color(0, 0, 0, 0);
-            nickname[i].GetComponent<Text>().text = "";
-            up[i].GetComponent<Button>().interactable = false;
-            up_value[i].GetComponent<Text>().text = "-";
-            down[i].GetComponent<Button>().interactable = false;
-            down_value[i].GetComponent<Text>().text = "-";
-
-            if (player == null || i >= player.Length)
-                continue;
-
-            int actorNumber = player[i].GetComponent<PhotonView>().Owner.ActorNumber;
-
-            if (nick.ContainsKey(actorNumber))
-                nick[actorNumber] = player[i].GetComponent<Player>().GetNickname();
-            else
-                nick.Add(actorNumber, player[i].GetComponent<Player>().GetNickname());
-
-            if ((upCount.ContainsKey(actorNumber) ? upCount[actorNumber] : 0) > maxUpPlayer.Value)
-                maxUpPlayer = new KeyValuePair<int, int>(actorNumber, upCount[actorNumber]);
-            if ((downCount.ContainsKey(actorNumber) ? downCount[actorNumber] : 0) > maxDownPlayer.Value)
-                maxDownPlayer = new KeyValuePair<int, int>(actorNumber, downCount[actorNumber]);
-
-
-            color[i].GetComponent<Image>().color = player[i].GetComponent<Player>().GetColor();
-            nickname[i].GetComponent<Text>().text = player[i].GetComponent<Player>().GetNickname();
-            up[i].GetComponent<Button>().interactable = voting;
-            up_value[i].GetComponent<Text>().text = (upCount.ContainsKey(actorNumber) ? upCount[actorNumber] : 0).ToString();
-            down[i].GetComponent<Button>().interactable = voting;
-            down_value[i].GetComponent<Text>().text = (downCount.ContainsKey(actorNumber) ? downCount[actorNumber] : 0).ToString();
-
-            if (voting)
-                text.GetComponent<Text>().text = "투표가 진행중입니다.";
-            else
-                text.GetComponent<Text>().text = "투표가 종료되었습니다.\n가장 의심받은 사람의 모든 재료가 가장 신뢰받은 사람에게로 넘어갑니다.";
+            Debug.LogError("투표 종료 중 오류 발생");
+            Debug.LogError(e);
         }
-    }
-    public void SetVoteUp(int num) // 투표 (신뢰)
-    {
-        photonView.RPC("OnVote", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, player[num].GetComponent<PhotonView>().Owner.ActorNumber, true);
-    }
-    public void SetVoteDown(int num) // 투표 (의심)
-    {
-        photonView.RPC("OnVote", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, player[num].GetComponent<PhotonView>().Owner.ActorNumber, false);
     }
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
     // ---------------------------------------------------------------------------------------------------
     [PunRPC]
-    void OnVote(int sender, int target, bool up) // 투표 수신
+    void OnVote(int sender, string targetNick, bool up) // 투표 수신
     {
         try
         {
             if (up)
-                if (upVote.ContainsKey(sender)) upVote[sender] = target;
-                else upVote.Add(sender, target);
+                if (upVoteList.ContainsKey(sender)) upVoteList[sender] = targetNick;
+                else upVoteList.Add(sender, targetNick);
             else
-                if (downVote.ContainsKey(sender)) downVote[sender] = target;
-                else downVote.Add(sender, target);
+                if (downVoteList.ContainsKey(sender)) downVoteList[sender] = targetNick;
+                else downVoteList.Add(sender, targetNick);
 
-            if (nick.ContainsKey(target))
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 진행중", nick[target] + " (이)가 " + (up ? "신뢰" : "의심") + "받고 있습니다.");
             Refresh();
         }
         catch
