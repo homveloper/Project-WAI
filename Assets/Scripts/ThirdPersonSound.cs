@@ -14,6 +14,8 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     {
         dust1.Stop();
         dust2.Stop();
+        walkSound.Pause();
+        runSound.Pause();
     }
     
     void Update()
@@ -32,17 +34,25 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
 
+       if(isRun)
+            isWalk = false;
+
         if(isRun && !runSound.isPlaying)
         {
+            walkSound.Pause();
             runSound.Play();
         }
         else if (isWalk && !walkSound.isPlaying)
         {
+            runSound.Pause();
             walkSound.Play();
         }
-        else
+        else if(!isRun && runSound.isPlaying)
         {
             runSound.Pause();
+        }
+        else if(!isWalk && walkSound.isPlaying)
+        {
             walkSound.Pause();
         }
 
