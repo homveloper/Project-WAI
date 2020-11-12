@@ -404,8 +404,7 @@ MonoBehaviour:
   moveWell: {fileID: 0}
   hiddenGate: {fileID: 0}
   wallSound: {fileID: 2835874716456426834}
-  temple: {fileID: 0}
-  info: {fileID: 0}
+  info: {fileID: 8279116886706729929}
 --- !u!82 &2835874716456426834
 AudioSource:
   m_ObjectHideFlags: 0
@@ -671,7 +670,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC0C1\uD638\uC791\uC6A9"
+  m_Text: "\uBD88\uC744\uCF20\uB2E4"
 --- !u!1 &8279116886706729929
 GameObject:
   m_ObjectHideFlags: 0
