@@ -46,10 +46,6 @@ public class ConsumableItem : Item
         float startTime = Time.time;
 
         while(Time.time <= startTime + castingTime){
-            // string time = "Time.time : " + Time.time + " , startTime : " + startTime + ", castingTime : " + castingTime;
-            // Debug.Log(time);
-            // bool isPlaying = !playerAnimation.AnimatorIsPlaying("Nervously Look Around",1);
-            // Debug.Log(isPlaying);
             if(!playerAnimation.AnimatorIsPlaying("Nervously Look Around",1)){
                 Inventory.instance.StopCoroutine(coroutine);
                 break;
@@ -59,6 +55,13 @@ public class ConsumableItem : Item
     }
 
     IEnumerator OnStartAfterTime(Player playerStat, float delayTime){
+        
+        float startTime = Time.time;
+
+        while(Time.time <= startTime + castingTime){
+            yield return null;  //1프레임 마다 체크합니다.
+        }
+
         yield return new WaitForSeconds(delayTime);
 
         Debug.Log("효과가 발동합니다.");
