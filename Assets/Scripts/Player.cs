@@ -57,7 +57,7 @@ public class Player : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        alien.SetActive(false);
+        alien.transform.localScale = new Vector3(0, 0, 0);
         flashlight.SetActive(false);
 
         if (PhotonNetwork.IsConnected)
@@ -160,8 +160,8 @@ public class Player : MonoBehaviourPunCallbacks
 
         SetMove(true);
         SetFlash(false);
-        researcher.SetActive(val);
-        alien.SetActive(!val);
+        researcher.transform.localScale = val ? new Vector3(1, 1, 1) : new Vector3(0, 0, 0);
+        alien.transform.localScale = val ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1);
 
         if (val == false)
             damage = ALIEN_DAMAGE;
@@ -316,7 +316,7 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public bool IsAlienObject() // 외계인 상태 여부
     {
-       return alien.activeSelf;
+       return alien.transform.localScale == new Vector3(1, 1, 1);
     }
     public bool IsDead() // 사망 여부
     {
@@ -463,7 +463,7 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetTransform() // 변신 설정 (스위칭)
     {
-        SetTransform(!alien.activeSelf);
+        SetTransform(alien.transform.localScale == new Vector3(1, 1, 1));
     }
     public void SetTransform(bool val) // 변신 설정 (매뉴얼)
     {
@@ -492,6 +492,8 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetRooting(Player target) // 사망 연구원 루팅
     {
+        SetMove(false);
+
         // 프로퍼티 처리
         ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
         ExitGames.Client.Photon.Hashtable targetProp = target.photonView.Owner.CustomProperties;
@@ -509,6 +511,8 @@ public class Player : MonoBehaviourPunCallbacks
 
         // 사망 연구원을 소멸 처리
         target.SetTakeOver();
+
+        SetMove(true);
     }
     public void SetTakeOver() // 시체 소멸
     {
