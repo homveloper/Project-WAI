@@ -174,7 +174,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     }
     public void OnSwitchChat(bool val) // 채팅 모드 (매뉴얼)
     {
-        chatLoadSound.Play();
+        if (val) chatLoadSound.Play();
         GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
         GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play(val ? "Talk_load" : "Talk_hide");
         GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>().DeactivateInputField();

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class MiniAlertController : MonoBehaviour
+public class MiniAlertController : MonoBehaviourPunCallbacks
 {
     public GameObject parentObject = null;
     GameObject alert = null;
@@ -33,6 +34,7 @@ public class MiniAlertController : MonoBehaviour
         if (flag == 1 && time >= 5.0f)
             OnDisableAlert();
     }
+    [PunRPC]
     public void OnEnableAlert(string title, string text)
     {
         alert.transform.Find("UI_MiniAlert_TopText").gameObject.GetComponent<Text>().text = title;
@@ -43,13 +45,14 @@ public class MiniAlertController : MonoBehaviour
         time = 0;
         flag = 1;
     }
+    [PunRPC]
     public void OnEnableAlert(string title, string text, Color color)
     {
         alert.GetComponent<Image>().color = color;
 
         OnEnableAlert(title, text);
     }
-
+    [PunRPC]
     public void OnEnableAlert(string title, string text, Color color, Sprite sprite)
     {
         alert.GetComponent<Image>().color = color;
@@ -57,7 +60,7 @@ public class MiniAlertController : MonoBehaviour
 
         OnEnableAlert(title, text);
     }
-
+    [PunRPC]
     public void OnDisableAlert()
     {
         alert.GetComponent<Animation>().Play("MiniAlert_hide");

@@ -72,29 +72,27 @@ public class VoteController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
         float t = GameManager.GetInstance().time;
 
         if (voting)
+        {
+            voteObj_text.GetComponent<Text>().text = "투표가 진행중입니다.";
             voteObj_time.GetComponent<Text>().text = "투표 종료까지 " + Math.Truncate(t % 60) + "초 남음";
+        }
+            
         else
+        {
+            voteObj_text.GetComponent<Text>().text = "투표가 종료되었습니다.\n가장 의심받은 사람의 모든 재료가 가장 신뢰받은 사람에게로 넘어갑니다.";
             voteObj_time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 60) + "초 남음";
+        }
+            
+        if (!PhotonNetwork.IsMasterClient)
+            return;
 
         if (t % 120 >= 59 && t % 120 < 60 && voting == true)
             SetStatus(false);
         else if (t % 120 >= 119 && t % 120 < 120 && voting == false)
             SetStatus(true);
-
-        // 5분 주기로 진행되며
-        // 우주선에서 투표가 가능하며
-        // 가장 연구원같은 사람과 외계인같은 사람을 투표하며
-        // 5분마다 해당 결과를 취합해서 결과를 줘야하고
-        // 공개 투표 (내가 누굴 찍고 남이 누굴 찍었는지 확인 가능) << 현황을 보여주는걸로 >>
-        // 1분전에 알람
-        // 마감되고 알람
-
     }
     public void SetSwitchVote() // 투표 창 출력 (스위칭)
     {
@@ -110,17 +108,12 @@ public class VoteController : MonoBehaviourPunCallbacks
 
         OnRefresh();
     }
-    public void Clear() // 투표 초기화
-    {
-        upVoteList.Clear();
-        downVoteList.Clear();
-    }
-    public void SetStatus(bool val) // 투표 상태 설정
+    public void SetStatus(bool val) // 투표 상태 설정 (* 마스터 클라이언트 전용)
     {
         voting = val;
 
         if (val == true)
-            Clear();
+            photonView.RPC("OnClear", RpcTarget.AllBuffered);
         else if (val == false)
             Finish();
 
@@ -192,11 +185,6 @@ public class VoteController : MonoBehaviourPunCallbacks
             voteObj_down[i].GetComponent<Button>().interactable = voting;
             voteObj_down_value[i].GetComponent<Text>().text = (downCountList.ContainsKey(nickKey[i]) ? downCountList[nickKey[i]] : 0).ToString();
         }
-
-        if (voting)
-            voteObj_text.GetComponent<Text>().text = "투표가 진행중입니다.";
-        else
-            voteObj_text.GetComponent<Text>().text = "투표가 종료되었습니다.\n가장 의심받은 사람의 모든 재료가 가장 신뢰받은 사람에게로 넘어갑니다.";
     }
     public void SetVoteUp(int num) // 투표 (신뢰)
     {
@@ -249,22 +237,22 @@ public class VoteController : MonoBehaviourPunCallbacks
 
             if (maxUp == 0)
             {
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
             else if (maxDown == 0)
             {
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
             else if (maxUpCount >= 2)
             {
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
             else if (maxDownCount >= 2)
             {
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
                 return;
             }
 
@@ -278,7 +266,7 @@ public class VoteController : MonoBehaviourPunCallbacks
             maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
             maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
 
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
+            photonView.RPC("OnEnableAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
         }
         catch (Exception e)
         {
@@ -287,7 +275,7 @@ public class VoteController : MonoBehaviourPunCallbacks
         }
     }
     // ---------------------------------------------------------------------------------------------------
-    // # 트리거 메소드
+    // # 네트워크 메소드
     // ---------------------------------------------------------------------------------------------------
     [PunRPC]
     void OnVote(int sender, string targetNick, bool up) // 투표 수신
@@ -307,6 +295,12 @@ public class VoteController : MonoBehaviourPunCallbacks
         {
             Debug.Log("투표 오류");
         }
+    }
+    [PunRPC]
+    public void OnClear() // 투표 초기화
+    {
+        upVoteList.Clear();
+        downVoteList.Clear();
     }
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
