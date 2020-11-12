@@ -21,22 +21,17 @@ public class ConsumableItem : Item
     [SerializeField]
     float castingTime = 1f;
 
-    [SerializeField]
-    float overTime = 5f;
-    float smoothness = 2f;
-
     Progress progress = Progress.END;
-    IEnumerator coroutine;
 
     public override void Use(Player playerStat)
     {
         PlayerAnimation playerAnimation = playerStat.researcher.GetComponent<PlayerAnimation>();
-        coroutine = OnStartAfterTime(playerStat,castingTime);
+        IEnumerator coroutine = OnStartAfterTime(playerStat,castingTime);
 
         Debug.Log(name + "을 사용하였습니다.");
 
-        if(Inventory.instance != null){
-            playerAnimation.animator.SetTrigger("casting");
+        if(Inventory.instance != null && !playerAnimation.IsWalk){
+            playerAnimation.OnCasting();
             Inventory.instance.StartCoroutine(coroutine);
             Inventory.instance.StartCoroutine(IsCasting(coroutine,playerAnimation));
         }
@@ -51,8 +46,13 @@ public class ConsumableItem : Item
         float startTime = Time.time;
 
         while(Time.time <= startTime + castingTime){
-            if(!playerAnimation.AnimatorIsPlaying("Nervously Look Around")){
+            // string time = "Time.time : " + Time.time + " , startTime : " + startTime + ", castingTime : " + castingTime;
+            // Debug.Log(time);
+            // bool isPlaying = !playerAnimation.AnimatorIsPlaying("Nervously Look Around",1);
+            // Debug.Log(isPlaying);
+            if(!playerAnimation.AnimatorIsPlaying("Nervously Look Around",1)){
                 Inventory.instance.StopCoroutine(coroutine);
+                break;
             }
             yield return null;  //1프레임 마다 체크합니다.
         }
@@ -67,42 +67,8 @@ public class ConsumableItem : Item
         TakeEffect(playerStat, o2Modifier,Stat.O2);
         TakeEffect(playerStat, batteryModifier,Stat.BATTERY);
 
-        // IEnumerator[] coroutines = {TakeEffect(playerStat, hpModifier,Stat.HP),
-        //                             TakeEffect(playerStat, o2Modifier,Stat.O2),
-        //                             TakeEffect(playerStat, batteryModifier,Stat.BATTERY)};
-
-        // for(int i=0; i<coroutines.Length; i++){
-        //     Inventory.instance.StartCoroutine(coroutines[i]);
-        // }
-
         Inventory.instance.Remove(this);
     }
-
-    // IEnumerator TakeEffect(Player playerStat, int modifier, Stat stat){
-    //     Debug.Log("수치가 변동됩니다.");
-
-    //     if(Stat.HP == stat){
-    //         for(float i=0; i<modifier; i += modifier/overTime){
-    //             playerStat.SetHP(playerStat.GetHP() + modifier/overTime);
-    //             yield return new WaitForSeconds(1/overTime);
-    //         }
-    //     }
-
-    //     if(Stat.O2 == stat){
-    //         for(float i=0; i<modifier; i += modifier/overTime){
-    //             playerStat.SetO2(playerStat.GetO2() + modifier/overTime);
-    //             yield return new WaitForSeconds(1/overTime);
-    //         }
-    //     }
-
-    //     if(Stat.BATTERY == stat){
-    //         for(float i=0; i<modifier; i += modifier/overTime){
-    //             playerStat.SetBt(playerStat.GetBt() + modifier/overTime);
-    //             yield return new WaitForSeconds(1/overTime);
-    //         }
-    //     }
-
-    // }
 
     void TakeEffect(Player playerStat, int modifier, Stat stat){
         Debug.Log("수치가 변동됩니다.");
@@ -134,9 +100,5 @@ public class ConsumableItem : Item
 
     public float CastingTime{
         get => castingTime;
-    }
-
-    public float OverTime{
-        get => overTime;
     }
 }

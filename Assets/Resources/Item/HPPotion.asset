@@ -21,3 +21,4 @@ MonoBehaviour:
   hpModifier: 20
   o2Modifier: 0
   batteryModifier: 0
+  castingTime: 3

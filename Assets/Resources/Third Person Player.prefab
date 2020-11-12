@@ -4772,7 +4772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9213404988020376162
 Transform:
   m_ObjectHideFlags: 0
@@ -4810,7 +4810,15 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+    'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform
+    'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform 'mixamorig:RightFoot'\n\tTransform
+    'mixamorig:Head'\n\tTransform 'mixamorig:LeftUpLeg'\n\tand more ...\n\tFrom animation
+    clip 'Hit Head'\n\tFrom animation clip 'Hit Body'\n\tFrom animation clip 'Hit
+    Rib'\n\tFrom animation clip 'Hit Head'\n\tFrom animation clip 'Hit Body'\n\tFrom
+    animation clip 'Hit Rib'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -4845,9 +4853,23 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: isRun
+  - Type: 9
+    SynchronizeType: 0
+    Name: dead
+  - Type: 9
+    SynchronizeType: 0
+    Name: attack
+  - Type: 1
+    SynchronizeType: 0
+    Name: hitStatus
+  - Type: 1
+    SynchronizeType: 0
+    Name: attackSpeed
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!1 &219244088627253285
 GameObject:
   m_ObjectHideFlags: 0
@@ -6602,8 +6624,9 @@ MonoBehaviour:
   researcherAnimation: {fileID: 1745327906849560507}
   alienAnimation: {fileID: 2470497169045794385}
   attackSpeed: 1
-  playerAck1: {fileID: 8914609511453814114}
-  playerAck2: {fileID: 861716071771920321}
+  attackSounds:
+  - {fileID: 8914609511453814114}
+  - {fileID: 861716071771920321}
 --- !u!82 &8914609511453814114
 AudioSource:
   m_ObjectHideFlags: 0

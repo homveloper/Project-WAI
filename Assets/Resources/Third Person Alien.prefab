@@ -1508,12 +1508,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 3488213251798076354}
-  canMove: 1
-  speed: 10
-  runSpeedRate: 1.5
+  ResearcherWalk: 0
+  ResearcherRun: 0
+  AlienWalk: 0
   turnSmoothTime: 0.1
   turnSmoothVelocity: 0
   gravity: -9.81
+  controllable: 0
+  alien: 0
 --- !u!114 &6639493991743642310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1526,6 +1528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895fba927df35184c90e7f4ac8cf3ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 2975174866404117869}
 --- !u!114 &7048926378773434990
 MonoBehaviour:
   m_ObjectHideFlags: 0
