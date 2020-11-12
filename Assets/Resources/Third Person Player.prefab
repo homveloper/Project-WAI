@@ -5443,6 +5443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1666351832963089883}
+  isWalk: 0
+  isRun: 0
 --- !u!1 &2037204646170871720
 GameObject:
   m_ObjectHideFlags: 0
@@ -6595,6 +6597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bc0577f9fefd347a2575f5eb248ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  researcherAnimation: {fileID: 1745327906849560507}
+  alienAnimation: {fileID: 2470497169045794385}
   attackSpeed: 1
 --- !u!1 &5147530787860470712
 GameObject:

@@ -35,7 +35,6 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         if(isRun && !runSound.isPlaying)
         {
             runSound.Play();
-          
         }
         else if (isWalk && !walkSound.isPlaying)
         {
