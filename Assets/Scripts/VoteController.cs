@@ -135,7 +135,7 @@ public class VoteController : MonoBehaviourPunCallbacks
             if (!actorList.ContainsKey(actorNumber))
                 actorList.Add(actorNumber, i);
 
-            if (nickList.ContainsKey(nick_in))
+            if (!nickList.ContainsKey(nick_in))
                 nickList.Add(nick_in, actorNumber);
 
             if (isAlien && !nickList.ContainsKey(nick_out))
