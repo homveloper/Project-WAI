@@ -17,41 +17,28 @@ public class Combat : MonoBehaviourPun
     private float cooldown = 0.0f; // 공격 쿨타임
 
     public delegate void OnAttack();
-    public OnAttack OnAttackCallback; 
+    public OnAttack OnAttackCallback;
 
-    public AudioSource playerAck1;
-
-    public AudioSource playerAck2;
+    public List<AudioSource> attackSounds;
 
     int cnt = 0;
 
     void Start()
     {
-        playerAck1.Pause();
-        playerAck2.Pause();
+        attackSounds.ForEach(x => x.Pause());
+
         player = GetComponent<Player>();
         researcherAnimation.animator.SetFloat("attackSpeed", attackSpeed);
         alienAnimation.animator.SetFloat("attackSpeed", attackSpeed);
 
         if(Inventory.instance != null)
             Inventory.instance.onItemChangedCallback += UpdateDamage;
-        
     }
 
     void Update(){
         cooldown -= Time.deltaTime;
 
         if (Input.GetButtonDown("Attack")){
-            if(cnt == 0)
-            {
-                playerAck1.Play();
-                cnt++;
-            }
-            else
-            {
-                playerAck2.Play();
-                cnt--;
-            }
             Attack(null);
         }
     }
@@ -98,6 +85,8 @@ public class Combat : MonoBehaviourPun
     {
         if (cooldown > 0.0f)
             return;
+
+        attackSounds[Random.Range(0,attackSounds.Count)].Play();
 
         if (target != null)
             target.SetHit(player.damage);

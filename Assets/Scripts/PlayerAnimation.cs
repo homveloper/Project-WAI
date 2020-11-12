@@ -74,15 +74,15 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         animator.SetTrigger("attack");
     }
 
-    void OnCasting(){
+    public void OnCasting(){
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
-        animator.SetTrigger("onCasting");
+        animator.SetTrigger("casting");
     }
 
-    void EndAnimation(){
+    public void EndAnimation(){
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
@@ -90,16 +90,13 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         animator.SetTrigger("end");
     }
     
-    bool AnimatorIsPlaying(){
-     return animator.GetCurrentAnimatorStateInfo(0).length >
-            animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    bool AnimatorIsPlaying(int layer = 0){
+        return animator.GetCurrentAnimatorStateInfo(layer).normalizedTime < 1.0f;
     }
 
-    public bool AnimatorIsPlaying(string stateName){
-        return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
-    }
-
-    public AnimatorStateInfo PrintAnimatorIsPlaying(){
-        return animator.GetCurrentAnimatorStateInfo(0);
+    public bool AnimatorIsPlaying( string stateName,int layer = 0){
+        Debug.Log("AnimatorIsPlaying : " + AnimatorIsPlaying(layer));
+        Debug.Log("current Animation " + stateName + " is " + animator.GetCurrentAnimatorStateInfo(layer).IsName(stateName) + " : " + animator.GetCurrentAnimatorClipInfo(layer)[0].clip.name);
+        return AnimatorIsPlaying(layer) && animator.GetCurrentAnimatorStateInfo(layer).IsName(stateName);
     }
 }
