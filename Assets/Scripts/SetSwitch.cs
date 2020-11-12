@@ -27,11 +27,15 @@ public class SetSwitch : MonoBehaviourPun
             return;*/
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
+
         if(cnt == 1 && swichFlash.activeSelf == false)
         {
             info.transform.localScale = tmp;
         }
-
+        // Debug.Log(other.name + "감지 시작!");
+    }
+    void OnTriggerStay(Collider other)
+    {
         if (Input.GetKeyDown(KeyCode.E))
         {
             cnt--;
@@ -48,9 +52,8 @@ public class SetSwitch : MonoBehaviourPun
             if(hiddenGate != null)
                 hiddenGate.SetActive(true);
         }
-        // Debug.Log(other.name + "감지 시작!");
     }
-    void OnTriggerEixt(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
