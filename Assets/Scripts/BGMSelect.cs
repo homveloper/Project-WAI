@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BGMSelect : MonoBehaviour
+public class BGMSelect : MonoBehaviourPunCallbacks
 {
     public AudioSource mainBGM;
     public AudioSource temple1_BGM;

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BGMChanger : MonoBehaviour
+public class BGMChanger : MonoBehaviourPunCallbacks
 {
     public GameObject bgmMgr;
     public int chgCode;
@@ -21,6 +22,9 @@ public class BGMChanger : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
+
         if(cnt == 0)
             return;
         Debug.Log("enter   "+orginCode);
@@ -30,6 +34,9 @@ public class BGMChanger : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
+            
         if(cnt == 1)
             return;
         bgmMgr.GetComponent<BGMSelect>().stat = orginCode;
