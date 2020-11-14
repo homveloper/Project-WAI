@@ -8,7 +8,6 @@ public class TelePortGate : MonoBehaviourPun
     public Transform temple;
     public GameObject info;
     Vector3 tmp;
-
    
     void Start()
     {
