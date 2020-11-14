@@ -6,8 +6,9 @@ using Photon.Pun;
 public class AlienCountMgr : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
+
     [SerializeField]
-    private GameObject bgmMgr;
+    private BGMSelect bgmMgr;
     public int chgCode;
     public int orginCode;
     int cnt = 1;
@@ -18,8 +19,7 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
             if (!photonView.IsMine)
                 return;
         Debug.Log("star in");
-        bgmMgr = GameObject.Find("Main Camera");
-        Debug.Log(bgmMgr.name);
+        bgmMgr = GameObject.Find("Main Camera").GetComponent<BGMSelect>();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -32,11 +32,12 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
 
         if(cnt == 0)
             return ;
+
         if(other.gameObject.tag == "Player" && other.GetComponent<Player>().IsAlienObject())
         {
             Debug.Log("trigger in");
-            orginCode = bgmMgr.GetComponent<BGMSelect>().stat;
-            bgmMgr.GetComponent<BGMSelect>().stat = chgCode;
+            orginCode = bgmMgr.stat;
+            bgmMgr.stat = chgCode;
             cnt--;
         }
         
@@ -49,7 +50,7 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         if(cnt == 1)
             return;
 
-        bgmMgr.GetComponent<BGMSelect>().stat = orginCode;
+        bgmMgr.stat = orginCode;
         cnt++;
             
     }
