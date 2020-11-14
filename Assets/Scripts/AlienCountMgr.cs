@@ -24,6 +24,10 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
 
     void Update(){
 
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
         if(isAlienInTrigger){
             orginCode = bgmMgr.stat;
             bgmMgr.stat = chgCode;
