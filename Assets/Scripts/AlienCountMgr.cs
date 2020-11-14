@@ -12,6 +12,7 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
     public int chgCode;
     public int orginCode;
 
+    public bool isAlienInTrigger;
     void Awake()
     {
         if (PhotonNetwork.IsConnected)
@@ -23,6 +24,16 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
 
     void Update(){
 
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
+        if(isAlienInTrigger){
+            orginCode = bgmMgr.stat;
+            bgmMgr.stat = chgCode;
+        }else{
+            bgmMgr.stat = orginCode;
+        }
     }
     void OnTriggerStay(Collider other)
     {
@@ -35,12 +46,9 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
 
         if(other.gameObject.tag == "Player" && other.GetComponent<Player>().IsAlienObject())
         {
-            if (chgCode != bgmMgr.stat)
-            {
-                orginCode = bgmMgr.stat;
-                bgmMgr.stat = chgCode;
-            }
+            isAlienInTrigger = true;
         }
+        
     }
     void OnTriggerExit(Collider other)
     {
@@ -51,9 +59,6 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == true)
             return;
 
-        if (other.gameObject.tag == "Player" && other.GetComponent<Player>().IsAlienObject())
-        {
-            bgmMgr.stat = orginCode;
-        }
+        isAlienInTrigger = false;
     }
 }
