@@ -19,13 +19,12 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
             if (!photonView.IsMine)
                 return;
         Debug.Log("star in");
-        bgmMgr = GameObject.Find("Main Camera").GetComponent<BGMSelect>();
+        bgmMgr = Camera.main.GetComponent<BGMSelect>();
     }
 
     void Update(){
 
         if(isAlienInTrigger){
-            Debug.Log("trigger in");
             orginCode = bgmMgr.stat;
             bgmMgr.stat = chgCode;
         }else{
@@ -49,7 +48,11 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+         if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == true)
             return;
 
         isAlienInTrigger = false;
