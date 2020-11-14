@@ -9,6 +9,7 @@ public class BGMSelect : MonoBehaviourPunCallbacks
     public AudioSource temple1_BGM;
     public AudioSource temple2_BGM;
     public AudioSource temple3_BGM;    
+    public AudioSource alien_Count_BGM;  
 
     public AudioSource curBGM;
 
@@ -21,6 +22,7 @@ public class BGMSelect : MonoBehaviourPunCallbacks
         temple1_BGM.Pause();
         temple2_BGM.Pause();
         temple3_BGM.Pause();
+        alien_Count_BGM.Pause();
         curBGM.Pause();
     }
     // Update is called once per frame
@@ -57,6 +59,9 @@ public class BGMSelect : MonoBehaviourPunCallbacks
             case 3 : 
                 curBGM = temple3_BGM;
                 break;    
+            case 4:
+                curBGM = alien_Count_BGM;
+                break;
         }
     }
 }
