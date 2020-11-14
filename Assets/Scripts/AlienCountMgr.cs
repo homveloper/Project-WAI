@@ -11,8 +11,8 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
     private BGMSelect bgmMgr;
     public int chgCode;
     public int orginCode;
-    int cnt = 1;
-    // Start is called before the first frame update
+
+    public bool isAlienInTrigger;
     void Awake()
     {
         if (PhotonNetwork.IsConnected)
@@ -21,7 +21,18 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         Debug.Log("star in");
         bgmMgr = GameObject.Find("Main Camera").GetComponent<BGMSelect>();
     }
-    void OnTriggerEnter(Collider other)
+
+    void Update(){
+
+        if(isAlienInTrigger){
+            Debug.Log("trigger in");
+            orginCode = bgmMgr.stat;
+            bgmMgr.stat = chgCode;
+        }else{
+            bgmMgr.stat = orginCode;
+        }
+    }
+    void OnTriggerStay(Collider other)
     {
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
@@ -30,15 +41,9 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == true)
             return;
 
-        if(cnt == 0)
-            return ;
-
         if(other.gameObject.tag == "Player" && other.GetComponent<Player>().IsAlienObject())
         {
-            Debug.Log("trigger in");
-            orginCode = bgmMgr.stat;
-            bgmMgr.stat = chgCode;
-            cnt--;
+            isAlienInTrigger = true;
         }
         
     }
@@ -46,12 +51,7 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
-        
-        if(cnt == 1)
-            return;
 
-        bgmMgr.stat = orginCode;
-        cnt++;
-            
+        isAlienInTrigger = false;
     }
 }
