@@ -21,9 +21,13 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         bgmMgr = GameObject.Find("Main Camera");
         Debug.Log(bgmMgr.name);
     }
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == true)
             return;
 
         if(cnt == 0)
