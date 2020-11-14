@@ -6,6 +6,7 @@ using Photon.Pun;
 public class AlienCountMgr : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
+    [SerializeField]
     private GameObject bgmMgr;
     public int chgCode;
     public int orginCode;
@@ -20,7 +21,7 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         bgmMgr = GameObject.Find("Main Camera");
         Debug.Log(bgmMgr.name);
     }
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
