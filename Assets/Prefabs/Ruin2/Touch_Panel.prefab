@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29b7b0a0284e08d4b8094ad00234bd9a, type: 2}
+  - {fileID: 2100000, guid: c96af70835cc0094e8456c11a28a467c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1570,7 +1570,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29b7b0a0284e08d4b8094ad00234bd9a, type: 2}
+  - {fileID: 2100000, guid: e85e64df422e0974db6f7c5625530220, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24137,7 +24137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29b7b0a0284e08d4b8094ad00234bd9a, type: 2}
+  - {fileID: 2100000, guid: e85e64df422e0974db6f7c5625530220, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -47288,6 +47288,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Braket (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4654719760831208273, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c96af70835cc0094e8456c11a28a467c, type: 2}
     - target: {fileID: 6922894471407741995, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
         type: 3}
       propertyPath: m_Mesh
@@ -47373,6 +47378,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Braket (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4654719760831208273, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c96af70835cc0094e8456c11a28a467c, type: 2}
     - target: {fileID: 6922894471407741995, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
         type: 3}
       propertyPath: m_Mesh
@@ -47458,6 +47468,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Braket (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4654719760831208273, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c96af70835cc0094e8456c11a28a467c, type: 2}
     - target: {fileID: 6922894471407741995, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
         type: 3}
       propertyPath: m_Mesh
@@ -47623,6 +47638,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Braket
       objectReference: {fileID: 0}
+    - target: {fileID: 4654719760831208273, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c96af70835cc0094e8456c11a28a467c, type: 2}
     - target: {fileID: 6922894471407741995, guid: 80fa96a853013d443a58c2b2c6cf1ea2,
         type: 3}
       propertyPath: m_Mesh
