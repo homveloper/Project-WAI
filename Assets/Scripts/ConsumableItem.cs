@@ -20,7 +20,6 @@ public class ConsumableItem : Item
 
     [SerializeField]
     float castingTime = 1f;
-
     Progress progress = Progress.END;
 
     public override void Use(Player playerStat)
