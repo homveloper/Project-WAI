@@ -6708,6 +6708,7 @@ MonoBehaviour:
   researcherAnimation: {fileID: 1745327906849560507}
   alienAnimation: {fileID: 2470497169045794385}
   attackSpeed: 1
+  delayTime: 1
   attackSounds:
   - {fileID: 8914609511453814114}
   - {fileID: 861716071771920321}
