@@ -16,13 +16,9 @@ public class MoveTrap : MonoBehaviourPun
 
     int frame = 0;
 
-    void Awake()
-    {
-        StartCoroutine(this.moveTrap());
-    }
     void Start()
     {
-        // StartCoroutine(this.moveTrap());
+        StartCoroutine(this.moveTrap());
     }
     void Update()
     {  
