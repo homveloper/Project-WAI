@@ -97,6 +97,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8bfaf6de46a0c4f9c6c29b87c9b40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonHint: {fileID: 7293413268148232650, guid: bb7c3f97238ef474fa1d33bd82dd522f,
+    type: 3}
+  key: E
+  keyCode: 101
+  description: "\uD68D\uB4DD"
+  color: {r: 0.19215685, g: 0.5120846, b: 1, a: 1}
   item: {fileID: 11400000, guid: 44094cf252c6b24469dbff24819f5a79, type: 2}
 --- !u!136 &4979648113782713398
 CapsuleCollider:

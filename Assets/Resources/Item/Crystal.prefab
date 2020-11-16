@@ -135,6 +135,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8bfaf6de46a0c4f9c6c29b87c9b40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonHint: {fileID: 7293413268148232650, guid: bb7c3f97238ef474fa1d33bd82dd522f,
+    type: 3}
+  key: E
+  keyCode: 101
+  description: 
+  color: {r: 0.19215685, g: 0.5120846, b: 1, a: 1}
   item: {fileID: 11400000, guid: 03d9605dedc247746afd61bf40308928, type: 2}
 --- !u!114 &2948714452791257831
 MonoBehaviour:
