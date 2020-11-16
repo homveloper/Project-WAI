@@ -11,7 +11,7 @@ public class Temple3_Switch : MonoBehaviour
 
     public GameObject stone;
 
-    int tmp = 1;
+    public int tmp = 1;
 
     void Start()
     {
@@ -20,6 +20,9 @@ public class Temple3_Switch : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag != "Player")
+            return ;
+            
         swichFlash.SetActive(true);
         if(tmp == 1)
         {

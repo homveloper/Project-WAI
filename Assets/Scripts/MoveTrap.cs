@@ -28,10 +28,6 @@ public class MoveTrap : MonoBehaviourPun
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
-
-        Debug.Log(gameObject.GetComponent<Renderer>().material.color);
-        Debug.Log(r2.color);
-        Debug.Log(r1.color);
         
         if(gameObject.GetComponent<Renderer>().material.color == r2.color)
         {

@@ -22,6 +22,9 @@ public class SetSwitch : MonoBehaviour
     }
     void OnTriggerStay(Collider other)
     {
+        if(other.gameObject.tag != "Player")
+            return ;
+            
         swichFlash.SetActive(true);
 
         if(moveWell == null)
