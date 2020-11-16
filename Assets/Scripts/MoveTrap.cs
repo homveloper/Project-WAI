@@ -51,9 +51,6 @@ public class MoveTrap : MonoBehaviourPun
         
         while(true)
         {
-            if(start == 0)
-                Debug.Log(frame);
-            
             gameObject.GetComponent<Renderer>().material.Lerp(r2,r1,1f);
 
             yield return moveWait;
