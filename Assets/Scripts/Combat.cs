@@ -78,10 +78,9 @@ public class Combat : MonoBehaviourPun
 
         if(!photonView.IsMine)
             return;
-
         if (other.gameObject == gameObject || !other.CompareTag("Player"))
             return;
-
+        
         inTrigger = true;
         targetPlayer = other.GetComponent<Player>();
     }
