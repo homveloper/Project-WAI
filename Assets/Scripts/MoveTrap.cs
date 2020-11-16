@@ -9,15 +9,24 @@ public class MoveTrap : MonoBehaviourPun
     public Material r2;
     public GameObject center;
 
+    int cnt =1;
 
-    float term = 30;
-    float moveTime = 4;
+    public float term = 14;
+    public float moveTime = 3;
 
+    int frame = 0;
+
+    void Awake()
+    {
+        StartCoroutine(this.moveTrap());
+    }
     void Start()
     {
-        
-        StartCoroutine(this.moveTrap());
-        
+        // StartCoroutine(this.moveTrap());
+    }
+    void Update()
+    {  
+        frame++;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -36,17 +45,26 @@ public class MoveTrap : MonoBehaviourPun
     }
     IEnumerator moveTrap()
     {
+        yield return new AsyncOperation();
+
+        WaitForSeconds startWait = new WaitForSeconds(start); 
+        WaitForSeconds moveWait = new WaitForSeconds(moveTime); 
+        WaitForSeconds termWait = new WaitForSeconds(term); 
+
+        yield return startWait;
+        
         while(true)
         {
-            yield return new WaitForSeconds(start);
+            if(start == 0)
+                Debug.Log(frame);
             
             gameObject.GetComponent<Renderer>().material.Lerp(r2,r1,1f);
 
-            yield return new WaitForSeconds(moveTime);
+            yield return moveWait;
 
             gameObject.GetComponent<Renderer>().material.Lerp(r1,r2,1f);
 
-            yield return new WaitForSeconds(term);
+            yield return termWait;
         }
     }
 }
