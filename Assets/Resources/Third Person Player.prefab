@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9021973416352590294}
   m_Layer: 0
   m_Name: AlienCounter
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4931,7 +4931,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: isRun
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: dead
   - Type: 9
     SynchronizeType: 1
@@ -6298,6 +6298,7 @@ GameObject:
   - component: {fileID: 3565582377464417741}
   - component: {fileID: 6587770530825150049}
   - component: {fileID: 1048966396458255995}
+  - component: {fileID: 4706430496095156563}
   - component: {fileID: 7946571427189089344}
   - component: {fileID: 4965258566242764209}
   - component: {fileID: 8914609511453814114}
@@ -6317,7 +6318,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5143243491976924257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2184436141325526611}
@@ -6380,10 +6381,10 @@ MonoBehaviour:
   flashlight: {fileID: 8567649898356843675}
   modHp: 10
   modHpAlienHeal: 5
-  modO2: 1
-  modO2Run: 2
-  modBt: 10
-  modBtRecharge: 5
+  modO2: 0.5
+  modO2Run: 1
+  modBt: 5
+  modBtRecharge: 2.5
   statHp: 100
   statHpMax: 100
   statO2: 200
@@ -6680,6 +6681,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &4706430496095156563
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 1}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!65 &7946571427189089344
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6692,7 +6706,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.05, y: 4.73, z: 2.83}
-  m_Center: {x: 0, y: 2.49, z: 1.39}
+  m_Center: {x: 0, y: 4.5, z: 1.39}
 --- !u!114 &4965258566242764209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6708,6 +6722,7 @@ MonoBehaviour:
   researcherAnimation: {fileID: 1745327906849560507}
   alienAnimation: {fileID: 2470497169045794385}
   attackSpeed: 1
+  delayTime: 1
   attackSounds:
   - {fileID: 8914609511453814114}
   - {fileID: 861716071771920321}

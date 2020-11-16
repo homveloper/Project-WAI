@@ -14,6 +14,13 @@ public class InteractableBox : Interactable
     //     info.transform.localScale = new Vector3(0,0,0);
     // }
 
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        
+    }
+
     public override void Interact(){
         Item randomItem = items[Random.Range(0,items.Count)];
         //Item randomItem = items[1];

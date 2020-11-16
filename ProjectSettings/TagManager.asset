@@ -10,6 +10,7 @@ TagManager:
   - Nickname
   - DeadPlayer
   - Mission
+  - Trap
   layers:
   - Default
   - TransparentFX

@@ -33,6 +33,10 @@ public class Interactable : MonoBehaviourPun
         //To do Code you want
     }
 
+    public virtual void Initialize(){
+        // To do Code initialize
+    }
+
     void Start(){
         // UI의 초기 회전값
         originalRotation = buttonHint.transform.rotation;
@@ -44,6 +48,8 @@ public class Interactable : MonoBehaviourPun
 
         UI_Key.text = key;
         UI_Description.text = description;
+
+        Initialize();
     }
     void Update(){
 

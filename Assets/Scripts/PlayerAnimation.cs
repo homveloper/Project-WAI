@@ -11,40 +11,48 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
     [SerializeField]
     private bool isRun;
 
-    public bool IsWalk{
-        get =>isWalk;
+    public bool IsWalk
+    {
+        get => isWalk;
     }
 
-    public bool IsRun{
-        get =>isRun;
+    public bool IsRun
+    {
+        get => isRun;
     }
 
-    void SetPlayerDead(){
+    public void Dead()
+    {
+        if (PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
         animator.SetTrigger("dead");
     }
 
-    void Start(){
+    void Start()
+    {
         GetComponentInParent<Combat>().OnAttackCallback += Attack;
-        GetComponentInParent<Player>().onTakeDamageCallback+= TakeDamage;
+        GetComponentInParent<Player>().onTakeDamageCallback += TakeDamage;
     }
 
     void Update()
     {
-        if(PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
-        bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
+        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
+        bool hasVeritcalInput = !Mathf.Approximately(vertical, 0f);
 
         isWalk = hasHorizontalInput || hasVeritcalInput;
         isRun = Input.GetButton("Run") && isWalk;
 
-        animator.SetBool("isWalk",isWalk);
-        animator.SetBool("isRun",isRun);
+        animator.SetBool("isWalk", isWalk);
+        animator.SetBool("isRun", isRun);
 
         // bool pushStanding = Input.GetKeyDown(KeyCode.E);
 
@@ -56,45 +64,61 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         // }
     }
 
-    void TakeDamage(){
-         if(PhotonNetwork.IsConnected)
+    public void StopAnimation()
+    {
+        gameObject.GetComponent<Animator>().enabled = false;
+    }
+
+    public void PlayAinmation()
+    {
+        gameObject.GetComponent<Animator>().enabled = true;
+    }
+
+    void TakeDamage()
+    {
+        if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
-        float hitStatus = Random.Range(0f,3f);
+        float hitStatus = Random.Range(0f, 3f);
         animator.SetTrigger("hit");
-        animator.SetFloat("hitStatus",hitStatus);
+        animator.SetFloat("hitStatus", hitStatus);
     }
 
-    void Attack(){
-        if(PhotonNetwork.IsConnected)
+    void Attack()
+    {
+        if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
         animator.SetTrigger("attack");
     }
 
-    public void OnCasting(){
-        if(PhotonNetwork.IsConnected)
+    public void OnCasting()
+    {
+        if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
         animator.SetTrigger("casting");
     }
 
-    public void EndAnimation(){
-        if(PhotonNetwork.IsConnected)
+    public void EndAnimation()
+    {
+        if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
-                
+
         animator.SetTrigger("end");
     }
-    
-    bool AnimatorIsPlaying(int layer = 0){
+
+    bool AnimatorIsPlaying(int layer = 0)
+    {
         return animator.GetCurrentAnimatorStateInfo(layer).normalizedTime < 1.0f;
     }
 
-    public bool AnimatorIsPlaying( string stateName,int layer = 0){
+    public bool AnimatorIsPlaying(string stateName, int layer = 0)
+    {
         Debug.Log("AnimatorIsPlaying : " + AnimatorIsPlaying(layer));
         Debug.Log("current Animation " + stateName + " is " + animator.GetCurrentAnimatorStateInfo(layer).IsName(stateName) + " : " + animator.GetCurrentAnimatorClipInfo(layer)[0].clip.name);
         return AnimatorIsPlaying(layer) && animator.GetCurrentAnimatorStateInfo(layer).IsName(stateName);

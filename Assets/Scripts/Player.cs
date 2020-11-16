@@ -85,11 +85,11 @@ public class Player : MonoBehaviourPunCallbacks
             SetTransform(false);
 
         // 체력 차감
-        if (GetO2() <= 0)
+        if (GetO2() <= 0 && !IsAlienObject())
             SetHP(GetHP() - Time.deltaTime * modHp);
 
         // 산소 차감
-        if (GetComponent<ThirdPersonMovement>().IsRun() == true)
+        if (GetComponent<ThirdPersonMovement>().IsRun() == true && !IsAlienObject())
             SetO2(GetO2() - Time.deltaTime * modO2Run);
         else
             SetO2(GetO2() - Time.deltaTime * modO2);
@@ -99,22 +99,22 @@ public class Player : MonoBehaviourPunCallbacks
             SetBt(GetBt() - Time.deltaTime * modBt);
 
         // 체력 부족
-        if (GetHP() <= 0 && IsDead() == false)
+        if (GetHP() <= 0 && !IsDead())
             if (IsAlienPlayer() == true && IsAlienObject() == false)
                 SetTransform(false);
             else
                 SetDead();
 
         // 배터리 부족
-        if (IsFlash() == true && GetBt() <= 0)
+        if (GetBt() <= 0 && IsFlash())
             SetFlash(false);
 
         // 체력 회복 (외계인)
-        if (IsAlienObject() == true)
+        if (IsAlienObject() && !IsDead())
             SetHP(GetHP(true) + Time.deltaTime * modHpAlienHeal, true);
 
         // 배터리 회복
-        if (IsFlash() == false)
+        if (!IsFlash() && !IsDead())
             SetBt(GetBt() + Time.deltaTime * modBtRecharge);
     }
     IEnumerator OnRefresh()
@@ -139,9 +139,16 @@ public class Player : MonoBehaviourPunCallbacks
         if (photonView.OwnerActorNr != actorNumber)
             return;
 
+        if (IsDead())
+            return;
+
+        if (IsAlienPlayer())
+            alien.GetComponent<AlienAnimation>().animator.SetTrigger("dead");
+        else if (!IsAlienPlayer())
+            researcher.GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+
         SetMove(false);
         SetFlash(false);
-        researcher.GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
 
         if (photonView.IsMine)
         {
@@ -149,6 +156,7 @@ public class Player : MonoBehaviourPunCallbacks
 
             ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
             myProp.Remove("fakeNick");
+            myProp.Remove("fakeColor");
             photonView.Owner.SetCustomProperties(myProp);
         }
     }
@@ -164,9 +172,17 @@ public class Player : MonoBehaviourPunCallbacks
         alien.transform.localScale = val ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1);
 
         if (val == false)
+        {
             damage = ALIEN_DAMAGE;
+            SetO2(0);
+            SetBt(0);
+        }
         else
+        {
             damage = RESEARCHER_DAMAGE;
+            SetO2(GetO2Max());
+            SetBt(GetBtMax());
+        }
 
         GetComponent<ThirdPersonMovement>().alien = !val;
 
@@ -180,7 +196,7 @@ public class Player : MonoBehaviourPunCallbacks
             return;
 
         if (val == true)
-            SetBt(GetBt() - 10);
+            SetBt(GetBt() - 5);
         
         flashlight.SetActive(val);
     }
@@ -320,10 +336,12 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public bool IsDead() // 사망 여부
     {
-        if (researcher.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Dying Backwards") == true)
+        if (IsAlienPlayer() && alien.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Dying Backwards"))
             return true;
-        else
-            return false;
+        if (!IsAlienPlayer() && researcher.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Dying Backwards"))
+            return true;
+        
+        return false;
     }
     public bool IsControllable() // 조작 가능 여부
     {
@@ -452,8 +470,8 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetMove(bool val) // 조작 설정
     {
-        researcher.GetComponent<PlayerAnimation>().enabled = val;
-        alien.GetComponent<AlienAnimation>().enabled = val;
+        //researcher.GetComponent<PlayerAnimation>().enabled = val;
+        //alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().enabled = val;
     }

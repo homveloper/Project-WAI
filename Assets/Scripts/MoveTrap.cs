@@ -16,13 +16,9 @@ public class MoveTrap : MonoBehaviourPun
 
     int frame = 0;
 
-    void Awake()
-    {
-        StartCoroutine(this.moveTrap());
-    }
     void Start()
     {
-        // StartCoroutine(this.moveTrap());
+        StartCoroutine(this.moveTrap());
     }
     void Update()
     {  
@@ -32,10 +28,6 @@ public class MoveTrap : MonoBehaviourPun
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
-
-        Debug.Log(gameObject.GetComponent<Renderer>().material.color);
-        Debug.Log(r2.color);
-        Debug.Log(r1.color);
         
         if(gameObject.GetComponent<Renderer>().material.color == r2.color)
         {
@@ -55,9 +47,6 @@ public class MoveTrap : MonoBehaviourPun
         
         while(true)
         {
-            if(start == 0)
-                Debug.Log(frame);
-            
             gameObject.GetComponent<Renderer>().material.Lerp(r2,r1,1f);
 
             yield return moveWait;
