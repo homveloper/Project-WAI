@@ -4931,7 +4931,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: isRun
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: dead
   - Type: 9
     SynchronizeType: 1
@@ -6380,10 +6380,10 @@ MonoBehaviour:
   flashlight: {fileID: 8567649898356843675}
   modHp: 10
   modHpAlienHeal: 5
-  modO2: 1
-  modO2Run: 2
-  modBt: 10
-  modBtRecharge: 5
+  modO2: 0.5
+  modO2Run: 1
+  modBt: 5
+  modBtRecharge: 2.5
   statHp: 100
   statHpMax: 100
   statO2: 200

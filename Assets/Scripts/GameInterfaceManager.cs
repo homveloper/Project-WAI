@@ -121,9 +121,9 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         Text UI_Stat_O2_Text = GameObject.Find("UI_Stat_O2_Text").gameObject.GetComponent<Text>();
         Text UI_Stat_Bt_Text = GameObject.Find("UI_Stat_Bt_Text").gameObject.GetComponent<Text>();
 
-        UI_Stat_HP_Text.text = Math.Ceiling(UI_Stat_HP_Bar.fillAmount * (float)player.GetHPMax()).ToString();
-        UI_Stat_O2_Text.text = player.IsAlienObject() == true ? "" : Math.Ceiling(UI_Stat_O2_Bar.fillAmount * (float)player.GetO2Max()).ToString();
-        UI_Stat_Bt_Text.text = player.IsAlienObject() == true ? "" : Math.Ceiling(UI_Stat_Bt_Bar.fillAmount * (float)player.GetBtMax()).ToString();
+        UI_Stat_HP_Text.text = Math.Round(UI_Stat_HP_Bar.fillAmount * (float)player.GetHPMax()).ToString();
+        UI_Stat_O2_Text.text = player.IsAlienObject() == true ? "" : Math.Round(UI_Stat_O2_Bar.fillAmount * (float)player.GetO2Max()).ToString();
+        UI_Stat_Bt_Text.text = player.IsAlienObject() == true ? "" : Math.Round(UI_Stat_Bt_Bar.fillAmount * (float)player.GetBtMax()).ToString();
 
         GameObject.Find("UI_Meterial_Wood_Text").GetComponent<Text>().text = player.GetWood().ToString();
         GameObject.Find("UI_Meterial_Iron_Text").gameObject.GetComponent<Text>().text = player.GetIron().ToString();
