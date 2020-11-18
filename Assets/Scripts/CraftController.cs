@@ -13,6 +13,8 @@ public class CraftController : MonoBehaviourPunCallbacks
     public GameObject craftObj;
     public List<Item> item;
 
+    bool isActive;
+
     void Start()
     {
         craftObj.SetActive(false);
@@ -26,7 +28,7 @@ public class CraftController : MonoBehaviourPunCallbacks
                 itemObject.transform.localScale = new Vector3(0, 0, 0);
                 continue;
             }
-            
+
             itemObject.transform.localScale = new Vector3(1, 1, 1);
             itemObject.transform.Find("UI_CraftWindow_Image").GetComponent<Image>().sprite = item[i].icon;
             itemObject.transform.Find("UI_CraftWindow_Name").GetComponent<Text>().text = item[i].name;
@@ -66,13 +68,19 @@ public class CraftController : MonoBehaviourPunCallbacks
             }
         }
     }
+    public void Update()
+    {
+        if (!isActive)
+            SetSwitchCraft(false);
+        else if (isActive && Input.GetKeyDown(KeyCode.C))
+            SetSwitchCraft();
+    }
     public void SetSwitchCraft() // 크래프팅 창 출력 (스위칭)
     {
         SetSwitchCraft(!craftObj.activeSelf);
     }
     public void SetSwitchCraft(bool val) // 크래프팅 창 출력 (매뉴얼)
     {
-        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
         craftObj.SetActive(val);
     }
     public void OnCraft(int num)
@@ -93,7 +101,7 @@ public class CraftController : MonoBehaviourPunCallbacks
             {
                 GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 실패", "인벤토리 공간이 부족합니다.");
             }
-            
+
         }
         // 재료 일부가 부족
         else
@@ -105,12 +113,18 @@ public class CraftController : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
     // ---------------------------------------------------------------------------------------------------
-    void OnTriggerStay(Collider other) // 상호작용
+    void OnTriggerStay(Collider other)
     {
-        if (!other.CompareTag("Player") || other.GetComponent<PhotonView>().IsMine == false)
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
             return;
 
-        if (Input.GetKeyDown(KeyCode.C))
-            SetSwitchCraft();
+        isActive = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
+            return;
+
+        isActive = false;
     }
 }

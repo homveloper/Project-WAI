@@ -187,7 +187,14 @@ public class Player : MonoBehaviourPunCallbacks
         GetComponent<ThirdPersonMovement>().alien = !val;
 
         if (photonView.IsMine && val == false)
+        {
             Inventory.instance.DropAll();
+
+            ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
+            myProp.Remove("fakeNick");
+            myProp.Remove("fakeColor");
+            photonView.Owner.SetCustomProperties(myProp);
+        }
     }
     [PunRPC]
     public void OnFlash(int actorNumber, bool val) // 플래시라이트

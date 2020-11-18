@@ -31,7 +31,8 @@ public class VoteController : MonoBehaviourPunCallbacks
 
     private List<String> nickKey; // nickList의 정렬된 키
 
-    bool voting; 
+    bool voting;
+    bool isActive;
 
     void Start()
     {
@@ -69,6 +70,12 @@ public class VoteController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
+
+        if (!isActive)
+            SetSwitchVote(false);
+        else if (isActive && Input.GetKeyDown(KeyCode.E))
+            SetSwitchVote();
+
         float t = GameManager.GetInstance().time;
 
         if (voting)
@@ -98,7 +105,6 @@ public class VoteController : MonoBehaviourPunCallbacks
     }
     public void SetSwitchVote(bool val) // 투표 창 출력 (매뉴얼)
     {
-        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
         voteObj_panel.SetActive(val);
 
         if (val == false)
@@ -309,12 +315,18 @@ public class VoteController : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
     // ---------------------------------------------------------------------------------------------------
-    void OnTriggerStay(Collider other) // 상호작용
+    void OnTriggerStay(Collider other)
     {
-        if (!other.CompareTag("Player") || other.GetComponent<PhotonView>().IsMine == false)
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
             return;
 
-        if (Input.GetKeyDown(KeyCode.E))
-            SetSwitchVote();
+        isActive = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
+            return;
+
+        isActive = false;
     }
 }
