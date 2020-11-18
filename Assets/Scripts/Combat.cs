@@ -28,8 +28,7 @@ public class Combat : MonoBehaviourPun
 
     public List<AudioSource> attackSounds;
 
-    int cnt = 0;
-
+    bool isPunch;
 
     void Start()
     {
@@ -49,7 +48,25 @@ public class Combat : MonoBehaviourPun
         if(Input.GetButtonDown("Attack")){
             Attack(targetPlayer != null ? targetPlayer : null);
             myPlayer.SetMove(false);
-            StartCoroutine(WaitUntilTime(delayTime));
+            StartCoroutine(IsPlaying());
+        }
+    }
+    
+    IEnumerator IsPlaying(){
+
+        float calibrationTime = 0.5f;
+        yield return new WaitForSeconds(calibrationTime);
+
+        while(true){
+
+            bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
+
+            if(!isPunch){
+                myPlayer.SetMove(true);
+                break;
+            }
+
+            yield return null;  //1프레임 마다 체크합니다.
         }
     }
 
