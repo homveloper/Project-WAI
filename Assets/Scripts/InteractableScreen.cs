@@ -68,11 +68,6 @@ public class InteractableScreen : MonoBehaviour
                 }
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.Q)){
-            SetDecription(KeyCode.E,"1/10");
-            SetColor(KeyCode.E,Color.black);
-        }
     }
 
     // public void SetDescription(int index, String text){
