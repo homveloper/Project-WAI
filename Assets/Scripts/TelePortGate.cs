@@ -6,21 +6,15 @@ using UnityEngine;
 public class TelePortGate : MonoBehaviourPun
 {
     public Transform temple;
-    public GameObject info;
-    Vector3 tmp;
    
-    void Start()
-    {
-        tmp = info.transform.localScale;
-        info.transform.localScale = new Vector3(0,0,0);
-    }
     
     void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        info.transform.localScale = tmp;
+        if(other.tag != "Player")
+            return;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -32,7 +26,6 @@ public class TelePortGate : MonoBehaviourPun
 
     void OnTriggerExit(Collider other)
     {
-        info.transform.localScale = new Vector3(0,0,0);
     }
     void OnStartWarp()
     {

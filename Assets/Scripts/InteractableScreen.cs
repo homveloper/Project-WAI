@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 using Photon.Pun;
 
-public class InteractableScreen : MonoBehaviourPun
+public class InteractableScreen : MonoBehaviour
 {
     [SerializeField]
     List<Interaction> interactions;
@@ -41,9 +41,9 @@ public class InteractableScreen : MonoBehaviourPun
     }
     void Update(){
 
-        if (PhotonNetwork.IsConnected)
-            if (!photonView.IsMine)
-                return;
+        // if (PhotonNetwork.IsConnected)
+        //     if (!photonView.IsMine)
+        //         return;
 
         OnButtonHint(inTrigger);
 
