@@ -23,7 +23,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && isActive)
+        if (Input.GetKeyDown(KeyCode.R) && isActive)
             Submit();
     }
     public void Submit()
