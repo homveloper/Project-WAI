@@ -29,6 +29,22 @@ public class AlienAnimation : MonoBehaviourPunCallbacks
         animator.SetBool("isRun",isRun);
     }
 
+    public void StopAnimation(){
+        gameObject.GetComponent<Animator>().enabled = false;
+    }
+
+    public void PlayAinmation(){
+        gameObject.GetComponent<Animator>().enabled = true;
+    }
+
+    public void Dead(){
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
+        animator.SetTrigger("dead");
+    }
+
     void TakeDamage(){
          if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)

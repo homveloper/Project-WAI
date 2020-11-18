@@ -7,6 +7,8 @@ public enum Progress{
 public abstract class Item : ScriptableObject{
     new public string name = "new Item";
 
+    new public bool isDroppable = true;
+
     public int meterialWood;
     public int meterialIron;
     public int meterialPart;

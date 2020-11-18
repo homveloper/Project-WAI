@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Battery
   m_EditorClassIdentifier: 
   name: Battery
+  isDroppable: 1
   meterialWood: 0
-  meterialIron: 5
-  meterialPart: 5
+  meterialIron: 10
+  meterialPart: 10
   description: "\uB77C\uC774\uD2B8\uC758 \uBC30\uD130\uB9AC\uB97C \uAD50\uCCB4\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: e1624ac9b56fd964880ff44da48681df, type: 3}
   hpModifier: 0

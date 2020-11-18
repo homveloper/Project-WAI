@@ -10,8 +10,6 @@ public class ItemPickup : Interactable
     // public Interactable interactable;
 
     public override void Interact(){
-        Debug.Log("Interacting with " + transform.name);
-
         bool wasPickedUp = Inventory.instance.Add(item);
 
         if(wasPickedUp){

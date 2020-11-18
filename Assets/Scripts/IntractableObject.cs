@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public class InteractableObject : InteractableScreen
 {
-    // Start is called before the first frame update
-    void Start()
+
+    //초기화 함수
+    public override void Initialize()
     {
-        
+        base.Initialize();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    //상호 작용 함수
+    public override void Interact(KeyCode _KeyCode)
     {
-        
+        if(_KeyCode == KeyCode.E){
+
+        }
     }
 }

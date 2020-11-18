@@ -39,9 +39,9 @@ ModelImporter:
       takeName: mixamo.com
       internalID: 0
       firstFrame: 17
-      lastFrame: 60
+      lastFrame: 47
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: -78.44
       level: 0
       cycleOffset: 0
       loop: 0

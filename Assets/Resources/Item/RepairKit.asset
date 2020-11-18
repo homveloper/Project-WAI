@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: RepairKit
   m_EditorClassIdentifier: 
   name: RepairKit
-  meterialWood: 10
-  meterialIron: 10
-  meterialPart: 10
+  isDroppable: 1
+  meterialWood: 50
+  meterialIron: 50
+  meterialPart: 50
   description: "\uC6B0\uC8FC\uC120 \uC218\uB9AC \uD0B7~!"
   icon: {fileID: 21300000, guid: b311514b7650843419435c12ec374fa0, type: 3}

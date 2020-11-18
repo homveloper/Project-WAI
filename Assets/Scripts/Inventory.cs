@@ -33,7 +33,7 @@ public class Inventory : MonoBehaviourPun {
     public bool isDroppable;
 
     public List<Item> items = new List<Item>();
-
+    
     public Player playerStat;
 
     private void Start() {
@@ -64,12 +64,14 @@ public class Inventory : MonoBehaviourPun {
     }
     
     public void Drop(Item item){
-        items.Remove(item);
+        if(item.isDroppable){
+            items.Remove(item);
 
-        if(onItemChangedCallback != null)   
-            onItemChangedCallback.Invoke();
+            if(onItemChangedCallback != null)   
+                onItemChangedCallback.Invoke();
 
-        GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+            GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+        }
     }
 
     public void DropAll(){
