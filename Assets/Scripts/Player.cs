@@ -20,6 +20,8 @@ public class Player : MonoBehaviourPunCallbacks
     public float modHpAlienHeal;
     public float modO2;
     public float modO2Run;
+    public float modO2Alien;
+    public float modO2Crystal;
     public float modBt;
     public float modBtRecharge;
 
@@ -89,10 +91,8 @@ public class Player : MonoBehaviourPunCallbacks
             SetHP(GetHP() - Time.deltaTime * modHp);
 
         // 산소 차감
-        if (GetComponent<ThirdPersonMovement>().IsRun() == true && !IsAlienObject())
-            SetO2(GetO2() - Time.deltaTime * modO2Run);
-        else
-            SetO2(GetO2() - Time.deltaTime * modO2);
+        if (!IsAlienObject())
+            SetO2(GetO2() - (Time.deltaTime * GetModO2()));
 
         // 배터리 차감
         if (IsFlash() == true)
@@ -357,6 +357,16 @@ public class Player : MonoBehaviourPunCallbacks
     public bool IsFlash() // 라이트 사용 여부
     {
         return flashlight.activeSelf;
+    }
+    public float GetModO2()
+    {
+        float m = modO2;
+
+        m *= (float)(GetComponent<ThirdPersonMovement>().IsRun() ? modO2Run : 1.0);
+        m *= (float)(IsAlienPlayer() ? modO2Alien : 1.0);
+        m *= (float)(false ? modO2Crystal : 1.0);
+
+        return m;
     }
     // ---------------------------------------------------------------------------------------------------
     // # SET 메소드

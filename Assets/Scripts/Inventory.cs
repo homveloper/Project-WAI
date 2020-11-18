@@ -33,7 +33,7 @@ public class Inventory : MonoBehaviourPun {
     public bool isDroppable;
 
     public List<Item> items = new List<Item>();
-
+    
     public Player playerStat;
 
     private void Start() {
