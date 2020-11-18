@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using Photon.Pun;
 
+[Serializable]
 public class Interactable : MonoBehaviourPun
 {
     [SerializeField]
@@ -20,6 +21,9 @@ public class Interactable : MonoBehaviourPun
     string description;
     bool inTrigger;
     bool hasInteracted = false;
+    
+    [SerializeField]
+    bool isScreenSpace = false;
 
     [SerializeField]
     Color color;
@@ -27,6 +31,8 @@ public class Interactable : MonoBehaviourPun
     Text UI_Description;
     Transform camTransform;
     Quaternion originalRotation;
+
+    protected Player target;
 
 
     public virtual void Interact(){
@@ -79,6 +85,7 @@ public class Interactable : MonoBehaviourPun
         if(other.gameObject.tag == "Player"){
             inTrigger = true;
             camTransform = Camera.main.transform;
+            target = other.GetComponent<Player>();
         }
     }
 
@@ -87,6 +94,7 @@ public class Interactable : MonoBehaviourPun
     {
         inTrigger = false;
         camTransform = null;
+        target = null;
     }
 
     void OnButtonHint(bool active){
@@ -98,10 +106,6 @@ public class Interactable : MonoBehaviourPun
         get=> keyCode;
     }
 
-    public string Name{
-        get=>name;
-    }
-
     public GameObject ButtonHint{
         get=>buttonHint;
     }
@@ -110,3 +114,4 @@ public class Interactable : MonoBehaviourPun
         get=>key;
     }
 }
+
