@@ -28,9 +28,11 @@ public class Interaction{
 
     public String Description{
         get=>description;
+        set=>description = value;
     }
 
     public Color _Color{
         get=>color;
+        set=>color = value;
     }
 }

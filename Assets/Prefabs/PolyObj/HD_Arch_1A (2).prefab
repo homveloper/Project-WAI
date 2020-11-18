@@ -43,7 +43,7 @@ MonoBehaviour:
     keyCode: 101
     description: "\uC774\uB3D9"
     color: {r: 0.19215685, g: 1, b: 0.30329484, a: 1}
-  buttonHint: {fileID: 6592974944129971591, guid: a971f7d497eeea74b8fd6e216d7b85ff,
+  buttonHintTamplete: {fileID: 6592974944129971591, guid: a971f7d497eeea74b8fd6e216d7b85ff,
     type: 3}
 --- !u!1 &7319934448248999353
 GameObject:
