@@ -11,7 +11,10 @@ public class InteractableScreen : MonoBehaviour
     List<Interaction> interactions;
 
     [SerializeField]
-    GameObject buttonHint;
+    GameObject buttonHintTamplete;
+
+    List<Text> descriptions;
+    List<Image> images;
 
     GameObject buttonHintLayout;
 
@@ -28,17 +31,27 @@ public class InteractableScreen : MonoBehaviour
 
     void Start(){
 
+        
+        descriptions = new List<Text>();
+        images = new List<Image>();
+
         buttonHintLayout =  GameObject.Instantiate(Resources.Load("UI/UI_ButtonHintLayout") as GameObject);
 
         foreach(Interaction interaction in interactions){
-            GameObject newButtonHint = GameObject.Instantiate(buttonHint,buttonHintLayout.transform.Find("UI_Horizontal_Buttons"),false);
+            GameObject newButtonHint = GameObject.Instantiate(buttonHintTamplete,buttonHintLayout.transform.Find("UI_Horizontal_Buttons"),false);
             newButtonHint.transform.Find("Background").Find("Key").GetComponent<Text>().text = interaction.Key;
-            newButtonHint.transform.Find("Background").GetComponent<Image>().color = interaction._Color;
-            newButtonHint.transform.Find("Description").GetComponent<Text>().text = interaction.Description;
+            Image image = newButtonHint.transform.Find("Background").GetComponent<Image>();
+            image.color = interaction._Color;
+            Text description = newButtonHint.transform.Find("Description").GetComponent<Text>();
+            description.text = interaction.Description;
+        
+            descriptions.Add(description);
+            images.Add(image);
         }
 
         Initialize();
     }
+
     void Update(){
 
         // if (PhotonNetwork.IsConnected)
@@ -54,6 +67,37 @@ public class InteractableScreen : MonoBehaviour
                     Interact(interaction._KeyCode);
                 }
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Q)){
+            SetDecription(KeyCode.E,"1/10");
+            SetColor(KeyCode.E,Color.black);
+        }
+    }
+
+    // public void SetDescription(int index, String text){
+
+    //     if(index <= interactions.Count){
+    //         descriptions[index].text = text;
+    //         interactions[index].description = text;
+    //     }
+    // }
+
+    public void SetDecription(KeyCode keyCode, String text){
+        int index = interactions.FindIndex(x => (x._KeyCode == keyCode));
+
+        if(index != -1){
+            descriptions[index].text = text;
+            interactions[index].Description = text;
+        }
+    }
+
+    public void SetColor(KeyCode keyCode, Color color){
+        int index = interactions.FindIndex(x => (x._KeyCode == keyCode));
+
+        if(index != -1){
+            images[index].color = color;
+            interactions[index]._Color = color;
         }
     }
 
@@ -84,8 +128,18 @@ public class InteractableScreen : MonoBehaviour
         buttonHintLayout.SetActive(active);
     }
 
+    public void SetDecription(int index){
+        
+    }
+
+    public void SetDecription(KeyCode keyCode){
+
+    }
+
+
+
     public GameObject ButtonHint{
-        get=>buttonHint;
+        get=>buttonHintTamplete;
     }
 
     public GameObject ButtonHintLayout{
