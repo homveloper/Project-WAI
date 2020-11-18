@@ -75,12 +75,23 @@ public class ConsumableItem : Item
     void TakeEffect(Player playerStat, int modifier, Stat stat){
         Debug.Log("수치가 변동됩니다.");
 
-        if(Stat.HP == stat)
-            playerStat.SetHP(playerStat.GetHP() + modifier);
-        if(Stat.O2 == stat)
-            playerStat.SetO2(playerStat.GetO2() + modifier);
-        if(Stat.BATTERY == stat)
-            playerStat.SetBt(playerStat.GetBt() + modifier);
+        if(playerStat.IsAlienPlayer()){
+            if(Stat.HP == stat)
+                playerStat.SetHP(playerStat.GetHP() + modifier);
+            if(Stat.O2 == stat)
+                playerStat.SetO2(playerStat.GetO2() + modifier);
+            if(Stat.BATTERY == stat)
+                playerStat.SetBt(playerStat.GetBt() + modifier);
+        }else{
+            if(Stat.HP == stat)
+                playerStat.SetHP(playerStat.GetHP() + modifier/2);
+            if(Stat.O2 == stat)
+                playerStat.SetO2(playerStat.GetO2() + modifier/2);
+            if(Stat.BATTERY == stat)
+                playerStat.SetBt(playerStat.GetBt() + modifier);
+        }
+
+
     }
 
     public int HPModifier
