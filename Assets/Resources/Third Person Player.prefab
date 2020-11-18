@@ -6383,9 +6383,11 @@ MonoBehaviour:
   modHp: 10
   modHpAlienHeal: 5
   modO2: 0.5
-  modO2Run: 1
-  modBt: 5
-  modBtRecharge: 2.5
+  modO2Run: 2
+  modO2Alien: 2
+  modO2Crystal: 0.5
+  modBt: 1
+  modBtRecharge: 0.5
   statHp: 100
   statHpMax: 100
   statO2: 200
@@ -6394,9 +6396,9 @@ MonoBehaviour:
   statBtMax: 100
   statHpAlien: 200
   statHpMaxAlien: 200
-  meterialWood: 0
-  meterialIron: 0
-  meterialPart: 0
+  meterialWood: 10
+  meterialIron: 10
+  meterialPart: 10
 --- !u!114 &7186006604985324643
 MonoBehaviour:
   m_ObjectHideFlags: 0
