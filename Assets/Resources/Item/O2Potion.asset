@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: O2Potion
   m_EditorClassIdentifier: 
   name: O2Potion
-  meterialWood: 5
+  isDroppable: 1
+  meterialWood: 10
   meterialIron: 0
-  meterialPart: 5
+  meterialPart: 10
   description: "\uC0B0\uC18C\uB97C 70 \uCDA9\uC804\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 28f5add5a605fda40b9932530819552c, type: 3}
   hpModifier: 0

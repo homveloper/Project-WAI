@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: HPPotion
   m_EditorClassIdentifier: 
   name: HPPotion
-  meterialWood: 3
-  meterialIron: 3
-  meterialPart: 3
+  isDroppable: 1
+  meterialWood: 10
+  meterialIron: 10
+  meterialPart: 10
   description: "\uCCB4\uB825\uC744 40 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: e2cf4418c73f0e543895142069012fb8, type: 3}
   hpModifier: 40
