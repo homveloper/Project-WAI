@@ -365,6 +365,7 @@ public class Player : MonoBehaviourPunCallbacks
         m *= (float)(GetComponent<ThirdPersonMovement>().IsRun() ? modO2Run : 1.0);
         m *= (float)(IsAlienPlayer() ? modO2Alien : 1.0);
         m *= (float)(false ? modO2Crystal : 1.0);
+        //m *= (float)(Inventory.instance != null && Inventory.instance.items.Contains())
 
         return m;
     }
