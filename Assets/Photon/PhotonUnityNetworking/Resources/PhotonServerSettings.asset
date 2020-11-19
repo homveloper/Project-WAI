@@ -62,6 +62,8 @@ MonoBehaviour:
   - OnDisableAlert
   - OnEnableAlert
   - OnStatus
+  - OnSubmit
+  - OnSubmitFinish
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
