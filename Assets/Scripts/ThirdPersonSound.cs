@@ -10,14 +10,23 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     public ParticleSystem dust1;
     public ParticleSystem dust2;
 
+    public bool isDead=true;
+
     int cnt = 1;
     bool isDie = false;
-    void Start()
+    int frame = 0;
+
+    void Awake()
     {
         dust1.Stop();
         dust2.Stop();
+    }
+    void Start()
+    {
         walkSound.Pause();
         runSound.Pause();
+        dust1.Play();
+        dust2.Play();
     }
     
     void Update()
@@ -25,6 +34,8 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
+
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -34,18 +45,8 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
-
-
+       
         SetSound(isWalk , isRun);
-    }
-    void LateUpdate()
-    {
-        if(cnt == 1)
-        {
-            dust1.Play();
-            dust2.Play();
-            cnt--;
-        }
     }
         
     public void SetSound(bool isWalk , bool isRun)
@@ -58,7 +59,13 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
+        if(isDead == false)
+        {
+            walkSound.Pause();
+            runSound.Pause();
 
+            return ;
+        }
         if(isRun)
             isWalk = false;
 
@@ -81,18 +88,5 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         {
             walkSound.Pause();
         }
-
-        // Debug.Log(isWalk +"   "+dust1.isStopped);
-
-        // if((isWalk == true && dust1.isStopped == true) ||(isRun == true && dust1.isStopped == true))
-        // {
-        //     dust1.Play();
-        //     dust2.Play();
-        // }
-        // else if((isWalk == false && dust1.isStopped == false) && (isRun == false && dust1.isStopped == false))
-        // {
-        //     dust1.Stop();
-        //     dust2.Stop();
-        // }
     }
 }
