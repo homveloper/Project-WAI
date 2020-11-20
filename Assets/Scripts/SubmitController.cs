@@ -7,6 +7,7 @@ using Cinemachine;
 public class SubmitController : MonoBehaviourPunCallbacks
 {
     public InteractableScreen buttonHint;
+    public GameObject safezone;
     public List<GameObject> smoke;
     
     public int phase;
@@ -107,6 +108,8 @@ public class SubmitController : MonoBehaviourPunCallbacks
             GameManager.GetInstance().clear = true;
 
             GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+
+
         }
     }
     // ---------------------------------------------------------------------------------------------------
