@@ -38,30 +38,35 @@ public class Combat : MonoBehaviourPun
         researcherAnimation.animator.SetFloat("attackSpeed", attackSpeed);
         alienAnimation.animator.SetFloat("attackSpeed", attackSpeed);
 
-        if(Inventory.instance != null)
+        if (Inventory.instance != null)
             Inventory.instance.onItemChangedCallback += UpdateDamage;
     }
 
-    void Update(){
+    void Update()
+    {
         cooldown -= Time.deltaTime;
 
-        if(Input.GetButtonDown("Attack")){
+        if (Input.GetButtonDown("Attack"))
+        {
             Attack(targetPlayer != null ? targetPlayer : null);
             myPlayer.SetMove(false);
             StartCoroutine(IsPlaying());
         }
     }
-    
-    IEnumerator IsPlaying(){
+
+    IEnumerator IsPlaying()
+    {
 
         float calibrationTime = 0.5f;
         yield return new WaitForSeconds(calibrationTime);
 
-        while(true){
+        while (true)
+        {
 
             bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
 
-            if(!isPunch){
+            if (!isPunch)
+            {
                 myPlayer.SetMove(true);
                 break;
             }
@@ -70,40 +75,57 @@ public class Combat : MonoBehaviourPun
         }
     }
 
-    IEnumerator WaitUntilTime(float delayTime){
+    IEnumerator WaitUntilTime(float delayTime)
+    {
         yield return new WaitForSeconds(delayTime);
         myPlayer.SetMove(true);
     }
 
-    void UpdateDamage(){
-        float totalDamage = Player.RESEARCHER_DAMAGE;
+    public void UpdateDamage()
+    {
+        if (!myPlayer.IsAlienObject())
+        {
+            float totalDamage = Player.RESEARCHER_DAMAGE;
 
-        if(Inventory.instance != null){     
-            foreach(Item item  in Inventory.instance.items){
-                if(item is InteractableItem){
-                    if(((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
-                        totalDamage += ((InteractableItem)item).DamageModifier;
+            if (Inventory.instance != null)
+            {
+
+                foreach (Item item in Inventory.instance.items)
+                {
+                    if (item is InteractableItem)
+                    {
+                        if (((InteractableItem)item).Itemtype == Itemtype.WEAPHONE)
+                        {
+                            totalDamage += ((InteractableItem)item).DamageModifier;
+                        }
                     }
                 }
             }
+
+            myPlayer.damage = totalDamage;
+        }
+        else
+        {
+            myPlayer.damage = Player.ALIEN_DAMAGE;
         }
 
-        myPlayer.damage = totalDamage;
     }
 
-    void OnTriggerStay(Collider other){
+    void OnTriggerStay(Collider other)
+    {
 
-        if(!photonView.IsMine)
+        if (!photonView.IsMine)
             return;
         if (other.gameObject == gameObject || !other.CompareTag("Player"))
             return;
-        
+
         inTrigger = true;
         targetPlayer = other.GetComponent<Player>();
     }
 
-    void OnTriggerExit(Collider other){
-        if(!photonView.IsMine)
+    void OnTriggerExit(Collider other)
+    {
+        if (!photonView.IsMine)
             return;
 
         if (other.gameObject == gameObject || !other.CompareTag("Player"))
@@ -118,7 +140,7 @@ public class Combat : MonoBehaviourPun
         if (cooldown > 0.0f)
             return;
 
-        attackSounds[Random.Range(0,attackSounds.Count)].Play();
+        attackSounds[Random.Range(0, attackSounds.Count)].Play();
 
         if (target != null)
             target.SetHit(myPlayer.damage);
