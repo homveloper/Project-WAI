@@ -42,11 +42,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         fadeController = GetComponent<FadeController>();
         GameObject.Find("UI_Nickname_Input").GetComponent<InputField>().text = PhotonNetwork.NickName;
 
+        ExitGames.Client.Photon.Hashtable ppp = PhotonNetwork.LocalPlayer.CustomProperties;
+        Debug.Log(ppp.Keys.Count);
+
         if (PhotonNetwork.InRoom == true) // 게임이 종료되어 퇴장하여 신이 로드된 상황 (=이미 방에 포함된 경우)
         {
             PhotonNetwork.IsMessageQueueRunning = true;
             GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = false;
-            OnJoinedRoomCall();
+            OnJoinedRoomCall(false);
         }
         else
         {
@@ -404,21 +407,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-
-        localProp["color"] = 0;
-        localProp["isReady"] = false;
-        localProp["isStart"] = false;
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
-        OnJoinedRoomCall();
+        OnJoinedRoomCall(true);
     }
-    public void OnJoinedRoomCall()
+    public void OnJoinedRoomCall(bool newJoin)
     {
         fadeController.OnBlack();
         GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = false;
         GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
         GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = true;
+
+        // 플레이어 프로퍼티 초기화
+        ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.LocalPlayer.CustomProperties;
+        int color = newJoin ? 0 : (int)prop["color"];
+
+        prop.Clear();
+        prop["color"] = color;
+        prop["isReady"] = false;
+        prop["isStart"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
         menuCode = MENU_ROOM;
         fadeController.OnFadeIn();
@@ -506,7 +512,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 페이드 아웃
         fadeController.OnFadeOut();
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.1f);
 
         SceneManager.LoadScene("proto_field_ver2");
     }
