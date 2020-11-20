@@ -10,12 +10,12 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     public ParticleSystem dust1;
     public ParticleSystem dust2;
 
-    int frame = 0;
+    int cnt = 1;
     bool isDie = false;
     void Start()
     {
-        // dust1.Stop();
-        // dust2.Stop();
+        dust1.Stop();
+        dust2.Stop();
         walkSound.Pause();
         runSound.Pause();
     }
@@ -37,6 +37,15 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
 
 
         SetSound(isWalk , isRun);
+    }
+    void LateUpdate()
+    {
+        if(cnt == 1)
+        {
+            dust1.Play();
+            dust2.Play();
+            cnt--;
+        }
     }
         
     public void SetSound(bool isWalk , bool isRun)
