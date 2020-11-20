@@ -494,8 +494,8 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetMove(bool val) // 조작 설정
     {
-        //researcher.GetComponent<PlayerAnimation>().enabled = val;
-        //alien.GetComponent<AlienAnimation>().enabled = val;
+        researcher.GetComponent<PlayerAnimation>().enabled = val;
+        alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().enabled = val;
     }
