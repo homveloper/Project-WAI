@@ -14,8 +14,8 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     bool isDie = false;
     void Start()
     {
-        dust1.Stop();
-        dust2.Stop();
+        // dust1.Stop();
+        // dust2.Stop();
         walkSound.Pause();
         runSound.Pause();
     }
@@ -25,24 +25,6 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
-
-      SetSound();
-    }
-        
-    public void SetSound()
-    {
-        photonView.RPC("MoveSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-    }
-
-    [PunRPC]
-    public void MoveSound(int actorNumber)
-    {
-        if (photonView.OwnerActorNr != actorNumber)
-            return;
-
-        if (!photonView.IsMine)
-                return;
-    
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -52,6 +34,21 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
+
+
+        SetSound(isWalk , isRun);
+    }
+        
+    public void SetSound(bool isWalk , bool isRun)
+    {
+        photonView.RPC("MoveSound", RpcTarget.AllBuffered, photonView.OwnerActorNr,isWalk,isRun);
+    }
+
+    [PunRPC]
+    public void MoveSound(int actorNumber,bool isWalk , bool isRun)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
 
         if(isRun)
             isWalk = false;
@@ -76,17 +73,17 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
             walkSound.Pause();
         }
 
-        Debug.Log(isWalk +"   "+dust1.isStopped);
+        // Debug.Log(isWalk +"   "+dust1.isStopped);
 
-        if((isWalk == true && dust1.isStopped == true) ||(isRun == true && dust1.isStopped == true))
-        {
-            dust1.Play();
-            dust2.Play();
-        }
-        else if((isWalk == false && dust1.isStopped == false) && (isRun == false && dust1.isStopped == false))
-        {
-            dust1.Stop();
-            dust2.Stop();
-        }
+        // if((isWalk == true && dust1.isStopped == true) ||(isRun == true && dust1.isStopped == true))
+        // {
+        //     dust1.Play();
+        //     dust2.Play();
+        // }
+        // else if((isWalk == false && dust1.isStopped == false) && (isRun == false && dust1.isStopped == false))
+        // {
+        //     dust1.Stop();
+        //     dust2.Stop();
+        // }
     }
 }
