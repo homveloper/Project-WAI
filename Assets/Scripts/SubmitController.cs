@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Cinemachine;
 
 public class SubmitController : MonoBehaviourPunCallbacks
 {
     public InteractableScreen buttonHint;
+    public GameObject safezone;
     public List<GameObject> smoke;
     
     public int phase;
@@ -104,6 +106,10 @@ public class SubmitController : MonoBehaviourPunCallbacks
             // 탈출 시퀀스 시작
             GameManager.GetInstance().time = 60;
             GameManager.GetInstance().clear = true;
+
+            GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+
+
         }
     }
     // ---------------------------------------------------------------------------------------------------
