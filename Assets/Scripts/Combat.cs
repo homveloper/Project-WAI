@@ -18,10 +18,9 @@ public class Combat : MonoBehaviourPunCallbacks
     private float cooldown = 0.0f; // 공격 쿨타임
 
     [SerializeField]
-    private float delayTime = 1f;   // 공격 후 휴면시간
+    private float delayTime = 1.5f;   // 공격 후 휴면시간
 
     private bool inTrigger;
-
 
     public delegate void OnAttack();
     public OnAttack OnAttackCallback;
@@ -68,8 +67,9 @@ public class Combat : MonoBehaviourPunCallbacks
         {
 
             bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
+            bool isSword = researcherAnimation.AnimatorIsPlaying("Stable Sword Outward Slash");
 
-            if (!isPunch)
+            if (!isPunch && !isSword)
             {
                 myPlayer.SetMove(true);
                 break;
