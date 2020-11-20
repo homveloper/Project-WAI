@@ -805,6 +805,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_ButtonHint@Object
       objectReference: {fileID: 0}
+    - target: {fileID: 7293413268148232650, guid: bb7c3f97238ef474fa1d33bd82dd522f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -823,22 +828,22 @@ PrefabInstance:
     - target: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.78282064
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.09184512
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.1782981
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.5890383
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
         type: 3}
