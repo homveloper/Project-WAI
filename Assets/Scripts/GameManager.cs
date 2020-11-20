@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 mCamera = GameObject.Find("CineMachine");
                 mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
                 mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
-                mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 25.0f;
+                mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 30.0f;
                 mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius = 200.0f;
 
                 // 아이템 박스 생성
