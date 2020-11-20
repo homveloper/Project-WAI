@@ -51,6 +51,9 @@ public class Player : MonoBehaviourPunCallbacks
     public delegate void OnTakeDamage();
     public OnTakeDamage onTakeDamageCallback;
 
+    public AudioSource chgSound;
+    public ParticleSystem chgEF;
+
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
@@ -69,6 +72,9 @@ public class Player : MonoBehaviourPunCallbacks
         uI_Inventory.UpdateInventory();
 
         StartCoroutine(OnRefresh());
+
+        chgSound.Stop();
+        chgEF.Stop();
     }
 
     void Update()
@@ -149,6 +155,7 @@ public class Player : MonoBehaviourPunCallbacks
         SetMove(false);
         SetFlash(false);
 
+
         if (photonView.IsMine)
         {
             Inventory.instance.DropAll();
@@ -164,6 +171,8 @@ public class Player : MonoBehaviourPunCallbacks
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
+
+         SetChg(); // 파티클 , 사운드 
 
         SetMove(true);
         SetFlash(false);
@@ -601,5 +610,20 @@ public class Player : MonoBehaviourPunCallbacks
             researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
             researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
         }
+    }
+
+    ///--------------------------------변신 파티클 , 사운드 -----------------------------------------------
+     public void SetChg()
+    {
+        Debug.Log("set");
+        photonView.RPC("ChgSound", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void ChgSound()
+    {
+        Debug.Log("chg");
+        chgSound.Play();
+        chgEF.Play();
     }
 }
