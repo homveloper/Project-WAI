@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
+using System.Collections;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -35,6 +36,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     void Start()
     {
+        GameManager.NORMAL_START = true;
+
         alertController = GetComponent<AlertController>();
         fadeController = GetComponent<FadeController>();
         GameObject.Find("UI_Nickname_Input").GetComponent<InputField>().text = PhotonNetwork.NickName;
@@ -477,15 +480,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 return;
             }
 
-            for (int i = 0; i < player.Length; i++)
-            {
-                ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
-                prop["spawnIndex"] = (i + 1);
-                player[i].SetCustomProperties(prop);
-            }
-
             PhotonNetwork.CurrentRoom.IsOpen = false; // 난입 제한
-
             photonView.RPC("OnStart", RpcTarget.AllBuffered);
         }
         else
@@ -494,8 +489,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (localProp.ContainsKey("isReady") == false) localProp.Add("isReady", true);
             else if ((bool)localProp["isReady"] == true) localProp["isReady"] = false;
             else if ((bool)localProp["isReady"] == false) localProp["isReady"] = true;
-
-            if (localProp.ContainsKey("isAlien") == true) localProp.Remove("isAlien");
             PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
             RefreshRoomUI();
@@ -503,12 +496,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void OnStart() // 게임 시작 함수
+    public IEnumerator OnStart() // 게임 시작 함수
     {
         GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
-
+        
         // 채팅창 비활성화 (퇴장시 커서 관련 오류 발생 방지)
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().DeactivateInputField();
+
+        // 페이드 아웃
+        fadeController.OnFadeOut();
+
+        yield return new WaitForSeconds(1.5f);
 
         SceneManager.LoadScene("proto_field_ver2");
     }
