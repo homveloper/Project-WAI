@@ -497,7 +497,7 @@ public class Player : MonoBehaviourPunCallbacks
         researcher.GetComponent<PlayerAnimation>().enabled = val;
         alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
-        GetComponent<ThirdPersonSound>().enabled = val;
+        GetComponent<ThirdPersonSound>().isDead = val;
     }
     public void SetDead() // 사망 설정
     {

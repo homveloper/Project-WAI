@@ -19,6 +19,7 @@ public abstract class Item : ScriptableObject{
     public string description;
     public Sprite icon;
 
+    public GameObject model;
     public abstract void Use(Player playerStat); // 사용
 
     public abstract void Continue(Player playerStat); // 지속 효과
