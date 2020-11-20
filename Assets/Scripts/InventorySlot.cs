@@ -19,7 +19,7 @@ public class InventorySlot : MonoBehaviour
 
     private void Update() {
         if(Input.GetButtonDown(useButton)){
-            if(Inventory.instance.isDroppable){
+            if(Inventory.instance.IsDroppable){
                 DropItem();
             }else{
                 UseItem();
@@ -30,13 +30,7 @@ public class InventorySlot : MonoBehaviour
     public void AddItem(Item item)
     {
         this.item = item;
-
-        if(item is ConsumableItem){
-            itemIcon.sprite = ((ConsumableItem)item).icon;
-        }else if (item is InteractableItem){
-            itemIcon.sprite = ((InteractableItem)item).icon;
-        }
-
+        itemIcon.sprite = item.icon;
         itemIcon.enabled = true;
     }
 
