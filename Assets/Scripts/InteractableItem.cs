@@ -7,9 +7,9 @@ public enum Itemtype{
 [CreateAssetMenu(fileName = "new InteractableItem", menuName = "InteractableItem")]
 public class InteractableItem : Item
 {
-    Itemtype itemtype;
+    public Itemtype itemtype;
 
-    int damageModifier;
+    public int damageModifier;
 
     public override void Use(Player playerStat)
     {
