@@ -52,6 +52,8 @@ public class Player : MonoBehaviourPunCallbacks
     public AudioSource chgSound;
     public ParticleSystem chgEF;
 
+    public AudioSource hitSound;
+
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
@@ -73,6 +75,7 @@ public class Player : MonoBehaviourPunCallbacks
 
         chgSound.Stop();
         chgEF.Stop();
+        hitSound.Stop();
     }
 
     void Update()
@@ -216,6 +219,7 @@ public class Player : MonoBehaviourPunCallbacks
             return;
 
         SetHP(GetHP() - damage);
+        SetHitSound();
         onTakeDamageCallback.Invoke();
 
         if (photonView.IsMine && GameInterfaceManager.GetInstance().IsChating())
@@ -606,17 +610,33 @@ public class Player : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     // # 파티클, 사운드 관련 메소드
     // ---------------------------------------------------------------------------------------------------
+
     public void SetChg()
     {
-        Debug.Log("set");
-        photonView.RPC("ChgSound", RpcTarget.AllBuffered);
+        photonView.RPC("ChgSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 
     [PunRPC]
-    public void ChgSound()
+    public void ChgSound(int actorNumber)
     {
-        Debug.Log("chg");
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
         chgSound.Play();
         chgEF.Play();
+    }
+
+    public void SetHitSound()
+    {
+        photonView.RPC("HitSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+
+    [PunRPC]
+    public void HitSound(int actorNumber)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        hitSound.Play();
     }
 }
