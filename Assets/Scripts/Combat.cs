@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 [RequireComponent(typeof(Player))]
 [System.Serializable]
-public class Combat : MonoBehaviourPun
+public class Combat : MonoBehaviourPunCallbacks
 {
     Player myPlayer;
     Player targetPlayer;
@@ -134,13 +134,23 @@ public class Combat : MonoBehaviourPun
         inTrigger = false;
         targetPlayer = null;
     }
+    public void SetAck()
+    {
+         photonView.RPC("CombatSound", RpcTarget.AllBuffered);
+    }
 
+    [PunRPC]
+    public void CombatSound()
+    {
+        attackSounds[Random.Range(0, attackSounds.Count)].Play();
+    }
+    
     public void Attack(Player target)
     {
         if (cooldown > 0.0f)
             return;
 
-        attackSounds[Random.Range(0, attackSounds.Count)].Play();
+        SetAck();
 
         if (target != null)
             target.SetHit(myPlayer.damage);
