@@ -54,14 +54,7 @@ public class PlayerAnimation : MonoBehaviourPunCallbacks
         animator.SetBool("isWalk", isWalk);
         animator.SetBool("isRun", isRun);
 
-        // bool pushStanding = Input.GetKeyDown(KeyCode.E);
-
-        // if(pushStanding){
-        //     pushStand = pushStand ? false : true;
-        //     thirdPersonMovement.speed *= 0.5f;
-        //     animator.SetTrigger("pushStanding");
-        //     animator.SetBool("pushStand",pushStand);
-        // }
+        animator.SetBool("hasWeaphone", Inventory.instance.HasWeaphone);
     }
 
     public void StopAnimation()
