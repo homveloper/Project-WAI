@@ -20,6 +20,9 @@ public class InteractableBox : Interactable
     [SerializeField]
     private int maxmaterialPart;
 
+    [SerializeField]
+    private Animator animator;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -32,13 +35,16 @@ public class InteractableBox : Interactable
         int materialIron = Random.Range(minmaterialIron,maxmaterialIron);
 
         if(target != null){
+            animator.SetTrigger("open");
+
             target.SetWood(target.GetWood() + materialWood);
             target.SetIron(target.GetIron() + materialIron);
             target.SetPart(target.GetPart() + materialPart);
 
             Debug.Log("상자를 열었습니다.");
-            photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
+            // photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
         }
+
     }
 
     [PunRPC]
