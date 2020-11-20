@@ -140,7 +140,7 @@ public class Combat : MonoBehaviourPunCallbacks
     }
     public void SetAck()
     {
-         photonView.RPC("CombatSound", pcTarget.AllBuffered, photonView.OwnerActorNr);
+         photonView.RPC("CombatSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 
     [PunRPC]
