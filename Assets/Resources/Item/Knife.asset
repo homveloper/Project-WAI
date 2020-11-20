@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737edadf78381d148a72b3724ecb2d45, type: 3}
+  m_Name: Knife
+  m_EditorClassIdentifier: 
+  name: Knife@Item
+  isDroppable: 1
+  meterialWood: 30
+  meterialIron: 30
+  meterialPart: 30
+  description: 
+  icon: {fileID: 21300000, guid: f9989e544fc1be64281c88950c8e1e8f, type: 3}
+  model: {fileID: 6319458715330844015, guid: 876df486bb32a96489fc75c4efb98ee3, type: 3}
+  itemtype: 0
+  damageModifier: 20

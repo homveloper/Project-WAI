@@ -30,11 +30,16 @@ public class Inventory : MonoBehaviourPun {
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallback;
 
-    public bool isDroppable;
-
     public List<Item> items = new List<Item>();
     
     public Player playerStat;
+
+    bool hasWeaphone;
+
+    [SerializeField]
+    bool isDroppable;
+
+
 
     private void Start() {
         playerStat = gameObject.GetComponent<Player>();
@@ -45,6 +50,15 @@ public class Inventory : MonoBehaviourPun {
         if(items.Count >= space){
             Debug.Log("인벤토리에 공간이 없습니다.");
             return false;
+        }
+
+        if(hasWeaphone && item is InteractableItem){
+            return false;
+        }
+
+        if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
+            hasWeaphone = true;
+            EquipWeaphone(item.model);
         }
 
         items.Add(item);
@@ -67,6 +81,11 @@ public class Inventory : MonoBehaviourPun {
         if(item.isDroppable){
             items.Remove(item);
 
+            if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
+                hasWeaphone = false;
+                EquipWeaphone(null);
+            }
+
             if(onItemChangedCallback != null)   
                 onItemChangedCallback.Invoke();
 
@@ -75,9 +94,8 @@ public class Inventory : MonoBehaviourPun {
     }
 
     public void DropAll(){
-        foreach(ConsumableItem item in items){
+        foreach(Item item in items){
             Drop(item);
-            // GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
         }
 
         if(onItemChangedCallback != null)   
@@ -86,5 +104,29 @@ public class Inventory : MonoBehaviourPun {
 
     public bool isEmpty(){
         return items.Count == 0;
+    }
+
+    public bool IsDroppable{
+        get=>isDroppable;
+        set=>isDroppable = value;
+    }
+
+    public bool HasWeaphone{
+        get=>hasWeaphone;
+    }
+
+    public void EquipWeaphone(GameObject weaphone){
+        if(weaphone != null){
+            GameObject newWeaphone = GameObject.Instantiate(weaphone);
+            Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
+            newWeaphone.transform.SetParent(rightHand);
+        }
+    }
+
+    public void UnEquipWeaphone(GameObject weaphone){
+        if(weaphone != null){
+            Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x == weaphone);
+            GameObject.Destroy(weaphone);
+        }
     }
 }

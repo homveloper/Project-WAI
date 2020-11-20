@@ -9,7 +9,7 @@ using Photon.Pun;
 public class Interactable : MonoBehaviourPun
 {
     [SerializeField]
-    GameObject buttonHint;
+    protected GameObject buttonHint;
 
     [SerializeField]
     String key = "Showing Key when you approache example 'E'";
@@ -44,6 +44,10 @@ public class Interactable : MonoBehaviourPun
     }
 
     void Start(){
+
+        // buttonHint = GameObject.Instantiate(Resources.Load("UI/UI_ButtonHint@Object") as GameObject);
+        // buttonHint.transform.SetParent(transform);
+        
         // UI의 초기 회전값
         originalRotation = buttonHint.transform.rotation;
 
@@ -79,8 +83,8 @@ public class Interactable : MonoBehaviourPun
     */
     private void OnTriggerStay(Collider other)
     {
-        // if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
-        //     return;
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
 
         if(other.gameObject.tag == "Player"){
             inTrigger = true;
@@ -99,7 +103,7 @@ public class Interactable : MonoBehaviourPun
 
     void OnButtonHint(bool active){
         if(buttonHint != null)
-            buttonHint.gameObject.SetActive(active);
+            buttonHint.SetActive(active);
     }
 
     public KeyCode _KeyCode{
