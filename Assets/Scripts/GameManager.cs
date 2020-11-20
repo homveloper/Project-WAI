@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float time = TIME;    // 시간
     public float timeMax = TIME; // 시간 (최대치)
 
+    // 기타
+    public bool clear;
+
     private void Awake()
     {
         instance = this;
