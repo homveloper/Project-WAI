@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 737edadf78381d148a72b3724ecb2d45, type: 3}
-  m_Name: RepairKit
+  m_Name: Knife
   m_EditorClassIdentifier: 
-  name: RepairKit
+  name: Knife@Item
   isDroppable: 1
-  meterialWood: 50
-  meterialIron: 50
-  meterialPart: 50
-  description: "\uC6B0\uC8FC\uC120 \uC218\uB9AC \uD0B7~!"
-  icon: {fileID: 21300000, guid: b311514b7650843419435c12ec374fa0, type: 3}
-  model: {fileID: 0}
-  itemtype: 1
-  damageModifier: 0
+  meterialWood: 30
+  meterialIron: 30
+  meterialPart: 30
+  description: 
+  icon: {fileID: 21300000, guid: f9989e544fc1be64281c88950c8e1e8f, type: 3}
+  model: {fileID: 6319458715330844015, guid: 876df486bb32a96489fc75c4efb98ee3, type: 3}
+  itemtype: 0
+  damageModifier: 20

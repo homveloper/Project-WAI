@@ -17,6 +17,8 @@ public abstract class Item : ScriptableObject{
     public string description;
     public Sprite icon;
 
+    public GameObject model;
+
     public abstract void Use(Player playerStat);
 }
 
