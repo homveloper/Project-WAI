@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-using static System.Random;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 using System.Linq;
@@ -12,40 +11,23 @@ using System.Linq;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     // 공통
-    private const int TIME = 1800;
-    public static bool DEBUG_GAME = true;
     private static GameManager instance = null;
+    public static bool NORMAL_START = false;
+    public static bool DEBUG_GAME = true;
+    private const int TIME = 1800;
 
     // 플레이어 객체
     public GameObject mPlayer; // 플레이어 객체 (런타임 중 자동 할당)
     public GameObject mCamera; // 카메라 객체 (런타임 중 자동 할당)
 
-    // 벽 객체
-    private List<Renderer> wallList;
-    private List<Renderer> storeList;
-    public string wallName;
-
     // 시간
     public float time = TIME;    // 시간
     public float timeMax = TIME; // 시간 (최대치)
 
-    // 플래그
-    public bool flag_start = false; // 인스턴스 생성 체크용 플래그. 첫 시작 시 true로 변경됨
-    public bool flag_gameStart = false; // 모든 플레이어가 준비됨
-    public bool flag_gameStartFinish = false; // 모든 플레이어가 준비되었고, 게임시작 애니메이션을 마침
-    public bool flag_finish = false; // 게임이 종료되었음을 나타내는 플래그
-    public bool flag_win = false; // 종료 플래그
-    public bool flag_alertJob = false; // 역할 알림 완료 플래그
-
     private void Awake()
     {
-        instance = this; // 최초 생성인 경우 해당 오브젝트를 계속 인스턴스로 가져감
-
+        instance = this;
         PhotonNetwork.IsMessageQueueRunning = true;
-
-        wallList = new List<Renderer>();
-        storeList = new List<Renderer>();
-        wallName = null;
     }
 
     public static GameManager GetInstance()
@@ -55,198 +37,217 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        if (NORMAL_START == false)
+        {
+            SceneManager.LoadScene("proto_main");
+            return;
+        }
+
+        GetComponent<FadeController>().OnBlack();
         GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = false;
         time = TIME;
         timeMax = TIME;
 
         PhotonNetwork.IsMessageQueueRunning = true;
 
-        // 게임 시작 코드
-        // Scene 이동이 완료되면 네트워크에 알림
-        if (flag_start == false)
-        {
-            ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-            if (localProp.ContainsKey("isStart") == false || (bool)localProp["isStart"] == false)
-            {
-                localProp["isStart"] = true;
-                PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
-            }
+        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
+        localProp.Remove("isAlien");
+        localProp["isStart"] = true;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
-            flag_start = true;
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(GameReadyByMasterClient());
 
-            GameReady();
-        }
+        StartCoroutine(GameReadyByPlayer());
     }
 
     void Update()
     {
-        // [디버깅용] 디버그 모드 전환
+        // 디버그 모드 전환
         if (Input.GetKeyDown(KeyCode.F12) == true)
-        {
             DEBUG_GAME = !DEBUG_GAME;
-        }
 
-        // [디버깅용] 강제 게임 종료
+        // 강제 게임 종료 (* 디버그 모드 전용)
         if (DEBUG_GAME == true && Input.GetKeyDown(KeyCode.F11) == true)
-        {
             SetFinish(true);
-        }
-
-        // 게임 시작 애니메이션 처리
-        if (flag_gameStart == true && flag_gameStartFinish == false)
-        {
-            float radius = GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius;
-            if (radius > 24.0f)
-            {
-                GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius -= (Time.deltaTime * 75);
-            }
-            else
-            {
-                GameStartFinish();
-            }
-        }
-
-        if (flag_gameStartFinish == false)
-            return;
-
-        // 게임 종료 애니메이션 처리
-        if (flag_finish == true && flag_win == true)
-        {
-            Vector3 pos = GameObject.Find("CineMachine").transform.position;
-            pos.y += 1;
-            GameObject.Find("CineMachine").transform.position = pos;
-        }
 
         // 시간 차감
         if (time > 0.0f) time -= Time.deltaTime;
-
-        // 미션 디버그용 코드 시작
-        GetComponent<MissionController>().OnModify("1분 대기하기", "(" + (int)(time - (TIME - 60)) + "초 남음)");
-
-        if (time < (TIME - 59))
-            GetComponent<MissionController>().OnClear("1분 대기하기");
-        // 미션 디버그용 코드 종료
-
-        // 게임 종료 후 퇴장
-        if (flag_finish && Input.anyKey && time <= (TIME - 5))
-        {
-            exit();
-        }
-
-        // 외계인 선택 완료 이후, 연구원이 0명이 되면 게임이 종료
-        if (DEBUG_GAME == false && flag_alertJob == true && time <= (TIME - 5))
-            checkFinish();
-
-        if (mPlayer == null)
-            return;
-
-        //FadeWall();
-       // FadeInWall();
     }
 
     // ---------------------------------------------------------------------------------------------------
-    // 게임 시작
+    // 게임 루틴 메소드
     // ---------------------------------------------------------------------------------------------------
-    void GameReady() // 모든 유저의 Scene 이동이 끝날 때까지 대기하는 함수
+    // GameReadyMasterClient : 모든 플레이어의 Scene 이동이 끝나면 역할 배분 시작 (* 마스터 클라이언트용)
+    IEnumerator GameReadyByMasterClient()
     {
-        int countOfStart = 0; // 필드로 이동 완료한 플레이어 수
-
-        Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
-
-        for (int i = 0; i < player.Length; i++)
+        while (true)
         {
-            ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
+            int countOfReady = 0; // 필드로 이동 완료한 플레이어 수
 
-            if (prop.ContainsKey("isStart") && (bool)prop["isStart"] == true)
-                countOfStart++;
-        }
-
-        if (countOfStart >= PhotonNetwork.CurrentRoom.PlayerCount)
-            GameStart();
-        else
-            Invoke("GameReady", 1.0f); // 모두 이동이 끝나지 않았다면 대기
-    }
-
-    void GameStart() // 모든 유저의 Scene 이동이 끝난 후 진행되는 게임 시작 함수
-    {
-        GetComponent<FadeController>().OnBlack();
-
-        // 스폰
-        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-        Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
-        int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
-
-        mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
-        mPlayer.GetComponent<Player>().SetMove(false);
-
-        mCamera = GameObject.Find("CineMachine");
-
-        mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
-        mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
-        mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 31.0f;
-        mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius = 200.0f;
-
-        // 아이템박스 생성
-        GetComponent<ResponeItem>().CreateItem();
-
-        GetComponent<FadeController>().OnFadeIn();
-        flag_gameStart = true;
-    }
-
-    void GameStartFinish() // 게임 시작 애니메이션이 끝난 후 마무리 처리
-    {
-        if (flag_gameStartFinish == false)
-        {
-            flag_gameStartFinish = true;
-            Invoke("GameStartFinish", 1.0f);
-            return;
-        }
-
-        GameObject stone = GameObject.Find("CenterStone");
-        stone.transform.Find("Light1").GetComponent<Light>().enabled = true;
-        stone.transform.Find("Light2").GetComponent<Light>().enabled = true;
-
-        // 기본 설정
-        GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = true;
-        GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
-
-        // 외계인 선정
-        if (PhotonNetwork.IsMasterClient == true)
-        {
-            ExitGames.Client.Photon.Hashtable roomProp = PhotonNetwork.CurrentRoom.CustomProperties;
             Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
-
-            int[] pick = randomPick(0, player.Length, (int)roomProp["countOfAliens"]);
-
-            string str = "";
-            for (int i =0; i<pick.Length; i++)
-            {
-                str = str + pick[i] + ", ";
-            }
-            Debug.Log(str);
 
             for (int i = 0; i < player.Length; i++)
             {
-                ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+                ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
 
-                Debug.Log("player" + i + " : " + (playerProp.ContainsKey("isAlien") == true ? "exist" : "null") + " / " + pick.Contains(i));
-
-                playerProp["isAlien"] = pick.Contains(i);
-                player[i].SetCustomProperties(playerProp);
+                if (prop.ContainsKey("isStart") && (bool)prop["isStart"] == true)
+                    countOfReady++;
             }
+
+            if (countOfReady >= PhotonNetwork.CurrentRoom.PlayerCount)
+            {
+                ExitGames.Client.Photon.Hashtable roomProp = PhotonNetwork.CurrentRoom.CustomProperties;
+                int[] pick = randomPick(0, player.Length, (int)roomProp["countOfAliens"]);
+
+                for (int i = 0; i < player.Length; i++)
+                {
+                    ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+
+                    playerProp["spawnIndex"] = (i + 1);
+                    playerProp["isAlien"] = pick.Contains(i);
+                    player[i].SetCustomProperties(playerProp);
+                }
+                break;
+            }
+
+            yield return new WaitForSeconds(0.1f);
         }
+    }
+    // GameReadyPlayer : 마스터 클라이언트의 역할 배분이 끝나면 게임 시작 (* 모든 플레이어용)
+    IEnumerator GameReadyByPlayer()
+    {
+        while (true)
+        {
+            int countOfReady = 0; // 필드로 이동 완료한 플레이어 수
 
-        // 플레이어 움직임 설정
-        mPlayer.GetComponent<Player>().SetMove(true);
+            Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
 
-        // 타이머 시작
-        checkTimer();
+            for (int i = 0; i < player.Length; i++)
+            {
+                ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
+
+                if (prop.ContainsKey("isAlien"))
+                    countOfReady++;
+            }
+
+            if (countOfReady >= PhotonNetwork.CurrentRoom.PlayerCount)
+            {
+                ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
+
+                // 캐릭터 스폰
+                Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
+                int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
+                mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
+                mPlayer.GetComponent<Player>().SetMove(false);
+
+                // 미션 부여
+                if ((bool)localProp["isAlien"] == false)
+                {
+                    GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
+                    GetComponent<MissionController>().OnSetHeader("연구원 목표");
+                    GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
+                    GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
+                }
+                else if ((bool)localProp["isAlien"] == true)
+                {
+                    GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
+                    GetComponent<MissionController>().OnSetHeader("외계인 목표");
+                    GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
+                    GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
+                }
+
+                // 카메라 설정
+                mCamera = GameObject.Find("CineMachine");
+                mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
+                mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
+                mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 25.0f;
+                mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius = 200.0f;
+
+                // 아이템 박스 생성
+                GetComponent<ResponeItem>().CreateItem();
+
+                // 라이트 켜기
+                GameObject stone = GameObject.Find("CenterStone");
+                stone.transform.Find("Light1").GetComponent<Light>().enabled = true;
+                stone.transform.Find("Light2").GetComponent<Light>().enabled = true;
+
+                // 기본 설정
+                GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = true;
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
+
+                // 플레이어 움직임 설정
+                mPlayer.GetComponent<Player>().SetMove(true);
+
+                // 페이드 인
+                GetComponent<FadeController>().OnFadeIn();
+
+                // 카메라 이동
+                while (true)
+                {
+                    float radius = GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius;
+                    GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius -= (Time.deltaTime * 75);
+
+                    if (radius <= 24.0f)
+                        break;
+                }
+
+                // 게임 체커 루틴 시작 (* 마스터 클라이언트용)
+                StartCoroutine(GameChecker());
+                break;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+    // GameReadyPlayer : 게임 조건을 지속 확인 (* 마스터 클라이언트용)
+    IEnumerator GameChecker()
+    {
+        while (true)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                break;
+
+            // 시간 동기화
+            photonView.RPC("OnTime", RpcTarget.AllBuffered, time);
+
+            // 미션 달성 조건 확인 (* 디버깅용)
+            GetComponent<MissionController>().OnModify("1분 대기하기", "(" + (int)(time - (TIME - 60)) + "초 남음)");
+
+            if (time < (TIME - 59))
+                GetComponent<MissionController>().OnClear("1분 대기하기");
+
+            // 게임 패배 조건 확인 (연구원 수 = 0)
+            // (디버그 모드 상태에서는 발동하지 않음)
+            if (!DEBUG_GAME)
+            {
+                
+                GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+                int countOfResearcher = player.Length;
+
+                for (int i = 0; i < player.Length; i++)
+                {
+                    ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
+                    if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
+                        countOfResearcher--;
+                }
+
+                if (countOfResearcher <= 0)
+                {
+                    SetFinish(false);
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
-    public int[] randomPick(int min, int max, int count)
+    // ---------------------------------------------------------------------------------------------------
+    // 메소드
+    // ---------------------------------------------------------------------------------------------------
+    public int[] randomPick(int min, int max, int count) // 숫자 뽑기 (min 포함 ~ max 제외 범위)
     {
-        // min 포함 ~ max 제외 범위의 숫자 중 count 개만큼을 뽑아서 출력
-        
         HashSet<int> pick = new HashSet<int>();
 
         while (pick.Count < count)
@@ -256,176 +257,34 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         return pick.ToArray<int>();
     }
-
-    // ---------------------------------------------------------------------------------------------------
-    // 시간 동기화
-    // ---------------------------------------------------------------------------------------------------
-    void checkTimer() // 마스터 클라이언트의 시간으로 나머지 플레이어의 시간을 동기화하는 함수
-    {
-        if (PhotonNetwork.IsMasterClient == true)
-        {
-            photonView.RPC("OnTime", RpcTarget.AllBuffered, time);
-        }
-
-        Invoke("checkTimer", 1.0f);
-
-        // 미니 알람
-        if (flag_alertJob == false)
-        {
-            ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.LocalPlayer.CustomProperties;
-
-            if (prop.ContainsKey("isAlien") == false)
-                return;
-
-            if ((bool)prop["isAlien"] == false)
-            {
-                GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
-                GetComponent<MissionController>().OnSetHeader("연구원 목표");
-                GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
-                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
-            }
-            else if ((bool)prop["isAlien"] == true)
-            {
-                GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
-                GetComponent<MissionController>().OnSetHeader("외계인 목표");
-                GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
-                GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
-            }
-
-            flag_alertJob = true;
-        }
-    }
-    /*void FadeWall()
-    {
-        float Distance = Vector3.Distance(mCamera.transform.position , mPlayer.transform.position);
-        Vector3 Direction = (mPlayer.transform.position - mCamera.transform.position).normalized;
-        RaycastHit hit;
-        if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
-        {
-            Renderer ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
-
-            if(ObstacleRenderer == null)
-                return ;
-            if(ObstacleRenderer.name == "Spaceship")
-                return ;
-            if(ObstacleRenderer.name == "well1")
-                return ;
-
-                if( ObstacleRenderer  != null )
-                {
-                    foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>())
-                    {
-                        if(ObstacleRenderer == r)
-                            return;
-                    }
-
-                    Material Mat = ObstacleRenderer.material;
-                    
-                    if (Mat.HasProperty("_Color") == true)
-                    {
-                        Color matColor = Mat.color;
-                        matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
-                        Mat.color = matColor;
-                    }
-                    if(wallList.Count == 0 || wallList[0].name != ObstacleRenderer.name)
-                        wallList.Add(ObstacleRenderer);
-
-                    wallName = ObstacleRenderer.name;
-                }
-        }
-    }
-    void FadeInWall()
-    {
-        if(wallList.Count > 0)
-        {
-            foreach(Renderer Rname in wallList)
-            {
-                if(Rname.name == wallName )
-                    continue;
-                else
-                {
-                    Renderer ObstacleRenderer = Rname;
-                
-                        if( ObstacleRenderer  != null )
-                        {
-                            Material Mat = ObstacleRenderer.material;
-                            if(Mat.HasProperty("_Color") == true)
-                            {
-                                Color matColor = Mat.color;
-                                matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
-                                Mat.color = matColor;
-                            }
-                        }
-                        storeList.Add(Rname);
-                }
-            }
-        }
-        foreach(Renderer Dname in storeList)
-        {
-            wallList.Remove(Dname);
-        }
-        
-        storeList.Clear();
-        wallName = "";
-    }*/
-
-    [PunRPC]
-    public void OnTime(float time) // RPC로 시간을 수신하는 함수
-    {
-        this.time = time;
-    }
-
-    // ---------------------------------------------------------------------------------------------------
-    // 게임 종료 처리
-    // ---------------------------------------------------------------------------------------------------
-    public void checkFinish() // 종료 조건 체크
-    {
-        if (GetComponent<FadeController>().IsPlaying() == true)
-            return;
-
-        if (flag_finish == true)
-            return;
-
-        // 연구원 수가 0명이 되면 패배 처리
-        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-        int countOfResearcher = player.Length;
-
-        for (int i = 0; i < player.Length; i++)
-        {
-            ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
-            if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
-                countOfResearcher--;
-        }
-
-        if (countOfResearcher <= 0)
-            SetFinish(false);
-    }
-
-    public void SetFinish(bool win)
+    public void SetFinish(bool win) // 게임 종료
     {
         if (PhotonNetwork.IsMasterClient == false)
             return;
 
         photonView.RPC("OnFinish", RpcTarget.AllBuffered, win);
     }
-
+    // ---------------------------------------------------------------------------------------------------
+    // RPC 메소드
+    // ---------------------------------------------------------------------------------------------------
     [PunRPC]
-    public void OnFinish(bool win) // 게임 종료 수신 함수
+    public void OnTime(float time) // 시간 동기화
     {
-        flag_win = win;
-        GetComponent<FadeController>().OnFadeOut();
-        Invoke("OnFinishCallback", 0.9f);
+        this.time = time;
     }
-
-    public void OnFinishCallback() // 종료 애니메이션 완료 후 처리
+    [PunRPC]
+    public IEnumerator OnFinish(bool win) // 게임 종료 동기화
     {
-        // 프로퍼티 초기화
+        GetComponent<FadeController>().OnFadeOut();
+
+        yield return new WaitForSeconds(0.9f);
+
+        // 플레이어 프로퍼티 초기화
         ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.LocalPlayer.CustomProperties;
         int color = (int)prop["color"];
 
+        prop.Clear();
         prop["color"] = color;
-        prop["isReady"] = false;
-        prop["isStart"] = false;
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
@@ -433,47 +292,129 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient == true)
             PhotonNetwork.CurrentRoom.IsOpen = true;
 
+        // 결과창 - 에일리언 정보
         Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
         List<string> alien = new List<string>();
-        for (int i = 0; i<player.Length; i++)
+        for (int i = 0; i < player.Length; i++)
         {
             ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
 
             if (playerProp.ContainsKey("isAlien") == true && (bool)playerProp["isAlien"] == true)
                 alien.Add(player[i].NickName);
         }
-
         GameObject.Find("UI_ResultList_Text").GetComponent<Text>().text = string.Join(", ", alien);
-
-
-        // 관련 오브젝트 제거
-        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
 
         // 미션 오브젝트 숨김
         GetComponent<MissionController>().OnHide();
 
-        // 플래그 활성화
-        flag_finish = true;
+        // 결과창 켜기
+        GameInterfaceManager.GetInstance().OnSwitchEnd();
 
-        if (flag_win == true)
-        {
-            GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().Follow = null;
-            GameObject.Find("CineMachine").GetComponent<CinemachineFreeLook>().LookAt = GameObject.Find("CenterStone").transform;
+        // 카메라
+        mCamera.GetComponent<CinemachineFreeLook>().Follow = GameObject.Find("Spaceship").transform;
+        mCamera.GetComponent<CinemachineFreeLook>().LookAt = GameObject.Find("CenterStone").transform;
+
+        if (win)
             GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "연구원 승리";
-        }
         else
-        {
             GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "외계인 승리";
-        }
 
-        // 화면 걷어내기
+        // 화면 페이드 인
         GetComponent<FadeController>().OnFadeIn();
 
-        Invoke("exit", 5.0f);
-    }
+        // 대기
+        yield return new WaitForSeconds(5.0f);
 
-    public void exit()
-    {
+        // 관련 오브젝트 제거
+        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
+
         SceneManager.LoadScene("proto_main");
     }
 }
+
+// 벽 객체
+// private List<Renderer> wallList;
+// private List<Renderer> storeList;
+// public string wallName;
+
+//wallList = new List<Renderer>();
+//storeList = new List<Renderer>();
+//wallName = null;
+
+//FadeWall();
+// FadeInWall();
+
+//
+/*void FadeWall()
+{
+    float Distance = Vector3.Distance(mCamera.transform.position , mPlayer.transform.position);
+    Vector3 Direction = (mPlayer.transform.position - mCamera.transform.position).normalized;
+    RaycastHit hit;
+    if( Physics.Raycast(mCamera.transform.position, Direction , out hit, Distance) )
+    {
+        Renderer ObstacleRenderer = hit.transform.GetComponentInChildren<Renderer>();
+
+        if(ObstacleRenderer == null)
+            return ;
+        if(ObstacleRenderer.name == "Spaceship")
+            return ;
+        if(ObstacleRenderer.name == "well1")
+            return ;
+
+            if( ObstacleRenderer  != null )
+            {
+                foreach(Renderer r in mPlayer.GetComponentsInChildren<Renderer>())
+                {
+                    if(ObstacleRenderer == r)
+                        return;
+                }
+
+                Material Mat = ObstacleRenderer.material;
+
+                if (Mat.HasProperty("_Color") == true)
+                {
+                    Color matColor = Mat.color;
+                    matColor =  new Color(matColor.r , matColor.g,matColor.b, 0.5f);
+                    Mat.color = matColor;
+                }
+                if(wallList.Count == 0 || wallList[0].name != ObstacleRenderer.name)
+                    wallList.Add(ObstacleRenderer);
+
+                wallName = ObstacleRenderer.name;
+            }
+    }
+}
+void FadeInWall()
+{
+    if(wallList.Count > 0)
+    {
+        foreach(Renderer Rname in wallList)
+        {
+            if(Rname.name == wallName )
+                continue;
+            else
+            {
+                Renderer ObstacleRenderer = Rname;
+
+                    if( ObstacleRenderer  != null )
+                    {
+                        Material Mat = ObstacleRenderer.material;
+                        if(Mat.HasProperty("_Color") == true)
+                        {
+                            Color matColor = Mat.color;
+                            matColor =  new Color(matColor.r , matColor.g,matColor.b, 1f);
+                            Mat.color = matColor;
+                        }
+                    }
+                    storeList.Add(Rname);
+            }
+        }
+    }
+    foreach(Renderer Dname in storeList)
+    {
+        wallList.Remove(Dname);
+    }
+
+    storeList.Clear();
+    wallName = "";
+}*/
