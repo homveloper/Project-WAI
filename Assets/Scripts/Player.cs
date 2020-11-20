@@ -172,7 +172,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (photonView.OwnerActorNr != actorNumber)
             return;
 
-         SetChg(); // 파티클 , 사운드 
+        SetChg(); // 파티클 , 사운드 
 
         SetMove(true);
         SetFlash(false);
@@ -511,6 +511,9 @@ public class Player : MonoBehaviourPunCallbacks
     {
         if (IsAlienPlayer() == false)
             return;
+
+        if(!val && IsAlienObject())
+            return ;                
 
         photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
     }
