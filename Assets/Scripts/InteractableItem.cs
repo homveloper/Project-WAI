@@ -16,6 +16,11 @@ public class InteractableItem : Item
         
     }
 
+    public override void Continue(Player playerStat)
+    {
+
+    }
+
     public Itemtype Itemtype{
         get => itemtype;
     }

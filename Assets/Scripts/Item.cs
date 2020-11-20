@@ -7,7 +7,9 @@ public enum Progress{
 public abstract class Item : ScriptableObject{
     new public string name = "new Item";
 
-    new public bool isDroppable = true;
+    public bool isUseable;
+    public bool isContinuable;
+    public bool isDroppable;
 
     public int meterialWood;
     public int meterialIron;
@@ -17,7 +19,9 @@ public abstract class Item : ScriptableObject{
     public string description;
     public Sprite icon;
 
-    public abstract void Use(Player playerStat);
+    public abstract void Use(Player playerStat); // 사용
+
+    public abstract void Continue(Player playerStat); // 소지 중 지속 효과
 }
 
 /*

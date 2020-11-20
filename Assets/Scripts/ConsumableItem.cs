@@ -20,7 +20,7 @@ public class ConsumableItem : Item
 
     [SerializeField]
     float castingTime = 1f;
-    Progress progress = Progress.END;
+    Progress progress = Progress.END; 
 
     public override void Use(Player playerStat)
     {
@@ -51,6 +51,11 @@ public class ConsumableItem : Item
             }
             yield return null;  //1프레임 마다 체크합니다.
         }
+    }
+
+    public override void Continue(Player playerStat)
+    {
+
     }
 
     IEnumerator OnStartAfterTime(Player playerStat, float delayTime){
