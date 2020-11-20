@@ -208,8 +208,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         while (true)
         {
+            yield return new WaitForSeconds(0.1f);
+
             if (!PhotonNetwork.IsMasterClient)
-                break;
+                continue;
 
             // 시간 동기화
             photonView.RPC("OnTime", RpcTarget.AllBuffered, time);
@@ -241,8 +243,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                     break;
                 }
             }
-
-            yield return new WaitForSeconds(0.1f);
         }
     }
 
