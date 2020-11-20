@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float time = TIME;    // 시간
     public float timeMax = TIME; // 시간 (최대치)
 
+    // 기타
+    public bool clear;
+
     private void Awake()
     {
         instance = this;
@@ -208,8 +211,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         while (true)
         {
+            yield return new WaitForSeconds(0.1f);
+
             if (!PhotonNetwork.IsMasterClient)
-                break;
+                continue;
 
             // 시간 동기화
             photonView.RPC("OnTime", RpcTarget.AllBuffered, time);
@@ -220,29 +225,30 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (time < (TIME - 59))
                 GetComponent<MissionController>().OnClear("1분 대기하기");
 
-            // 게임 패배 조건 확인 (연구원 수 = 0)
-            // (디버그 모드 상태에서는 발동하지 않음)
-            if (!DEBUG_GAME)
+            // 연구원 수 계산
+            GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+            int countOfResearcher = player.Length;
+
+            for (int i = 0; i < player.Length; i++)
             {
-                
-                GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-                int countOfResearcher = player.Length;
-
-                for (int i = 0; i < player.Length; i++)
-                {
-                    ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
-                    if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
-                        countOfResearcher--;
-                }
-
-                if (countOfResearcher <= 0)
-                {
-                    SetFinish(false);
-                    break;
-                }
+                ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
+                if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
+                    countOfResearcher--;
             }
 
-            yield return new WaitForSeconds(0.1f);
+            // 게임 패배 조건 : 연구원 수 = 0 (디버그 모드 상태에서는 발동하지 않음)
+            if (!DEBUG_GAME && countOfResearcher <= 0)
+            {
+                SetFinish(false);
+                break;
+            }
+
+            // 게임 승리 조건 : 목적 달성
+            if (clear && time <= 0)
+            {
+                SetFinish(true);
+                break;
+            }
         }
     }
 
