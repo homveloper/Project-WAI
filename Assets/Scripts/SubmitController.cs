@@ -103,6 +103,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
 
             // 탈출 시퀀스 시작
             GameManager.GetInstance().time = 60;
+            GameManager.GetInstance().clear = true;
         }
     }
     // ---------------------------------------------------------------------------------------------------

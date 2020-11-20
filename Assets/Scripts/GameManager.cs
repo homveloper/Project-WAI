@@ -225,26 +225,29 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (time < (TIME - 59))
                 GetComponent<MissionController>().OnClear("1분 대기하기");
 
-            // 게임 패배 조건 확인 (연구원 수 = 0)
-            // (디버그 모드 상태에서는 발동하지 않음)
-            if (!DEBUG_GAME)
+            // 연구원 수 계산
+            GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+            int countOfResearcher = player.Length;
+
+            for (int i = 0; i < player.Length; i++)
             {
-                
-                GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-                int countOfResearcher = player.Length;
+                ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
+                if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
+                    countOfResearcher--;
+            }
 
-                for (int i = 0; i < player.Length; i++)
-                {
-                    ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
-                    if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
-                        countOfResearcher--;
-                }
+            // 게임 패배 조건 : 연구원 수 = 0 (디버그 모드 상태에서는 발동하지 않음)
+            if (!DEBUG_GAME && countOfResearcher <= 0)
+            {
+                SetFinish(false);
+                break;
+            }
 
-                if (countOfResearcher <= 0)
-                {
-                    SetFinish(false);
-                    break;
-                }
+            // 게임 승리 조건 : 목적 달성
+            if (clear && time <= 0)
+            {
+                SetFinish(true);
+                break;
             }
         }
     }
