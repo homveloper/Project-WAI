@@ -4,7 +4,7 @@ public enum Itemtype{
     WEAPHONE,OBJECT
 }
 
-[CreateAssetMenu(fileName = "new InteractableItem", menuName = "InteractableItem")]
+[CreateAssetMenu(fileName = "new InteractableItem", menuName = "Item/InteractableItem")]
 public class InteractableItem : Item
 {
     Itemtype itemtype;

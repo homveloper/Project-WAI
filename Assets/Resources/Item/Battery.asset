@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Battery
   m_EditorClassIdentifier: 
   name: Battery
+  isUsable: 1
+  isContinuable: 0
   isDroppable: 1
   meterialWood: 0
   meterialIron: 10

@@ -140,6 +140,7 @@ MonoBehaviour:
   key: E
   keyCode: 101
   description: 
+  isScreenSpace: 0
   color: {r: 0.19215685, g: 0.5120846, b: 1, a: 1}
   item: {fileID: 11400000, guid: 03d9605dedc247746afd61bf40308928, type: 2}
 --- !u!114 &2948714452791257831

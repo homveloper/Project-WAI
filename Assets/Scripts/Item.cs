@@ -3,11 +3,11 @@ using UnityEngine;
 public enum Progress{
     END, INCOMPLETE_END, ONGOING
 }
-[CreateAssetMenu(fileName = "new Item", menuName = "Item")]
+[CreateAssetMenu(fileName = "new Item", menuName = "Item/Item")]
 public abstract class Item : ScriptableObject{
     new public string name = "new Item";
 
-    public bool isUseable;
+    public bool isUsable;
     public bool isContinuable;
     public bool isDroppable;
 
@@ -21,7 +21,7 @@ public abstract class Item : ScriptableObject{
 
     public abstract void Use(Player playerStat); // 사용
 
-    public abstract void Continue(Player playerStat); // 소지 중 지속 효과
+    public abstract void Continue(Player playerStat); // 지속 효과
 }
 
 /*

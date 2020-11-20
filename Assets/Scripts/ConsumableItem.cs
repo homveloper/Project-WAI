@@ -7,7 +7,7 @@ public enum Stat{
     HP,O2,BATTERY
 }
 
-[CreateAssetMenu(fileName = "new ConsumableItem", menuName = "ConsumableItem", order = 0)]
+[CreateAssetMenu(fileName = "new ConsumableItem", menuName = "Item/ConsumableItem", order = 0)]
 public class ConsumableItem : Item
 {
 
