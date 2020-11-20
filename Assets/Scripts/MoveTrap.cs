@@ -9,12 +9,8 @@ public class MoveTrap : MonoBehaviourPun
     public Material r2;
     public GameObject center;
 
-    int cnt =1;
-
     public float term = 14;
     public float moveTime = 3;
-
-    int frame = 0;
 
     void Start()
     {
@@ -22,9 +18,9 @@ public class MoveTrap : MonoBehaviourPun
     }
     void Update()
     {  
-        frame++;
+    
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
