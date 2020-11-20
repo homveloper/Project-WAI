@@ -44,6 +44,10 @@ public class Combat : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
         cooldown -= Time.deltaTime;
 
         if (Input.GetButtonDown("Attack"))
@@ -136,15 +140,18 @@ public class Combat : MonoBehaviourPunCallbacks
     }
     public void SetAck()
     {
-         photonView.RPC("CombatSound", RpcTarget.AllBuffered);
+         photonView.RPC("CombatSound", pcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 
     [PunRPC]
-    public void CombatSound()
+    public void CombatSound(int actorNumber)
     {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
         attackSounds[Random.Range(0, attackSounds.Count)].Play();
     }
-    
+
     public void Attack(Player target)
     {
         if (cooldown > 0.0f)
