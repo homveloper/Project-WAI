@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
 
+        ExitGames.Client.Photon.Hashtable ppp = PhotonNetwork.LocalPlayer.CustomProperties;
+        Debug.Log(ppp.Keys.Count);
+
         GetComponent<FadeController>().OnBlack();
         GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = false;
         time = TIME;
@@ -161,7 +164,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 mCamera = GameObject.Find("CineMachine");
                 mCamera.GetComponent<CinemachineFreeLook>().Follow = mPlayer.transform;
                 mCamera.GetComponent<CinemachineFreeLook>().LookAt = mPlayer.transform;
-                mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 25.0f;
+                mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Height = 27.5f;
                 mCamera.GetComponent<CinemachineFreeLook>().m_Orbits[1].m_Radius = 200.0f;
 
                 // 아이템 박스 생성
@@ -275,7 +278,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public IEnumerator OnFinish(bool win) // 게임 종료 동기화
     {
+        mPlayer.GetComponent<Player>().SetMove(false);
+
         GetComponent<FadeController>().OnFadeOut();
+
+        // 결과창 - 외계인 정보
+        Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+        List<string> alien = new List<string>();
+        for (int i = 0; i < player.Length; i++)
+        {
+            ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+
+            if (playerProp.ContainsKey("isAlien") == true && (bool)playerProp["isAlien"] == true)
+                alien.Add(player[i].NickName);
+        }
+        GameObject.Find("UI_ResultList_Text").GetComponent<Text>().text = string.Join(", ", alien);
 
         yield return new WaitForSeconds(0.9f);
 
@@ -291,18 +308,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 룸 프로퍼티 설정
         if (PhotonNetwork.IsMasterClient == true)
             PhotonNetwork.CurrentRoom.IsOpen = true;
-
-        // 결과창 - 에일리언 정보
-        Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
-        List<string> alien = new List<string>();
-        for (int i = 0; i < player.Length; i++)
-        {
-            ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
-
-            if (playerProp.ContainsKey("isAlien") == true && (bool)playerProp["isAlien"] == true)
-                alien.Add(player[i].NickName);
-        }
-        GameObject.Find("UI_ResultList_Text").GetComponent<Text>().text = string.Join(", ", alien);
 
         // 미션 오브젝트 숨김
         GetComponent<MissionController>().OnHide();

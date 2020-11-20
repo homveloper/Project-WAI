@@ -8,8 +8,6 @@ using System.ComponentModel.Design.Serialization;
 
 public class Player : MonoBehaviourPunCallbacks
 {
-    private float REFRESH_TIME = 1.0f;
-
     // 오브젝트
     public GameObject researcher;
     public GameObject alien;
@@ -71,7 +69,7 @@ public class Player : MonoBehaviourPunCallbacks
         uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
         uI_Inventory.UpdateInventory();
 
-        StartCoroutine(OnRefresh());
+        StartCoroutine(Refresh());
 
         chgSound.Stop();
         chgEF.Stop();
@@ -122,18 +120,14 @@ public class Player : MonoBehaviourPunCallbacks
         if (!IsFlash() && !IsDead())
             SetBt(GetBt() + Time.deltaTime * modBtRecharge);
     }
-    IEnumerator OnRefresh()
+    IEnumerator Refresh()
     {
         while (true)
         {
-            Refresh();
+            photonView.RPC("OnRefresh", RpcTarget.OthersBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart(), GetColor());
 
-            yield return new WaitForSeconds(REFRESH_TIME);
+            yield return new WaitForSeconds(1.0f);
         }
-    }
-    public void Refresh()
-    {
-        photonView.RPC("OnRefreshMeterial", RpcTarget.OthersBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart());
     }
     // ---------------------------------------------------------------------------------------------------
     // # 포톤 메시지 메소드
@@ -237,7 +231,7 @@ public class Player : MonoBehaviourPunCallbacks
         alien.transform.localScale = new Vector3(0, 0, 0);
     }
     [PunRPC]
-    public void OnRefreshMeterial(int actorNumber, int wood, int iron, int part)
+    public void OnRefresh(int actorNumber, int wood, int iron, int part, Color color) // 갱신
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
@@ -245,9 +239,12 @@ public class Player : MonoBehaviourPunCallbacks
         SetWood(wood);
         SetIron(iron);
         SetPart(part);
+
+        researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", color);
+        researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", color);
     }
     [PunRPC]
-    public void OnTransformMeterial(int actorNumber, int wood, int iron, int part)
+    public void OnTransformMeterial(int actorNumber, int wood, int iron, int part) // 재료 전송
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
@@ -563,7 +560,7 @@ public class Player : MonoBehaviourPunCallbacks
     {
         photonView.RPC("OnTakeOver", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
-    public void SetTransformMeterial(int wood, int iron, int part)
+    public void SetTransformMeterial(int wood, int iron, int part) // 재료 동기화
     {
         photonView.RPC("OnTransformMeterial", RpcTarget.AllBuffered, photonView.OwnerActorNr, wood, iron, part);
     }
@@ -590,33 +587,9 @@ public class Player : MonoBehaviourPunCallbacks
             SetRooting(other.GetComponent<Player>());
     }
     // ---------------------------------------------------------------------------------------------------
-    // # 콜백 메소드
+    // # 파티클, 사운드 관련 메소드
     // ---------------------------------------------------------------------------------------------------
-    // 연구원 색상 갱신을 위한 프로퍼티 갱신 콜백 메소드
-    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
-        if (targetPlayer != photonView.Owner)
-            return;
-
-        if (changedProps.ContainsKey("color") == false)
-            return;
-
-        if (changedProps.ContainsKey("fakeColor") == true)
-        {
-            researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["fakeColor"]]);
-            researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["fakeColor"]]);
-        }
-        else
-        {
-            researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
-            researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
-        }
-    }
-
-    ///--------------------------------변신 파티클 , 사운드 -----------------------------------------------
-     public void SetChg()
+    public void SetChg()
     {
         Debug.Log("set");
         photonView.RPC("ChgSound", RpcTarget.AllBuffered);
