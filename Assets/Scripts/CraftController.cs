@@ -72,7 +72,7 @@ public class CraftController : MonoBehaviourPunCallbacks
     {
         if (!isActive)
             SetSwitchCraft(false);
-        else if (isActive && Input.GetKeyDown(KeyCode.W))
+        else if (isActive && Input.GetKeyDown(KeyCode.Q))
             SetSwitchCraft();
     }
     public void SetSwitchCraft() // 크래프팅 창 출력 (스위칭)

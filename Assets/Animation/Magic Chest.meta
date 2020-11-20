@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Animation/Magic Chest.meta
 guid: 995ca691c8719224aa1efdd015335941
+=======
+guid: bb71bbba013783a47848ee604ead9844
+>>>>>>> 5529775eca13707a2535514163feaf9cb67c856c:Assets/Samples/Terrain Tools/0.1.0-preview/Terrain Assets.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

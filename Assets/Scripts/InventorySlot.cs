@@ -18,19 +18,27 @@ public class InventorySlot : MonoBehaviour
     }
 
     private void Update() {
-        if(Input.GetButtonDown(useButton)){
-            if(Inventory.instance.IsDroppable){
+        if(Input.GetButtonDown(useButton))
+            if(Inventory.instance.isDroppable)
                 DropItem();
-            }else{
+            else
                 UseItem();
-            }
-        }
+
+        if (item != null && item.isContinuable)
+            item.Continue(Inventory.instance.playerStat);
     }
 
     public void AddItem(Item item)
     {
         this.item = item;
-        itemIcon.sprite = item.icon;
+
+        if(item is ConsumableItem)
+            itemIcon.sprite = ((ConsumableItem)item).icon;
+        else if (item is InteractableItem)
+            itemIcon.sprite = ((InteractableItem)item).icon;
+        else if (item is ContinuableItem)
+            itemIcon.sprite = ((ContinuableItem)item).icon;
+
         itemIcon.enabled = true;
     }
 
@@ -43,10 +51,8 @@ public class InventorySlot : MonoBehaviour
 
     public void UseItem()
     {
-        if (item != null)
-        {         
+        if (item != null && item.isUsable)
             item.Use(Inventory.instance.playerStat);
-        }
     }
 
     public void SetDropIcon(bool status){
@@ -54,9 +60,7 @@ public class InventorySlot : MonoBehaviour
     }
 
     public void DropItem(){
-        if(item != null){
+        if(item != null && item.isDroppable)
             Inventory.instance.Drop(item);
-        }
     }
-
 }

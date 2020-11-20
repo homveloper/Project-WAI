@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: O2Potion
   m_EditorClassIdentifier: 
   name: O2Potion
+  isUsable: 1
+  isContinuable: 0
   isDroppable: 1
   meterialWood: 10
   meterialIron: 0

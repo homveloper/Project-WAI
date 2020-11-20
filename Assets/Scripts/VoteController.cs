@@ -73,7 +73,7 @@ public class VoteController : MonoBehaviourPunCallbacks
 
         if (!isActive)
             SetSwitchVote(false);
-        else if (isActive && Input.GetKeyDown(KeyCode.E))
+        else if (isActive && Input.GetKeyDown(KeyCode.W))
             SetSwitchVote();
 
         float t = GameManager.GetInstance().time;

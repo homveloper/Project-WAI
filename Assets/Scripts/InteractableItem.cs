@@ -4,7 +4,7 @@ public enum Itemtype{
     WEAPHONE,OBJECT
 }
 
-[CreateAssetMenu(fileName = "new InteractableItem", menuName = "InteractableItem")]
+[CreateAssetMenu(fileName = "new InteractableItem", menuName = "Item/InteractableItem")]
 public class InteractableItem : Item
 {
     public Itemtype itemtype;
@@ -14,6 +14,11 @@ public class InteractableItem : Item
     public override void Use(Player playerStat)
     {
         
+    }
+
+    public override void Continue(Player playerStat)
+    {
+
     }
 
     public Itemtype Itemtype{

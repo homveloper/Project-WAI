@@ -5,8 +5,9 @@ using Photon.Pun;
 
 public class SubmitController : MonoBehaviourPunCallbacks
 {
-    public GameObject buttonHint;
-
+    public InteractableScreen buttonHint;
+    public List<GameObject> smoke;
+    
     public int phase;
     public Item repairItem;
     public int repairCurrentCount;
@@ -19,11 +20,12 @@ public class SubmitController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        
+        for (int i = 0; i < smoke.Count; i++)
+            smoke[i].SetActive(true);
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && isActive)
+        if (Input.GetKeyDown(KeyCode.E) && isActive)
             Submit();
     }
     public void Submit()
@@ -56,6 +58,15 @@ public class SubmitController : MonoBehaviourPunCallbacks
         {
             repairCurrentCount++;
 
+            if (repairCurrentCount > repairMaxCount)
+                repairCurrentCount = repairMaxCount;
+
+            buttonHint.SetDecription(KeyCode.E, "수리 (" + repairCurrentCount + "/" + repairMaxCount + ")");
+
+            float smokeProgress = (float)repairCurrentCount / (float)repairMaxCount * ((float)smoke.Count - 1.0f);
+            for (int i = 0; i <= smokeProgress; i++)
+                smoke[i].SetActive(false);
+
             if (repairCurrentCount < repairMaxCount)
                 GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("수리 진행중", nickname + "(이)가 우주선을 수리했습니다.");
 
@@ -65,6 +76,8 @@ public class SubmitController : MonoBehaviourPunCallbacks
         else if (phase == 2)
         {
             crystalCurrentCount++;
+
+            buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
 
             if (crystalCurrentCount < crystalMaxCount)
                 GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("보석 적재중", nickname + "(이)가 우주선에 보석을 적재했습니다.");
@@ -78,13 +91,15 @@ public class SubmitController : MonoBehaviourPunCallbacks
     {
         if (phase == 1)
         {
-            phase = 2;
+            this.phase = 2;
             GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("수리 완료", "수리가 완료되었습니다.\n이제, 보석을 적재할 수 있습니다.");
+            buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
         }
         else if (phase == 2)
         {
-            phase = 3;
+            this.phase = 3;
             GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("적재 완료", "적재가 완료되었습니다.\n이제, 우주선에 탈 수 있습니다.");
+            buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
         }
     }
     // ---------------------------------------------------------------------------------------------------

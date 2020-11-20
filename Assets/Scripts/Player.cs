@@ -21,7 +21,6 @@ public class Player : MonoBehaviourPunCallbacks
     public float modO2;
     public float modO2Run;
     public float modO2Alien;
-    public float modO2Crystal;
     public float modBt;
     public float modBtRecharge;
 
@@ -52,6 +51,9 @@ public class Player : MonoBehaviourPunCallbacks
     public delegate void OnTakeDamage();
     public OnTakeDamage onTakeDamageCallback;
 
+    public AudioSource chgSound;
+    public ParticleSystem chgEF;
+
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
@@ -70,6 +72,9 @@ public class Player : MonoBehaviourPunCallbacks
         uI_Inventory.UpdateInventory();
 
         StartCoroutine(OnRefresh());
+
+        chgSound.Stop();
+        chgEF.Stop();
     }
 
     void Update()
@@ -150,6 +155,7 @@ public class Player : MonoBehaviourPunCallbacks
         SetMove(false);
         SetFlash(false);
 
+
         if (photonView.IsMine)
         {
             Inventory.instance.DropAll();
@@ -165,6 +171,8 @@ public class Player : MonoBehaviourPunCallbacks
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
+
+        SetChg(); // 파티클 , 사운드 
 
         SetMove(true);
         SetFlash(false);
@@ -364,7 +372,6 @@ public class Player : MonoBehaviourPunCallbacks
 
         m *= (float)(GetComponent<ThirdPersonMovement>().IsRun() ? modO2Run : 1.0);
         m *= (float)(IsAlienPlayer() ? modO2Alien : 1.0);
-        m *= (float)(false ? modO2Crystal : 1.0);
 
         return m;
     }
@@ -487,8 +494,8 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetMove(bool val) // 조작 설정
     {
-        //researcher.GetComponent<PlayerAnimation>().enabled = val;
-        //alien.GetComponent<AlienAnimation>().enabled = val;
+        researcher.GetComponent<PlayerAnimation>().enabled = val;
+        alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().enabled = val;
     }
@@ -504,6 +511,9 @@ public class Player : MonoBehaviourPunCallbacks
     {
         if (IsAlienPlayer() == false)
             return;
+
+        if(!val && IsAlienObject())
+            return ;                
 
         photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
     }
@@ -603,5 +613,20 @@ public class Player : MonoBehaviourPunCallbacks
             researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
             researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
         }
+    }
+
+    ///--------------------------------변신 파티클 , 사운드 -----------------------------------------------
+     public void SetChg()
+    {
+        Debug.Log("set");
+        photonView.RPC("ChgSound", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void ChgSound()
+    {
+        Debug.Log("chg");
+        chgSound.Play();
+        chgEF.Play();
     }
 }
