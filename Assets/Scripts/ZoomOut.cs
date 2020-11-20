@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
+
 public class ZoomOut : MonoBehaviour
 {
     [SerializeField]
     private CinemachineFreeLook vcam;
     [SerializeField]
     private CinemachineFollowZoom followZoom;
-    // Start is called before the first frame update
+
     public GameObject cam;
     ZoomOut zoom;
 
@@ -21,22 +23,19 @@ public class ZoomOut : MonoBehaviour
        vcam = cam.GetComponent<CinemachineFreeLook>();
        followZoom = cam.GetComponent<CinemachineFollowZoom>();
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag != "Player")
-            return ;
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
+            return;
+
         ZoomTo(chg,2);
     }
     void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag != "Player")
-            return ;
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
+            return;
+
         ZoomTo(origin,2);
     }
  
