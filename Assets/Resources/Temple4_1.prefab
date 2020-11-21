@@ -2818,11 +2818,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1871097386424346880}
+  - {fileID: 4164484799671474734}
   - {fileID: 3043952837304985658}
   - {fileID: 9117524886741711332}
   - {fileID: 3880950829514614565}
   - {fileID: 8515315959002145855}
-  - {fileID: 4164484799671474734}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4167,7 +4167,7 @@ Transform:
   - {fileID: 6001790215209836581}
   - {fileID: 1728841251933459564}
   m_Father: {fileID: 221873234336260230}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2260135780284540375
 GameObject:
@@ -7952,22 +7952,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &6109529805655728473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3660333954057561189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6b98be9d1e6774584f8a5fb2d45b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swichFlash: {fileID: 7920591140351868667}
-  moveWell: {fileID: 5726358661971403941}
-  hiddenGate: {fileID: 0}
-  wallSound: {fileID: 0}
 --- !u!1 &3665614689098620347
 GameObject:
   m_ObjectHideFlags: 0
@@ -9859,7 +9843,7 @@ Transform:
   - {fileID: 4289757315097571615}
   - {fileID: 5086596862129821143}
   m_Father: {fileID: 221873234336260230}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4684157756716291705
 GameObject:
@@ -9889,7 +9873,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 221873234336260230}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4707810408400637336
 GameObject:
@@ -15240,22 +15224,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &1322480387612503318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5752048072884322477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6b98be9d1e6774584f8a5fb2d45b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swichFlash: {fileID: 1221857331497409075}
-  moveWell: {fileID: 4985943158140130175}
-  hiddenGate: {fileID: 8515315959002445855}
-  wallSound: {fileID: 0}
 --- !u!1 &5824778311850572209
 GameObject:
   m_ObjectHideFlags: 0
@@ -18046,22 +18014,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &5141115152617907623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6670869563438903147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6b98be9d1e6774584f8a5fb2d45b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swichFlash: {fileID: 266901491227047413}
-  moveWell: {fileID: 6096260396505456915}
-  hiddenGate: {fileID: 0}
-  wallSound: {fileID: 0}
 --- !u!1 &6791855433380638622
 GameObject:
   m_ObjectHideFlags: 0
@@ -23192,7 +23144,7 @@ PrefabInstance:
     - target: {fileID: 7319934448248639897, guid: 90e438e08f3443948baa9d0a42a0c014,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7319934448248639897, guid: 90e438e08f3443948baa9d0a42a0c014,
         type: 3}
@@ -23340,6 +23292,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone2
       objectReference: {fileID: 0}
+    - target: {fileID: 2835874716456426834, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddcca3c4f3381ee4898d9280748eca33, type: 3}
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
@@ -23350,18 +23307,6 @@ PrefabInstance:
 --- !u!4 &4289757315097571615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 2283397350887426832}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3660333954057561189 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277599754289180533, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 2283397350887426832}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7920591140351868667 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8240415684286346731, guid: 8fbbfc259fb40974384682a47a685fbe,
     type: 3}
   m_PrefabInstance: {fileID: 2283397350887426832}
   m_PrefabAsset: {fileID: 0}
@@ -23415,7 +23360,7 @@ PrefabInstance:
     - target: {fileID: 7319934448248639897, guid: 90e438e08f3443948baa9d0a42a0c014,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7319934448248639897, guid: 90e438e08f3443948baa9d0a42a0c014,
         type: 3}
@@ -23552,6 +23497,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone3
       objectReference: {fileID: 0}
+    - target: {fileID: 2835874716456426834, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddcca3c4f3381ee4898d9280748eca33, type: 3}
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
@@ -23567,18 +23517,6 @@ PrefabInstance:
 --- !u!4 &5086596862129821143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 7110971207740944344}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1221857331497409075 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8240415684286346731, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 7110971207740944344}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5752048072884322477 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277599754289180533, guid: 8fbbfc259fb40974384682a47a685fbe,
     type: 3}
   m_PrefabInstance: {fileID: 7110971207740944344}
   m_PrefabAsset: {fileID: 0}
@@ -23664,6 +23602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone1
       objectReference: {fileID: 0}
+    - target: {fileID: 2835874716456426834, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddcca3c4f3381ee4898d9280748eca33, type: 3}
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
@@ -23674,18 +23617,6 @@ PrefabInstance:
 --- !u!4 &6185669196280330769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 8210043541773991966}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &266901491227047413 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8240415684286346731, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 8210043541773991966}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6670869563438903147 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277599754289180533, guid: 8fbbfc259fb40974384682a47a685fbe,
     type: 3}
   m_PrefabInstance: {fileID: 8210043541773991966}
   m_PrefabAsset: {fileID: 0}
