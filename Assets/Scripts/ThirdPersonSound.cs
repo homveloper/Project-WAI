@@ -7,8 +7,11 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
 {
     public AudioSource walkSound;
     public AudioSource runSound;
+    public AudioSource alienSound;
     public ParticleSystem dust1;
     public ParticleSystem dust2;
+
+    public GameObject playStat;
 
     public bool isDead=true;
 
@@ -25,6 +28,7 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     {
         walkSound.Pause();
         runSound.Pause();
+        alienSound.Pause();
         dust1.Play();
         dust2.Play();
     }
@@ -45,8 +49,13 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
 
         bool isWalk = hasHorizontalInput || hasVeritcalInput;
         bool isRun = Input.GetButton("Run") && isWalk;
-       
-        SetSound(isWalk , isRun);
+
+        bool isA = playStat.GetComponent<Player>().IsAlienObject();
+        
+        if(isA)
+            SetSoundAlien(isWalk , isRun);
+        else
+            SetSound(isWalk , isRun);
     }
         
     public void SetSound(bool isWalk , bool isRun)
@@ -87,6 +96,34 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
         else if(!isWalk && walkSound.isPlaying)
         {
             walkSound.Pause();
+        }
+    }
+    public void SetSoundAlien(bool isWalk , bool isRun)
+    {
+        photonView.RPC("MoveSoundAlien", RpcTarget.AllBuffered, photonView.OwnerActorNr,isWalk,isRun);
+    }
+
+    [PunRPC]
+    public void MoveSoundAlien(int actorNumber,bool isWalk , bool isRun)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        if(isDead == false)
+        {
+            alienSound.Pause();
+
+            return ;
+        }
+        bool isAlienWalk = isWalk || isRun;
+        
+        if(isAlienWalk && !alienSound.isPlaying)
+        {
+            alienSound.Play();
+        }
+        else if(!isAlienWalk && alienSound.isPlaying)
+        {
+            alienSound.Pause();
         }
     }
 }
