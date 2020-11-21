@@ -10563,7 +10563,7 @@ GameObject:
   - component: {fileID: 589031640947998483}
   - component: {fileID: 411250983176216583}
   - component: {fileID: 7770098668688332095}
-  - component: {fileID: 6773228446508814531}
+  - component: {fileID: 1796726065370242973}
   m_Layer: 0
   m_Name: Touch_Panel
   m_TagString: Untagged
@@ -10636,7 +10636,7 @@ MonoBehaviour:
     color: {r: 0, g: 0.40392157, b: 0, a: 1}
   buttonHintTamplete: {fileID: 6592974944129971591, guid: a971f7d497eeea74b8fd6e216d7b85ff,
     type: 3}
---- !u!114 &6773228446508814531
+--- !u!114 &1796726065370242973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10645,11 +10645,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 589031640947998476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4a1b6f70816cd47bbd218ed26c60d5, type: 3}
+  m_Script: {fileID: 11500000, guid: c522597c72747d4469e89410bca11cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stage: {fileID: 0}
   mgr: {fileID: 0}
+  tmp: 1
 --- !u!1 &589031640998033001
 GameObject:
   m_ObjectHideFlags: 0
