@@ -48,7 +48,6 @@ public class MiniGame_player : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.Escape))
         {
             GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
-            stage.SetActive(false);
             Invoke("OnFinishMinigame", 1.0f);
         }
         else if(Input.GetKeyDown(KeyCode.R))
@@ -136,7 +135,7 @@ public class MiniGame_player : MonoBehaviour
                 {
                     pmgr.GetComponent<Temple2_Panel_Mgr>().tmp--;
                     GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
-                    stage.SetActive(false);
+                    
                     Invoke("OnFinishMinigame", 1.0f);
                     
                 }
@@ -146,6 +145,7 @@ public class MiniGame_player : MonoBehaviour
 
     void OnFinishMinigame()
     {
+        stage.SetActive(false);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
         GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
     }
