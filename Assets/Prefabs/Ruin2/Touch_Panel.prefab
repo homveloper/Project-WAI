@@ -10561,6 +10561,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 589031640947998483}
+  - component: {fileID: 411250983176216583}
+  - component: {fileID: 7770098668688332095}
   m_Layer: 0
   m_Name: Touch_Panel
   m_TagString: Untagged
@@ -10601,6 +10603,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &411250983176216583
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589031640947998476}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.876816, y: 6.6755667, z: 5.884491}
+  m_Center: {x: 0.15825653, y: 1.7251668, z: 0.7000885}
+--- !u!114 &7770098668688332095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589031640947998476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06af0908f5bbf714880b4ceb8778dc7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactions:
+  - key: E
+    keyCode: 101
+    description: "\uC0C1\uD638\uC791\uC6A9"
+    color: {r: 0, g: 0, b: 0, a: 1}
+  buttonHintTamplete: {fileID: 6592974944129971591, guid: a971f7d497eeea74b8fd6e216d7b85ff,
+    type: 3}
 --- !u!1 &589031640998033001
 GameObject:
   m_ObjectHideFlags: 0

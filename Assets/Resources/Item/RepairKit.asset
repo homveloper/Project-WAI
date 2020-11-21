@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: RepairKit
   m_EditorClassIdentifier: 
   name: RepairKit
+  isUsable: 0
+  isContinuable: 0
   isDroppable: 1
   meterialWood: 50
   meterialIron: 50

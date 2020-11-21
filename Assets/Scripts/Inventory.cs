@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviourPun {
             return false;
         }
 
-        if(hasWeaphone && item is InteractableItem){
+        if(hasWeaphone && item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
             return false;
         }
 
@@ -127,12 +127,12 @@ public class Inventory : MonoBehaviourPun {
 
     public void UnEquipWeaphone(){
         foreach(Transform child in rightHand){
-            photonView.RPC("DestroyItem", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+            photonView.RPC("DestroyWeapone", RpcTarget.AllBuffered, photonView.OwnerActorNr);
         }
     }
 
     [PunRPC]
-    void DestroyItem(int actorNumber){
+    void DestroyWeapone(int actorNumber){
         GameObject[] weapones = GameObject.FindGameObjectsWithTag("Weapone");
 
         foreach(GameObject weapone in weapones){

@@ -172,54 +172,6 @@ Transform:
   m_Father: {fileID: 6458383938810396875}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &536022727922700192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4247066406575110318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6b98be9d1e6774584f8a5fb2d45b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swichFlash: {fileID: 7338357889465508400}
-  moveWell: {fileID: 8325461390194318775}
-  hiddenGate: {fileID: 0}
-  wallSound: {fileID: 0}
---- !u!114 &4308810826221786107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7775238595860816960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6b98be9d1e6774584f8a5fb2d45b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swichFlash: {fileID: 3801244471682760414}
-  moveWell: {fileID: 8325461389515457403}
-  hiddenGate: {fileID: 8118164605946319229}
-  wallSound: {fileID: 0}
---- !u!114 &944105352923559486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8141177805783278920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6b98be9d1e6774584f8a5fb2d45b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swichFlash: {fileID: 3448860041373827030}
-  moveWell: {fileID: 8325461391417069723}
-  hiddenGate: {fileID: 0}
-  wallSound: {fileID: 0}
 --- !u!1 &8325461389362344777
 GameObject:
   m_ObjectHideFlags: 0
@@ -10709,7 +10661,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5f73475cf0cad364b9800b85c2a229fc, type: 2}
+  - {fileID: 2100000, guid: e382f3d2244ba634c803ebdcca61692a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23440,6 +23392,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone2
       objectReference: {fileID: 0}
+    - target: {fileID: 2835874716456426834, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddcca3c4f3381ee4898d9280748eca33, type: 3}
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
@@ -23447,18 +23404,6 @@ PrefabInstance:
       objectReference: {fileID: 8325461390194318775}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
---- !u!1 &7338357889465508400 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8240415684286346731, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1696946635893315547}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4247066406575110318 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277599754289180533, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1696946635893315547}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3725820217424063956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
@@ -23547,6 +23492,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone3
       objectReference: {fileID: 0}
+    - target: {fileID: 2835874716456426834, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddcca3c4f3381ee4898d9280748eca33, type: 3}
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
@@ -23562,18 +23512,6 @@ PrefabInstance:
 --- !u!4 &7107642923001327930 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 5087780955849001781}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3801244471682760414 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8240415684286346731, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 5087780955849001781}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7775238595860816960 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277599754289180533, guid: 8fbbfc259fb40974384682a47a685fbe,
     type: 3}
   m_PrefabInstance: {fileID: 5087780955849001781}
   m_PrefabAsset: {fileID: 0}
@@ -23659,6 +23597,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: swichStone1
       objectReference: {fileID: 0}
+    - target: {fileID: 2835874716456426834, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddcca3c4f3381ee4898d9280748eca33, type: 3}
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
@@ -23666,21 +23609,9 @@ PrefabInstance:
       objectReference: {fileID: 8325461391417069723}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
---- !u!1 &3448860041373827030 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8240415684286346731, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 6739383443338152509}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8772765572369838130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2609842882444573199, guid: 8fbbfc259fb40974384682a47a685fbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 6739383443338152509}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8141177805783278920 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277599754289180533, guid: 8fbbfc259fb40974384682a47a685fbe,
     type: 3}
   m_PrefabInstance: {fileID: 6739383443338152509}
   m_PrefabAsset: {fileID: 0}

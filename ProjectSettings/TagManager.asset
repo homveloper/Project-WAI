@@ -12,6 +12,7 @@ TagManager:
   - Mission
   - Trap
   - Weapone
+  - Club
   layers:
   - Default
   - TransparentFX
