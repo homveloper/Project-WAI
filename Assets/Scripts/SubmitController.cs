@@ -45,7 +45,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
 
         if (!Inventory.instance.items.Contains(item))
         {
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("아이템 부족", "필요한 아이템이 없습니다.", new Color(0.5333334f, 0.2666667f, 0.7333333f));
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("아이템 부족", "필요한 아이템이 없습니다.");
             return;
         }
         
@@ -73,7 +73,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
                 smoke[i].SetActive(false);
 
             if (repairCurrentCount < repairMaxCount)
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("우주선 수리중", nickname + "(이)가 우주선을 수리했습니다.", new Color(0.5333334f, 0.2666667f, 0.7333333f));
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("수리 진행중", nickname + "(이)가 우주선을 수리했습니다.");
 
             if (PhotonNetwork.IsMasterClient && repairCurrentCount >= repairMaxCount)
                 photonView.RPC("OnSubmitFinish", RpcTarget.AllBuffered, phase);
@@ -83,10 +83,10 @@ public class SubmitController : MonoBehaviourPunCallbacks
             crystalCurrentCount++;
 
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
-            GameManager.GetInstance().GetComponent<MissionController>().OnModify("보석 적재중", " (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
+            GameManager.GetInstance().GetComponent<MissionController>().OnModify("보석 적재하기", " (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
 
             if (crystalCurrentCount < crystalMaxCount)
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("보석 적재중", nickname + "(이)가 우주선에 보석을 적재했습니다.", new Color(0.5333334f, 0.2666667f, 0.7333333f));
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("보석 적재중", nickname + "(이)가 우주선에 보석을 적재했습니다.");
 
             if (PhotonNetwork.IsMasterClient && crystalCurrentCount >= crystalMaxCount)
                 photonView.RPC("OnSubmitFinish", RpcTarget.AllBuffered, phase);
@@ -98,14 +98,14 @@ public class SubmitController : MonoBehaviourPunCallbacks
         if (phase == 1)
         {
             this.phase = 2;
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("우주선 수리 완료", "우주선 수리가 완료되었습니다.\n이제, 보석을 적재할 수 있습니다.", new Color(0.5333334f, 0.2666667f, 0.7333333f));
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("수리 완료", "수리가 완료되었습니다.\n이제, 보석을 적재할 수 있습니다.");
             GameManager.GetInstance().GetComponent<MissionController>().OnClear("우주선 수리하기");
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
         }
         else if (phase == 2)
         {
             this.phase = 3;
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("보석 적재 완료", "보석을 모두 적재하자, 행성 전체가 흔들리기 시작합니다.\n빨리 우주선을 타고 탈출해야 합니다.", new Color(0.5333334f, 0.2666667f, 0.7333333f));
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("적재 완료", "보석을 모두 적재하자, 행성 전체가 흔들리기 시작합니다.\n빨리 우주선을 타고 탈출해야 합니다.");
             GameManager.GetInstance().GetComponent<MissionController>().OnClear("보석 적재하기");
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
 

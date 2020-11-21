@@ -82,13 +82,13 @@ public class VoteController : MonoBehaviourPunCallbacks
         if (voting)
         {
             voteObj_text.GetComponent<Text>().text = "투표가 진행중입니다.";
-            voteObj_time.GetComponent<Text>().text = "투표 종료까지 " + (Math.Truncate(t % 300) - 60) + "초 남음";
+            voteObj_time.GetComponent<Text>().text = "투표 종료까지 " + Math.Truncate(t % 60) + "초 남음";
         }
             
         else
         {
             voteObj_text.GetComponent<Text>().text = "투표가 종료되었습니다.\n가장 의심받은 사람의 모든 재료가 가장 신뢰받은 사람에게로 넘어갑니다.";
-            voteObj_time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 300) + "초 남음";
+            voteObj_time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 60) + "초 남음";
         }
             
         if (!PhotonNetwork.IsMasterClient)
@@ -194,80 +194,83 @@ public class VoteController : MonoBehaviourPunCallbacks
     }
     public void Finish()
     {
-        // 투표수 구성
-        Dictionary<string, int> upCountList = upVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
-        Dictionary<string, int> downCountList = downVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
-
-        string maxUpNick = "", maxDownNick = "";
-        int maxUp = 0, maxUpCount = 0, maxDown = 0, maxDownCount = 0;
-
-        List<String> upKey = upCountList.Keys.ToList<String>();
-        for (int i = 0; i < upKey.Count; i++)
+        try
         {
-            if (upCountList[upKey[i]] > maxUp)
+            // 투표수 구성
+            Dictionary<string, int> upCountList = upVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
+            Dictionary<string, int> downCountList = downVoteList.GroupBy(r => r.Value).ToDictionary(grp => grp.Key, grp => grp.Count());
+
+            string maxUpNick = "", maxDownNick = "";
+            int maxUp = 0, maxUpCount = 0, maxDown = 0, maxDownCount = 0;
+
+            List<String> upKey = upCountList.Keys.ToList<String>();
+            for (int i = 0; i < upKey.Count; i++)
             {
-                maxUpNick = upKey[i];
-                maxUp = upCountList[upKey[i]];
-                maxUpCount = 1;
+                if (upCountList[upKey[i]] > maxUp)
+                {
+                    maxUpNick = upKey[i];
+                    maxUp = upCountList[upKey[i]];
+                    maxUpCount = 1;
+                }
+                else if (upCountList[upKey[i]] == maxUp)
+                {
+                    maxUpCount += 1;
+                }
             }
-            else if (upCountList[upKey[i]] == maxUp)
+
+            List<String> downKey = downCountList.Keys.ToList<String>();
+            for (int i = 0; i < downKey.Count; i++)
             {
-                maxUpCount += 1;
+                if (downCountList[downKey[i]] > maxDown)
+                {
+                    maxDownNick = downKey[i];
+                    maxDown = downCountList[downKey[i]];
+                    maxDownCount = 1;
+                }
+                else if (downCountList[downKey[i]] == maxDown)
+                {
+                    maxDownCount += 1;
+                }
             }
-        }
 
-        List<String> downKey = downCountList.Keys.ToList<String>();
-        for (int i = 0; i < downKey.Count; i++)
-        {
-            if (downCountList[downKey[i]] > maxDown)
+            if (maxUp == 0)
             {
-                maxDownNick = downKey[i];
-                maxDown = downCountList[downKey[i]];
-                maxDownCount = 1;
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
+                return;
             }
-            else if (downCountList[downKey[i]] == maxDown)
+            else if (maxDown == 0)
             {
-                maxDownCount += 1;
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
+                return;
             }
-        }
+            else if (maxUpCount >= 2)
+            {
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                return;
+            }
+            else if (maxDownCount >= 2)
+            {
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                return;
+            }
 
-        if (maxUp == 0 && maxDown == 0)
-        {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 투표받지 않았습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
-            return;
-        }
-        else if (maxUp == 0)
-        {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
-            return;
-        }
-        else if (maxDown == 0)
-        {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
-            return;
-        }
-        else if (maxUpCount >= 2)
-        {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
-            return;
-        }
-        else if (maxDownCount >= 2)
-        {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
-            return;
-        }
+            GameObject maxUpPlayerObject = playerList[actorList[nickList[maxUpNick]]];
+            GameObject maxDownPlayerObject = playerList[actorList[nickList[maxDownNick]]];
 
-        GameObject maxUpPlayerObject = playerList[actorList[nickList[maxUpNick]]];
-        GameObject maxDownPlayerObject = playerList[actorList[nickList[maxDownNick]]];
+            int wood = maxDownPlayerObject.GetComponent<Player>().GetWood();
+            int iron = maxDownPlayerObject.GetComponent<Player>().GetIron();
+            int part = maxDownPlayerObject.GetComponent<Player>().GetPart();
 
-        int wood = maxDownPlayerObject.GetComponent<Player>().GetWood();
-        int iron = maxDownPlayerObject.GetComponent<Player>().GetIron();
-        int part = maxDownPlayerObject.GetComponent<Player>().GetPart();
+            maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
+            maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
 
-        maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
-        maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
-
-        photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("투표 종료 중 오류 발생");
+            Debug.LogError(e);
+        }
     }
     public void Clear() // 투표 초기화
     {
@@ -292,19 +295,26 @@ public class VoteController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void OnAlert(string title, string text)
     {
-        GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert(title, text, new Color(0.2666667f, 0.5333334f, 0.7333333f));
+        GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert(title, text);
     }
     [PunRPC]
     void OnVote(int sender, string targetNick, bool up) // 투표 수신
     {
-        if (up)
-            if (upVoteList.ContainsKey(sender)) upVoteList[sender] = targetNick;
-            else upVoteList.Add(sender, targetNick);
-        else
-            if (downVoteList.ContainsKey(sender)) downVoteList[sender] = targetNick;
-            else downVoteList.Add(sender, targetNick);
+        try
+        {
+            if (up)
+                if (upVoteList.ContainsKey(sender)) upVoteList[sender] = targetNick;
+                else upVoteList.Add(sender, targetNick);
+            else
+                if (downVoteList.ContainsKey(sender)) downVoteList[sender] = targetNick;
+                else downVoteList.Add(sender, targetNick);
 
-        Refresh();
+            Refresh();
+        }
+        catch
+        {
+            Debug.Log("투표 오류");
+        }
     }
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
