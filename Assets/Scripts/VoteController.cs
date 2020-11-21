@@ -233,27 +233,27 @@ public class VoteController : MonoBehaviourPunCallbacks
 
         if (maxUp == 0 && maxDown == 0)
         {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 투표받지 않았습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 투표받지 않았습니다.\n재료 전송이 발생하지 않습니다.");
             return;
         }
         else if (maxUp == 0)
         {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다.\n재료 전송이 발생하지 않습니다.");
             return;
         }
         else if (maxDown == 0)
         {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다.\n재료 전송이 발생하지 않습니다.");
             return;
         }
         else if (maxUpCount >= 2)
         {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.");
             return;
         }
         else if (maxDownCount >= 2)
         {
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.");
             return;
         }
 
