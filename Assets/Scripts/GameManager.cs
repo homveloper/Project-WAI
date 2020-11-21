@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     GetComponent<MissionController>().OnSetHeader("연구원 목표");
                     GetComponent<MissionController>().OnAdd("우주선 수리하기");
                     GetComponent<MissionController>().OnAdd("보석 적재하기");
-                    GetComponent<MissionController>().OnAdd("탈출하기");
+                    GetComponent<MissionController>().OnAdd("우주선을 타고 탈출하기");
                 }
                 else if ((bool)localProp["isAlien"] == true)
                 {

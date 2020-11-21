@@ -103,7 +103,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
         else if (phase == 2)
         {
             this.phase = 3;
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("적재 완료", "보석을 모두 적재하자, 행성 전체가 흔들리기 시작합니다.\n곧 무너질 것 같습니다!");
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("적재 완료", "보석을 모두 적재하자, 행성 전체가 흔들리기 시작합니다.\n빨리 우주선을 타고 탈출해야 합니다.");
             GameManager.GetInstance().GetComponent<MissionController>().OnClear("보석 적재하기");
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
 

@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class SafezoneController : MonoBehaviour
 {
+    public GameObject UI;
     List<GameObject> survivorList;
 
     void Start()
@@ -33,6 +34,9 @@ public class SafezoneController : MonoBehaviour
             survivorList.Add(player);
         else if (survivorList.Contains(player) && !valid)
             survivorList.Remove(player);
+
+        if (player.GetComponent<PhotonView>().IsMine)
+            UI.SetActive(valid);
     }
     private void OnTriggerExit(Collider other)
     {
@@ -43,5 +47,8 @@ public class SafezoneController : MonoBehaviour
 
         if (survivorList.Contains(player))
             survivorList.Remove(player);
+
+        if (player.GetComponent<PhotonView>().IsMine)
+            UI.SetActive(false);
     }
 }
