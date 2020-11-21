@@ -393,6 +393,13 @@ public class Player : MonoBehaviourPunCallbacks
 
         return m;
     }
+    public bool IsTakeOvered() // 시체 소멸 여부
+    {
+        if ((researcher.transform.localScale == new Vector3(0, 0, 0)) && (alien.transform.localScale == new Vector3(0, 0, 0)))
+            return true;
+        else
+            return false;
+    }
     // ---------------------------------------------------------------------------------------------------
     // # SET 메소드
     // ---------------------------------------------------------------------------------------------------
@@ -613,12 +620,10 @@ public class Player : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     // # 파티클, 사운드 관련 메소드
     // ---------------------------------------------------------------------------------------------------
-
     public void SetChg()
     {
         photonView.RPC("ChgSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
-
     [PunRPC]
     public void ChgSound(int actorNumber)
     {
@@ -628,12 +633,10 @@ public class Player : MonoBehaviourPunCallbacks
         chgSound.Play();
         chgEF.Play();
     }
-
     public void SetHitSound()
     {
         photonView.RPC("HitSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
-
     [PunRPC]
     public void HitSound(int actorNumber)
     {
