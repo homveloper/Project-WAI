@@ -10632,7 +10632,7 @@ MonoBehaviour:
   - key: E
     keyCode: 101
     description: "\uC0C1\uD638\uC791\uC6A9"
-    color: {r: 0, g: 0, b: 0, a: 1}
+    color: {r: 0, g: 0.40392157, b: 0, a: 1}
   buttonHintTamplete: {fileID: 6592974944129971591, guid: a971f7d497eeea74b8fd6e216d7b85ff,
     type: 3}
 --- !u!1 &589031640998033001

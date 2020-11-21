@@ -24,8 +24,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float time = TIME;    // 시간
     public float timeMax = TIME; // 시간 (최대치)
 
-    // 기타
+    // 클리어
     public bool clear;
+    public List<GameObject> survivorList;
 
     private void Awake()
     {
@@ -46,10 +47,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        ExitGames.Client.Photon.Hashtable ppp = PhotonNetwork.LocalPlayer.CustomProperties;
-        Debug.Log(ppp.Keys.Count);
-
         GetComponent<FadeController>().OnBlack();
+        survivorList = new List<GameObject>();
         GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = false;
         time = TIME;
         timeMax = TIME;
@@ -225,19 +224,18 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (time < (TIME - 59))
                 GetComponent<MissionController>().OnClear("1분 대기하기");
 
-            // 연구원 수 계산
+            // 생존한 연구원 수 계산
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-            int countOfResearcher = player.Length;
+            int countOfResearcher = 0;
 
             for (int i = 0; i < player.Length; i++)
             {
-                ExitGames.Client.Photon.Hashtable prop = player[i].GetComponent<PhotonView>().Owner.CustomProperties;
-                if (prop.ContainsKey("isAlien") == true && (bool)prop["isAlien"] == true)
-                    countOfResearcher--;
+                if (!player[i].GetComponent<Player>().IsAlienPlayer() && !player[i].GetComponent<Player>().IsDead())
+                    countOfResearcher++;
             }
 
             // 게임 패배 조건 : 연구원 수 = 0 (디버그 모드 상태에서는 발동하지 않음)
-            if (!DEBUG_GAME && countOfResearcher <= 0)
+            if (countOfResearcher <= 0 && !DEBUG_GAME)
             {
                 SetFinish(false);
                 break;
@@ -285,20 +283,29 @@ public class GameManager : MonoBehaviourPunCallbacks
     public IEnumerator OnFinish(bool win) // 게임 종료 동기화
     {
         mPlayer.GetComponent<Player>().SetMove(false);
-
         GetComponent<FadeController>().OnFadeOut();
 
-        // 결과창 - 외계인 정보
-        Photon.Realtime.Player[] player = PhotonNetwork.PlayerList;
+        // 결과창 정보 (공통)
+        if (win)
+            GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "연구원 승리";
+        else
+            GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "외계인 승리";
+
+        // 결과창 정보 (외계인)
+        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
         List<string> alien = new List<string>();
         for (int i = 0; i < player.Length; i++)
-        {
-            ExitGames.Client.Photon.Hashtable playerProp = player[i].CustomProperties;
+            if (player[i].GetComponent<Player>().IsAlienPlayer())
+                alien.Add(player[i].GetComponent<Player>().GetNickname(true));
+        GameObject.Find("UI_ResultAlien").SetActive(true);
+        if (alien.Count > 0) GameObject.Find("UI_ResultAlien_Text").GetComponent<Text>().text = string.Join(", ", alien);
 
-            if (playerProp.ContainsKey("isAlien") == true && (bool)playerProp["isAlien"] == true)
-                alien.Add(player[i].NickName);
-        }
-        GameObject.Find("UI_ResultList_Text").GetComponent<Text>().text = string.Join(", ", alien);
+        // 결과창 정보 (생존자)
+        List<string> survivor = new List<string>();
+        for (int i = 0; i < survivorList.Count; i++)
+            survivor.Add(survivorList[i].GetComponent<Player>().GetNickname(true));
+        GameObject.Find("UI_ResultSurvivor").SetActive(win);
+        if (survivor.Count > 0) GameObject.Find("UI_ResultSurvivor_Text").GetComponent<Text>().text = string.Join(", ", survivor);
 
         yield return new WaitForSeconds(0.9f);
 
@@ -324,11 +331,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 카메라
         mCamera.GetComponent<CinemachineFreeLook>().Follow = GameObject.Find("Spaceship").transform;
         mCamera.GetComponent<CinemachineFreeLook>().LookAt = GameObject.Find("CenterStone").transform;
-
-        if (win)
-            GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "연구원 승리";
-        else
-            GameObject.Find("UI_Result_Text").GetComponent<Text>().text = "외계인 승리";
+        mCamera.GetComponent<CinemachineFollowZoom>().m_Width = 150;
 
         // 화면 페이드 인
         GetComponent<FadeController>().OnFadeIn();
