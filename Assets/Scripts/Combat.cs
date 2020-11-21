@@ -33,7 +33,7 @@ public class Combat : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
+        // alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
 
         attackSounds.ForEach(x => x.Pause());
 
@@ -197,15 +197,15 @@ public class Combat : MonoBehaviourPunCallbacks
         cooldown = 1f / attackSpeed;
     }
 
-    [PunRPC]
-    void DestoryClub(int actorNumber){
-        GameObject[] weapones = GameObject.FindGameObjectsWithTag("Club");
+    // [PunRPC]
+    // void DestoryClub(int actorNumber){
+    //     GameObject[] weapones = GameObject.FindGameObjectsWithTag("Club");
 
-        foreach(GameObject weapone in weapones){
-            if (photonView.OwnerActorNr == actorNumber){
-                Destroy(weapone);
-                break;
-            }
-        }
-    }
+    //     foreach(GameObject weapone in weapones){
+    //         if (photonView.OwnerActorNr == actorNumber){
+    //             Destroy(weapone);
+    //             break;
+    //         }
+    //     }
+    // }
 }
