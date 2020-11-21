@@ -85,16 +85,12 @@ public class Player : MonoBehaviourPunCallbacks
             if (!photonView.IsMine)
                 return;
 
-        // if(Input.GetKeyDown(KeyCode.U))
-    
-
-
         // 플래시라이트 (F)
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && !IsDead())
             SetFlash();
 
         // 변신 해제 (X)
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) && !IsDead())
             SetTransform(false);
 
         // 체력 차감
