@@ -38,19 +38,28 @@ public class ConsumableItem : Item
 
     IEnumerator IsCasting(IEnumerator coroutine,PlayerAnimation playerAnimation){
 
-        float calibrationTime = 0.5f;
+        // float calibrationTime = 0.5f;
 
-        yield return new WaitForSeconds(calibrationTime);
+        // yield return new WaitForSeconds(calibrationTime);
 
         float startTime = Time.time;
 
         while(Time.time <= startTime + castingTime){
-            if(!playerAnimation.AnimatorIsPlaying("Nervously Look Around",1)){
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+            bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
+            bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
+
+            bool isWalk = hasHorizontalInput || hasVeritcalInput;
+
+            if(isWalk){
                 Inventory.instance.StopCoroutine(coroutine);
+                playerAnimation.EndAnimation();
                 break;
             }
             yield return null;  //1프레임 마다 체크합니다.
         }
+        playerAnimation.EndAnimation();
     }
 
     public override void Continue(Player playerStat)
@@ -66,7 +75,7 @@ public class ConsumableItem : Item
             yield return null;  //1프레임 마다 체크합니다.
         }
 
-        yield return new WaitForSeconds(delayTime);
+        // yield return new WaitForSeconds(delayTime);
 
         Debug.Log("효과가 발동합니다.");
 
