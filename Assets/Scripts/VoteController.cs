@@ -267,7 +267,7 @@ public class VoteController : MonoBehaviourPunCallbacks
         maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
         maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
 
-        photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+        photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
     }
     public void Clear() // 투표 초기화
     {
@@ -292,26 +292,19 @@ public class VoteController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void OnAlert(string title, string text)
     {
-        GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert(title, text);
+        GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert(title, text, new Color(0.2666667f, 0.5333334f, 0.7333333f));
     }
     [PunRPC]
     void OnVote(int sender, string targetNick, bool up) // 투표 수신
     {
-        try
-        {
-            if (up)
-                if (upVoteList.ContainsKey(sender)) upVoteList[sender] = targetNick;
-                else upVoteList.Add(sender, targetNick);
-            else
-                if (downVoteList.ContainsKey(sender)) downVoteList[sender] = targetNick;
-                else downVoteList.Add(sender, targetNick);
+        if (up)
+            if (upVoteList.ContainsKey(sender)) upVoteList[sender] = targetNick;
+            else upVoteList.Add(sender, targetNick);
+        else
+            if (downVoteList.ContainsKey(sender)) downVoteList[sender] = targetNick;
+            else downVoteList.Add(sender, targetNick);
 
-            Refresh();
-        }
-        catch
-        {
-            Debug.Log("투표 오류");
-        }
+        Refresh();
     }
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
