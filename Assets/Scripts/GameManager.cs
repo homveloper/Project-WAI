@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 // 캐릭터 스폰
                 Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
                 int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
-                mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
+                mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.Euler(0,-180,0));
                 mPlayer.GetComponent<Player>().SetMove(false);
 
                 // 미션 부여
