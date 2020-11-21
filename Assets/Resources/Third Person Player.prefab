@@ -1686,7 +1686,7 @@ MonoBehaviour:
   alien: {fileID: 183093030274535310}
   flashlight: {fileID: 8567649898356843675}
   modHp: 10
-  modHpAlienHeal: 5
+  modHpAlienHeal: 1
   modO2: 0.5
   modO2Run: 2
   modO2Alien: 2
