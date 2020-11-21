@@ -175,7 +175,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play(val ? "Talk_load" : "Talk_hide");
         GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>().DeactivateInputField();
 
-        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
+        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
         if (val) GameManager.GetInstance().GetComponent<MissionController>().OnHide();
         else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
     }
