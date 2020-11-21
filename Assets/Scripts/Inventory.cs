@@ -47,28 +47,31 @@ public class Inventory : MonoBehaviourPun {
     }
 
     public bool Add(Item item){
+        if(!playerStat.IsAlienObject()){
+            if(items.Count >= space){
+                Debug.Log("인벤토리에 공간이 없습니다.");
+                return false;
+            }
 
-        if(items.Count >= space){
-            Debug.Log("인벤토리에 공간이 없습니다.");
+            if(hasWeaphone && item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
+                return false;
+            }
+
+            if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
+                hasWeaphone = true;
+                EquipWeaphone(item.model);
+            }
+
+            items.Add(item);
+
+            if(onItemChangedCallback != null){
+                onItemChangedCallback.Invoke();
+            }
+
+            return true;
+        }else{
             return false;
         }
-
-        if(hasWeaphone && item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
-            return false;
-        }
-
-        if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
-            hasWeaphone = true;
-            EquipWeaphone(item.model);
-        }
-
-        items.Add(item);
-
-        if(onItemChangedCallback != null){
-            onItemChangedCallback.Invoke();
-        }
-
-        return true;
     }
 
     public void Remove(Item item){
