@@ -73,7 +73,7 @@ public class VoteController : MonoBehaviourPunCallbacks
 
         if (!isActive)
             SetSwitchVote(false);
-        else if (isActive && Input.GetKeyDown(KeyCode.W))
+        else if (isActive && Input.GetKeyDown(KeyCode.W) && !GameManager.GetInstance().clear)
             SetSwitchVote();
 
         float t = GameManager.GetInstance().time;
@@ -92,10 +92,13 @@ public class VoteController : MonoBehaviourPunCallbacks
             
         if (!PhotonNetwork.IsMasterClient)
             return;
+
+        if (GameManager.GetInstance().clear)
+            return;
         
-        if (t % 120 >= 59 && t % 120 < 60 && voting == true)
+        if (t % 300 >= 59 && t % 300 < 60 && voting == true)
             photonView.RPC("OnStatus", RpcTarget.AllBuffered, false);
-        else if (t % 120 >= 119 && t % 120 < 120 && voting == false)
+        else if (t % 300 >= 299 && t % 300 < 300 && voting == false)
             photonView.RPC("OnStatus", RpcTarget.AllBuffered, true);
 
     }

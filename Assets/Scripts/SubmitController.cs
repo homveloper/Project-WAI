@@ -108,8 +108,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
             GameManager.GetInstance().clear = true;
 
             GetComponent<CinemachineImpulseSource>().GenerateImpulse();
-
-
+            safezone.SetActive(true);
         }
     }
     // ---------------------------------------------------------------------------------------------------
