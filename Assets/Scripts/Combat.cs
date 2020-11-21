@@ -27,13 +27,13 @@ public class Combat : MonoBehaviourPunCallbacks
 
     public List<AudioSource> attackSounds;
 
-    Transform alienRightHand;
+    // Transform alienRightHand;
 
     bool isPunch;
 
     void Start()
     {
-        alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
+        // alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
 
         attackSounds.ForEach(x => x.Pause());
 
@@ -86,11 +86,11 @@ public class Combat : MonoBehaviourPunCallbacks
             }
         }else{
 
-            //애니메이션 실행 동안만 생성되는 무기
-            GameObject club = PhotonNetwork.Instantiate("Item/Club", alienRightHand.position, Quaternion.identity);
-            club.transform.SetParent(alienRightHand);
-            club.transform.localPosition = Vector3.zero;
-            club.transform.localRotation = Quaternion.identity;
+            // //애니메이션 실행 동안만 생성되는 무기
+            // GameObject club = PhotonNetwork.Instantiate("Item/Club", alienRightHand.position, Quaternion.identity);
+            // club.transform.SetParent(alienRightHand);
+            // club.transform.localPosition = Vector3.zero;
+            // club.transform.localRotation = Quaternion.identity;
 
             while (true)
             {
@@ -98,9 +98,9 @@ public class Combat : MonoBehaviourPunCallbacks
 
                 if (!isAttack)
                 {
-                    foreach(Transform child in alienRightHand){
-                        photonView.RPC("DestoryClub", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-                    }
+                    // foreach(Transform child in alienRightHand){
+                    //     photonView.RPC("DestoryClub", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+                    // }
 
                     myPlayer.SetMove(true);
                     break;
@@ -197,15 +197,15 @@ public class Combat : MonoBehaviourPunCallbacks
         cooldown = 1f / attackSpeed;
     }
 
-    [PunRPC]
-    void DestoryClub(int actorNumber){
-        GameObject[] weapones = GameObject.FindGameObjectsWithTag("Club");
+    // [PunRPC]
+    // void DestoryClub(int actorNumber){
+    //     GameObject[] weapones = GameObject.FindGameObjectsWithTag("Club");
 
-        foreach(GameObject weapone in weapones){
-            if (photonView.OwnerActorNr == actorNumber){
-                Destroy(weapone);
-                break;
-            }
-        }
-    }
+    //     foreach(GameObject weapone in weapones){
+    //         if (photonView.OwnerActorNr == actorNumber){
+    //             Destroy(weapone);
+    //             break;
+    //         }
+    //     }
+    // }
 }
