@@ -51,6 +51,7 @@ public class AlienAnimation : MonoBehaviourPunCallbacks
                 return;
 
         float hitStatus = Random.Range(0f,3f);
+        animator.SetTrigger("hit");
         animator.SetFloat("hitStatus",hitStatus);
     }
 
