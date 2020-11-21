@@ -64,6 +64,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
                 repairCurrentCount = repairMaxCount;
 
             buttonHint.SetDecription(KeyCode.E, "수리 (" + repairCurrentCount + "/" + repairMaxCount + ")");
+            GameManager.GetInstance().GetComponent<MissionController>().OnModify("우주선 수리하기", " (" + repairCurrentCount + "/" + repairMaxCount + ")");
 
             float smokeProgress = (float)repairCurrentCount / (float)repairMaxCount * ((float)smoke.Count - 1.0f);
             for (int i = 0; i <= smokeProgress; i++)
@@ -80,6 +81,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
             crystalCurrentCount++;
 
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
+            GameManager.GetInstance().GetComponent<MissionController>().OnModify("보석 적재하기", " (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
 
             if (crystalCurrentCount < crystalMaxCount)
                 GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("보석 적재중", nickname + "(이)가 우주선에 보석을 적재했습니다.");
@@ -95,12 +97,14 @@ public class SubmitController : MonoBehaviourPunCallbacks
         {
             this.phase = 2;
             GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("수리 완료", "수리가 완료되었습니다.\n이제, 보석을 적재할 수 있습니다.");
+            GameManager.GetInstance().GetComponent<MissionController>().OnClear("우주선 수리하기");
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
         }
         else if (phase == 2)
         {
             this.phase = 3;
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("적재 완료", "보석을 모두 적재하자\n행성 전체가 흔들리기 시작합니다.\n곧 무너질 것 같습니다!");
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("적재 완료", "보석을 모두 적재하자, 행성 전체가 흔들리기 시작합니다.\n빨리 우주선을 타고 탈출해야 합니다.");
+            GameManager.GetInstance().GetComponent<MissionController>().OnClear("보석 적재하기");
             buttonHint.SetDecription(KeyCode.E, "보석 적재 (" + crystalCurrentCount + "/" + crystalMaxCount + ")");
 
             // 탈출 시퀀스 시작

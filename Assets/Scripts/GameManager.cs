@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 // 캐릭터 스폰
                 Transform[] points = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
                 int idx = localProp.ContainsKey("spawnIndex") == true ? (int)localProp["spawnIndex"] : 1;
-                mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.identity);
+                mPlayer = PhotonNetwork.Instantiate("Third Person Player", points[idx].position, Quaternion.Euler(0,-180,0));
                 mPlayer.GetComponent<Player>().SetMove(false);
 
                 // 미션 부여
@@ -151,15 +151,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     GetComponent<MiniAlertController>().OnEnableAlert("연구원", "당신은 연구원입니다.\n우주선을 고쳐 이곳을 탈출하세요.", new Color(0.06666667f, 0.2f, 0.8f));
                     GetComponent<MissionController>().OnSetHeader("연구원 목표");
-                    GetComponent<MissionController>().OnAdd("우주선을 수리하고 탈출하기");
-                    GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
+                    GetComponent<MissionController>().OnAdd("우주선 수리하기");
+                    GetComponent<MissionController>().OnAdd("보석 적재하기");
+                    GetComponent<MissionController>().OnAdd("우주선을 타고 탈출하기");
                 }
                 else if ((bool)localProp["isAlien"] == true)
                 {
                     GetComponent<MiniAlertController>().OnEnableAlert("외계인", "당신은 외계인입니다.\n연구원들을 방해하고 처치하세요.", new Color(0.8f, 0.2f, 0.06666667f));
                     GetComponent<MissionController>().OnSetHeader("외계인 목표");
                     GetComponent<MissionController>().OnAdd("연구원들을 방해하고 처치하기");
-                    GetComponent<MissionController>().OnAdd("1분 대기하기"); // 미션 디버그용 코드
                 }
 
                 // 카메라 설정
@@ -217,12 +217,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             // 시간 동기화
             photonView.RPC("OnTime", RpcTarget.AllBuffered, time);
-
-            // 미션 달성 조건 확인 (* 디버깅용)
-            GetComponent<MissionController>().OnModify("1분 대기하기", "(" + (int)(time - (TIME - 60)) + "초 남음)");
-
-            if (time < (TIME - 59))
-                GetComponent<MissionController>().OnClear("1분 대기하기");
 
             // 생존한 연구원 수 계산
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");

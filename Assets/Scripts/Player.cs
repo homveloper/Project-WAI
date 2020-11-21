@@ -54,6 +54,7 @@ public class Player : MonoBehaviourPunCallbacks
 
     public AudioSource hitSound;
 
+    public Component spell;
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
@@ -83,6 +84,10 @@ public class Player : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
+
+        // if(Input.GetKeyDown(KeyCode.U))
+    
+
 
         // 플래시라이트 (F)
         if (Input.GetKeyDown(KeyCode.F))
@@ -563,9 +568,6 @@ public class Player : MonoBehaviourPunCallbacks
     public void SetRooting(Player target) // 사망 연구원 루팅
     {
         if (!target.IsDead())
-            return;
-
-        if (target.IsTakeOvered())
             return;
 
         SetMove(false);

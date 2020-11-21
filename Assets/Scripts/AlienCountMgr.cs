@@ -17,7 +17,6 @@ public class AlienCountMgr : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
-        Debug.Log("star in");
         bgmMgr = Camera.main.GetComponent<BGMSelect>();
     }
 

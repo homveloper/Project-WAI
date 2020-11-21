@@ -58,9 +58,9 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (Input.GetButtonDown("Attack"))
         {
-            Attack(targetPlayer != null ? targetPlayer : null);
             myPlayer.SetMove(false);
             StartCoroutine(IsPlaying());
+            Attack(targetPlayer != null ? targetPlayer : null);
         }
     }
 
