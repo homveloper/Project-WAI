@@ -70,8 +70,9 @@ public class VoteController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-
         if (!isActive)
+            SetSwitchVote(false);
+        else if (!GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable())
             SetSwitchVote(false);
         else if (isActive && Input.GetKeyDown(KeyCode.W) && !GameManager.GetInstance().clear)
             SetSwitchVote();

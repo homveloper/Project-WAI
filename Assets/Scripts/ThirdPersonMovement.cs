@@ -45,6 +45,11 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity);
 
+        // 사망 사태일 때 이동할 수 없음
+        if (GetComponent<Player>().IsDead())
+            return;
+
+        // 이동 제한 상태일때 이동할 수 없음
         if (controllable == false)
             return;
 

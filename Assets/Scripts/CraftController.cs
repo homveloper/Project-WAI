@@ -72,6 +72,8 @@ public class CraftController : MonoBehaviourPunCallbacks
     {
         if (!isActive)
             SetSwitchCraft(false);
+        else if (!GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable())
+            SetSwitchCraft(false);
         else if (isActive && Input.GetKeyDown(KeyCode.Q))
             SetSwitchCraft();
     }

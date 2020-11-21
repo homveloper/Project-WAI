@@ -28,8 +28,6 @@ public class SafezoneController : MonoBehaviour
         else if (other.GetComponent<Player>().IsAlienPlayer())
             valid = false;
 
-        Debug.Log(valid);
-
         if (!survivorList.Contains(player) && valid)
             survivorList.Add(player);
         else if (survivorList.Contains(player) && !valid)
