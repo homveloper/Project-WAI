@@ -52,10 +52,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         // fps 체크
         fps += (Time.deltaTime - fps) * 0.1f;
 
-        // 게임이 끝나면 결과창 출력
-        if (GameManager.GetInstance().flag_finish == true && IsEnding() == false)
-            OnSwitchEnd(true);
-
         // 플레이어 데이터가 없는 상황, 게임이 끝난 상황에는 UI 미갱신
         if (GameManager.GetInstance().mPlayer == null || IsEnding() == true)
             return;
@@ -179,7 +175,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play(val ? "Talk_load" : "Talk_hide");
         GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>().DeactivateInputField();
 
-        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
+        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
         if (val) GameManager.GetInstance().GetComponent<MissionController>().OnHide();
         else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
     }

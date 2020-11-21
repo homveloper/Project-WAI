@@ -8,8 +8,6 @@ using System.ComponentModel.Design.Serialization;
 
 public class Player : MonoBehaviourPunCallbacks
 {
-    private float REFRESH_TIME = 1.0f;
-
     // 오브젝트
     public GameObject researcher;
     public GameObject alien;
@@ -54,6 +52,8 @@ public class Player : MonoBehaviourPunCallbacks
     public AudioSource chgSound;
     public ParticleSystem chgEF;
 
+    public AudioSource hitSound;
+
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
@@ -71,10 +71,11 @@ public class Player : MonoBehaviourPunCallbacks
         uI_Inventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
         uI_Inventory.UpdateInventory();
 
-        StartCoroutine(OnRefresh());
+        StartCoroutine(Refresh());
 
         chgSound.Stop();
         chgEF.Stop();
+        hitSound.Stop();
     }
 
     void Update()
@@ -122,18 +123,14 @@ public class Player : MonoBehaviourPunCallbacks
         if (!IsFlash() && !IsDead())
             SetBt(GetBt() + Time.deltaTime * modBtRecharge);
     }
-    IEnumerator OnRefresh()
+    IEnumerator Refresh()
     {
         while (true)
         {
-            Refresh();
+            photonView.RPC("OnRefresh", RpcTarget.AllBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart(), GetColorNumber());
 
-            yield return new WaitForSeconds(REFRESH_TIME);
+            yield return new WaitForSeconds(2.0f);
         }
-    }
-    public void Refresh()
-    {
-        photonView.RPC("OnRefreshMeterial", RpcTarget.OthersBuffered, photonView.OwnerActorNr, GetWood(), GetIron(), GetPart());
     }
     // ---------------------------------------------------------------------------------------------------
     // # 포톤 메시지 메소드
@@ -172,7 +169,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (photonView.OwnerActorNr != actorNumber)
             return;
 
-         SetChg(); // 파티클 , 사운드 
+        SetChg(); // 파티클 , 사운드 
 
         SetMove(true);
         SetFlash(false);
@@ -222,6 +219,7 @@ public class Player : MonoBehaviourPunCallbacks
             return;
 
         SetHP(GetHP() - damage);
+        SetHitSound();
         onTakeDamageCallback.Invoke();
 
         if (photonView.IsMine && GameInterfaceManager.GetInstance().IsChating())
@@ -237,9 +235,15 @@ public class Player : MonoBehaviourPunCallbacks
         alien.transform.localScale = new Vector3(0, 0, 0);
     }
     [PunRPC]
-    public void OnRefreshMeterial(int actorNumber, int wood, int iron, int part)
+    public void OnRefresh(int actorNumber, int wood, int iron, int part, int colorNumber) // 갱신
     {
         if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[colorNumber]);
+        researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[colorNumber]);
+
+        if (photonView.IsMine)
             return;
 
         SetWood(wood);
@@ -247,7 +251,7 @@ public class Player : MonoBehaviourPunCallbacks
         SetPart(part);
     }
     [PunRPC]
-    public void OnTransformMeterial(int actorNumber, int wood, int iron, int part)
+    public void OnTransformMeterial(int actorNumber, int wood, int iron, int part) // 재료 전송
     {
         if (photonView.OwnerActorNr != actorNumber)
             return;
@@ -332,11 +336,25 @@ public class Player : MonoBehaviourPunCallbacks
 
         if (original)
             return colorPalette.colors[(int)prop["color"]];
-        else if (prop.ContainsKey("isAlien") == true && prop.ContainsKey("fakeColor") == true)
+        else if (prop.ContainsKey("isAlien") && prop.ContainsKey("fakeColor"))
             return colorPalette.colors[(int)prop["fakeColor"]];
         else
             return colorPalette.colors[(int)prop["color"]];
+    }
+    public int GetColorNumber()
+    {
+        return GetColorNumber(false);
+    }
+    public int GetColorNumber(bool original)
+    {
+        ExitGames.Client.Photon.Hashtable prop = photonView.Owner.CustomProperties;
 
+        if (original)
+            return (int)prop["color"];
+        else if (prop.ContainsKey("isAlien") && prop.ContainsKey("fakeColor"))
+            return (int)prop["fakeColor"];
+        else
+            return (int)prop["color"];
     }
     public bool IsAlienPlayer() // 외계인 역할 여부
     {
@@ -494,10 +512,10 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetMove(bool val) // 조작 설정
     {
-        //researcher.GetComponent<PlayerAnimation>().enabled = val;
-        //alien.GetComponent<AlienAnimation>().enabled = val;
+        researcher.GetComponent<PlayerAnimation>().enabled = val;
+        alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
-        GetComponent<ThirdPersonSound>().enabled = val;
+        GetComponent<ThirdPersonSound>().isDead = val;
     }
     public void SetDead() // 사망 설정
     {
@@ -511,6 +529,9 @@ public class Player : MonoBehaviourPunCallbacks
     {
         if (IsAlienPlayer() == false)
             return;
+
+        if(!val && IsAlienObject())
+            return ;                
 
         photonView.RPC("OnTransform", RpcTarget.AllBuffered, photonView.OwnerActorNr, val);
     }
@@ -560,7 +581,7 @@ public class Player : MonoBehaviourPunCallbacks
     {
         photonView.RPC("OnTakeOver", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
-    public void SetTransformMeterial(int wood, int iron, int part)
+    public void SetTransformMeterial(int wood, int iron, int part) // 재료 동기화
     {
         photonView.RPC("OnTransformMeterial", RpcTarget.AllBuffered, photonView.OwnerActorNr, wood, iron, part);
     }
@@ -587,43 +608,35 @@ public class Player : MonoBehaviourPunCallbacks
             SetRooting(other.GetComponent<Player>());
     }
     // ---------------------------------------------------------------------------------------------------
-    // # 콜백 메소드
+    // # 파티클, 사운드 관련 메소드
     // ---------------------------------------------------------------------------------------------------
-    // 연구원 색상 갱신을 위한 프로퍼티 갱신 콜백 메소드
-    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+
+    public void SetChg()
     {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
-        if (targetPlayer != photonView.Owner)
-            return;
-
-        if (changedProps.ContainsKey("color") == false)
-            return;
-
-        if (changedProps.ContainsKey("fakeColor") == true)
-        {
-            researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["fakeColor"]]);
-            researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["fakeColor"]]);
-        }
-        else
-        {
-            researcher.transform.Find("body").GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
-            researcher.transform.Find("head").gameObject.GetComponent<SkinnedMeshRenderer>().material.SetColor("_MainColor", colorPalette.colors[(int)changedProps["color"]]);
-        }
-    }
-
-    ///--------------------------------변신 파티클 , 사운드 -----------------------------------------------
-     public void SetChg()
-    {
-        Debug.Log("set");
-        photonView.RPC("ChgSound", RpcTarget.AllBuffered);
+        photonView.RPC("ChgSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 
     [PunRPC]
-    public void ChgSound()
+    public void ChgSound(int actorNumber)
     {
-        Debug.Log("chg");
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
         chgSound.Play();
         chgEF.Play();
+    }
+
+    public void SetHitSound()
+    {
+        photonView.RPC("HitSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+
+    [PunRPC]
+    public void HitSound(int actorNumber)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        hitSound.Play();
     }
 }

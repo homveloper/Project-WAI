@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnLerp : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    Rigidbody rigidbody;
 
     [SerializeField]
     [Range(0f, 4f)]
@@ -26,16 +26,12 @@ public class SpawnLerp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rigidbody = GetComponent<Rigidbody>();
+
         position = transform.position;
         moveTo = new Vector3(minRange + Random.Range(-maxRange, maxRange), 0, minRange + Random.Range(-maxRange, maxRange));
         torqueTo = Vector3.up * Random.Range(1f,1.5f) * torqueSpeed * Time.deltaTime;
         rigidbody.AddForce(moveTo,ForceMode.VelocityChange);
         rigidbody.AddTorque(torqueTo, ForceMode.VelocityChange);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //transform.position = Vector3.Lerp(position, position + moveTo, lerpTime * Time.deltaTime);
     }
 }

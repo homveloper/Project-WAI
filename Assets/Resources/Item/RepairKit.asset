@@ -19,3 +19,6 @@ MonoBehaviour:
   meterialPart: 50
   description: "\uC6B0\uC8FC\uC120 \uC218\uB9AC \uD0B7~!"
   icon: {fileID: 21300000, guid: b311514b7650843419435c12ec374fa0, type: 3}
+  model: {fileID: 0}
+  itemtype: 1
+  damageModifier: 0

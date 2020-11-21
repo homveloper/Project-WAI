@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using System.Collections.Generic;
+using System.Collections;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -35,15 +36,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // ---------------------------------------------------------------------------------------------------
     void Start()
     {
+        GameManager.NORMAL_START = true;
+
         alertController = GetComponent<AlertController>();
         fadeController = GetComponent<FadeController>();
         GameObject.Find("UI_Nickname_Input").GetComponent<InputField>().text = PhotonNetwork.NickName;
+
+        ExitGames.Client.Photon.Hashtable ppp = PhotonNetwork.LocalPlayer.CustomProperties;
+        Debug.Log(ppp.Keys.Count);
 
         if (PhotonNetwork.InRoom == true) // 게임이 종료되어 퇴장하여 신이 로드된 상황 (=이미 방에 포함된 경우)
         {
             PhotonNetwork.IsMessageQueueRunning = true;
             GameObject.Find("UI_Room_Ready").GetComponent<Button>().interactable = false;
-            OnJoinedRoomCall();
+            OnJoinedRoomCall(false);
         }
         else
         {
@@ -401,21 +407,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-
-        localProp["color"] = 0;
-        localProp["isReady"] = false;
-        localProp["isStart"] = false;
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
-        OnJoinedRoomCall();
+        OnJoinedRoomCall(true);
     }
-    public void OnJoinedRoomCall()
+    public void OnJoinedRoomCall(bool newJoin)
     {
         fadeController.OnBlack();
         GameObject.Find("UI_Intro").GetComponent<Canvas>().enabled = false;
         GameObject.Find("UI_MainMenu").GetComponent<Canvas>().enabled = false;
         GameObject.Find("UI_Room").GetComponent<Canvas>().enabled = true;
+
+        // 플레이어 프로퍼티 초기화
+        ExitGames.Client.Photon.Hashtable prop = PhotonNetwork.LocalPlayer.CustomProperties;
+        int color = newJoin ? 0 : (int)prop["color"];
+
+        prop.Clear();
+        prop["color"] = color;
+        prop["isReady"] = false;
+        prop["isStart"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
         menuCode = MENU_ROOM;
         fadeController.OnFadeIn();
@@ -477,15 +486,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 return;
             }
 
-            for (int i = 0; i < player.Length; i++)
-            {
-                ExitGames.Client.Photon.Hashtable prop = player[i].CustomProperties;
-                prop["spawnIndex"] = (i + 1);
-                player[i].SetCustomProperties(prop);
-            }
-
             PhotonNetwork.CurrentRoom.IsOpen = false; // 난입 제한
-
             photonView.RPC("OnStart", RpcTarget.AllBuffered);
         }
         else
@@ -494,8 +495,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (localProp.ContainsKey("isReady") == false) localProp.Add("isReady", true);
             else if ((bool)localProp["isReady"] == true) localProp["isReady"] = false;
             else if ((bool)localProp["isReady"] == false) localProp["isReady"] = true;
-
-            if (localProp.ContainsKey("isAlien") == true) localProp.Remove("isAlien");
             PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
             RefreshRoomUI();
@@ -503,12 +502,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void OnStart() // 게임 시작 함수
+    public IEnumerator OnStart() // 게임 시작 함수
     {
         GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
-
+        
         // 채팅창 비활성화 (퇴장시 커서 관련 오류 발생 방지)
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().DeactivateInputField();
+
+        // 페이드 아웃
+        fadeController.OnFadeOut();
+
+        yield return new WaitForSeconds(1.1f);
 
         SceneManager.LoadScene("proto_field_ver2");
     }

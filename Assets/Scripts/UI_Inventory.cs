@@ -7,6 +7,7 @@ public class UI_Inventory : MonoBehaviour
 
     public Transform itemsParent;
 
+
     Inventory inventory;
 
     [SerializeField]
@@ -28,7 +29,12 @@ public class UI_Inventory : MonoBehaviour
     private void Update() {
         if(inventory != null){
             if(Input.GetButtonDown("SetDrop") && !inventory.isEmpty()){
-                inventory.isDroppable = !inventory.isDroppable;
+                inventory.IsDroppable = !inventory.IsDroppable;
+                UpdateUI();
+            }
+            
+            if(inventory.isEmpty() && inventory.IsDroppable){
+                inventory.IsDroppable = false;
                 UpdateUI();
             }
         }else{
@@ -45,7 +51,8 @@ public class UI_Inventory : MonoBehaviour
             if (i < inventory.items.Count)
             {
                 slots[i].AddItem(inventory.items[i]);
-                if(inventory.isDroppable){
+
+                if(inventory.IsDroppable){
                     slots[i].SetDropIcon(true);
                 }else{
                     slots[i].SetDropIcon(false);
@@ -58,4 +65,5 @@ public class UI_Inventory : MonoBehaviour
             }
         }
     }
+
 }

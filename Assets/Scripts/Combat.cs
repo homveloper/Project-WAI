@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 [RequireComponent(typeof(Player))]
 [System.Serializable]
-public class Combat : MonoBehaviourPun
+public class Combat : MonoBehaviourPunCallbacks
 {
     Player myPlayer;
     Player targetPlayer;
@@ -18,10 +18,9 @@ public class Combat : MonoBehaviourPun
     private float cooldown = 0.0f; // 공격 쿨타임
 
     [SerializeField]
-    private float delayTime = 1f;   // 공격 후 휴면시간
+    private float delayTime = 1.5f;   // 공격 후 휴면시간
 
     private bool inTrigger;
-
 
     public delegate void OnAttack();
     public OnAttack OnAttackCallback;
@@ -38,30 +37,40 @@ public class Combat : MonoBehaviourPun
         researcherAnimation.animator.SetFloat("attackSpeed", attackSpeed);
         alienAnimation.animator.SetFloat("attackSpeed", attackSpeed);
 
-        if(Inventory.instance != null)
+        if (Inventory.instance != null)
             Inventory.instance.onItemChangedCallback += UpdateDamage;
     }
 
-    void Update(){
+    void Update()
+    {
+        if(PhotonNetwork.IsConnected)
+            if (!photonView.IsMine)
+                return;
+
         cooldown -= Time.deltaTime;
 
-        if(Input.GetButtonDown("Attack")){
+        if (Input.GetButtonDown("Attack"))
+        {
             Attack(targetPlayer != null ? targetPlayer : null);
             myPlayer.SetMove(false);
             StartCoroutine(IsPlaying());
         }
     }
-    
-    IEnumerator IsPlaying(){
+
+    IEnumerator IsPlaying()
+    {
 
         float calibrationTime = 0.5f;
         yield return new WaitForSeconds(calibrationTime);
 
-        while(true){
+        while (true)
+        {
 
             bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
+            bool isSword = researcherAnimation.AnimatorIsPlaying("Stable Sword Outward Slash");
 
-            if(!isPunch){
+            if (!isPunch && !isSword)
+            {
                 myPlayer.SetMove(true);
                 break;
             }
@@ -70,40 +79,57 @@ public class Combat : MonoBehaviourPun
         }
     }
 
-    IEnumerator WaitUntilTime(float delayTime){
+    IEnumerator WaitUntilTime(float delayTime)
+    {
         yield return new WaitForSeconds(delayTime);
         myPlayer.SetMove(true);
     }
 
-    void UpdateDamage(){
-        float totalDamage = Player.RESEARCHER_DAMAGE;
+    public void UpdateDamage()
+    {
+        if (!myPlayer.IsAlienObject())
+        {
+            float totalDamage = Player.RESEARCHER_DAMAGE;
 
-        if(Inventory.instance != null){     
-            foreach(Item item  in Inventory.instance.items){
-                if(item is InteractableItem){
-                    if(((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
-                        totalDamage += ((InteractableItem)item).DamageModifier;
+            if (Inventory.instance != null)
+            {
+
+                foreach (Item item in Inventory.instance.items)
+                {
+                    if (item is InteractableItem)
+                    {
+                        if (((InteractableItem)item).Itemtype == Itemtype.WEAPHONE)
+                        {
+                            totalDamage += ((InteractableItem)item).DamageModifier;
+                        }
                     }
                 }
             }
+
+            myPlayer.damage = totalDamage;
+        }
+        else
+        {
+            myPlayer.damage = Player.ALIEN_DAMAGE;
         }
 
-        myPlayer.damage = totalDamage;
     }
 
-    void OnTriggerStay(Collider other){
+    void OnTriggerStay(Collider other)
+    {
 
-        if(!photonView.IsMine)
+        if (!photonView.IsMine)
             return;
         if (other.gameObject == gameObject || !other.CompareTag("Player"))
             return;
-        
+
         inTrigger = true;
         targetPlayer = other.GetComponent<Player>();
     }
 
-    void OnTriggerExit(Collider other){
-        if(!photonView.IsMine)
+    void OnTriggerExit(Collider other)
+    {
+        if (!photonView.IsMine)
             return;
 
         if (other.gameObject == gameObject || !other.CompareTag("Player"))
@@ -112,13 +138,26 @@ public class Combat : MonoBehaviourPun
         inTrigger = false;
         targetPlayer = null;
     }
+    public void SetAck()
+    {
+         photonView.RPC("CombatSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+    }
+
+    [PunRPC]
+    public void CombatSound(int actorNumber)
+    {
+        if (photonView.OwnerActorNr != actorNumber)
+            return;
+
+        attackSounds[Random.Range(0, attackSounds.Count)].Play();
+    }
 
     public void Attack(Player target)
     {
         if (cooldown > 0.0f)
             return;
 
-        attackSounds[Random.Range(0,attackSounds.Count)].Play();
+        SetAck();
 
         if (target != null)
             target.SetHit(myPlayer.damage);

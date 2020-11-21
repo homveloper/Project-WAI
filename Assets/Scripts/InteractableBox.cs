@@ -20,6 +20,9 @@ public class InteractableBox : Interactable
     [SerializeField]
     private int maxmaterialPart;
 
+    [SerializeField]
+    private Animator animator;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -39,6 +42,7 @@ public class InteractableBox : Interactable
             Debug.Log("상자를 열었습니다.");
             photonView.RPC("DestroyItem", RpcTarget.AllBuffered);
         }
+
     }
 
     [PunRPC]

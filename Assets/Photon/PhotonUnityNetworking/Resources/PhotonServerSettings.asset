@@ -66,6 +66,9 @@ MonoBehaviour:
   - OnSubmitFinish
   - MoveSound
   - ChgSound
+  - CombatSound
+  - OnRefresh
+  - HitSound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
