@@ -42,9 +42,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         fadeController = GetComponent<FadeController>();
         GameObject.Find("UI_Nickname_Input").GetComponent<InputField>().text = PhotonNetwork.NickName;
 
-        ExitGames.Client.Photon.Hashtable ppp = PhotonNetwork.LocalPlayer.CustomProperties;
-        Debug.Log(ppp.Keys.Count);
-
         if (PhotonNetwork.InRoom == true) // 게임이 종료되어 퇴장하여 신이 로드된 상황 (=이미 방에 포함된 경우)
         {
             PhotonNetwork.IsMessageQueueRunning = true;

@@ -27,10 +27,14 @@ public class Combat : MonoBehaviourPunCallbacks
 
     public List<AudioSource> attackSounds;
 
+    Transform alienRightHand;
+
     bool isPunch;
 
     void Start()
     {
+        alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
+
         attackSounds.ForEach(x => x.Pause());
 
         myPlayer = GetComponent<Player>();
@@ -62,23 +66,48 @@ public class Combat : MonoBehaviourPunCallbacks
 
     IEnumerator IsPlaying()
     {
-
         float calibrationTime = 0.5f;
         yield return new WaitForSeconds(calibrationTime);
-
-        while (true)
-        {
-
-            bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
-            bool isSword = researcherAnimation.AnimatorIsPlaying("Stable Sword Outward Slash");
-
-            if (!isPunch && !isSword)
+        
+        if(!myPlayer.IsAlienObject()){
+            while (true)
             {
-                myPlayer.SetMove(true);
-                break;
-            }
 
-            yield return null;  //1프레임 마다 체크합니다.
+                bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
+                bool isSword = researcherAnimation.AnimatorIsPlaying("Stable Sword Outward Slash");
+
+                if (!isPunch && !isSword)
+                {
+                    myPlayer.SetMove(true);
+                    break;
+                }
+
+                yield return null;  //1프레임 마다 체크합니다.
+            }
+        }else{
+
+            //애니메이션 실행 동안만 생성되는 무기
+            GameObject club = PhotonNetwork.Instantiate("Item/Club", alienRightHand.position, Quaternion.identity);
+            club.transform.SetParent(alienRightHand);
+            club.transform.localPosition = Vector3.zero;
+            club.transform.localRotation = Quaternion.identity;
+
+            while (true)
+            {
+                bool isAttack = alienAnimation.AnimatorIsPlaying("Attack");
+
+                if (!isAttack)
+                {
+                    foreach(Transform child in alienRightHand){
+                        photonView.RPC("DestoryClub", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+                    }
+
+                    myPlayer.SetMove(true);
+                    break;
+                }
+
+                yield return null;  //1프레임 마다 체크합니다.
+            }
         }
     }
 
@@ -96,7 +125,6 @@ public class Combat : MonoBehaviourPunCallbacks
 
             if (Inventory.instance != null)
             {
-
                 foreach (Item item in Inventory.instance.items)
                 {
                     if (item is InteractableItem)
@@ -169,5 +197,15 @@ public class Combat : MonoBehaviourPunCallbacks
         cooldown = 1f / attackSpeed;
     }
 
+    [PunRPC]
+    void DestoryClub(int actorNumber){
+        GameObject[] weapones = GameObject.FindGameObjectsWithTag("Club");
 
+        foreach(GameObject weapone in weapones){
+            if (photonView.OwnerActorNr == actorNumber){
+                Destroy(weapone);
+                break;
+            }
+        }
+    }
 }

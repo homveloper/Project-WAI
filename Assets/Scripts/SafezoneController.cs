@@ -5,11 +5,12 @@ using Photon.Pun;
 
 public class SafezoneController : MonoBehaviour
 {
-    public List<GameObject> survivorList;
+    List<GameObject> survivorList;
 
     void Start()
     {
-        survivorList = new List<GameObject>();
+        // ** 세이프존 컨트롤러는 꼭 시작 시에 Active 상태가 꺼져있어야 한다.
+        survivorList = GameManager.GetInstance().survivorList;
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -25,8 +26,8 @@ public class SafezoneController : MonoBehaviour
 
         if (other.GetComponent<Player>().IsDead())
             valid = false;
-        else if (other.GetComponent<Player>().IsAlienPlayer())
-            valid = false;
+        //else if (other.GetComponent<Player>().IsAlienPlayer())
+        //    valid = false;
 
         if (!survivorList.Contains(player) && valid)
             survivorList.Add(player);
