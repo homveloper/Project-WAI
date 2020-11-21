@@ -69,7 +69,6 @@ MonoBehaviour:
   - CombatSound
   - OnRefresh
   - HitSound
-  - DestoryClub
   - DestroyWeapone
   DisableAutoOpenWizard: 1
   ShowSettings: 1
