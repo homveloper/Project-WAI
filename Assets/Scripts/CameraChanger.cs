@@ -41,7 +41,7 @@ public class CameraChanger : MonoBehaviourPun
     {
         cam = GameObject.Find("CineMachine");
         directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
-        directionalLight.color = new Color(255,124,124);
+        directionalLight.color = new Color(255/255f,124/255f,124/255f);
         vcam = cam.GetComponent<CinemachineFreeLook>();
         followZoom = cam.GetComponent<CinemachineFollowZoom>();
         player = GetComponent<Player>();
