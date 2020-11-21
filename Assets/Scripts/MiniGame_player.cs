@@ -9,6 +9,7 @@ public class MiniGame_player : MonoBehaviour
     private Animator animator;
     public GameObject pmgr;
     public GameObject stage;
+    public GameObject door;
     public Vector3 tmp;
     private Vector3 itempos;
     public List<MiniGame_enemy> enemylist;
@@ -146,7 +147,9 @@ public class MiniGame_player : MonoBehaviour
     void OnFinishMinigame()
     {
         stage.SetActive(false);
+        door.SetActive(false);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
+        GameInterfaceManager.GetInstance().OnSwitchHide(false);
         GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
     }
 }

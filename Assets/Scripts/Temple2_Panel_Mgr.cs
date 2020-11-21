@@ -6,7 +6,7 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
 {
     public GameObject stage;
     public GameObject mgr;
-    
+    public GameObject door;
 
     public int tmp = 1;
     // Start is called before the first frame update
@@ -39,7 +39,8 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
         {
             e.GetComponent<Animator>().SetInteger("EnemyType", (int)e.type);
         }
-
+        GameInterfaceManager.GetInstance().OnSwitchHide(true);
+        door.SetActive(true);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
         
         
