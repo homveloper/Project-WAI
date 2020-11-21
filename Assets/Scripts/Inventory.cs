@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviourPun {
             return false;
         }
 
-        if(hasWeaphone && item is InteractableItem){
+        if(hasWeaphone && item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
             return false;
         }
 
