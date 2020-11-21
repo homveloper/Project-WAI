@@ -6332,6 +6332,7 @@ GameObject:
   - component: {fileID: 861716071771920321}
   - component: {fileID: 2774710802797733901}
   - component: {fileID: 5301647978101781377}
+  - component: {fileID: 5873740851048000879}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -6455,6 +6456,7 @@ MonoBehaviour:
   chgSound: {fileID: 2774710802797733901}
   chgEF: {fileID: 3763480467335357966}
   hitSound: {fileID: 5301647978101781377}
+  spell: {fileID: 0}
 --- !u!114 &7186006604985324643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7165,6 +7167,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5873740851048000879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68f86d4109ed0f468324ae4f9abc753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castingBar: {fileID: 0}
+  castTime: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  castingTime: 3
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0

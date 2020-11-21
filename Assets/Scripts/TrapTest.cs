@@ -11,7 +11,6 @@ public class TrapTest : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        Debug.Log("TRAP");
        other.transform.position = center.transform.position;
     }
 }

@@ -187,7 +187,13 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     public void OnReceiveChat(string message) // 채팅 수신
     {
         GameObject.Find("UI_Talk_Active").GetComponent<Image>().enabled = true;
-        GameObject.Find("UI_Panel_Talk_Panel_Text").GetComponent<Text>().text += "\n" + message;
+
+        Text chat = GameObject.Find("UI_Panel_Talk_Panel_Text").GetComponent<Text>();
+
+        if (chat.text.Length > 10000)
+            chat.text = chat.text.Substring(chat.text.Length - 10000, 10000);
+
+        chat.text = chat.text + "\n" + message;
     }
     // ---------------------------------------------------------------------------------------------------
     // 관전 모드

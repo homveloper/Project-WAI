@@ -502,9 +502,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public IEnumerator OnStart() // 게임 시작 함수
     {
         GameObject.Find("UI_Room_Exit").GetComponent<Button>().interactable = false;
-        
-        // 채팅창 비활성화 (퇴장시 커서 관련 오류 발생 방지)
+        GameObject.Find("UI_Room_Option").GetComponent<Button>().interactable = false;
         GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().DeactivateInputField();
+        GameObject.Find("UI_Room_Chat_Input").GetComponent<InputField>().interactable = false;        
 
         // 페이드 아웃
         fadeController.OnFadeOut();
@@ -739,7 +739,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         field.ActivateInputField();
 
-        if (field.text != "")
+        if (field.text != "" && field.interactable == true)
         {
             photonView.RPC("OnChat", RpcTarget.All, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
             field.text = "";
@@ -751,6 +751,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnChat(string message) // RPC로 채팅을 수신하는 함수
     {
         Text chat = GameObject.Find("UI_Room_Chat_Text").GetComponent<Text>();
+
+        if (chat.text.Length > 10000)
+            chat.text = chat.text.Substring(chat.text.Length - 10000, 10000);
+
         chat.text = chat.text + "\n" + message;
     }
 
