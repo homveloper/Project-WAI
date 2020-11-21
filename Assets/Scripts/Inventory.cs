@@ -136,8 +136,10 @@ public class Inventory : MonoBehaviourPun {
         GameObject[] weapones = GameObject.FindGameObjectsWithTag("Weapone");
 
         foreach(GameObject weapone in weapones){
-            if (photonView.OwnerActorNr == actorNumber)
+            if (photonView.OwnerActorNr == actorNumber){
                 Destroy(weapone);
+                break;
+            }
         }
     }
 }
