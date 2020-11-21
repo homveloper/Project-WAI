@@ -83,7 +83,7 @@ public class Inventory : MonoBehaviourPun {
 
             if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
                 hasWeaphone = false;
-                EquipWeaphone(null);
+                UnEquipWeaphone();
             }
 
             if(onItemChangedCallback != null)   
@@ -115,18 +115,30 @@ public class Inventory : MonoBehaviourPun {
         get=>hasWeaphone;
     }
 
-    public void EquipWeaphone(GameObject weaphone){
-        if(weaphone != null){
-            GameObject newWeaphone = GameObject.Instantiate(weaphone);
+    public void EquipWeaphone(GameObject weapone){
+        if(weapone != null){
             Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
-            newWeaphone.transform.SetParent(rightHand);
+            GameObject newWeapone = PhotonNetwork.Instantiate(weapone, rightHand.position, Quaternion.identity,rightHand);
+            newWeapone.transform.localPosition = Vector3.zero;
+            newWeapone.transform.localRotation = Quaternion.identity;
         }
     }
 
-    public void UnEquipWeaphone(GameObject weaphone){
-        if(weaphone != null){
-            Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x == weaphone);
-            GameObject.Destroy(weaphone);
+    public void UnEquipWeaphone(){
+        Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
+
+        foreach(Transform child in rightHand){
+            photonView.RPC("DestroyItem", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+        }
+    }
+
+    [PunRPC]
+    void DestroyItem(int actorNumber){
+        GameObject[] weapones = GameObject.FindGameObjectsWithTag("Weapoone");
+
+        foreach(GameObject weapone in weapones){
+            if (photonView.OwnerActorNr == actorNumber)
+                Destroy(weapone);
         }
     }
 }
