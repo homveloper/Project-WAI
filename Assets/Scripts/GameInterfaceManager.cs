@@ -249,6 +249,21 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         }
     }
     // ---------------------------------------------------------------------------------------------------
+    // 숨김 모드
+    // ---------------------------------------------------------------------------------------------------
+    public bool IsHiding() // 숨김 여부
+    {
+        return GameObject.Find("UI_Game").GetComponent<RectTransform>().localScale == new Vector3(0, 0, 0);
+    }
+    public void OnSwitchHide() // 숨김 모드 (스위칭)
+    {
+        OnSwitchHide(!IsHiding());
+    }
+    public void OnSwitchHide(bool val) // 숨김 모드 (매뉴얼)
+    {
+        GameObject.Find("UI_Game").GetComponent<RectTransform>().localScale = (val ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1));
+    }
+    // ---------------------------------------------------------------------------------------------------
     // 게임 종료
     // ---------------------------------------------------------------------------------------------------
     public bool IsEnding() // 종료 여부
