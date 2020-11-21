@@ -125,7 +125,7 @@ public class Player : MonoBehaviourPunCallbacks
             SetHP(GetHP(true) + Time.deltaTime * modHpAlienHeal, true);
 
         // 배터리 회복
-        if (!IsFlash() && !IsDead())
+        if (!IsFlash() && !IsDead() && !IsAlienObject())
             SetBt(GetBt() + Time.deltaTime * modBtRecharge);
     }
     IEnumerator Refresh()
@@ -154,9 +154,10 @@ public class Player : MonoBehaviourPunCallbacks
         else if (!IsAlienPlayer())
             researcher.GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
 
+        SetO2(0);
+        SetBt(0);
         SetMove(false);
         SetFlash(false);
-
 
         if (photonView.IsMine)
         {
