@@ -82,13 +82,13 @@ public class VoteController : MonoBehaviourPunCallbacks
         if (voting)
         {
             voteObj_text.GetComponent<Text>().text = "투표가 진행중입니다.";
-            voteObj_time.GetComponent<Text>().text = "투표 종료까지 " + Math.Truncate(t % 60) + "초 남음";
+            voteObj_time.GetComponent<Text>().text = "투표 종료까지 " + (Math.Truncate(t % 300) - 60) + "초 남음";
         }
             
         else
         {
             voteObj_text.GetComponent<Text>().text = "투표가 종료되었습니다.\n가장 의심받은 사람의 모든 재료가 가장 신뢰받은 사람에게로 넘어갑니다.";
-            voteObj_time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 60) + "초 남음";
+            voteObj_time.GetComponent<Text>().text = "다음 투표까지 " + Math.Truncate(t % 300) + "초 남음";
         }
             
         if (!PhotonNetwork.IsMasterClient)
@@ -233,24 +233,29 @@ public class VoteController : MonoBehaviourPunCallbacks
                 }
             }
 
-            if (maxUp == 0)
+            if (maxUp == 0 && maxDown == 0)
             {
-                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 투표받지 않았습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
+                return;
+            }
+            else if (maxUp == 0)
+            {
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 신뢰받지 못했습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
                 return;
             }
             else if (maxDown == 0)
             {
-                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "아무도 의심받지 않았습니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
                 return;
             }
             else if (maxUpCount >= 2)
             {
-                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "신뢰 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
                 return;
             }
             else if (maxDownCount >= 2)
             {
-                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다. 재료 전송이 발생하지 않습니다.");
+                photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "의심 투표가 동수입니다.\n재료 전송이 발생하지 않습니다.", new Color(0.2666667f, 0.5333334f, 0.7333333f));
                 return;
             }
 
@@ -264,7 +269,7 @@ public class VoteController : MonoBehaviourPunCallbacks
             maxDownPlayerObject.GetComponent<Player>().SetTransformMeterial(-wood, -iron, -part);
             maxUpPlayerObject.GetComponent<Player>().SetTransformMeterial(wood, iron, part);
 
-            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)");
+            photonView.RPC("OnAlert", RpcTarget.AllBuffered, "투표 결과", "최고 신뢰자: " + maxUpNick + " (" + upCountList[maxUpNick] + "표)\n" + "최고 의심자: " + maxDownNick + " (" + downCountList[maxDownNick] + "표)", new Color(0.2666667f, 0.5333334f, 0.7333333f));
         }
         catch (Exception e)
         {
