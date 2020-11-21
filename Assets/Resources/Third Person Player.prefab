@@ -1740,8 +1740,6 @@ MonoBehaviour:
   walkSound: {fileID: 6587770530825150049}
   runSound: {fileID: 1048966396458255995}
   alienSound: {fileID: 2861662670577088004}
-  dust1: {fileID: 0}
-  dust2: {fileID: 0}
   playStat: {fileID: 5143243491976924257}
   isDead: 1
 --- !u!114 &1733725680725060116
@@ -4606,12 +4604,12 @@ PrefabInstance:
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.566
+      value: -0.57
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
@@ -4681,12 +4679,12 @@ PrefabInstance:
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.566
+      value: -0.57
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
