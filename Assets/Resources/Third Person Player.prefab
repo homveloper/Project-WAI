@@ -5514,6 +5514,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: end
+  - Type: 4
+    SynchronizeType: 1
+    Name: hasWeaphone
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
