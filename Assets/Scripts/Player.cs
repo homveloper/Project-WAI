@@ -596,28 +596,6 @@ public class Player : MonoBehaviourPunCallbacks
         photonView.RPC("OnTransformMeterial", RpcTarget.AllBuffered, photonView.OwnerActorNr, wood, iron, part);
     }
     // ---------------------------------------------------------------------------------------------------
-    // # 트리거 메소드
-    // ---------------------------------------------------------------------------------------------------
-    // 외계인의 사망 연구원 루팅을 위한 트리거 메소드
-    void OnTriggerStay(Collider other)
-    {
-        if (!photonView.IsMine)
-            return;
-
-        if (IsAlienPlayer() == false)
-            return;
-
-        if (IsAlienObject() == false)
-            return;
-
-        if (other.gameObject == gameObject || !other.CompareTag("Player"))
-            return;
-
-        // 루팅 (R)
-        if (Input.GetKeyDown(KeyCode.R))
-            SetRooting(other.GetComponent<Player>());
-    }
-    // ---------------------------------------------------------------------------------------------------
     // # 파티클, 사운드 관련 메소드
     // ---------------------------------------------------------------------------------------------------
     public void SetChg()

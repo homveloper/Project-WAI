@@ -19,8 +19,7 @@ public class InteractableRooting : MonoBehaviourPun
 
     [SerializeField]
     string description;
-    bool inTrigger;
-    bool hasInteracted = false;
+    public bool inTrigger;
 
     [SerializeField]
     bool isScreenSpace = false;
@@ -56,52 +55,63 @@ public class InteractableRooting : MonoBehaviourPun
         if (inTrigger)
             buttonHint.transform.rotation = camTransform.rotation * originalRotation;
 
+        if (inTrigger && !buttonHint.activeSelf)
+            OnButtonHint(true);
+        else if (!inTrigger && buttonHint.activeSelf)
+            OnButtonHint(false);
+
         if (Input.GetKeyDown(_KeyCode) && inTrigger)
             Rooting();
     }
     private void OnTriggerStay(Collider other)
     {
-        // 트리거 대상이 내가 아니면 미반응
+        // 나와의 충돌 제외
+        if (other.gameObject == gameObject)
+            return;
+
+        // 트리거 대상이 내가 아니면 제외
         if (!other.CompareTag("Player") || other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
-            OnButtonHint(false);
+            return;
+
+        Debug.Log(other);
 
         // 해당 객체가 죽지 않았으면 미반응
-        else if (!GetComponent<Player>().IsDead())
-            OnButtonHint(false);
+        if (!GetComponent<Player>().IsDead())
+            inTrigger = false;
 
         // 내가 외계인 역할이 아니거나, 외계인 상태가 아니면 미반응
         else if (!other.GetComponent<Player>().IsAlienPlayer() || !other.GetComponent<Player>().IsAlienObject())
-            OnButtonHint(false);
+            inTrigger = false;
 
         // 내가 조작 제한 상태면 미반응
         else if (!other.GetComponent<Player>().IsControllable())
-            OnButtonHint(false);
+            inTrigger = false;
 
         // 해당 객체가 소멸했다면 미반응
         else if (GetComponent<Player>().IsTakeOvered())
-            OnButtonHint(false);
+            inTrigger = false;
 
         // 모든 제한 조건을 통과했으면 출력
         else
-            OnButtonHint(true, Camera.main.transform, other.GetComponent<Player>());
+        {
+            inTrigger = true;
+            camTransform = Camera.main.transform;
+            target = other.GetComponent<Player>();
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        OnButtonHint(false);
+        inTrigger = false;
     }
     void OnButtonHint(bool active)
     {
-        OnButtonHint(active, null, null);
-    }
-    void OnButtonHint(bool active, Transform transform, Player player)
-    {
-        if (buttonHint == null)
-            return;
-
-        inTrigger = active;
-        camTransform = active ? transform : null;
-        target = active ? player : null;
         buttonHint.SetActive(active);
+
+        if (!active)
+        {
+            camTransform = null;
+            target = null;
+        }
     }
     public KeyCode _KeyCode
     {
