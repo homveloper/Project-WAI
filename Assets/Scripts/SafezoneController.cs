@@ -7,6 +7,11 @@ public class SafezoneController : MonoBehaviour
 {
     public List<GameObject> survivorList;
 
+    void Start()
+    {
+        survivorList = new List<GameObject>();
+    }
+
     // ---------------------------------------------------------------------------------------------------
     // # 트리거 메소드
     // ---------------------------------------------------------------------------------------------------
@@ -22,6 +27,8 @@ public class SafezoneController : MonoBehaviour
             valid = false;
         else if (other.GetComponent<Player>().IsAlienPlayer())
             valid = false;
+
+        Debug.Log(valid);
 
         if (!survivorList.Contains(player) && valid)
             survivorList.Add(player);

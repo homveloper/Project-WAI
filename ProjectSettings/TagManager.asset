@@ -11,6 +11,7 @@ TagManager:
   - DeadPlayer
   - Mission
   - Trap
+  - Weapone
   layers:
   - Default
   - TransparentFX

@@ -29,6 +29,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        if (NORMAL_START == false)
+        {
+            SceneManager.LoadScene("proto_main");
+            return;
+        }
+
         instance = this;
         PhotonNetwork.IsMessageQueueRunning = true;
     }
@@ -40,12 +46,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if (NORMAL_START == false)
-        {
-            SceneManager.LoadScene("proto_main");
-            return;
-        }
-
         ExitGames.Client.Photon.Hashtable ppp = PhotonNetwork.LocalPlayer.CustomProperties;
         Debug.Log(ppp.Keys.Count);
 
