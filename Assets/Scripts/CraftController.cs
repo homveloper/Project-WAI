@@ -94,21 +94,21 @@ public class CraftController : MonoBehaviourPunCallbacks
         {
             if (Inventory.instance.Add(item[num]) == true)
             {
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 성공", item[num].name + "의 제작이 성공적입니다!");
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 성공", item[num].name + "의 제작이 성공적입니다!", new Color(0.2666667f, 0.2666667f, 0.2666667f));
                 player.SetWood(player.GetWood() - item[num].meterialWood);
                 player.SetIron(player.GetIron() - item[num].meterialIron);
                 player.SetPart(player.GetPart() - item[num].meterialPart);
             }
             else
             {
-                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 실패", "인벤토리 공간이 부족합니다.");
+                GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 실패", "인벤토리 공간이 부족합니다.", new Color(0.2666667f, 0.2666667f, 0.2666667f));
             }
 
         }
         // 재료 일부가 부족
         else
         {
-            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 실패", "재료가 부족합니다.");
+            GameManager.GetInstance().GetComponent<MiniAlertController>().OnEnableAlert("제작 실패", "재료가 부족합니다.", new Color(0.2666667f, 0.2666667f, 0.2666667f));
         }
 
     }
