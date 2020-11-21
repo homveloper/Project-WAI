@@ -39,16 +39,6 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (GameManager.GetInstance() == null)
             return;
 
-        // [디버깅용] 나가기 (F4)
-        if (Input.GetKeyDown(KeyCode.F4) == true)
-        {
-            ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
-            localProp.Clear();
-            PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
-
-            PhotonNetwork.LeaveRoom();
-        }
-
         // fps 체크
         fps += (Time.deltaTime - fps) * 0.1f;
 
@@ -216,7 +206,7 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Inventory").GetComponent<RectTransform>().localScale = (val ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1));
         GameObject.Find("UI_Watching").GetComponent<RectTransform>().localScale = (val ? new Vector3(1, 1, 1) : new Vector3(0, 0, 0));
 
-        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
+        GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
         if (val) GameManager.GetInstance().GetComponent<MissionController>().OnHide();
         else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
 
