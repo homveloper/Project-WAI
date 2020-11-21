@@ -39,10 +39,11 @@ public class Inventory : MonoBehaviourPun {
     [SerializeField]
     bool isDroppable;
 
-
+    Transform rightHand;
 
     private void Start() {
         playerStat = gameObject.GetComponent<Player>();
+        rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
     }
 
     public bool Add(Item item){
@@ -117,7 +118,6 @@ public class Inventory : MonoBehaviourPun {
 
     public void EquipWeaphone(GameObject weapone){
         if(weapone != null){
-            Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
             GameObject newWeapone = PhotonNetwork.Instantiate("Item/" + weapone.name, rightHand.position, Quaternion.identity);
             newWeapone.transform.SetParent(rightHand);
             newWeapone.transform.localPosition = Vector3.zero;
@@ -126,8 +126,6 @@ public class Inventory : MonoBehaviourPun {
     }
 
     public void UnEquipWeaphone(){
-        Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
-
         foreach(Transform child in rightHand){
             photonView.RPC("DestroyItem", RpcTarget.AllBuffered, photonView.OwnerActorNr);
         }
@@ -135,7 +133,7 @@ public class Inventory : MonoBehaviourPun {
 
     [PunRPC]
     void DestroyItem(int actorNumber){
-        GameObject[] weapones = GameObject.FindGameObjectsWithTag("Weapoone");
+        GameObject[] weapones = GameObject.FindGameObjectsWithTag("Weapone");
 
         foreach(GameObject weapone in weapones){
             if (photonView.OwnerActorNr == actorNumber)
