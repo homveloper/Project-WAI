@@ -8,7 +8,7 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     public GameObject mgr;
     
 
-    int tmp = 1;
+    public int tmp = 1;
     // Start is called before the first frame update
     void Start()
     {
