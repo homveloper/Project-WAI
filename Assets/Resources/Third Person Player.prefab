@@ -6334,6 +6334,7 @@ GameObject:
   - component: {fileID: 2774710802797733901}
   - component: {fileID: 5301647978101781377}
   - component: {fileID: 5873740851048000879}
+  - component: {fileID: 8894875404310857564}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -7282,6 +7283,26 @@ MonoBehaviour:
   castTime: {fileID: 0}
   canvasGroup: {fileID: 0}
   castingTime: 3
+--- !u!114 &8894875404310857564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54780cbf2a1f8d64db7ff5f61a6c0349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vcam: {fileID: 0}
+  followZoom: {fileID: 0}
+  globalVolume: {fileID: 0}
+  directionalLight: {fileID: 0}
+  player: {fileID: 0}
+  cam: {fileID: 0}
+  origin: 27
+  change: 100
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0
