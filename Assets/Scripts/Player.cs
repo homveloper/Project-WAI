@@ -53,8 +53,6 @@ public class Player : MonoBehaviourPunCallbacks
     public ParticleSystem chgEF;
 
     public AudioSource hitSound;
-
-    public Component spell;
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
