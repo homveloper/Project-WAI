@@ -211,6 +211,8 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
 
         OnSwitchChat(false);
+
+        if (val) OnMoveWatch(1);
     }
     public void OnMoveWatch(int num) // 관전 대상 변경
     {

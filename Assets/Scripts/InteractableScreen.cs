@@ -107,7 +107,10 @@ public class InteractableScreen : MonoBehaviour
             return;
 
         if(other.gameObject.tag == "Player"){
-            inTrigger = true;
+            if (!other.GetComponent<Player>().IsControllable())
+                inTrigger = false;
+            else
+                inTrigger = true;
         }
     }
 
