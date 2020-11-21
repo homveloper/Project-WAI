@@ -26,12 +26,13 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
         {
             GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
             GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
-            Invoke("OnStartMinigame", 1.0f);
+            StartCoroutine(this.OnStartMinigame());
         }
     }
 
-    void OnStartMinigame()
+    IEnumerator OnStartMinigame()
     {
+        yield return new WaitForSeconds(1);
         stage.SetActive(true);
         MiniGame_enemy[] elist = stage.transform.Find("Enemies").GetComponentsInChildren<MiniGame_enemy>();
 

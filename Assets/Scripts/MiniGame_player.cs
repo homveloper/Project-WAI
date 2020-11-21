@@ -46,10 +46,10 @@ public class MiniGame_player : MonoBehaviour
             moveDir += Vector3.right;
             animator.Play("Hero_Right");
         }
-        else if(Input.GetKeyDown(KeyCode.Escape))
+        else if(Input.GetKeyDown(KeyCode.Escape)) //리로드 안하고 끌경우 에러 발생 가능
         {
             GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
-            Invoke("OnFinishMinigame", 1.0f);
+            StartCoroutine(this.OnFinishMinigame());
         }
         else if(Input.GetKeyDown(KeyCode.R))
         {
@@ -137,15 +137,15 @@ public class MiniGame_player : MonoBehaviour
                     pmgr.GetComponent<Temple2_Panel_Mgr>().tmp--;
                     GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
                     
-                    Invoke("OnFinishMinigame", 1.0f);
-                    
+                    StartCoroutine(this.OnFinishMinigame());
                 }
             }
         }
     }
 
-    void OnFinishMinigame()
+    IEnumerator OnFinishMinigame()
     {
+        yield return new WaitForSeconds(1);
         stage.SetActive(false);
         door.SetActive(false);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
