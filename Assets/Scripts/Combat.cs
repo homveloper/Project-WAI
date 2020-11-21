@@ -49,6 +49,9 @@ public class Combat : MonoBehaviourPunCallbacks
 
         cooldown -= Time.deltaTime;
 
+        if (!myPlayer.IsControllable())
+            return;
+
         if (Input.GetButtonDown("Attack"))
         {
             Attack(targetPlayer != null ? targetPlayer : null);

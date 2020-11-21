@@ -378,13 +378,13 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public bool IsControllable() // 조작 가능 여부
     {
-        return GetComponent<ThirdPersonMovement>().controllable;
+        return GetComponent<ThirdPersonMovement>().controllable && !IsDead();
     }
     public bool IsFlash() // 라이트 사용 여부
     {
         return flashlight.activeSelf;
     }
-    public float GetModO2()
+    public float GetModO2() // 산소 감소량
     {
         float m = modO2;
 
@@ -555,6 +555,9 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetRooting(Player target) // 사망 연구원 루팅
     {
+        if (!target.IsDead())
+            return;
+
         SetMove(false);
 
         // 프로퍼티 처리
