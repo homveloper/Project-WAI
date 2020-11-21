@@ -73,8 +73,6 @@ public class InteractableRooting : MonoBehaviourPun
         if (!other.CompareTag("Player") || other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        Debug.Log(other);
-
         // 해당 객체가 죽지 않았으면 미반응
         if (!GetComponent<Player>().IsDead())
             inTrigger = false;

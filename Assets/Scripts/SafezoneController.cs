@@ -25,10 +25,10 @@ public class SafezoneController : MonoBehaviour
         GameObject player = other.gameObject;
         bool valid = true;
 
-        if (other.GetComponent<Player>().IsDead())
+        if (player.GetComponent<Player>().IsDead())
             valid = false;
-        //else if (other.GetComponent<Player>().IsAlienPlayer())
-        //    valid = false;
+        else if (player.GetComponent<Player>().IsAlienPlayer())
+            valid = false;
 
         if (!survivorList.Contains(player) && valid)
             survivorList.Add(player);
