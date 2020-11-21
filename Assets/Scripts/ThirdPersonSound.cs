@@ -8,9 +8,6 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     public AudioSource walkSound;
     public AudioSource runSound;
     public AudioSource alienSound;
-    public ParticleSystem dust1;
-    public ParticleSystem dust2;
-
     public GameObject playStat;
 
     public bool isDead=true;
@@ -19,18 +16,11 @@ public class ThirdPersonSound : MonoBehaviourPunCallbacks
     bool isDie = false;
     int frame = 0;
 
-    void Awake()
-    {
-        dust1.Stop();
-        dust2.Stop();
-    }
     void Start()
     {
         walkSound.Pause();
         runSound.Pause();
         alienSound.Pause();
-        dust1.Play();
-        dust2.Play();
     }
     
     void Update()

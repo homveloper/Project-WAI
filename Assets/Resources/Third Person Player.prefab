@@ -1579,7 +1579,6 @@ GameObject:
   - component: {fileID: 861716071771920321}
   - component: {fileID: 2774710802797733901}
   - component: {fileID: 5301647978101781377}
-  - component: {fileID: 5873740851048000879}
   - component: {fileID: 8894875404310857564}
   m_Layer: 0
   m_Name: Third Person Player
@@ -1740,8 +1739,6 @@ MonoBehaviour:
   walkSound: {fileID: 6587770530825150049}
   runSound: {fileID: 1048966396458255995}
   alienSound: {fileID: 2861662670577088004}
-  dust1: {fileID: 0}
-  dust2: {fileID: 0}
   playStat: {fileID: 5143243491976924257}
   isDead: 1
 --- !u!114 &1733725680725060116
@@ -2512,22 +2509,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5873740851048000879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143243491976924257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d68f86d4109ed0f468324ae4f9abc753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  castingBar: {fileID: 0}
-  castTime: {fileID: 0}
-  canvasGroup: {fileID: 0}
-  castingTime: 3
 --- !u!114 &8894875404310857564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4579,15 +4560,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb7c3f97238ef474fa1d33bd82dd522f, type: 3}
---- !u!1 &1338702102677196207 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7293413268148232650, guid: bb7c3f97238ef474fa1d33bd82dd522f,
-    type: 3}
-  m_PrefabInstance: {fileID: 8620855889378421861}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1962719878675141616 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7827139145519316885, guid: bb7c3f97238ef474fa1d33bd82dd522f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8620855889378421861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1338702102677196207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7293413268148232650, guid: bb7c3f97238ef474fa1d33bd82dd522f,
     type: 3}
   m_PrefabInstance: {fileID: 8620855889378421861}
   m_PrefabAsset: {fileID: 0}
@@ -4606,12 +4587,12 @@ PrefabInstance:
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.566
+      value: -0.57
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
@@ -4681,12 +4662,12 @@ PrefabInstance:
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.566
+      value: -0.57
       objectReference: {fileID: 0}
     - target: {fileID: 4136440369064459582, guid: 698de234627c71249adca70dabe89ee7,
         type: 3}

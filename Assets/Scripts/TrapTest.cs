@@ -11,6 +11,9 @@ public class TrapTest : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
+        if(other.gameObject.tag != "Player")
+            return ;
+
        other.transform.position = center.transform.position;
     }
 }
