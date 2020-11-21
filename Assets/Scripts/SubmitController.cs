@@ -27,10 +27,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        if (!GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable())
-            return;
-
-        if (Input.GetKeyDown(KeyCode.E) && isActive)
+        if (Input.GetKeyDown(KeyCode.E) && isActive && GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable())
             Submit();
     }
     public void Submit()
