@@ -118,7 +118,8 @@ public class Inventory : MonoBehaviourPun {
     public void EquipWeaphone(GameObject weapone){
         if(weapone != null){
             Transform rightHand = TransformExtention.FirstOrDefault(transform,x => x.name == "mixamorig:RightHand");
-            GameObject newWeapone = PhotonNetwork.Instantiate(weapone, rightHand.position, Quaternion.identity,rightHand);
+            GameObject newWeapone = PhotonNetwork.Instantiate("Item/" + weapone.name, rightHand.position, Quaternion.identity);
+            newWeapone.transform.SetParent(rightHand);
             newWeapone.transform.localPosition = Vector3.zero;
             newWeapone.transform.localRotation = Quaternion.identity;
         }
