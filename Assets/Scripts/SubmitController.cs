@@ -20,6 +20,8 @@ public class SubmitController : MonoBehaviourPunCallbacks
 
     public bool isActive;
 
+    public GameObject soundStart;
+
     void Start()
     {
         for (int i = 0; i < smoke.Count; i++)
@@ -112,6 +114,7 @@ public class SubmitController : MonoBehaviourPunCallbacks
             GameManager.GetInstance().clear = true;
 
             GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+            soundStart.GetComponent<EarthSound>().cnt++;
             safezone.SetActive(true);
         }
     }
