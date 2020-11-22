@@ -160,14 +160,25 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     }
     public void OnSwitchChat(bool val) // 채팅 모드 (매뉴얼)
     {
-        if (val) chatLoadSound.Play();
         GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
         GameObject.Find("UI_Panel_Talk").gameObject.GetComponent<Animator>().Play(val ? "Talk_load" : "Talk_hide");
         GameObject.Find("UI_Panel_Talk_Input").gameObject.GetComponent<InputField>().DeactivateInputField();
 
+        InputField field = GameObject.Find("UI_Panel_Talk_Input").GetComponent<InputField>();
+        field.text = "";
+        field.DeactivateInputField();
+
         GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(!val);
-        if (val) GameManager.GetInstance().GetComponent<MissionController>().OnHide();
-        else GameManager.GetInstance().GetComponent<MissionController>().OnShow();
+
+        if (val)
+        {
+            GameManager.GetInstance().GetComponent<MissionController>().OnHide();
+            chatLoadSound.Play();
+        }
+        else
+        {
+            GameManager.GetInstance().GetComponent<MissionController>().OnShow();
+        }
     }
     public void OnSendChat() // 채팅 송신
     {
@@ -176,26 +187,15 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
         InputField field = GameObject.Find("UI_Panel_Talk_Input").GetComponent<InputField>();
 
-        if (!field.isFocused)
+        if (field.text == "")
         {
             field.ActivateInputField();
             return;
         }
-        if (field.isFocused)
-        {
-            if (field.text == "")
-            {
-                field.DeactivateInputField();
-                return;
-            }
-            else
-            {
-                photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
-                field.text = "";
-                field.ActivateInputField();
-            }
 
-        }
+        photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
+        field.text = "";
+        field.ActivateInputField();
     }
     [PunRPC]
     public void OnReceiveChat(string message) // 채팅 수신
