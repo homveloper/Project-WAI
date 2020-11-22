@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f8a0a17395fa245b19e88cb1196b2f, type: 3}
   m_Name: Battery
   m_EditorClassIdentifier: 
-  name: Battery
+  name: "\uBC30\uD130\uB9AC"
   isUsable: 1
   isContinuable: 0
   isDroppable: 1
   meterialWood: 0
   meterialIron: 10
   meterialPart: 10
-  description: "\uB77C\uC774\uD2B8\uC758 \uBC30\uD130\uB9AC\uB97C \uAD50\uCCB4\uD569\uB2C8\uB2E4."
+  description: "\uD50C\uB798\uC2DC\uB77C\uC774\uD2B8\uC758 \uBC30\uD130\uB9AC\uB97C
+    \uAD50\uCCB4\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: e1624ac9b56fd964880ff44da48681df, type: 3}
+  model: {fileID: 0}
   hpModifier: 0
   o2Modifier: 0
   batteryModifier: 100

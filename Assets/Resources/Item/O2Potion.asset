@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f8a0a17395fa245b19e88cb1196b2f, type: 3}
   m_Name: O2Potion
   m_EditorClassIdentifier: 
-  name: O2Potion
+  name: "\uC0B0\uC18C\uD1B5"
   isUsable: 1
   isContinuable: 0
   isDroppable: 1
   meterialWood: 10
   meterialIron: 0
   meterialPart: 10
-  description: "\uC0B0\uC18C\uB97C 70 \uCDA9\uC804\uD569\uB2C8\uB2E4."
+  description: "\uC0B0\uC18C\uB97C 200 \uCDA9\uC804\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 28f5add5a605fda40b9932530819552c, type: 3}
+  model: {fileID: 0}
   hpModifier: 0
-  o2Modifier: 70
+  o2Modifier: 200
   batteryModifier: 0
   castingTime: 3

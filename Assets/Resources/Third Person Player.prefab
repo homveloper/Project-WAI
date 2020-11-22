@@ -133,15 +133,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-    'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform
-    'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform 'mixamorig:RightFoot'\n\tTransform
-    'mixamorig:Head'\n\tTransform 'mixamorig:LeftUpLeg'\n\tand more ...\n\tFrom animation
-    clip 'Hit Head'\n\tFrom animation clip 'Hit Body'\n\tFrom animation clip 'Hit
-    Rib'\n\tFrom animation clip 'Hit Head'\n\tFrom animation clip 'Hit Body'\n\tFrom
-    animation clip 'Hit Rib'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -1688,7 +1680,7 @@ MonoBehaviour:
   modHp: 10
   modHpAlienHeal: 1
   modO2: 0.5
-  modO2Run: 2
+  modO2Run: 10
   modO2Alien: 2
   modBt: 1
   modBtRecharge: 0.5
@@ -1719,9 +1711,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1139416548044585999}
-  ResearcherWalk: 20
+  ResearcherWalk: 10
   ResearcherRun: 30
-  AlienWalk: 25
+  AlienWalk: 20
   turnSmoothTime: 0.1
   turnSmoothVelocity: 0
   gravity: -1

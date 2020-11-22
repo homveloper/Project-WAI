@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 737edadf78381d148a72b3724ecb2d45, type: 3}
   m_Name: Knife
   m_EditorClassIdentifier: 
-  name: Knife@Item
+  name: "\uB098\uC774\uD504"
+  isUsable: 0
+  isContinuable: 0
   isDroppable: 1
   meterialWood: 30
   meterialIron: 30
   meterialPart: 30
-  description: 
+  description: "\uACF5\uACA9 \uC2DC, 20\uC758 \uB370\uBBF8\uC9C0\uB97C \uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: f9989e544fc1be64281c88950c8e1e8f, type: 3}
   model: {fileID: 6319458715330844015, guid: 876df486bb32a96489fc75c4efb98ee3, type: 3}
   itemtype: 0
