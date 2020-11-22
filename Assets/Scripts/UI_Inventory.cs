@@ -28,7 +28,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void Update() {
         if(inventory != null){
-            if(Input.GetButtonDown("SetDrop") && !inventory.isEmpty()){
+            if(Input.GetButtonDown("SetDrop") && !inventory.isEmpty() && GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable()){
                 inventory.IsDroppable = !inventory.IsDroppable;
                 UpdateUI();
             }
