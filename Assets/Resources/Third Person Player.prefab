@@ -1711,7 +1711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1139416548044585999}
-  ResearcherWalk: 10
+  ResearcherWalk: 15
   ResearcherRun: 30
   AlienWalk: 20
   turnSmoothTime: 0.1

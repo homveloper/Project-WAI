@@ -153,7 +153,7 @@ public class Combat : MonoBehaviourPunCallbacks
             return;
         if (other.gameObject == gameObject || !other.CompareTag("HitBox"))
             return;
-
+        
         inTrigger = true;
         targetPlayer = other.GetComponentInParent<Player>();
     }

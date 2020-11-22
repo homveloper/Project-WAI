@@ -24,18 +24,20 @@ public class ZoomOut : MonoBehaviour
        followZoom = cam.GetComponent<CinemachineFollowZoom>();
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("HitBox") || !other.GetComponent<PhotonView>().IsMine)
+        Debug.Log("c in1");
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
             return;
-
+        Debug.Log("c in2");
         ZoomTo(chg,2);
     }
     void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("HitBox") || !other.GetComponent<PhotonView>().IsMine)
+        Debug.Log("c out1");
+        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
             return;
-
+        Debug.Log("c out2");
         ZoomTo(origin,2);
     }
  
@@ -51,6 +53,7 @@ public class ZoomOut : MonoBehaviour
     }
     public void ZoomTo(float destSize, float duration = 0)
     {
+        Debug.Log("in");
         followZoom.m_Damping = duration;
         followZoom.m_Width = destSize;
     }
