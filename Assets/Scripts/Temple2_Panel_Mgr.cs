@@ -41,10 +41,8 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
             e.GetComponent<Animator>().SetInteger("EnemyType", (int)e.type);
         }
         GameInterfaceManager.GetInstance().OnSwitchHide(true);
-        door.SetActive(true);
+        photonView.RPC("OnActiveDoor", RpcTarget.AllBuffered);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
-        
-        
     }
     // Update is called once per frame
     void Update()
@@ -54,5 +52,11 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
             mgr.GetComponent<Temple2_Mgr>().cnt--;
             tmp = 2;
         }
+    }
+
+    [PunRPC]
+    public void OnActiveDoor()
+    {
+        door.SetActive(true);
     }
 }

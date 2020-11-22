@@ -147,9 +147,15 @@ public class MiniGame_player : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         stage.SetActive(false);
-        door.SetActive(false);
+        photonView.RPC("OnDisableDoor", RpcTarget.AllBuffered);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
         GameInterfaceManager.GetInstance().OnSwitchHide(false);
         GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
+    }
+
+    [PunRPC]
+    public void OnDisableDoor()
+    {
+        door.SetActive(false);
     }
 }
