@@ -134,9 +134,8 @@ public class MiniGame_player : MonoBehaviourPun
                 enemylist.Add(enemy);
                 if(itemType == 3) //아이템이 키였고, 상자를 열었을때
                 {
-                    pmgr.GetComponent<Temple2_Panel_Mgr>().tmp--;
+                    pmgr.GetComponent<PhotonView>().RPC("SetClearMsg", RpcTarget.AllBuffered);
                     GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
-                    
                     StartCoroutine(this.OnFinishMinigame());
                 }
             }

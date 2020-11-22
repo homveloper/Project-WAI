@@ -47,11 +47,6 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (tmp == 0)
-        {
-            mgr.GetComponent<Temple2_Mgr>().cnt--;
-            tmp = 2;
-        }
     }
 
     [PunRPC]
@@ -64,5 +59,12 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     public void OnDisableDoor()
     {
         door.SetActive(false);
+    }
+
+    [PunRPC]
+    public void SetClearMsg()
+    {
+        mgr.GetComponent<Temple2_Mgr>().cnt--;
+        tmp = 2;
     }
 }
