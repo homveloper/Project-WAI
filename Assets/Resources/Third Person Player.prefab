@@ -1680,7 +1680,7 @@ MonoBehaviour:
   modHp: 10
   modHpAlienHeal: 1
   modO2: 0.5
-  modO2Run: 2
+  modO2Run: 10
   modO2Alien: 2
   modBt: 1
   modBtRecharge: 0.5
@@ -1713,7 +1713,7 @@ MonoBehaviour:
   controller: {fileID: 1139416548044585999}
   ResearcherWalk: 10
   ResearcherRun: 30
-  AlienWalk: 25
+  AlienWalk: 20
   turnSmoothTime: 0.1
   turnSmoothVelocity: 0
   gravity: -1
