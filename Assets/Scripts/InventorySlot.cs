@@ -18,8 +18,8 @@ public class InventorySlot : MonoBehaviour
     }
 
     private void Update() {
-        if(Input.GetButtonDown(useButton))
-            if(Inventory.instance.IsDroppable)
+        if(Input.GetButtonDown(useButton) && GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable())
+            if (Inventory.instance.IsDroppable)
                 DropItem();
             else
                 UseItem();
