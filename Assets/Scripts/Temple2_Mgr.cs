@@ -18,6 +18,7 @@ public class Temple2_Mgr : MonoBehaviourPun
         if(cnt == 0)
         {
             photonView.RPC("OnActiveJewelry", RpcTarget.AllBuffered);
+            cnt = 1;
         }
     }
 
