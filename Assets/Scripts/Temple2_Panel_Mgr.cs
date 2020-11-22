@@ -12,7 +12,7 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-        
+        door.SetActive(false);
     }
     void OnTriggerStay(Collider other)
     {
