@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f8a0a17395fa245b19e88cb1196b2f, type: 3}
   m_Name: HPPotion
   m_EditorClassIdentifier: 
-  name: "\uD608\uC561 \uD329"
+  name: Blood Pack
   isUsable: 1
   isContinuable: 0
   isDroppable: 1
