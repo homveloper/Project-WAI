@@ -53,32 +53,20 @@ public class CameraChanger : MonoBehaviourPun
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ZoomIn()
     {
-        if (PhotonNetwork.IsConnected)
-            if (!photonView.IsMine)
-                return;
-
-        if (player.IsAlienObject())
-        {
-            vignette.active = true;
-            liftGammaGain.active = true;
-            directionalLight.enabled = true;
-            ZoomTo(change, 2);
-        }
-        else
-        {
-            vignette.active = false;
-            liftGammaGain.active = false;
-            directionalLight.enabled = false;
-            ZoomTo(origin, 2);
-        }
+        vignette.active = false;
+        liftGammaGain.active = false;
+        directionalLight.enabled = false;
+        followZoom.m_Damping = 2;
+        followZoom.m_Width = origin;
     }
 
-    public void ZoomTo(float destSize, float duration = 0)
-    {
-        followZoom.m_Damping = duration;
-        followZoom.m_Width = destSize;
+    public void ZoomOut(){
+        vignette.active = true;
+        liftGammaGain.active = true;
+        directionalLight.enabled = true;
+        followZoom.m_Damping = 2;
+        followZoom.m_Width = change;
     }
 }

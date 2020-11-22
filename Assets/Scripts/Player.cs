@@ -53,6 +53,9 @@ public class Player : MonoBehaviourPunCallbacks
     public ParticleSystem chgEF;
 
     public AudioSource hitSound;
+
+    CameraChanger cameraChanger;
+
     private void Awake()
     {
         colorPalette = Instantiate(Resources.Load<PlayerColorPalette>("PlayerColorPalette"));
@@ -75,6 +78,8 @@ public class Player : MonoBehaviourPunCallbacks
         chgSound.Stop();
         chgEF.Stop();
         hitSound.Stop();
+
+        cameraChanger = GetComponent<CameraChanger>();
     }
 
     void Update()
@@ -181,12 +186,14 @@ public class Player : MonoBehaviourPunCallbacks
             damage = ALIEN_DAMAGE;
             SetO2(0);
             SetBt(0);
+            cameraChanger.ZoomOut();
         }
         else
         {
             damage = RESEARCHER_DAMAGE;
             SetO2(GetO2Max());
             SetBt(GetBtMax());
+            cameraChanger.ZoomIn();
         }
 
         GetComponent<ThirdPersonMovement>().alien = !val;
