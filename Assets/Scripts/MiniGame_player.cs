@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class MiniGame_player : MonoBehaviour
+public class MiniGame_player : MonoBehaviourPun
 {
     public float moveSpeed = 4;
     private MiniGame_item holdItem;
