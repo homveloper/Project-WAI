@@ -13,7 +13,7 @@ public class TelePortGate : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        if(other.tag != "HitBox")
+        if(other.gameObject.tag != "HitBox")
             return;
 
         if (Input.GetKeyDown(KeyCode.E))
