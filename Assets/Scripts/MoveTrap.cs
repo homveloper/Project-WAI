@@ -25,7 +25,7 @@ public class MoveTrap : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
         
-        if(other.gameObject.tag != "Player")
+        if(other.gameObject.tag != "HitBox")
             return ;
         
         if(gameObject.GetComponent<Renderer>().material.color == r2.color)

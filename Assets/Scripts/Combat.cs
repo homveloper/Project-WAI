@@ -151,11 +151,11 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (!photonView.IsMine)
             return;
-        if (other.gameObject == gameObject || !other.CompareTag("Player"))
+        if (other.gameObject == gameObject || !other.CompareTag("HitBox"))
             return;
 
         inTrigger = true;
-        targetPlayer = other.GetComponent<Player>();
+        targetPlayer = other.GetComponentInParent<Player>();
     }
 
     void OnTriggerExit(Collider other)
@@ -163,7 +163,7 @@ public class Combat : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
-        if (other.gameObject == gameObject || !other.CompareTag("Player"))
+        if (other.gameObject == gameObject || !other.CompareTag("HitBox"))
             return;
 
         inTrigger = false;
