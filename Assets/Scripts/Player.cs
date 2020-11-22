@@ -205,7 +205,7 @@ public class Player : MonoBehaviourPunCallbacks
             myProp.Remove("fakeNick");
             myProp.Remove("fakeColor");
             photonView.Owner.SetCustomProperties(myProp);
-        }else if(photonView.IsMine){
+        }else if(photonView.IsMine && val == true){
             cameraChanger.ZoomIn();
         }
     }
