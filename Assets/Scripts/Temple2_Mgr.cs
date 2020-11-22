@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Temple2_Mgr : MonoBehaviour
+using Photon.Pun;
+public class Temple2_Mgr : MonoBehaviourPun
 {
     public GameObject jewelry;
     public int cnt = 3; //3개 패널에서 스테이지 클리어 시 유적 클리어.
@@ -17,7 +17,13 @@ public class Temple2_Mgr : MonoBehaviour
     {
         if(cnt == 0)
         {
-            jewelry.SetActive(true);
+            photonView.RPC("OnActiveJewelry", RpcTarget.AllBuffered);
         }
+    }
+
+    [PunRPC]
+    void OnActiveJewelry()
+    {
+        jewelry.SetActive(true);
     }
 }
