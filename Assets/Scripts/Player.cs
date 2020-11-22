@@ -186,14 +186,12 @@ public class Player : MonoBehaviourPunCallbacks
             damage = ALIEN_DAMAGE;
             SetO2(0);
             SetBt(0);
-            cameraChanger.ZoomOut();
         }
         else
         {
             damage = RESEARCHER_DAMAGE;
             SetO2(GetO2Max());
             SetBt(GetBtMax());
-            cameraChanger.ZoomIn();
         }
 
         GetComponent<ThirdPersonMovement>().alien = !val;
@@ -201,11 +199,14 @@ public class Player : MonoBehaviourPunCallbacks
         if (photonView.IsMine && val == false)
         {
             Inventory.instance.DropAll();
+            cameraChanger.ZoomOut();
 
             ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
             myProp.Remove("fakeNick");
             myProp.Remove("fakeColor");
             photonView.Owner.SetCustomProperties(myProp);
+        }else if(photonView.IsMine){
+            cameraChanger.ZoomIn();
         }
     }
     [PunRPC]
