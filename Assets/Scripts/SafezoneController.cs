@@ -19,6 +19,9 @@ public class SafezoneController : MonoBehaviour
     // ---------------------------------------------------------------------------------------------------
     void OnTriggerStay(Collider other)
     {
+        if (survivorList == null)
+            return;
+
         if (!other.CompareTag("Player"))
             return;
 
@@ -40,6 +43,9 @@ public class SafezoneController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        if (survivorList == null)
+            return;
+
         if (!other.CompareTag("Player"))
             return;
 
