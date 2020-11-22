@@ -59,4 +59,10 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     {
         door.SetActive(true);
     }
+
+    [PunRPC]
+    public void OnDisableDoor()
+    {
+        door.SetActive(false);
+    }
 }

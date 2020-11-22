@@ -146,16 +146,12 @@ public class MiniGame_player : MonoBehaviourPun
     IEnumerator OnFinishMinigame()
     {
         yield return new WaitForSeconds(1);
+        pmgr.GetComponent<PhotonView>().RPC("OnDisableDoor", RpcTarget.AllBuffered);
         stage.SetActive(false);
-        photonView.RPC("OnDisableDoor", RpcTarget.AllBuffered);
         GameManager.GetInstance().GetComponent<FadeController>().OnFadeIn();
         GameInterfaceManager.GetInstance().OnSwitchHide(false);
         GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(true);
     }
 
-    [PunRPC]
-    public void OnDisableDoor()
-    {
-        door.SetActive(false);
-    }
+    
 }
