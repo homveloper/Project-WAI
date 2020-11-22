@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     if (radius <= 24.0f)
                         break;
                 }
-
+                yield return new WaitForSeconds(10f);
                 // 게임 체커 루틴 시작 (* 마스터 클라이언트용)
                 StartCoroutine(GameChecker());
                 break;
