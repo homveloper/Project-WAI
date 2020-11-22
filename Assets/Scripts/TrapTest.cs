@@ -10,9 +10,12 @@ public class TrapTest : MonoBehaviourPun
     {
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
-
-        if(other.gameObject.tag != "Player")
+            
+        if(other.gameObject.tag != "HitBox")
             return ;
+
+        if(!other.GetComponentInParent<Player>().IsControllable)
+            return;    
 
        other.transform.position = center.transform.position;
     }
