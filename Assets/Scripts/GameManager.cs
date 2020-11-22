@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // 공통
     private static GameManager instance = null;
     public static bool NORMAL_START = false;
-    public static bool DEBUG_GAME = true;
+    public static bool DEBUG_GAME = false;
     private const int TIME = 1800;
 
     // 플레이어 객체
