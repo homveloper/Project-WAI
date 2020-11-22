@@ -20,7 +20,7 @@ public class Temple3_Switch : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag != "Player")
+        if(other.gameObject.tag != "HitBox")
             return ;
             
         swichFlash.SetActive(true);

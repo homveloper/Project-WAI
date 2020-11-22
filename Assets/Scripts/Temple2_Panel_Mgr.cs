@@ -19,7 +19,7 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        if (other.tag != "Player")
+        if (other.tag != "HitBox")
             return;
 
         if (Input.GetKeyDown(KeyCode.E) && tmp == 1)
