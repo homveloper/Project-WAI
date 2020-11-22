@@ -11,10 +11,10 @@ using UnityEngine;
 public class ResponeItem : MonoBehaviourPunCallbacks
 {
     public GameObject box;
-    public int countOfBox = 10;
+    public int countOfBox = 15;
     int itemSize = 24;
-    int waitTime = 120;
-    int term = 30;
+    int waitTime = 90;
+    int term = 15;
     // Start is called before the first frame update
     void Start()
     {

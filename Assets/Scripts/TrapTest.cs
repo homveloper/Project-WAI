@@ -8,12 +8,13 @@ public class TrapTest : MonoBehaviourPun
     public GameObject center;
     void OnTriggerEnter(Collider other)
     {
+
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
-
+        
         if(other.gameObject.tag != "HitBox")
             return ;
-
-       other.transform.position = center.transform.position;
+        
+       other.transform.parent.position = center.transform.position;
     }
 }

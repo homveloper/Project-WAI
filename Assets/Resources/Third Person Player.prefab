@@ -3060,6 +3060,7 @@ GameObject:
   - component: {fileID: 2123658722828943775}
   - component: {fileID: 2134766061303229454}
   - component: {fileID: 2032702288447352945}
+  - component: {fileID: 4784066236478877454}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: HitBox
@@ -3092,7 +3093,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 4.5, z: 1.3}
+  m_Size: {x: 1.4, y: 6, z: 1.3}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!54 &2032702288447352945
 Rigidbody:
@@ -3110,6 +3111,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4784066236478877454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6391301697852141489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 0
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6456887558460570681
 GameObject:
   m_ObjectHideFlags: 0

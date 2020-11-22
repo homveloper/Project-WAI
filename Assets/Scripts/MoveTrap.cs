@@ -31,7 +31,7 @@ public class MoveTrap : MonoBehaviourPun
         if(gameObject.GetComponent<Renderer>().material.color == r2.color)
         {
             Debug.Log("돌아가");
-            other.transform.position = center.transform.position;
+            other.transform.parent.position = center.transform.position;
         }
     }
     IEnumerator moveTrap()
