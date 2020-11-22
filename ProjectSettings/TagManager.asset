@@ -13,6 +13,7 @@ TagManager:
   - Trap
   - Weapone
   - Club
+  - HitBox
   layers:
   - Default
   - TransparentFX

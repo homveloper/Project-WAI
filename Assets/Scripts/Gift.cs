@@ -12,7 +12,7 @@ public class Gift : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag != "Player")
+        if(other.gameObject.tag != "HitBox")
             return ;
         
         gift.SetActive(true);

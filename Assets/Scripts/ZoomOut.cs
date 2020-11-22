@@ -26,14 +26,14 @@ public class ZoomOut : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
+        if (!other.CompareTag("HitBox") || !other.GetComponent<PhotonView>().IsMine)
             return;
 
         ZoomTo(chg,2);
     }
     void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player") || !other.GetComponent<PhotonView>().IsMine)
+        if (!other.CompareTag("HitBox") || !other.GetComponent<PhotonView>().IsMine)
             return;
 
         ZoomTo(origin,2);
