@@ -176,12 +176,26 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
 
         InputField field = GameObject.Find("UI_Panel_Talk_Input").GetComponent<InputField>();
 
-        if (field.text == "")
+        if (!field.isFocused)
+        {
+            field.ActivateInputField();
             return;
+        }
+        if (field.isFocused)
+        {
+            if (field.text == "")
+            {
+                field.DeactivateInputField();
+                return;
+            }
+            else
+            {
+                photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
+                field.text = "";
+                field.ActivateInputField();
+            }
 
-        photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
-        field.text = "";
-        field.ActivateInputField();
+        }
     }
     [PunRPC]
     public void OnReceiveChat(string message) // 채팅 수신
