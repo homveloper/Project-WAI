@@ -1677,8 +1677,8 @@ MonoBehaviour:
   researcher: {fileID: 1925428832513619680}
   alien: {fileID: 183093030274535310}
   flashlight: {fileID: 8567649898356843675}
-  modHp: 10
-  modHpAlienHeal: 1
+  modHp: 3
+  modHpAlienHeal: 0.5
   modO2: 0.5
   modO2Run: 10
   modO2Alien: 2
