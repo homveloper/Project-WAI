@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6375482714390666087}
   - component: {fileID: 5555183369242710238}
   m_Layer: 0
-  m_Name: knife@Weaphone
+  m_Name: Knife@Weaphone
   m_TagString: Weapone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

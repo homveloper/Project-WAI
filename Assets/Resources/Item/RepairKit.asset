@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 737edadf78381d148a72b3724ecb2d45, type: 3}
   m_Name: RepairKit
   m_EditorClassIdentifier: 
-  name: Tool Box
+  name: RepairKit
   isUsable: 0
   isContinuable: 0
   isDroppable: 1
