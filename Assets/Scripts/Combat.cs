@@ -151,7 +151,8 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (!photonView.IsMine)
             return;
-        if (other.transform.parent.gameObject == gameObject || !other.CompareTag("HitBox"))
+
+        if (!other.CompareTag("HitBox") || other.transform.parent.gameObject == gameObject)
             return;
         
         inTrigger = true;
@@ -163,7 +164,7 @@ public class Combat : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
-        if (other.transform.parent.gameObject == gameObject || !other.CompareTag("HitBox"))
+        if (!other.CompareTag("HitBox") || other.transform.parent.gameObject == gameObject)
             return;
 
         inTrigger = false;
