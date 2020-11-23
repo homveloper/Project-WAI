@@ -17,6 +17,11 @@ public class Combat : MonoBehaviourPunCallbacks
     public float researcherAttackSpeed = 1.0f; // 1초 당 타격횟수
     public float alienAttackSpeed = 1.0f;
 
+    [SerializeField]
+    private float alienFirstDelayTime = 1.1f;
+    [SerializeField]
+    private float alienSecondDelayTime = 0.9f;
+
     private float cooldown = 0.0f; // 공격 쿨타임
 
     [SerializeField]
@@ -74,14 +79,14 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (Input.GetButtonDown("Attack"))
         {
+            OnAttackCallback.Invoke();
             StartCoroutine(IsPlaying());
         }
     }
 
     IEnumerator IsPlaying()
     {
-
-        
+        // 연구원
         if(!myPlayer.IsAlienObject()){
             myPlayer.SetMove(false);
 
@@ -90,7 +95,6 @@ public class Combat : MonoBehaviourPunCallbacks
 
             while (true)
             {
-
                 bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
                 bool isSword = researcherAnimation.AnimatorIsPlaying("Stable Sword Outward Slash");
 
@@ -103,23 +107,18 @@ public class Combat : MonoBehaviourPunCallbacks
 
                 yield return null;  //1프레임 마다 체크합니다.
             }
+
+        // 외계인
         }else{
-            while (true)
-            {
-                bool isAttack = alienAnimation.AnimatorIsPlaying("Attack");
+            yield return new WaitForSeconds(alienFirstDelayTime);
+            myPlayer.SetMove(false);
+            
+            // bool isAttack = alienAnimation.AnimatorIsPlaying("Attack");
 
-                if (!isAttack)
-                {
-                    // foreach(Transform child in alienRightHand){
-                    //     photonView.RPC("DestoryClub", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-                    // }
+            yield return new WaitForSeconds(alienSecondDelayTime);
+            myPlayer.SetMove(true);
 
-                    myPlayer.SetMove(true);
-                    break;
-                }
-
-                yield return null;  //1프레임 마다 체크합니다.
-            }
+            Attack(targetPlayer != null ? targetPlayer : null);
         }
     }
 
@@ -206,7 +205,6 @@ public class Combat : MonoBehaviourPunCallbacks
         if (target != null)
             target.SetHit(myPlayer.damage);
 
-        OnAttackCallback.Invoke();
         
         if(!myPlayer.IsAlienObject())
             cooldown = 1f / researcherAttackSpeed;
