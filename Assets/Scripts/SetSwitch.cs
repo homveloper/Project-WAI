@@ -24,7 +24,8 @@ public class SetSwitch : MonoBehaviour
     {
         if(other.gameObject.tag != "HitBox")
             return ;
-            
+        
+        other.GetComponentInParent<Player>().statO2++;
         swichFlash.SetActive(true);
 
         if(moveWell == null)
