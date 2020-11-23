@@ -64,10 +64,10 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
             OnSendChat();
 
         if (Input.GetKeyDown(KeyCode.F1))
-            OnSwitchGuide(false);
+            OnSwitchGuide(true);
 
         if (Input.GetKeyDown(KeyCode.F2))
-            OnSwitchGuide(true);
+            OnSwitchGuide(false);
     }
 
     void refresh() // UI 갱신
