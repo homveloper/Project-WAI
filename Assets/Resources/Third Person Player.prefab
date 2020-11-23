@@ -774,7 +774,7 @@ MonoBehaviour:
     Name: end
   - Type: 4
     SynchronizeType: 1
-    Name: hasWeaphone
+    Name: hasWeapone
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
