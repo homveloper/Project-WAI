@@ -146,18 +146,18 @@ public class Combat : MonoBehaviourPunCallbacks
 
             if (Inventory.instance != null)
             {
-                foreach (Item item in Inventory.instance.items)
-                {
-                    if (item is InteractableItem)
+                List<Item> items = Inventory.instance.items;
+
+                for(int i=items.Count-1; i>=0; i--){
+                    if (items[i] is InteractableItem)
                     {
-                        if (((InteractableItem)item).Itemtype == Itemtype.WEAPHONE)
+                        if (((InteractableItem)items[i]).Itemtype == Itemtype.WEAPHONE)
                         {
-                            totalDamage += ((InteractableItem)item).DamageModifier;
+                            totalDamage += ((InteractableItem)items[i]).DamageModifier;
                         }
                     }
                 }
             }
-
             myPlayer.damage = totalDamage;
         }
         else
