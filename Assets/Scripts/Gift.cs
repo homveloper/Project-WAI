@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Gift : MonoBehaviour
+public class Gift : MonoBehaviourPun
 {
     public GameObject gift; 
+    int cnt = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +17,14 @@ public class Gift : MonoBehaviour
         if(other.gameObject.tag != "HitBox")
             return ;
         
+        if(cnt == 1)
+            photonView.RPC("OnGiftPop", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void OnGiftPop()
+    {
         gift.SetActive(true);
+        cnt--;
     }
 }
