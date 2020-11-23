@@ -8,6 +8,7 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     public GameObject mgr;
     public GameObject door;
 
+    public bool isPlay = false;
     public int tmp = 1;
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
         if (other.gameObject.tag != "Player")
             return;
 
-        if (Input.GetKeyDown(KeyCode.E) && tmp == 1)
+        if (Input.GetKeyDown(KeyCode.E) && tmp == 1 && isPlay == false)
         {
             GameManager.GetInstance().mPlayer.GetComponent<Player>().SetMove(false);
             GameManager.GetInstance().GetComponent<FadeController>().OnFadeOut();
@@ -33,6 +34,9 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     IEnumerator OnStartMinigame()
     {
         yield return new WaitForSeconds(1);
+
+        photonView.RPC("SetPlayState", RpcTarget.AllBuffered, true);
+
         stage.SetActive(true);
         MiniGame_enemy[] elist = stage.transform.Find("Enemies").GetComponentsInChildren<MiniGame_enemy>();
 
@@ -66,5 +70,11 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
     {
         mgr.GetComponent<Temple2_Mgr>().cnt--;
         tmp = 2;
+    }
+
+    [PunRPC]
+    public void SetPlayState(bool state)
+    {
+        isPlay = state;
     }
 }
