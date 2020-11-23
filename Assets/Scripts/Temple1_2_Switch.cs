@@ -28,7 +28,6 @@ public class Temple1_2_Switch : MonoBehaviourPun
         if(tmp == 1)
         {
             photonView.RPC("OnCntDown", RpcTarget.AllBuffered);
-            tmp--;
         }
     }
 
@@ -47,6 +46,7 @@ public class Temple1_2_Switch : MonoBehaviourPun
     {
         swichFlash.SetActive(true);
         mgr.GetComponent<Temple1_2_Mgr>().cnt--;
+        tmp--;
     }
 
     [PunRPC]
