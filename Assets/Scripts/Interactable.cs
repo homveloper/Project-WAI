@@ -86,20 +86,20 @@ public class Interactable : MonoBehaviourPun
         if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
             return;
 
-        if (other.gameObject.tag == "Player")
+        if(other.gameObject.tag != "HitBox")
+            return ;
+
+        if (!other.GetComponent<Player>().IsControllable())
         {
-            if (!other.GetComponent<Player>().IsControllable())
-            {
-                inTrigger = false;
-                camTransform = null;
-                target = null;
-            }
-            else
-            {
-                inTrigger = true;
-                camTransform = Camera.main.transform;
-                target = other.GetComponent<Player>();
-            }
+            inTrigger = false;
+            camTransform = null;
+            target = null;
+        }
+        else
+        {
+            inTrigger = true;
+            camTransform = Camera.main.transform;
+            target = other.GetComponentInParent<Player>();
         }
     }
 
