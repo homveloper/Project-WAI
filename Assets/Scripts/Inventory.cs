@@ -128,19 +128,12 @@ public class Inventory : MonoBehaviourPun {
     public void EquipWeapone(GameObject weapone){
         if(weapone != null){
             GameObject newWeapone = PhotonNetwork.Instantiate("Item/" + weapone.name, rightHand.position, Quaternion.identity);
-            photonView.RPC("RPCSetParent", RpcTarget.AllBuffered,newWeapone.transform, rightHand);
+
         }
     }
 
     public void UnEquipWeapone(){
         photonView.RPC("DestroyWeapone", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-    }
-
-    [PunRPC]
-    void RPCSetParent(Transform child, Transform parent){
-        child.SetParent(parent);
-        child.localPosition = Vector3.zero;
-        child.localRotation = Quaternion.identity;
     }
 
     [PunRPC]

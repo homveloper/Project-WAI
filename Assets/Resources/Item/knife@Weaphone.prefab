@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6589421467289271503}
   - component: {fileID: 6375482714390666087}
   - component: {fileID: 5555183369242710238}
+  - component: {fileID: 8872372013894992342}
   m_Layer: 0
   m_Name: knife@Weaphone
   m_TagString: Weapone
@@ -136,3 +137,15 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!114 &8872372013894992342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319458715330844015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07bdfeea66da3ce4bb3691efe724e6bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
