@@ -185,9 +185,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = true;
                 GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
 
-                // 플레이어 움직임 설정
-                mPlayer.GetComponent<Player>().SetMove(true);
-
                 // 페이드 인
                 GetComponent<FadeController>().OnFadeIn();
 
@@ -200,8 +197,13 @@ public class GameManager : MonoBehaviourPunCallbacks
                     if (radius <= 24.0f)
                         break;
                 }
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(2f);
+
+                // 플레이어 움직임 설정
+                mPlayer.GetComponent<Player>().SetMove(true);
+
                 // 게임 체커 루틴 시작 (* 마스터 클라이언트용)
+                yield return new WaitForSeconds(8f);
                 StartCoroutine(GameChecker());
                 break;
             }
