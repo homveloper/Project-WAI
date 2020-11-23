@@ -28,7 +28,7 @@ public class AnimationController : MonoBehaviourPunCallbacks{
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
         isWalk = hasHorizontalInput || hasVeritcalInput;
-        isRun = isWalk && Input.GetButtonDown("Run");
+        isRun = isWalk && Input.GetButton("Run");
 
         animator.SetBool("isWalk",isWalk);
         animator.SetBool("isRun",isRun);
