@@ -141,7 +141,7 @@ public class Inventory : MonoBehaviourPun {
 
         for(int i=weapones.Length-1; i>=0; i++){
             if (photonView.OwnerActorNr == actorNumber){
-                Destroy(weapone);
+                Destroy(weapones[i]);
                 break;
             }
         }
