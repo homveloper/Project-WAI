@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Materials/PlayerColorPallete.meta
 guid: 5445bf83bab1c1d46b22c6a8ce52859c
+=======
+guid: bc953a9d335eb3842abf2e26f0aeb144
+>>>>>>> 25f0115e3d350ae8169eb8c809c7664d5928d2cf:Assets/_TerrainAutoUpgrade.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
