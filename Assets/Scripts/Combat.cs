@@ -44,7 +44,7 @@ public class Combat : MonoBehaviourPunCallbacks
     {
         // alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
         box1.enabled = true;
-        box2.enabled=false;
+        box2.enabled = false;
         attackSounds.ForEach(x => x.Pause());
 
         myPlayer = GetComponent<Player>();
@@ -57,19 +57,19 @@ public class Combat : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if(PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
 
-        if(myPlayer.IsAlienObject() && !box2.enabled)
+        if (myPlayer.IsAlienObject() && !box2.enabled)
         {
             box1.enabled = false;
-            box2.enabled=true;
+            box2.enabled = true;
         }
-        else if(!myPlayer.IsAlienObject() && box2.enabled)
+        else if (!myPlayer.IsAlienObject() && box2.enabled)
         {
             box1.enabled = true;
-            box2.enabled=false;
+            box2.enabled = false;
         }
 
         cooldown -= Time.deltaTime;
@@ -79,35 +79,46 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (Input.GetButtonDown("Attack"))
         {
-            StartCoroutine(IsPlaying());
+            StartCoroutine(Playing());
         }
     }
 
-    IEnumerator IsPlaying()
+    IEnumerator Playing()
     {
         // 연구원
-        if(!myPlayer.IsAlienObject()){
+        if (!myPlayer.IsAlienObject())
+        {
             OnAttackCallback.Invoke();
+
+            if (Inventory.instance.HasWeaphone)
+            {
+                yield return new WaitForSeconds(0.18f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.13f);
+            }
+
             Attack(targetPlayer != null ? targetPlayer : null);
 
             /*
                 while(attack animation is playing)
                     if attack is punch
                         in Cross Punch Animation Clip set EventHandler SetMove(false)
-                    
+
                     if attack is knife
                         in Stable Sword Outward Slash Aniatmion Clip set EventHandler SetMove(false)
 
                 EventHandler's SetMove(true)
             */
 
-        // 외계인
-        }else{
+            // 외계인
+        }
+        else
+        {
             OnAttackCallback.Invoke();
             yield return new WaitForSeconds(alienFirstDelayTime);
             myPlayer.SetMove(false);
-            
-            // bool isAttack = alienAnimation.AnimatorIsPlaying("Attack");
 
             yield return new WaitForSeconds(alienSecondDelayTime);
             myPlayer.SetMove(true);
@@ -159,7 +170,7 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (!other.CompareTag("HitBox") || other.transform.parent.gameObject == gameObject)
             return;
-        
+
         inTrigger = true;
         targetPlayer = other.GetComponentInParent<Player>();
     }
@@ -178,7 +189,7 @@ public class Combat : MonoBehaviourPunCallbacks
 
     public void SetAck()
     {
-         photonView.RPC("CombatSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
+        photonView.RPC("CombatSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 
     [PunRPC]
@@ -200,12 +211,12 @@ public class Combat : MonoBehaviourPunCallbacks
         if (target != null)
             target.SetHit(myPlayer.damage);
 
-        
-        if(!myPlayer.IsAlienObject())
+
+        if (!myPlayer.IsAlienObject())
             cooldown = 1f / researcherAttackSpeed;
         else
             cooldown = 1f / alienAttackSpeed;
-        
+
     }
 
     // [PunRPC]

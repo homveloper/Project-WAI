@@ -2521,8 +2521,8 @@ MonoBehaviour:
   alienAnimation: {fileID: 2470497169045794385}
   researcherAttackSpeed: 1
   alienAttackSpeed: 1
-  alienFirstDelayTime: 1
-  alienSecondDelayTime: 1
+  alienFirstDelayTime: 1.1
+  alienSecondDelayTime: 0.9
   delayTime: 1
   attackSounds:
   - {fileID: 8914609511453814114}

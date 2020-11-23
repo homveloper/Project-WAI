@@ -187,12 +187,18 @@ public class Player : MonoBehaviourPunCallbacks
         if (val == false)
         {
             damage = ALIEN_DAMAGE;
+            transform.Find("spacesuit").GetComponent<Animator>().enabled = false;
+            transform.Find("Alien").GetComponent<Animator>().enabled = true;
+
             SetO2(0);
             SetBt(0);
         }
         else
         {
             damage = RESEARCHER_DAMAGE;
+            transform.Find("Alien").GetComponent<Animator>().enabled = false;
+            transform.Find("spacesuit").GetComponent<Animator>().enabled = true;
+
             SetO2(GetO2Max());
             SetBt(GetBtMax());
         }
