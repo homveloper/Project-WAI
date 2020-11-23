@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 183093030274535310}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 3455638454395123992}
   - {fileID: 301113671846732276}
@@ -2499,6 +2499,8 @@ MonoBehaviour:
   attackSounds:
   - {fileID: 8914609511453814114}
   - {fileID: 861716071771920321}
+  box1: {fileID: 7946571427189089344}
+  box2: {fileID: 8085498049292425105}
 --- !u!65 &7946571427189089344
 BoxCollider:
   m_ObjectHideFlags: 0
