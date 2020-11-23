@@ -151,7 +151,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (IsAlienPlayer())
             alien.GetComponent<AlienAnimation>().animator.SetTrigger("dead");
         else if (!IsAlienPlayer())
-            researcher.GetComponent<PlayerAnimation>().animator.SetTrigger("dead");
+            researcher.GetComponent<ResearcherAnimation>().animator.SetTrigger("dead");
 
         SetO2(0);
         SetBt(0);
@@ -538,7 +538,7 @@ public class Player : MonoBehaviourPunCallbacks
     }
     public void SetMove(bool val) // 조작 설정
     {
-        researcher.GetComponent<PlayerAnimation>().enabled = val;
+        researcher.GetComponent<ResearcherAnimation>().enabled = val;
         alien.GetComponent<AlienAnimation>().enabled = val;
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().isDead = val;

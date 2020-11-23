@@ -24,19 +24,19 @@ public class ConsumableItem : Item
 
     public override void Use(Player playerStat)
     {
-        PlayerAnimation playerAnimation = playerStat.researcher.GetComponent<PlayerAnimation>();
+        ResearcherAnimation researcherAnimation = playerStat.researcher.GetComponent<ResearcherAnimation>();
         IEnumerator coroutine = OnStartAfterTime(playerStat,castingTime);
 
         Debug.Log(name + "을 사용하였습니다.");
 
-        if(Inventory.instance != null && !playerAnimation.IsWalk){
-            playerAnimation.OnCasting();
+        if(Inventory.instance != null && !researcherAnimation.IsWalk){
+            researcherAnimation.OnCasting();
             Inventory.instance.StartCoroutine(coroutine);
-            Inventory.instance.StartCoroutine(IsCasting(coroutine,playerAnimation));
+            Inventory.instance.StartCoroutine(IsCasting(coroutine,researcherAnimation));
         }
     }
 
-    IEnumerator IsCasting(IEnumerator coroutine,PlayerAnimation playerAnimation){
+    IEnumerator IsCasting(IEnumerator coroutine,ResearcherAnimation researcherAnimation){
 
         // float calibrationTime = 0.5f;
 
@@ -54,12 +54,12 @@ public class ConsumableItem : Item
 
             if(isWalk){
                 Inventory.instance.StopCoroutine(coroutine);
-                playerAnimation.EndAnimation();
+                researcherAnimation.EndAnimation();
                 break;
             }
             yield return null;  //1프레임 마다 체크합니다.
         }
-        playerAnimation.EndAnimation();
+        researcherAnimation.EndAnimation();
     }
 
     public override void Continue(Player playerStat)

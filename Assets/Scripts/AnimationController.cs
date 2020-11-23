@@ -7,6 +7,9 @@ public class AnimationController : MonoBehaviourPunCallbacks{
     [SerializeField]
     public Animator animator;
 
+    bool isWalk;
+    bool isRun;
+
     void Start(){
         GetComponentInParent<Combat>().OnAttackCallback += Attack;
         GetComponentInParent<Player>().onTakeDamageCallback+= TakeDamage;
@@ -24,8 +27,10 @@ public class AnimationController : MonoBehaviourPunCallbacks{
         bool hasHorizontalInput = !Mathf.Approximately(horizontal,0f);
         bool hasVeritcalInput = !Mathf.Approximately(vertical,0f);
 
-        bool isRun = hasHorizontalInput || hasVeritcalInput;
+        isWalk = hasHorizontalInput || hasVeritcalInput;
+        isRun = isWalk && Input.GetButtonDown("Run");
 
+        animator.SetBool("isWalk",isWalk);
         animator.SetBool("isRun",isRun);
     }
 
@@ -74,5 +79,13 @@ public class AnimationController : MonoBehaviourPunCallbacks{
 
     public IEnumerator WaitUntilAnimationFinished(string stateName){
         yield return new WaitForSeconds (animator.GetCurrentAnimatorClipInfo(0)[0].clip.length);
+    }
+
+    public bool IsWalk{
+        get=>isWalk;
+    }
+
+    public bool IsRun{
+        get=>isRun;
     }
 }

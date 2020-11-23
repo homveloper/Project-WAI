@@ -5,13 +5,13 @@ using Photon.Pun;
 using Photon.Realtime;
 
 
-[RequireComponent(typeof(Player))]
 [System.Serializable]
 public class Combat : MonoBehaviourPunCallbacks
 {
     Player myPlayer;
     Player targetPlayer;
-    public PlayerAnimation researcherAnimation;
+    
+    public ResearcherAnimation researcherAnimation;
     public AlienAnimation alienAnimation;
 
     public float attackSpeed = 1.0f; // 1초 당 타격횟수
