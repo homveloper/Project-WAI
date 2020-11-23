@@ -89,7 +89,7 @@ public class Interactable : MonoBehaviourPun
         if(other.gameObject.tag != "HitBox")
             return ;
 
-        if (!other.GetComponent<Player>().IsControllable())
+        if (!other.GetComponentInParent<Player>().IsControllable())
         {
             inTrigger = false;
             camTransform = null;
