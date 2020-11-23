@@ -508,8 +508,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // 페이드 아웃
         fadeController.OnFadeOut();
-
         yield return new WaitForSeconds(1.1f);
+        GameObject.Find("UI_Room_Guide").GetComponent<RectTransform>().localScale = Vector3.one;
+        fadeController.OnWhite();
+        yield return new WaitForSeconds(0.1f);
 
         SceneManager.LoadScene("proto_field_ver2");
     }

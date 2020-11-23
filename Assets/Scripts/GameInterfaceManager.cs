@@ -43,25 +43,31 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         fps += (Time.deltaTime - fps) * 0.1f;
 
         // 플레이어 데이터가 없는 상황, 게임이 끝난 상황에는 UI 미갱신
-        if (GameManager.GetInstance().mPlayer == null || IsEnding() == true)
+        if (GameManager.GetInstance().mPlayer == null || IsEnding())
             return;
 
         // UI 갱신
         refresh();
 
         // 관전모드 - 대상 전환 (방향키)
-        if (IsWatching() == true && Input.GetKeyDown(KeyCode.LeftArrow) == true)
+        if (IsWatching() && Input.GetKeyDown(KeyCode.LeftArrow))
             OnMoveWatch(-1);
-        else if (IsWatching() == true && Input.GetKeyDown(KeyCode.RightArrow) == true)
+        else if (IsWatching() && Input.GetKeyDown(KeyCode.RightArrow))
             OnMoveWatch(1);
 
         // 채팅모드 전환 (탭)
-        if (Input.GetKeyDown(KeyCode.Tab) == true)
+        if (Input.GetKeyDown(KeyCode.Tab))
             OnSwitchChat();
 
         // 채팅모드 - 채팅 (엔터)
-        if (IsChating() == true && (Input.GetKeyDown(KeyCode.Return) == true || Input.GetKeyDown(KeyCode.KeypadEnter) == true))
+        if (IsChating() && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
             OnSendChat();
+
+        if (Input.GetKeyDown(KeyCode.F1))
+            OnSwitchGuide(false);
+
+        if (Input.GetKeyDown(KeyCode.F2))
+            OnSwitchGuide(true);
     }
 
     void refresh() // UI 갱신
@@ -276,6 +282,52 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     public void OnSwitchHide(bool val) // 숨김 모드 (매뉴얼)
     {
         GameObject.Find("UI_Game").GetComponent<Canvas>().enabled = !val;
+    }
+    // ---------------------------------------------------------------------------------------------------
+    // 가이드 모드
+    // ---------------------------------------------------------------------------------------------------
+    public void OnSwitchGuide(bool key) // 가이드 모드
+    {
+        RectTransform guide_1 = GameObject.Find("UI_Guide_1").GetComponent<RectTransform>();
+        RectTransform guide_2 = GameObject.Find("UI_Guide_2").GetComponent<RectTransform>();
+        RectTransform guide_key = GameObject.Find("UI_Guide_Key").GetComponent<RectTransform>();
+
+        if (key)
+        {
+            if (guide_key.localScale == Vector3.zero)
+            {
+                guide_1.localScale = Vector3.zero;
+                guide_2.localScale = Vector3.zero;
+                guide_key.localScale = Vector3.one;
+            }
+            else
+            {
+                guide_1.localScale = Vector3.zero;
+                guide_2.localScale = Vector3.zero;
+                guide_key.localScale = Vector3.zero;
+            }
+        }
+        else
+        {
+            if (guide_2.localScale == Vector3.one)
+            {
+                guide_1.localScale = Vector3.zero;
+                guide_2.localScale = Vector3.zero;
+                guide_key.localScale = Vector3.zero;
+            }
+            else if (guide_1.localScale == Vector3.one)
+            {
+                guide_1.localScale = Vector3.zero;
+                guide_2.localScale = Vector3.one;
+                guide_key.localScale = Vector3.zero;
+            }
+            else
+            {
+                guide_1.localScale = Vector3.one;
+                guide_2.localScale = Vector3.zero;
+                guide_key.localScale = Vector3.zero;
+            }
+        }
     }
     // ---------------------------------------------------------------------------------------------------
     // 게임 종료
