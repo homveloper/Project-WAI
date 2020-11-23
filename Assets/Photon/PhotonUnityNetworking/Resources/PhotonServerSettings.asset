@@ -76,6 +76,9 @@ MonoBehaviour:
   - OnActiveJewelry
   - SetClearMsg
   - OnSetSwitch
+  - OnCntDown
+  - OnLightUp
+  - OnMoveWall
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
