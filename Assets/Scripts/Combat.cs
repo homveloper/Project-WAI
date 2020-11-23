@@ -94,7 +94,7 @@ public class Combat : MonoBehaviourPunCallbacks
         {
             OnAttackCallback.Invoke();
 
-            if (Inventory.instance.HasWeaphone)
+            if (Inventory.instance.HasWeapone)
             {
                 yield return new WaitForSeconds(0.18f);
             }
@@ -144,6 +144,8 @@ public class Combat : MonoBehaviourPunCallbacks
         {
             float totalDamage = Player.RESEARCHER_DAMAGE;
 
+            researcherAnimation.animator.SetBool("hasWeapone",Inventory.instance.HasWeapone);
+
             if (Inventory.instance != null)
             {
                 List<Item> items = Inventory.instance.items;
@@ -151,7 +153,7 @@ public class Combat : MonoBehaviourPunCallbacks
                 for(int i=items.Count-1; i>=0; i--){
                     if (items[i] is InteractableItem)
                     {
-                        if (((InteractableItem)items[i]).Itemtype == Itemtype.WEAPHONE)
+                        if (((InteractableItem)items[i]).Itemtype == Itemtype.WEAPONE)
                         {
                             totalDamage += ((InteractableItem)items[i]).DamageModifier;
                         }

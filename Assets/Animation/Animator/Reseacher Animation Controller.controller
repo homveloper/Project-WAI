@@ -89,7 +89,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: attack
@@ -174,7 +174,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isWalk
@@ -208,7 +208,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isWalk
@@ -242,7 +242,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2173002347833165600}
@@ -381,7 +381,7 @@ AnimatorStateTransition:
     m_ConditionEvent: attack
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -778885145661988773}
@@ -412,7 +412,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4922138106119774013}
@@ -490,7 +490,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isRun
@@ -530,7 +530,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5139722779553619244}
@@ -633,7 +633,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4922138106119774013}
@@ -664,7 +664,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6810505732524238175}
@@ -748,7 +748,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5139722779553619244}
@@ -831,7 +831,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3789262666235708209}
@@ -865,7 +865,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6810505732524238175}
@@ -896,7 +896,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 626895515022731481}
@@ -921,7 +921,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isRun
@@ -1035,7 +1035,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: attack
@@ -1164,7 +1164,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4568042523863192496}
@@ -1192,7 +1192,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6810505732524238175}
@@ -1223,7 +1223,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4568042523863192496}
@@ -1457,7 +1457,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isWalk
@@ -1576,85 +1576,85 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isRun
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isJump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: dead
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: hitStatus
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: moveSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: pushStanding
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: pushStand
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: attackSpeed
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: casting
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: end
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: hasWeaphone
+    m_Controller: {fileID: 0}
+  - m_Name: hasWeapone
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1692,7 +1692,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3413181213914655749}
@@ -1895,7 +1895,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2173002347833165600}
@@ -2006,7 +2006,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isWalk
@@ -2122,7 +2122,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: end
@@ -2156,7 +2156,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2173002347833165600}
@@ -2187,7 +2187,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3413181213914655749}
@@ -2274,7 +2274,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3789262666235708209}
@@ -2333,7 +2333,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4568042523863192496}
@@ -2503,7 +2503,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2173002347833165600}
@@ -2648,7 +2648,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5139722779553619244}
@@ -2735,7 +2735,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 626895515022731481}
@@ -2848,7 +2848,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isWalk
@@ -3087,7 +3087,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5139722779553619244}
@@ -3118,7 +3118,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5139722779553619244}
@@ -3175,7 +3175,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3413181213914655749}
@@ -3200,7 +3200,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: attack
@@ -3253,7 +3253,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isRun
@@ -3342,7 +3342,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isRun
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hasWeaphone
+    m_ConditionEvent: hasWeapone
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3789262666235708209}
