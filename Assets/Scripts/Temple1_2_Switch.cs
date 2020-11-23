@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Temple1_2_Switch : MonoBehaviour
+public class Temple1_2_Switch : MonoBehaviourPun
 {
     // Start is called before the first frame update
      public GameObject swichFlash;
@@ -16,13 +17,17 @@ public class Temple1_2_Switch : MonoBehaviour
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
+
         if(other.gameObject.tag != "HitBox")
             return ;
             
-        swichFlash.SetActive(true);
+        photonView.RPC("OnLightUp", RpcTarget.AllBuffered);
+
         if(tmp == 1)
         {
-            mgr.GetComponent<Temple1_2_Mgr>().cnt--;
+            photonView.RPC("OnCntDown", RpcTarget.AllBuffered);
             tmp--;
         }
     }
@@ -31,6 +36,22 @@ public class Temple1_2_Switch : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-       other.GetComponentInParent<Player>().statO2++;
+        if (other.GetComponent<PhotonView>() == null || other.GetComponent<PhotonView>().IsMine == false)
+            return;
+
+        other.GetComponentInParent<Player>().statO2++;
+    }
+
+    [PunRPC]
+    public void OnCntDown()
+    {
+        swichFlash.SetActive(true);
+        mgr.GetComponent<Temple1_2_Mgr>().cnt--;
+    }
+
+    [PunRPC]
+    public void OnLightUp()
+    {
+        swichFlash.SetActive(true);
     }
 }

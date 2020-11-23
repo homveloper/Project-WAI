@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Temple1_2_Mgr : MonoBehaviour
+public class Temple1_2_Mgr : MonoBehaviourPun
 {
     public int cnt = 6;
     public GameObject Goal;
@@ -18,9 +19,14 @@ public class Temple1_2_Mgr : MonoBehaviour
     {
         if(cnt == 0)
         {
-            Goal.SetActive(false);
-            wallSound.Play();
-            cnt = 6;
+            photonView.RPC("OnMoveWall", RpcTarget.AllBuffered);
         }
+    }
+    [PunRPC]
+    public void OnMoveWall()
+    {
+        Goal.SetActive(false);
+        wallSound.Play();
+        cnt = 6;
     }
 }
