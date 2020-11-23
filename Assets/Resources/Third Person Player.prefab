@@ -1720,9 +1720,9 @@ MonoBehaviour:
   statBtMax: 100
   statHpAlien: 200
   statHpMaxAlien: 200
-  meterialWood: 100
-  meterialIron: 100
-  meterialPart: 100
+  meterialWood: 10
+  meterialIron: 10
+  meterialPart: 10
   chgSound: {fileID: 2774710802797733901}
   chgEF: {fileID: 3763480467335357966}
   hitSound: {fileID: 5301647978101781377}
