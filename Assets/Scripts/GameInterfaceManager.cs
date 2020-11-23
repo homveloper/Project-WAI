@@ -49,21 +49,11 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         // UI 갱신
         refresh();
 
-        // 관전모드 전환 (자동)
-        if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true && IsWatching() == false)
-            OnSwitchWatch(true);
-        else if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == false && IsWatching() == true)
-            OnSwitchWatch(false);
-
         // 관전모드 - 대상 전환 (방향키)
         if (IsWatching() == true && Input.GetKeyDown(KeyCode.LeftArrow) == true)
             OnMoveWatch(-1);
         else if (IsWatching() == true && Input.GetKeyDown(KeyCode.RightArrow) == true)
             OnMoveWatch(1);
-
-        // 캐릭터가 사망 시, 채팅모드 관련 메소드 미동작
-        if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsDead() == true)
-            return;
 
         // 채팅모드 전환 (탭)
         if (Input.GetKeyDown(KeyCode.Tab) == true)
@@ -131,17 +121,12 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
             nickObj[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             nickObj[i].GetComponent<RectTransform>().position = viewportPoint;
 
-            ExitGames.Client.Photon.Hashtable myProp = PhotonNetwork.LocalPlayer.CustomProperties;
-            ExitGames.Client.Photon.Hashtable playerProp = playerObj[i].GetComponent<PhotonView>().Owner.CustomProperties;
-
-            if (playerObj[i].GetComponent<Player>().IsDead() == true)
+            if (playerObj[i].GetComponent<Player>().IsDead())
                 nickObj[i].GetComponent<Text>().text = "";
-            else if (playerProp.ContainsKey("isAlien") == true && playerProp.ContainsKey("fakeNick") == true)
-                nickObj[i].GetComponent<Text>().text = (string)playerProp["fakeNick"];
             else
-                nickObj[i].GetComponent<Text>().text = playerObj[i].GetComponent<PhotonView>().Owner.NickName;
+                nickObj[i].GetComponent<Text>().text = playerObj[i].GetComponent<Player>().GetNickname();
 
-            if (myProp.ContainsKey("isAlien") == true && playerProp.ContainsKey("isAlien") == true && (bool)myProp["isAlien"] == true && (bool)playerProp["isAlien"] == true)
+            if (GameManager.GetInstance().mPlayer.GetComponent<Player>().IsAlienPlayer() && playerObj[i].GetComponent<Player>().IsAlienPlayer())
                 nickObj[i].GetComponent<Outline>().effectColor = new Color(1, 0, 0);
             else
                 nickObj[i].GetComponent<Outline>().effectColor = new Color(0, 0, 0);
@@ -161,6 +146,8 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     public void OnSwitchChat(bool val) // 채팅 모드 (매뉴얼)
     {
         Player player = GameManager.GetInstance().mPlayer.GetComponent<Player>();
+
+        Debug.Log(player.IsDead());
 
         if (val && !player.IsControllable() && !player.IsDead())
             return;

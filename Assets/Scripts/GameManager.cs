@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         ExitGames.Client.Photon.Hashtable localProp = PhotonNetwork.LocalPlayer.CustomProperties;
         localProp.Remove("isAlien");
+        localProp.Remove("fakeNick");
+        localProp.Remove("fakeColor");
         localProp["isStart"] = true;
         PhotonNetwork.LocalPlayer.SetCustomProperties(localProp);
 
@@ -278,6 +280,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public IEnumerator OnFinish(bool win) // 게임 종료 동기화
     {
+        GameInterfaceManager.GetInstance().OnSwitchChat(false);
+        GameInterfaceManager.GetInstance().OnSwitchWatch(false);
+
         mPlayer.GetComponent<Player>().SetMove(false);
         GetComponent<FadeController>().OnFadeOut();
 
