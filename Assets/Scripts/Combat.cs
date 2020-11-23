@@ -10,11 +10,13 @@ public class Combat : MonoBehaviourPunCallbacks
 {
     Player myPlayer;
     Player targetPlayer;
-    
+
     public ResearcherAnimation researcherAnimation;
     public AlienAnimation alienAnimation;
 
-    public float attackSpeed = 1.0f; // 1초 당 타격횟수
+    public float researcherAttackSpeed = 1.0f; // 1초 당 타격횟수
+    public float alienAttackSpeed = 1.0f;
+
     private float cooldown = 0.0f; // 공격 쿨타임
 
     [SerializeField]
@@ -41,8 +43,8 @@ public class Combat : MonoBehaviourPunCallbacks
         attackSounds.ForEach(x => x.Pause());
 
         myPlayer = GetComponent<Player>();
-        researcherAnimation.animator.SetFloat("attackSpeed", attackSpeed);
-        alienAnimation.animator.SetFloat("attackSpeed", attackSpeed);
+        researcherAnimation.animator.SetFloat("attackSpeed", researcherAttackSpeed);
+        alienAnimation.animator.SetFloat("attackSpeed", alienAttackSpeed);
 
         if (Inventory.instance != null)
             Inventory.instance.onItemChangedCallback += UpdateDamage;
@@ -72,18 +74,20 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (Input.GetButtonDown("Attack"))
         {
-            myPlayer.SetMove(false);
             StartCoroutine(IsPlaying());
-            Attack(targetPlayer != null ? targetPlayer : null);
         }
     }
 
     IEnumerator IsPlaying()
     {
-        float calibrationTime = 0.5f;
-        yield return new WaitForSeconds(calibrationTime);
+
         
         if(!myPlayer.IsAlienObject()){
+            myPlayer.SetMove(false);
+
+            float calibrationTime = 0.5f;
+            yield return new WaitForSeconds(calibrationTime);
+
             while (true)
             {
 
@@ -93,19 +97,13 @@ public class Combat : MonoBehaviourPunCallbacks
                 if (!isPunch && !isSword)
                 {
                     myPlayer.SetMove(true);
+                    Attack(targetPlayer != null ? targetPlayer : null);
                     break;
                 }
 
                 yield return null;  //1프레임 마다 체크합니다.
             }
         }else{
-
-            // //애니메이션 실행 동안만 생성되는 무기
-            // GameObject club = PhotonNetwork.Instantiate("Item/Club", alienRightHand.position, Quaternion.identity);
-            // club.transform.SetParent(alienRightHand);
-            // club.transform.localPosition = Vector3.zero;
-            // club.transform.localRotation = Quaternion.identity;
-
             while (true)
             {
                 bool isAttack = alienAnimation.AnimatorIsPlaying("Attack");
@@ -209,7 +207,12 @@ public class Combat : MonoBehaviourPunCallbacks
             target.SetHit(myPlayer.damage);
 
         OnAttackCallback.Invoke();
-        cooldown = 1f / attackSpeed;
+        
+        if(!myPlayer.IsAlienObject())
+            cooldown = 1f / researcherAttackSpeed;
+        else
+            cooldown = 1f / alienAttackSpeed;
+        
     }
 
     // [PunRPC]
