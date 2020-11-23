@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 183093030274535310}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3455638454395123992}
   - {fileID: 301113671846732276}
@@ -1562,18 +1562,19 @@ GameObject:
   - component: {fileID: 7186006604985324643}
   - component: {fileID: 8849792136659743650}
   - component: {fileID: 1733725680725060116}
-  - component: {fileID: 4965258566242764209}
   - component: {fileID: 5281692758651658233}
   - component: {fileID: 3565582377464417741}
   - component: {fileID: 6587770530825150049}
   - component: {fileID: 1048966396458255995}
   - component: {fileID: 2861662670577088004}
-  - component: {fileID: 7946571427189089344}
   - component: {fileID: 8914609511453814114}
   - component: {fileID: 861716071771920321}
   - component: {fileID: 2774710802797733901}
   - component: {fileID: 5301647978101781377}
   - component: {fileID: 8894875404310857564}
+  - component: {fileID: 4965258566242764209}
+  - component: {fileID: 7946571427189089344}
+  - component: {fileID: 8085498049292425105}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -1752,25 +1753,6 @@ MonoBehaviour:
   items: []
   playerStat: {fileID: 0}
   isDroppable: 0
---- !u!114 &4965258566242764209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143243491976924257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8bc0577f9fefd347a2575f5eb248ce9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  researcherAnimation: {fileID: 1745327906849560507}
-  alienAnimation: {fileID: 2470497169045794385}
-  attackSpeed: 1
-  delayTime: 1
-  attackSounds:
-  - {fileID: 8914609511453814114}
-  - {fileID: 861716071771920321}
 --- !u!114 &5281692758651658233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2094,19 +2076,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &7946571427189089344
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143243491976924257}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.05, y: 4.73, z: 2.83}
-  m_Center: {x: 0, y: 3, z: 1.39}
 --- !u!82 &8914609511453814114
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2511,6 +2480,51 @@ MonoBehaviour:
   cam: {fileID: 0}
   origin: 27
   change: 100
+--- !u!114 &4965258566242764209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bc0577f9fefd347a2575f5eb248ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  researcherAnimation: {fileID: 1745327906849560507}
+  alienAnimation: {fileID: 2470497169045794385}
+  attackSpeed: 1
+  delayTime: 1
+  attackSounds:
+  - {fileID: 8914609511453814114}
+  - {fileID: 861716071771920321}
+--- !u!65 &7946571427189089344
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.05, y: 4.73, z: 2.83}
+  m_Center: {x: 0, y: 3, z: 1.39}
+--- !u!65 &8085498049292425105
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143243491976924257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 5, z: 4}
+  m_Center: {x: 0, y: 3.5, z: 3.5}
 --- !u!1 &5147530787860470712
 GameObject:
   m_ObjectHideFlags: 0
