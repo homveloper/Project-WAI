@@ -132,16 +132,14 @@ public class Inventory : MonoBehaviourPun {
     }
 
     public void UnEquipWeaphone(){
-        foreach(Transform child in rightHand){
-            photonView.RPC("DestroyWeapone", RpcTarget.AllBuffered, photonView.OwnerActorNr);
-        }
+        photonView.RPC("DestroyWeapone", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 
     [PunRPC]
     void DestroyWeapone(int actorNumber){
         GameObject[] weapones = GameObject.FindGameObjectsWithTag("Weapone");
 
-        foreach(GameObject weapone in weapones){
+        for(int i=weapones.Length-1; i>=0; i++){
             if (photonView.OwnerActorNr == actorNumber){
                 Destroy(weapone);
                 break;
