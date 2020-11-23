@@ -2665,6 +2665,7 @@ GameObject:
   - component: {fileID: 8325461389515457406}
   - component: {fileID: 8325461389515457401}
   - component: {fileID: 8325461389515457400}
+  - component: {fileID: 1138468850478235559}
   m_Layer: 0
   m_Name: MoveWall 3
   m_TagString: Untagged
@@ -2962,6 +2963,28 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &1138468850478235559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325461389515457403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &8325461389519998319
 GameObject:
   m_ObjectHideFlags: 0
@@ -9994,6 +10017,7 @@ GameObject:
   - component: {fileID: 8325461390194318778}
   - component: {fileID: 8325461390194318773}
   - component: {fileID: 8325461390194318772}
+  - component: {fileID: 6183028676169907731}
   m_Layer: 0
   m_Name: MoveWall 2
   m_TagString: Untagged
@@ -10291,6 +10315,28 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &6183028676169907731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325461390194318775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &8325461390257821155
 GameObject:
   m_ObjectHideFlags: 0
@@ -21837,6 +21883,7 @@ GameObject:
   - component: {fileID: 8325461391417069726}
   - component: {fileID: 8325461391417069721}
   - component: {fileID: 8325461391417069720}
+  - component: {fileID: 2524672817761612993}
   m_Layer: 0
   m_Name: MoveWall 1
   m_TagString: Untagged
@@ -22134,6 +22181,28 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &2524672817761612993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325461391417069723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &8325461391462480372
 GameObject:
   m_ObjectHideFlags: 0
@@ -23402,6 +23471,11 @@ PrefabInstance:
       propertyPath: moveWell
       value: 
       objectReference: {fileID: 8325461390194318775}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: moveWall
+      value: 
+      objectReference: {fileID: 8325461390194318775}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
 --- !u!4 &3725820217424063956 stripped
@@ -23507,6 +23581,11 @@ PrefabInstance:
       propertyPath: hiddenGate
       value: 
       objectReference: {fileID: 8118164605946319229}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: moveWall
+      value: 
+      objectReference: {fileID: 8325461389515457403}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fbbfc259fb40974384682a47a685fbe, type: 3}
 --- !u!4 &7107642923001327930 stripped
@@ -23605,6 +23684,11 @@ PrefabInstance:
     - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
         type: 3}
       propertyPath: moveWell
+      value: 
+      objectReference: {fileID: 8325461391417069723}
+    - target: {fileID: 4914475304000158726, guid: 8fbbfc259fb40974384682a47a685fbe,
+        type: 3}
+      propertyPath: moveWall
       value: 
       objectReference: {fileID: 8325461391417069723}
     m_RemovedComponents: []
