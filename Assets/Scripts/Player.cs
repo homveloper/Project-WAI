@@ -166,6 +166,9 @@ public class Player : MonoBehaviourPunCallbacks
             myProp.Remove("fakeNick");
             myProp.Remove("fakeColor");
             photonView.Owner.SetCustomProperties(myProp);
+
+            GameInterfaceManager.GetInstance().OnSwitchChat(false);
+            GameInterfaceManager.GetInstance().OnSwitchWatch(true);
         }
     }
     [PunRPC]
