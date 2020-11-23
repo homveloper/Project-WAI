@@ -33,9 +33,9 @@ public class Temple2_Panel_Mgr : MonoBehaviourPun
 
     IEnumerator OnStartMinigame()
     {
-        yield return new WaitForSeconds(1);
-
         photonView.RPC("SetPlayState", RpcTarget.AllBuffered, true);
+
+        yield return new WaitForSeconds(1);
 
         stage.SetActive(true);
         MiniGame_enemy[] elist = stage.transform.Find("Enemies").GetComponentsInChildren<MiniGame_enemy>();
