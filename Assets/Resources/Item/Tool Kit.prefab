@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 4885580353563474272}
   - component: {fileID: 4454519861213498432}
   m_Layer: 0
-  m_Name: RepairKit
+  m_Name: Tool Kit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

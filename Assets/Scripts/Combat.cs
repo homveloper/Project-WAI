@@ -27,6 +27,8 @@ public class Combat : MonoBehaviourPunCallbacks
 
     public List<AudioSource> attackSounds;
 
+    public Collider box1; // 인간
+    public Collider box2; // 외계인
     // Transform alienRightHand;
 
     bool isPunch;
@@ -34,7 +36,8 @@ public class Combat : MonoBehaviourPunCallbacks
     void Start()
     {
         // alienRightHand = TransformExtention.FirstOrDefault(transform.Find("Alien"),x => x.name == "mixamorig:RightHand");
-
+        box1.enabled = true;
+        box2.enabled=false;
         attackSounds.ForEach(x => x.Pause());
 
         myPlayer = GetComponent<Player>();
@@ -50,6 +53,17 @@ public class Combat : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsConnected)
             if (!photonView.IsMine)
                 return;
+
+        if(myPlayer.IsAlienObject() && !box2.enabled)
+        {
+            box1.enabled = false;
+            box2.enabled=true;
+        }
+        else if(!myPlayer.IsAlienObject() && box2.enabled)
+        {
+            box1.enabled = true;
+            box2.enabled=false;
+        }
 
         cooldown -= Time.deltaTime;
 

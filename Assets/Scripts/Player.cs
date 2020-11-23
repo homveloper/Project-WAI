@@ -201,7 +201,15 @@ public class Player : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine && val == false)
         {
-            Inventory.instance.DropAll();
+            try
+            {
+                Inventory.instance.DropAll();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            
             cameraChanger.ZoomOut();
 
             ExitGames.Client.Photon.Hashtable myProp = photonView.Owner.CustomProperties;
