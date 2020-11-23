@@ -18,6 +18,9 @@ public class SetSwitch : MonoBehaviourPun
     // Start is called before the first frame update
     void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag != "HitBox")
+            return ;
+            
         if (cnt == 1)
         {
             photonView.RPC("OnSetSwitch", RpcTarget.AllBuffered);
