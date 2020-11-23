@@ -22,6 +22,10 @@ public class Combat : MonoBehaviourPunCallbacks
     [SerializeField]
     private float alienSecondDelayTime = 0.3f;
 
+    [SerializeField]
+    private float alienEndDelayTime = 0.4f;
+
+
     private float cooldown = 0.0f; // 공격 쿨타임
 
     [SerializeField]
@@ -121,9 +125,10 @@ public class Combat : MonoBehaviourPunCallbacks
             myPlayer.SetMove(false);
 
             yield return new WaitForSeconds(alienSecondDelayTime);
-            myPlayer.SetMove(true);
-
             Attack(targetPlayer != null ? targetPlayer : null);
+
+            yield return new WaitForSeconds(alienEndDelayTime);
+            myPlayer.SetMove(true);
         }
     }
 
