@@ -81,6 +81,8 @@ MonoBehaviour:
   - OnMoveWall
   - RPCSetParent
   - SetPlayState
+  - OnClear
+  - OnClearTemple3
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
