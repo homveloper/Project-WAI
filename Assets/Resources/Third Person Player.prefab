@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5426362857062205404}
   - component: {fileID: 2470497169045794385}
   - component: {fileID: 1574434280703410824}
+  - component: {fileID: 675660425172499622}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Untagged
@@ -191,6 +192,18 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
+--- !u!114 &675660425172499622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183093030274535310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2eae87a56dfa84b98deccc11d1fc2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &219244088627253285
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +670,7 @@ GameObject:
   - component: {fileID: 5311233785414509735}
   - component: {fileID: 5587160095295535158}
   - component: {fileID: 1745327906849560507}
+  - component: {fileID: 906109644281888894}
   m_Layer: 0
   m_Name: spacesuit
   m_TagString: Untagged
@@ -795,6 +809,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1666351832963089883}
+--- !u!114 &906109644281888894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925428832513619680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2eae87a56dfa84b98deccc11d1fc2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2037204646170871720
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,9 +1720,9 @@ MonoBehaviour:
   statBtMax: 100
   statHpAlien: 200
   statHpMaxAlien: 200
-  meterialWood: 10
-  meterialIron: 10
-  meterialPart: 10
+  meterialWood: 100
+  meterialIron: 100
+  meterialPart: 100
   chgSound: {fileID: 2774710802797733901}
   chgEF: {fileID: 3763480467335357966}
   hitSound: {fileID: 5301647978101781377}
@@ -1770,8 +1796,6 @@ MonoBehaviour:
   key: V
   keyCode: 118
   description: "\uBCC0\uC2E0"
-  inTrigger: 0
-  isScreenSpace: 0
   color: {r: 0.9150943, g: 0.31510323, b: 0.31510323, a: 1}
 --- !u!54 &3565582377464417741
 Rigidbody:

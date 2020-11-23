@@ -50,8 +50,9 @@ public class ThirdPersonMovement : MonoBehaviourPunCallbacks
             return;
 
         // 이동 제한 상태일때 이동할 수 없음
-        if (controllable == false)
+        if (controllable == false){
             return;
+        }
 
         // 유저 조작에 의한 이동 처리
         if (direction.magnitude >= 0.1f){

@@ -543,6 +543,7 @@ public class Player : MonoBehaviourPunCallbacks
         GetComponent<ThirdPersonMovement>().controllable = val;
         GetComponent<ThirdPersonSound>().isDead = val;
     }
+
     public void SetDead() // 사망 설정
     {
         photonView.RPC("OnDead", RpcTarget.AllBuffered, photonView.OwnerActorNr);

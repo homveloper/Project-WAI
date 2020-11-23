@@ -79,7 +79,6 @@ public class Combat : MonoBehaviourPunCallbacks
 
         if (Input.GetButtonDown("Attack"))
         {
-            OnAttackCallback.Invoke();
             StartCoroutine(IsPlaying());
         }
     }
@@ -88,25 +87,23 @@ public class Combat : MonoBehaviourPunCallbacks
     {
         // 연구원
         if(!myPlayer.IsAlienObject()){
-            myPlayer.SetMove(false);
+            OnAttackCallback.Invoke();
             Attack(targetPlayer != null ? targetPlayer : null);
 
-            while (true)
-            {
-                bool isPunch = researcherAnimation.AnimatorIsPlaying("Punch");
-                bool isSword = researcherAnimation.AnimatorIsPlaying("Stable Sword Outward Slash");
+            /*
+                while(attack animation is playing)
+                    if attack is punch
+                        in Cross Punch Animation Clip set EventHandler SetMove(false)
+                    
+                    if attack is knife
+                        in Stable Sword Outward Slash Aniatmion Clip set EventHandler SetMove(false)
 
-                if (!isPunch && !isSword)
-                {
-                    myPlayer.SetMove(true);
-                    break;
-                }
-
-                yield return null;  //1프레임 마다 체크합니다.
-            }
+                EventHandler's SetMove(true)
+            */
 
         // 외계인
         }else{
+            OnAttackCallback.Invoke();
             yield return new WaitForSeconds(alienFirstDelayTime);
             myPlayer.SetMove(false);
             
@@ -178,6 +175,7 @@ public class Combat : MonoBehaviourPunCallbacks
         inTrigger = false;
         targetPlayer = null;
     }
+
     public void SetAck()
     {
          photonView.RPC("CombatSound", RpcTarget.AllBuffered, photonView.OwnerActorNr);
