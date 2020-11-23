@@ -31,6 +31,6 @@ public class Temple1_2_Switch : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-       
+       other.GetComponentInParent<Player>().statO2++;
     }
 }

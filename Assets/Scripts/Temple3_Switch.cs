@@ -34,6 +34,8 @@ public class Temple3_Switch : MonoBehaviour
     {
        if(mgr.GetComponent<Temple3_Mgr>().cnt == 0)
             stone.SetActive(true);
+        
+        other.GetComponentInParent<Player>().statO2++;
     }
     // Update is called once per frame
     void Update()
