@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public enum Itemtype{
-    WEAPHONE,OBJECT
+    WEAPONE,OBJECT
 }
 
 [CreateAssetMenu(fileName = "new InteractableItem", menuName = "Item/InteractableItem")]

@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviourPun {
     
     public Player playerStat;
 
-    bool hasWeaphone;
+    bool hasWeapone;
 
     [SerializeField]
     bool isDroppable;
@@ -53,13 +53,13 @@ public class Inventory : MonoBehaviourPun {
                 return false;
             }
 
-            if(hasWeaphone && item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
+            if(hasWeapone && item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPONE){
                 return false;
             }
 
-            if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
-                hasWeaphone = true;
-                EquipWeaphone(item.model);
+            if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPONE){
+                hasWeapone = true;
+                EquipWeapone(item.model);
             }
 
             items.Add(item);
@@ -85,9 +85,9 @@ public class Inventory : MonoBehaviourPun {
         if(item.isDroppable){
             items.Remove(item);
 
-            if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPHONE){
-                hasWeaphone = false;
-                UnEquipWeaphone();
+            if(item is InteractableItem && ((InteractableItem)item).Itemtype == Itemtype.WEAPONE){
+                hasWeapone = false;
+                UnEquipWeapone();
             }
 
             if(onItemChangedCallback != null)   
@@ -118,11 +118,11 @@ public class Inventory : MonoBehaviourPun {
         set=>isDroppable = value;
     }
 
-    public bool HasWeaphone{
-        get=>hasWeaphone;
+    public bool HasWeapone{
+        get=>hasWeapone;
     }
 
-    public void EquipWeaphone(GameObject weapone){
+    public void EquipWeapone(GameObject weapone){
         if(weapone != null){
             GameObject newWeapone = PhotonNetwork.Instantiate("Item/" + weapone.name, rightHand.position, Quaternion.identity);
             newWeapone.transform.SetParent(rightHand);
@@ -131,7 +131,7 @@ public class Inventory : MonoBehaviourPun {
         }
     }
 
-    public void UnEquipWeaphone(){
+    public void UnEquipWeapone(){
         photonView.RPC("DestroyWeapone", RpcTarget.AllBuffered, photonView.OwnerActorNr);
     }
 

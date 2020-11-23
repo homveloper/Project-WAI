@@ -34,9 +34,6 @@ public class Temple3_Switch : MonoBehaviour
     {
         other.GetComponentInParent<Player>().statO2++;
 
-        if(tmp == 0)
-            return ;
-
        if(mgr.GetComponent<Temple3_Mgr>().cnt == 0)
             stone.SetActive(true);
     }
