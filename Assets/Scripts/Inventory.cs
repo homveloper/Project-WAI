@@ -93,13 +93,16 @@ public class Inventory : MonoBehaviourPun {
             if(onItemChangedCallback != null)   
                 onItemChangedCallback.Invoke();
 
+
+
             GameObject droppedItem = PhotonNetwork.Instantiate("Item/" + item.name, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
         }
     }
 
     public void DropAll(){
-        foreach(Item item in items){
-            Drop(item);
+        // 아이템을 뒤에서 부터 제거하지 않으면 리스트의 인덱스 접근 오류가 발생합니다.
+        for(int i=items.Count -1; i>=0; i--){
+            Drop(items[i]);
         }
 
         if(onItemChangedCallback != null)   
