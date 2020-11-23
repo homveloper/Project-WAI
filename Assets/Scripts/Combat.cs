@@ -89,9 +89,7 @@ public class Combat : MonoBehaviourPunCallbacks
         // 연구원
         if(!myPlayer.IsAlienObject()){
             myPlayer.SetMove(false);
-
-            float calibrationTime = 0.5f;
-            yield return new WaitForSeconds(calibrationTime);
+            Attack(targetPlayer != null ? targetPlayer : null);
 
             while (true)
             {
@@ -101,7 +99,6 @@ public class Combat : MonoBehaviourPunCallbacks
                 if (!isPunch && !isSword)
                 {
                     myPlayer.SetMove(true);
-                    Attack(targetPlayer != null ? targetPlayer : null);
                     break;
                 }
 

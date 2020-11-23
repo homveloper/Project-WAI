@@ -89,13 +89,16 @@ public class ConsumableItem : Item
     void TakeEffect(Player playerStat, int modifier, Stat stat){
         Debug.Log("수치가 변동됩니다.");
 
-        if(playerStat.IsAlienPlayer()){
+        // 연구원
+        if(!playerStat.IsAlienPlayer()){
             if(Stat.HP == stat)
                 playerStat.SetHP(playerStat.GetHP() + modifier);
             if(Stat.O2 == stat)
                 playerStat.SetO2(playerStat.GetO2() + modifier);
             if(Stat.BATTERY == stat)
                 playerStat.SetBt(playerStat.GetBt() + modifier);
+
+        // 외계인
         }else{
             if(Stat.HP == stat)
                 playerStat.SetHP(playerStat.GetHP() + modifier/2);
