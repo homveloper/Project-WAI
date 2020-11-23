@@ -18,13 +18,13 @@ public class Temple3_Mgr : MonoBehaviourPun
     {
         if(cnt == 0)
         {
-            photonView.RPC("OnLightUp", RpcTarget.AllBuffered);
+            photonView.RPC("OnClearTemple3", RpcTarget.AllBuffered);
             cnt =2;
         }
     }
 
     [PunRPC]
-    public void OnLightUp()
+    public void OnClearTemple3()
     {
         stone.SetActive(true);
     }
