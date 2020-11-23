@@ -1767,8 +1767,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonHint: {fileID: 1338702102677196207}
-  key: R
-  keyCode: 114
+  key: V
+  keyCode: 118
   description: "\uBCC0\uC2E0"
   inTrigger: 0
   isScreenSpace: 0
@@ -2497,6 +2497,8 @@ MonoBehaviour:
   alienAnimation: {fileID: 2470497169045794385}
   researcherAttackSpeed: 1
   alienAttackSpeed: 1
+  alienFirstDelayTime: 1
+  alienSecondDelayTime: 1
   delayTime: 1
   attackSounds:
   - {fileID: 8914609511453814114}

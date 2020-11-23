@@ -19,10 +19,8 @@ public class InteractableRooting : MonoBehaviourPun
 
     [SerializeField]
     string description;
-    public bool inTrigger;
 
-    [SerializeField]
-    bool isScreenSpace = false;
+    bool inTrigger;
 
     [SerializeField]
     Color color;
