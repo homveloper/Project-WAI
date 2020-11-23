@@ -160,7 +160,9 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
     }
     public void OnSwitchChat(bool val) // 채팅 모드 (매뉴얼)
     {
-        if (val && !GameManager.GetInstance().mPlayer.GetComponent<Player>().IsControllable())
+        Player player = GameManager.GetInstance().mPlayer.GetComponent<Player>();
+
+        if (val && !player.IsControllable() && !player.IsDead())
             return;
 
         GameObject.Find("UI_Talk_Active").gameObject.GetComponent<Image>().enabled = false;
@@ -188,15 +190,23 @@ public class GameInterfaceManager : MonoBehaviourPunCallbacks
         if (!GameObject.Find("UI_Panel_Talk").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Talk_show"))
             return;
 
+        
         InputField field = GameObject.Find("UI_Panel_Talk_Input").GetComponent<InputField>();
-
         if (field.text == "")
         {
             field.ActivateInputField();
             return;
         }
 
-        photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.NickName + " : " + field.text);
+        Player player = GameManager.GetInstance().mPlayer.GetComponent<Player>();
+        if (player.IsDead())
+        {
+            field.text = "";
+            field.ActivateInputField();
+            return;
+        }
+
+        photonView.RPC("OnReceiveChat", RpcTarget.AllBuffered, GameManager.GetInstance().mPlayer.GetComponent<Player>().GetNickname() + " : " + field.text);
         field.text = "";
         field.ActivateInputField();
     }

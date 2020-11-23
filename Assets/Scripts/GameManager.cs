@@ -111,6 +111,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                     playerProp["spawnIndex"] = (i + 1);
                     playerProp["isAlien"] = pick.Contains(i);
+                    playerProp.Remove("fakeNick");
+                    playerProp.Remove("fakeColor");
                     player[i].SetCustomProperties(playerProp);
                 }
                 break;
