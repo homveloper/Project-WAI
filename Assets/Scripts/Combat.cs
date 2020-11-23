@@ -18,9 +18,9 @@ public class Combat : MonoBehaviourPunCallbacks
     public float alienAttackSpeed = 1.0f;
 
     [SerializeField]
-    private float alienFirstDelayTime = 1.1f;
+    private float alienFirstDelayTime = 1.0f;
     [SerializeField]
-    private float alienSecondDelayTime = 0.9f;
+    private float alienSecondDelayTime = 0.3f;
 
     private float cooldown = 0.0f; // 공격 쿨타임
 
