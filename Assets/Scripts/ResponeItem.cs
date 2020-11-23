@@ -13,7 +13,11 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     public GameObject box;
     public int countOfBox = 15;
     int itemSize = 24;
+
+    [SerializeField]
     int waitTime = 90;
+
+    [SerializeField]
     int term = 15;
     // Start is called before the first frame update
     void Start()
@@ -76,7 +80,8 @@ public class ResponeItem : MonoBehaviourPunCallbacks
     void DestroyItem()
     {
         GameObject[] boxs = GameObject.FindGameObjectsWithTag("Box");
-        foreach(GameObject box in boxs)
-            GameObject.Destroy(box);
+        for(int i=boxs.Length-1; i>=0; i--){
+            GameObject.Destroy(boxs[i]);
+        }
     }
 }
