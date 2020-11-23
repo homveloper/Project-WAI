@@ -32,8 +32,6 @@ public class Temple3_Switch : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if(tmp == 0)
-            return ;
        if(mgr.GetComponent<Temple3_Mgr>().cnt == 0)
             stone.SetActive(true);
         
